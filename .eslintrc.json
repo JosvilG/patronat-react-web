@@ -1,0 +1,10 @@
+{
+    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:tailwindcss/recommended", "prettier"],
+    "plugins": ["react", "tailwindcss"],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    }
+  }
+  
