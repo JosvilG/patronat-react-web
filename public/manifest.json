@@ -3,18 +3,18 @@
   "name": "Web Patronat Festes de Roquetes",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.webp",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+      "src": "./../src/assets/logos/Patronat_color_256x256.webp",
+      "type": "image/webp",
+      "sizes": "256x256"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
+      "src": "./../src/assets/logos/Patronat_color_512x512.webp",
+      "type": "image/webp",
       "sizes": "512x512"
     }
   ],
