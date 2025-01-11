@@ -7,36 +7,47 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:prettier/recommended", 
     "plugin:react-hooks/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "airbnb",
+    "airbnb/hooks",
+    "prettier",
+    "plugin:prettier/recommended"
   ],
+  "parser": "@babel/eslint-parser",
   "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
-    },
-    "ecmaVersion": "latest",
-    "sourceType": "module"
+    }
   },
-  "plugins": [
-    "react",
-    "jsx-a11y",
-    "prettier"  
-  ],
+  "plugins": ["react", "react-hooks", "jsx-a11y", "import", "prettier"],
   "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/jsx-filename-extension": [1, { "extensions": [".jsx", ".js"] }],
     "react/prop-types": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "semi": false,
+        "endOfLine": "auto"
+      }
+    ],
+    "import/prefer-default-export": "off",
     "no-unused-vars": "warn",
-    "prettier/prettier": ["error", {
-      "semi": true,
-      "singleQuote": true,
-      "jsxSingleQuote": false,
-      "trailingComma": "es5",
-      "printWidth": 80,
-      "tabWidth": 2,
-      "useTabs": false,
-      "bracketSpacing": true,
-      "jsxBracketSameLine": false,
-      "arrowParens": "always"
-    }]
+    "react/jsx-props-no-spreading": "off",
+
+    // Desactivar la regla de preferir destructuración en objetos
+    "prefer-destructuring": "off",
+
+    // Desactivar la advertencia sobre la relación de etiquetas <label> con controles de formulario
+    "jsx-a11y/label-has-associated-control": "off"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }
