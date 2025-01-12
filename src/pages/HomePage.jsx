@@ -6,8 +6,6 @@ import { Navbar } from '../components/Navbar'
 function HomePage() {
   return (
     <div className="min-h-screen bg-black">
-      <Navbar />
-
       <section
         id="video-section"
         className="relative top-0 h-screen -mt-16 bg-gray-300"
