@@ -7,9 +7,11 @@ import RegisterPage from './pages/RegisterPage'
 import ProfilePage from './pages/ProfilePage'
 import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
+import EventForm from './pages/EventRegister'
 
 function App() {
   return (
+    // Envuelve toda la aplicación con el PopupProvider
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -24,7 +26,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-
+          <Route
+            path="new-event"
+            element={
+              <ProtectedRoute>
+                <EventForm />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="profile"
             element={
