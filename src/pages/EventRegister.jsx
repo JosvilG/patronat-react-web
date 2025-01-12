@@ -4,30 +4,10 @@ import withReactContent from 'sweetalert2-react-content'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { db } from '../firebase/firebase'
+import { createEventModel } from '../models/eventData'
 
 function EventForm() {
-  const [eventData, setEventData] = useState({
-    title: '',
-    description: '',
-    startDate: '',
-    startTime: '',
-    endDate: '',
-    endTime: '',
-    location: '',
-    capacity: 0,
-    price: 0,
-    minAge: 0,
-    collaborators: [],
-    tags: [],
-    category: '',
-    imageURL: '',
-    organizer: '',
-    allowCars: false,
-    hasBar: false,
-    status: 'Activo',
-    createdAt: Timestamp.now(),
-  })
-
+  const [eventData, setEventData] = useState(createEventModel())
   const [collaborators, setCollaborators] = useState([])
   const [search, setSearch] = useState('')
   const [filteredCollaborators, setFilteredCollaborators] = useState([])
@@ -116,11 +96,27 @@ function EventForm() {
       })
     } catch (error) {
       console.error('Error al guardar el evento:', error)
-      // Mostrar popup de error
+
+      // Definir el mensaje de error
+      let errorMessage =
+        'Hubo un error al registrar el evento. Por favor, intenta nuevamente.'
+
+      // Verificar tipo de error y personalizar el mensaje
+      if (error.code === 'unavailable') {
+        errorMessage =
+          'No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.'
+      } else if (error.code === 'permission-denied') {
+        errorMessage = 'No tienes permisos suficientes para crear este evento.'
+      } else if (error.message.includes('validation')) {
+        errorMessage =
+          'Faltan algunos campos obligatorios o hay un error en los datos proporcionados.'
+      }
+
+      // Mostrar popup de error con mensaje personalizado
       const MySwal = withReactContent(Swal)
       MySwal.fire({
         title: 'Error al registrar el evento',
-        text: 'Hubo un error al registrar el evento. Por favor, intenta nuevamente.',
+        text: errorMessage,
         icon: 'error',
         confirmButtonText: 'Cerrar',
         confirmButtonColor: '#3085d6',
@@ -142,6 +138,7 @@ function EventForm() {
             Título del Evento
           </label>
           <input
+            required
             type="text"
             name="title"
             id="title"
@@ -160,6 +157,7 @@ function EventForm() {
             Descripción
           </label>
           <textarea
+            required
             name="description"
             id="description"
             placeholder="Descripción"
@@ -179,6 +177,7 @@ function EventForm() {
               Fecha de Inicio
             </label>
             <input
+              required
               type="date"
               name="startDate"
               id="startDate"
@@ -195,6 +194,7 @@ function EventForm() {
               Hora de Inicio
             </label>
             <input
+              required
               type="time"
               name="startTime"
               id="startTime"
