@@ -24,41 +24,8 @@ export function Navbar() {
     }
   }
 
-  useEffect(() => {
-    const videoSection = document.getElementById('video-section')
-
-    const options = {
-      root: null,
-      threshold: 0.1,
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          setIsDarkBackground(true)
-        } else {
-          setIsDarkBackground(false)
-        }
-      })
-    }, options)
-
-    if (videoSection) {
-      observer.observe(videoSection)
-    }
-
-    return () => {
-      if (videoSection) observer.disconnect()
-    }
-  }, [])
-
-  const getNavbarTextColor = () => {
-    return isDarkBackground ? 'text-white' : 'text-black'
-  }
-
   return (
-    <nav
-      className={`fixed top-0 left-0 z-50 w-full p-4 bg-transparent ${getNavbarTextColor()}`}
-    >
+    <nav className="top-0 left-0 z-50 w-full p-4 text-black bg-transparent">
       <div className="flex items-center justify-between mx-auto max-w-7xl">
         <div className="flex items-center">
           <Link to="/">
@@ -73,48 +40,48 @@ export function Navbar() {
         <div className="flex justify-center flex-grow space-x-8">
           <Link
             to="/events"
-            className={`hover:text-gray-300 ${getNavbarTextColor()}`}
+            className="text-black hover:text-gray-300"
             onClick={() => log.info('Navegando a la página de eventos.')}
           >
             Eventos
           </Link>
           <Link
             to="/gallery"
-            className={`hover:text-gray-300 ${getNavbarTextColor()}`}
+            className="text-black hover:text-gray-300"
             onClick={() => log.info('Navegando a la galería.')}
           >
             Galería
           </Link>
           <Link
             to="/penas"
-            className={`hover:text-gray-300 ${getNavbarTextColor()}`}
+            className="text-black hover:text-gray-300"
             onClick={() => log.info('Navegando a la página de Peñas.')}
           >
             Peñas
           </Link>
           <Link
             to="/about"
-            className={`hover:text-gray-300 ${getNavbarTextColor()}`}
+            className="text-black hover:text-gray-300"
             onClick={() => log.info("Navegando a la página 'Quiénes somos'.")}
           >
             Quiénes somos
           </Link>
-          {user && userData.role === 'admin' ? (
+          {user && userData.role === 'admin' && (
             <Link
               to="/dashboard"
-              className={`hover:text-gray-300 ${getNavbarTextColor()}`}
+              className="text-black hover:text-gray-300"
               onClick={() => log.info('Navegando al dashboard')}
             >
               Dashboard
             </Link>
-          ) : null}
+          )}
         </div>
 
         <div className="flex items-center space-x-4">
           {!user ? (
             <Link
               to="/login"
-              className={`hover:text-gray-300 ${getNavbarTextColor()}`}
+              className="text-black hover:text-gray-300"
               onClick={() =>
                 log.info('Navegando a la página de inicio de sesión.')
               }
@@ -122,7 +89,7 @@ export function Navbar() {
               Iniciar Sesión
             </Link>
           ) : (
-            <div className="relative">
+            <div className="relative z-50">
               <button
                 type="button"
                 onClick={() => {
@@ -134,11 +101,7 @@ export function Navbar() {
                 className="flex items-center"
               >
                 <img
-                  src={
-                    userData?.profilePicture || isDarkBackground
-                      ? '/assets/icons/user-circle-white.svg'
-                      : '/assets/icons/user-circle-black.svg'
-                  }
+                  src="/assets/icons/user-circle-black.svg"
                   alt="Perfil"
                   className="w-10 h-10 rounded-full"
                 />
