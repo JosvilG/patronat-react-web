@@ -69,9 +69,9 @@ export default function Dashboard() {
       icon: '🍻',
       actions: [
         {
-          id: 'create-pena',
+          id: 'new-crew',
           title: 'Creación de Peñas',
-          route: '/create-pena',
+          route: '/new-crew',
         },
         {
           id: 'edit-pena',

@@ -9,6 +9,7 @@ import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
 import EventForm from './pages/events/EventRegister'
 import UploadGalleryForm from './pages/galery/uploadFiles'
+import CrewForm from './pages/crews/register-crew'
 
 function App() {
   return (
@@ -43,10 +44,18 @@ function App() {
             }
           />
           <Route
-            path="upload"
+            path="upload-file"
             element={
               <ProtectedRoute>
                 <UploadGalleryForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="new-crew"
+            element={
+              <ProtectedRoute>
+                <CrewForm />
               </ProtectedRoute>
             }
           />
