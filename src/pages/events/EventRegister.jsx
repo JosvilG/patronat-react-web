@@ -3,6 +3,7 @@ import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore'
 import withReactContent from 'sweetalert2-react-content'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import log from 'loglevel'
 import { db } from '../../firebase/firebase'
 import { createEventModel } from '../../models/eventData'
 
@@ -13,8 +14,11 @@ function EventForm() {
   const [filteredCollaborators, setFilteredCollaborators] = useState([])
   const navigate = useNavigate()
 
+  log.setLevel('debug')
+
   useEffect(() => {
     const fetchCollaborators = async () => {
+      log.debug('Fetching collaborators...')
       const collaboratorsSnap = await getDocs(collection(db, 'collaborators'))
       const collaboratorsList = collaboratorsSnap.docs.map((docSnap) => ({
         id: docSnap.id,
@@ -22,11 +26,13 @@ function EventForm() {
       }))
       setCollaborators(collaboratorsList)
       setFilteredCollaborators(collaboratorsList)
+      log.debug('Collaborators fetched:', collaboratorsList)
     }
     fetchCollaborators()
   }, [])
 
   useEffect(() => {
+    log.debug('Filtering collaborators with search term:', search)
     setFilteredCollaborators(
       collaborators.filter((collab) =>
         collab.name.toLowerCase().includes(search.toLowerCase())
@@ -36,6 +42,7 @@ function EventForm() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
+    log.debug('Handling change for field:', name, 'with value:', value)
     setEventData({
       ...eventData,
       [name]: type === 'checkbox' ? checked : value,
@@ -44,14 +51,18 @@ function EventForm() {
 
   const addCollaboratorToEvent = (collab) => {
     if (!eventData.collaborators.includes(collab.id)) {
+      log.debug('Adding collaborator:', collab.name)
       setEventData({
         ...eventData,
         collaborators: [...eventData.collaborators, collab.id],
       })
+    } else {
+      log.warn('Collaborator already added:', collab.name)
     }
   }
 
   const removeCollaboratorFromEvent = (collabId) => {
+    log.debug('Removing collaborator with ID:', collabId)
     setEventData({
       ...eventData,
       collaborators: eventData.collaborators.filter((id) => id !== collabId),
@@ -59,6 +70,7 @@ function EventForm() {
   }
 
   const handleTagsChange = (value) => {
+    log.debug('Tags changed to:', value)
     setEventData({
       ...eventData,
       tags: value.split(',').map((tag) => tag.trim()),
@@ -67,6 +79,7 @@ function EventForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    log.debug('Submitting form with data:', eventData)
 
     const startTimestamp = Timestamp.fromDate(
       new Date(`${eventData.startDate}T${eventData.startTime}`)
@@ -76,14 +89,15 @@ function EventForm() {
     )
 
     try {
+      log.debug('Adding event to Firestore...')
       await addDoc(collection(db, 'events'), {
         ...eventData,
         startDateTime: startTimestamp,
         endDateTime: endTimestamp,
         createdAt: Timestamp.now(),
       })
+      log.info('Event successfully added to Firestore')
 
-      // Mostrar popup de éxito
       const MySwal = withReactContent(Swal)
       MySwal.fire({
         title: 'Evento creado correctamente',
@@ -92,16 +106,15 @@ function EventForm() {
         confirmButtonText: 'Aceptar',
         confirmButtonColor: '#3085d6',
       }).then(() => {
+        log.debug('Redirecting to dashboard...')
         navigate('/dashboard')
       })
     } catch (error) {
-      console.error('Error al guardar el evento:', error)
+      log.error('Error al guardar el evento:', error)
 
-      // Definir el mensaje de error
       let errorMessage =
         'Hubo un error al registrar el evento. Por favor, intenta nuevamente.'
 
-      // Verificar tipo de error y personalizar el mensaje
       if (error.code === 'unavailable') {
         errorMessage =
           'No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.'
@@ -112,7 +125,6 @@ function EventForm() {
           'Faltan algunos campos obligatorios o hay un error en los datos proporcionados.'
       }
 
-      // Mostrar popup de error con mensaje personalizado
       const MySwal = withReactContent(Swal)
       MySwal.fire({
         title: 'Error al registrar el evento',
