@@ -2,6 +2,7 @@ import log from 'loglevel'
 import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -19,7 +20,8 @@ log.info('Firebase ha sido inicializado correctamente.')
 
 const auth = getAuth(app)
 const db = getFirestore(app)
+const storage = getStorage(app)
 
-log.info('Servicios de autenticación y Firestore inicializados.')
+log.info('Servicios de autenticación, Firestore y Storage inicializados.')
 
-export { auth, db }
+export { auth, db, storage }
