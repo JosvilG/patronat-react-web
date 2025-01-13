@@ -3,8 +3,8 @@ import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore'
 import withReactContent from 'sweetalert2-react-content'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import { db } from '../firebase/firebase'
-import { createEventModel } from '../models/eventData'
+import { db } from '../../firebase/firebase'
+import { createEventModel } from '../../models/eventData'
 
 function EventForm() {
   const [eventData, setEventData] = useState(createEventModel())
