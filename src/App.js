@@ -7,11 +7,11 @@ import RegisterPage from './pages/RegisterPage'
 import ProfilePage from './pages/ProfilePage'
 import ProtectedRoute from './components/ProtectedRoute'
 import Dashboard from './pages/Dashboard'
-import EventForm from './pages/EventRegister'
+import EventForm from './pages/events/EventRegister'
+import UploadGalleryForm from './pages/galery/uploadFiles'
 
 function App() {
   return (
-    // Envuelve toda la aplicación con el PopupProvider
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
@@ -39,6 +39,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="upload"
+            element={
+              <ProtectedRoute>
+                <UploadGalleryForm />
               </ProtectedRoute>
             }
           />
