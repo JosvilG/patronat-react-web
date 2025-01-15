@@ -1,0 +1,37 @@
+{
+  "pages": {
+    "crew": {
+      "registerCrew": {
+        "title": "Crear Penya",
+        "groupNameLabel": "Nom del Grup",
+        "responsibleLabel": "Responsable",
+        "searchPlaceholder": "Ex: Nom U, Nom Dos, Nom Tres",
+        "userListTitle": "Llistat d'Usuaris",
+        "addMemberButton": "Afegir",
+        "selectedMembersTitle": "Membres Seleccionats",
+        "removeMemberButton": "Eliminar",
+        "submitButton": "Crear Penya",
+        "errorPopup": {
+          "title": "Error",
+          "text": "Ha passat alguna cosa malament. Prova de nou més tard.",
+          "confirmButtonText": "Tancar"
+        },
+        "successPopup": {
+          "title": "Penya Creada Correctament",
+          "text": "La penya s'ha creat i guardat amb èxit.",
+          "confirmButtonText": "Acceptar"
+        }
+      }
+    },
+    "settings": {}
+  },
+  "components": {
+    "navbar": {
+      "eventTitle": "Esdeveniments",
+      "galeryTitle": "Galeria",
+      "crewTitle": "Penyes",
+      "whoWeAreTitle": "Qui Som",
+      "dashboardTitle": "Panell de Control"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "pages": {
+    "crew": {
+      "registerCrew": {
+        "title": "Crear Peña",
+        "groupNameLabel": "Nombre del Grupo",
+        "responsibleLabel": "Responsable",
+        "searchPlaceholder": "Ej: Nombre Uno, Nombre Dos, Nombre Tres",
+        "userListTitle": "Listado de Usuarios",
+        "addMemberButton": "Añadir",
+        "selectedMembersTitle": "Miembros Seleccionados",
+        "removeMemberButton": "Eliminar",
+        "submitButton": "Crear Peña",
+        "errorPopup": {
+          "title": "Error",
+          "text": "Algo salió mal. Intenta nuevamente más tarde."
+        },
+        "successPopup": {
+          "title": "Peña Creada Correctamente",
+          "text": "La peña se ha creado y guardado con éxito."
+        }
+      }
+    },
+    "settings": {
+      "defaulLanguageTitle": "Idioma por defecto",
+      "defaulLanguageDescription": "Selecciona el idioma por defecto de la web"
+    }
+  },
+  "components": {
+    "navbar": {
+      "eventTitle": "Eventos",
+      "galeryTitle": "Galería",
+      "crewTitle": "Peñas",
+      "whoWeAreTitle": "Quiénes somos",
+      "dashboardTitle": "Panel de control",
+      "profileTitle": "Perfil",
+      "settingsTitle": "Configuración",
+      "signOutTitle": "Cerrar Sesión"
+    },
+    "popup": {
+      "confirmButtonText": "Aceptar",
+      "cancelButtonText": "Cancelar",
+      "closeButtonText": "Cerrar",
+      "tryAgainButtonText": "Reintentar"
+    },
+    "buttons": {
+      "accept": "Aceptar",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "save": "Guardar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "add": "Añadir",
+      "search": "Buscar",
+      "back": "Volver",
+      "next": "Siguiente",
+      "finish": "Finalizar"
+    }
+  }
+}
