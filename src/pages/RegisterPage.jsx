@@ -3,23 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import log from 'loglevel'
 import { doc, setDoc, Timestamp } from 'firebase/firestore'
+import { createUserModel } from '../models/usersData'
 import { db } from '../firebase/firebase'
 
 function RegisterPage() {
   const navigate = useNavigate()
   const auth = getAuth()
 
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    username: '',
-    phoneNumber: '',
-    age: '',
-    birthDate: '',
-    dni: '',
-  })
+  const [formData, setFormData] = useState(createUserModel())
 
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
