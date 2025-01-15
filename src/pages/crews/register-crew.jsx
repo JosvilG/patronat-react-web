@@ -1,14 +1,31 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { collection, addDoc } from 'firebase/firestore'
-import Swal from 'sweetalert2'
-import withReactContent from 'sweetalert2-react-content'
+import { useTranslation } from 'react-i18next'
 import { db } from '../../firebase/firebase'
 import { createCrewModel } from '../../models/crewData'
 import useFetchUsers from '../../hooks/useFetchUsers'
+import { showPopup } from '../../services/popupService'
 
 function RegisterCrew() {
-  const { users, filteredUsers, search, setSearch, loading, error } =
-    useFetchUsers()
+  const { t } = useTranslation()
+
+  const errorPopupContext = {
+    title: t('pages.crew.registerCrew.errorPopup.title'),
+    text: t('pages.crew.registerCrew.errorPopup.text'),
+    icon: 'error',
+    confirmButtonText: t('components.popup.closeButtonText'),
+    confirmButtonColor: '#3085d6',
+  }
+
+  const registerCrewPopupContext = {
+    title: t('pages.crew.registerCrew.successPopup.title'),
+    text: t('pages.crew.registerCrew.successPopup.text'),
+    icon: 'success',
+    confirmButtonText: t('components.popup.confirmButtonText'),
+    confirmButtonColor: '#3085d6',
+  }
+
+  const { users, filteredUsers, search, setSearch, loading } = useFetchUsers()
   const [crewData, setCrewData] = useState(createCrewModel())
 
   const handleChange = (e) => {
@@ -17,11 +34,10 @@ function RegisterCrew() {
   }
 
   const addMembersFromSearch = () => {
-    // Dividimos los nombres por comas y eliminamos espacios extra
     const newMembers = search
       .split(',')
-      .map((name) => name.trim()) // Limpiamos espacios en blanco extra
-      .filter((name) => name !== '') // Filtramos cualquier nombre vacío
+      .map((name) => name.trim())
+      .filter((name) => name !== '')
 
     newMembers.forEach((name) => {
       if (!crewData.membersNames.includes(name)) {
@@ -33,7 +49,7 @@ function RegisterCrew() {
       }
     })
 
-    setSearch('') // Limpiamos el campo de búsqueda después de añadir los miembros
+    setSearch('')
   }
 
   const handleSubmit = async (e) => {
@@ -44,33 +60,20 @@ function RegisterCrew() {
         ...crewData,
         updateDate: new Date().toISOString().split('T')[0],
       })
-
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
-        title: 'Grupo creado correctamente',
-        text: 'El grupo se ha creado y guardado con éxito.',
-        icon: 'success',
-        confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#3085d6',
-      })
-
-      setCrewData(createCrewModel()) // Restablecemos el estado del grupo
+      showPopup(registerCrewPopupContext)
+      setCrewData(createCrewModel())
     } catch (err) {
-      console.error('Error al guardar el grupo:', err)
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
-        title: 'Error',
-        text: 'No se pudo guardar el grupo. Intenta nuevamente.',
-        icon: 'error',
-        confirmButtonText: 'Cerrar',
-        confirmButtonColor: '#3085d6',
-      })
+      showPopup(errorPopupContext)
     }
   }
 
-  // Verificar si los datos de users y filteredUsers están disponibles
-  if (loading) return <p>Cargando usuarios...</p>
-  if (error) return <p>Error al cargar usuarios: {error.message}</p>
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen pb-64">
+        <div className="loader" />
+      </div>
+    )
+  }
 
   return (
     <div className="p-6 mx-auto space-y-6 bg-white rounded-lg shadow-lg max-w-7xl">
@@ -80,7 +83,7 @@ function RegisterCrew() {
             htmlFor="title"
             className="block mb-2 text-sm font-semibold text-gray-700"
           >
-            Nombre del Grupo
+            {t('pages.crew.registerCrew.groupNameLabel')}
           </label>
           <input
             type="text"
@@ -88,7 +91,7 @@ function RegisterCrew() {
             id="title"
             value={crewData.title}
             onChange={handleChange}
-            placeholder="Nombre del grupo"
+            placeholder={t('pages.crew.registerCrew.groupNameLabel')}
             required
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
@@ -99,7 +102,7 @@ function RegisterCrew() {
             htmlFor="responsable"
             className="block mb-2 text-sm font-semibold text-gray-700"
           >
-            Responsable
+            {t('pages.crew.registerCrew.responsibleLabel')}
           </label>
           <select
             name="responsable"
@@ -109,7 +112,9 @@ function RegisterCrew() {
             required
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           >
-            <option value="">Selecciona un responsable</option>
+            <option value="">
+              {t('pages.crew.registerCrew.searchPlaceholder')}
+            </option>
             {Array.isArray(users) &&
               users.length > 0 &&
               users.map((user) => (
@@ -121,34 +126,34 @@ function RegisterCrew() {
         </div>
 
         <div>
-          <h4 className="text-lg font-semibold">Usuarios</h4>
+          <h4 className="text-lg font-semibold">
+            {t('pages.crew.registerCrew.userListTitle')}
+          </h4>
           <div className="flex items-center">
             <div className="border-gray-300">
               <button
                 type="button"
                 onClick={addMembersFromSearch}
                 className="w-10 h-12 px-3 mb-3 mr-0 text-white bg-green-600 rounded-s-xl"
-                aria-label="Añadir miembros"
+                aria-label={t('pages.crew.registerCrew.addMemberButton')}
               >
-                <span className="text-xl">+</span> {/* Icono "+" */}
+                <span className="text-xl">+</span>
               </button>
             </div>
             <div className="flex-1">
-              <label
-                htmlFor="search"
-                className="block mb-2 text-sm font-semibold text-gray-700"
-              />
               <input
                 type="text"
                 id="search"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                placeholder="Ej: Nombre Uno, Nombre Dos, Nombre Tres"
+                placeholder={t('pages.crew.registerCrew.searchPlaceholder')}
                 className="w-full p-3 mb-5 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </div>
-          <h6 className="text-sm font-semibold">Listado de usuarios</h6>
+          <h6 className="text-sm font-semibold">
+            {t('pages.crew.registerCrew.selectedMembersTitle')}
+          </h6>
           <ul>
             {Array.isArray(filteredUsers) && filteredUsers.length > 0 ? (
               filteredUsers.slice(0, 4).map((user) => (
@@ -170,21 +175,23 @@ function RegisterCrew() {
                     }}
                     className="px-3 py-1 text-white bg-blue-500 rounded"
                   >
-                    Añadir
+                    {t('pages.crew.registerCrew.addMemberButton')}
                   </button>
                 </li>
               ))
             ) : (
-              <li>No hay usuarios disponibles para añadir</li>
+              <li>{t('pages.crew.registerCrew.noUsersMessage')}</li>
             )}
           </ul>
         </div>
 
         <div>
-          <h4 className="text-lg font-semibold">Miembros Seleccionados</h4>
+          <h4 className="text-lg font-semibold">
+            {t('pages.crew.registerCrew.selectedMembersTitle')}
+          </h4>
           <ul>
             {crewData.membersNames && crewData.membersNames.length > 0 ? (
-              crewData.membersNames.map((memberName, index) => (
+              crewData.membersNames.map((memberName) => (
                 <li
                   key={memberName}
                   className="flex items-center justify-between p-2 mb-2 border-b"
@@ -203,12 +210,12 @@ function RegisterCrew() {
                     }}
                     className="px-3 py-1 text-white bg-red-500 rounded"
                   >
-                    Eliminar
+                    {t('pages.crew.registerCrew.removeMemberButton')}
                   </button>
                 </li>
               ))
             ) : (
-              <li>No hay miembros seleccionados</li>
+              <li>{t('pages.crew.registerCrew.noMembersMessage')}</li>
             )}
           </ul>
         </div>
@@ -217,7 +224,7 @@ function RegisterCrew() {
           type="submit"
           className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg"
         >
-          Crear Peña
+          {t('pages.crew.registerCrew.submitButton')}
         </button>
       </form>
     </div>
