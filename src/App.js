@@ -10,6 +10,8 @@ import Dashboard from './pages/Dashboard'
 import EventForm from './pages/events/EventRegister'
 import UploadGalleryForm from './pages/galery/uploadFiles'
 import CrewForm from './pages/crews/register-crew'
+import Settings from './pages/users/userSettings'
+import './translations/index'
 
 function App() {
   return (
@@ -35,14 +37,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-          <Route
-            path="profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
+
           <Route
             path="upload-file"
             element={
@@ -56,6 +51,23 @@ function App() {
             element={
               <ProtectedRoute>
                 <CrewForm />
+              </ProtectedRoute>
+            }
+          />
+          {/* User dropdown Routes */}
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <ProfilePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="settings"
+            element={
+              <ProtectedRoute>
+                <Settings />
               </ProtectedRoute>
             }
           />
