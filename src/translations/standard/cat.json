@@ -2,36 +2,70 @@
   "pages": {
     "crew": {
       "registerCrew": {
-        "title": "Crear Penya",
+        "title": "Crear Colla",
         "groupNameLabel": "Nom del Grup",
         "responsibleLabel": "Responsable",
-        "searchPlaceholder": "Ex: Nom U, Nom Dos, Nom Tres",
-        "userListTitle": "Llistat d'Usuaris",
+        "searchPlaceholder": "Ex.: Nom Un, Nom Dos, Nom Tres",
+        "userListTitle": "Llista d'Usuaris",
         "addMemberButton": "Afegir",
         "selectedMembersTitle": "Membres Seleccionats",
         "removeMemberButton": "Eliminar",
-        "submitButton": "Crear Penya",
+        "submitButton": "Crear Colla",
         "errorPopup": {
           "title": "Error",
-          "text": "Ha passat alguna cosa malament. Prova de nou més tard.",
-          "confirmButtonText": "Tancar"
+          "text": "Alguna cosa ha anat malament. Intenta-ho més tard."
         },
         "successPopup": {
-          "title": "Penya Creada Correctament",
-          "text": "La penya s'ha creat i guardat amb èxit.",
-          "confirmButtonText": "Acceptar"
+          "title": "Colla Creada Correctament",
+          "text": "La colla s'ha creat i desat correctament."
         }
       }
     },
-    "settings": {}
+    "settings": {
+      "defaulLanguageTitle": "Idioma per defecte",
+      "defaulLanguageDescription": "Selecciona l'idioma per defecte del web"
+    }
   },
   "components": {
     "navbar": {
       "eventTitle": "Esdeveniments",
       "galeryTitle": "Galeria",
-      "crewTitle": "Penyes",
+      "crewTitle": "Colles",
       "whoWeAreTitle": "Qui Som",
-      "dashboardTitle": "Panell de Control"
+      "dashboardTitle": "Panell de Control",
+      "profileTitle": "Perfil",
+      "shopTitle": "Botiga",
+      "settingsTitle": "Configuració",
+      "signOutTitle": "Tancar Sessió",
+      "loginTitle": "Iniciar Sessió"
+    },
+    "popup": {
+      "confirmButtonText": "Acceptar",
+      "cancelButtonText": "Cancel·lar",
+      "closeButtonText": "Tancar",
+      "tryAgainButtonText": "Torna-ho a intentar",
+      "successTitle": "CONFIRMAT",
+      "successDescription": "Petició completada correctament",
+      "failTitle": "ERROR",
+      "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
+      "infoTitle": "INFO",
+      "warningTitle": "COMPTE"
+    },
+    "buttons": {
+      "accept": "Acceptar",
+      "cancel": "Cancel·lar",
+      "close": "Tancar",
+      "save": "Desar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "add": "Afegir",
+      "search": "Cercar",
+      "back": "Tornar",
+      "next": "Següent",
+      "finish": "Finalitzar"
+    },
+    "inputs": {
+      "addDocument": "Prem per afegir un document"
     }
   }
 }

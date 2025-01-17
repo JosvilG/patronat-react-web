@@ -5,7 +5,7 @@
         "title": "Create Crew",
         "groupNameLabel": "Group Name",
         "responsibleLabel": "Responsible",
-        "searchPlaceholder": "e.g: Name One, Name Two, Name Three",
+        "searchPlaceholder": "E.g.: Name One, Name Two, Name Three",
         "userListTitle": "User List",
         "addMemberButton": "Add",
         "selectedMembersTitle": "Selected Members",
@@ -13,24 +13,59 @@
         "submitButton": "Create Crew",
         "errorPopup": {
           "title": "Error",
-          "text": "Something went wrong. Please try again later.",
-          "confirmButtonText": "Close"
+          "text": "Something went wrong. Please try again later."
         },
         "successPopup": {
-          "title": "Crew Created Successfully",
-          "text": "The crew has been successfully created and saved.",
-          "confirmButtonText": "Accept"
+          "title": "Crew Successfully Created",
+          "text": "The crew has been successfully created and saved."
         }
       }
+    },
+    "settings": {
+      "defaulLanguageTitle": "Default Language",
+      "defaulLanguageDescription": "Select the default language of the website"
     }
   },
   "components": {
     "navbar": {
       "eventTitle": "Events",
       "galeryTitle": "Gallery",
-      "crewTitle": "Crew",
+      "crewTitle": "Crews",
       "whoWeAreTitle": "Who We Are",
-      "dashboardTitle": "Dashboard"
+      "dashboardTitle": "Dashboard",
+      "profileTitle": "Profile",
+      "shopTitle": "Shop",
+      "settingsTitle": "Settings",
+      "signOutTitle": "Sign Out",
+      "loginTitle": "Log In"
+    },
+    "popup": {
+      "confirmButtonText": "Accept",
+      "cancelButtonText": "Cancel",
+      "closeButtonText": "Close",
+      "tryAgainButtonText": "Retry",
+      "successTitle": "SUCCESS",
+      "successDescription": "Request successfully completed",
+      "failTitle": "ERROR",
+      "failDecription": "Something went wrong. \n Please try again.",
+      "infoTitle": "INFO",
+      "warningTitle": "WARNING"
+    },
+    "buttons": {
+      "accept": "Accept",
+      "cancel": "Cancel",
+      "close": "Close",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit",
+      "add": "Add",
+      "search": "Search",
+      "back": "Back",
+      "next": "Next",
+      "finish": "Finish"
+    },
+    "inputs": {
+      "addDocument": "Click to add a document"
     }
   }
 }

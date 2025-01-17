@@ -34,6 +34,7 @@
       "whoWeAreTitle": "Quiénes somos",
       "dashboardTitle": "Panel de control",
       "profileTitle": "Perfil",
+      "shopTitle": "Tienda",
       "settingsTitle": "Configuración",
       "signOutTitle": "Cerrar Sesión",
       "loginTitle": "Iniciar Sesión"
@@ -42,7 +43,13 @@
       "confirmButtonText": "Aceptar",
       "cancelButtonText": "Cancelar",
       "closeButtonText": "Cerrar",
-      "tryAgainButtonText": "Reintentar"
+      "tryAgainButtonText": "Reintentar",
+      "successTitle": "CONFIRMADO",
+      "successDescription": "Petición realizada correctamente",
+      "failTitle": "ERROR",
+      "failDecription": "Algo ha salido mal. \n Por favor vuelve a intentarlo.",
+      "infoTitle": "INFO",
+      "warningTitle": "CUIDADO"
     },
     "buttons": {
       "accept": "Aceptar",
@@ -56,6 +63,9 @@
       "back": "Volver",
       "next": "Siguiente",
       "finish": "Finalizar"
+    },
+    "inputs": {
+      "addDocument": "Pulsa para añadir un documento"
     }
   }
 }
