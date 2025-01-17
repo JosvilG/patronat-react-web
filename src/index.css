@@ -1,4 +1,139 @@
-/* index.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Font-size 12 */
+.t12l {
+  font-size: 12px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t12r {
+  font-size: 12px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+.t12s {
+  font-size: 12px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t12b {
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t12bl {
+  font-size: 12px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Font-size 16 */
+.t16l {
+  font-size: 16px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t16r {
+  font-size: 16px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+.t16s {
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t16b {
+  font-size: 16px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t16bl {
+  font-size: 16px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Font-size 20 */
+.t20l {
+  font-size: 20px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t20r {
+  font-size: 20px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+.t20s {
+  font-size: 20px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t20b {
+  font-size: 20px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t20bl {
+  font-size: 20px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Font-size 24 */
+.t24l {
+  font-size: 24px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t24r {
+  font-size: 24px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+.t24s {
+  font-size: 24px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t24b {
+  font-size: 24px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t24bl {
+  font-size: 24px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Font-size 40 */
+.t40l {
+  font-size: 40px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t40r {
+  font-size: 40px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+.t40s {
+  font-size: 40px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t40b {
+  font-size: 40px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t40bl {
+  font-size: 40px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
