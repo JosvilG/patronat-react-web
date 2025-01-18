@@ -65,7 +65,8 @@
       "finish": "Finalizar"
     },
     "inputs": {
-      "addDocument": "Pulsa para añadir un documento"
+      "addDocument": "Pulsa para añadir un documento",
+      "enterPassword": "Introduce la contraseña"
     }
   }
 }
