@@ -1,12 +1,10 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { getAuth } from 'firebase/auth'
+import { Link } from 'react-router-dom'
 import log from 'loglevel'
 import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../contexts/AuthContext'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useSignOut } from '../hooks/signOut'
-import { useMenuToggle } from '../hooks/useMenuToggle'
 import { useOutsideClick } from '../hooks/useOutSideClickListener'
 import { useResizeListener } from '../hooks/useResizeListener'
 import { motion } from 'framer-motion'
@@ -88,15 +86,12 @@ const DropdownMenu = ({ items, onClose }) => (
 )
 
 export function Navbar() {
-  const { isOpen, toggleMenu, closeMenu } = useMenuToggle()
   const handleSignOut = useSignOut()
   const { t } = useTranslation()
   const { user, userData } = useContext(AuthContext)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const isSmallScreen = useResizeListener()
-  const navigate = useNavigate()
-  const auth = getAuth()
   const dropdownRef = useRef(null)
   const mobileMenuRef = useRef(null)
 
@@ -117,7 +112,7 @@ export function Navbar() {
     ))
 
   return (
-    <nav className="sticky z-50 flex items-center justify-between px-6 py-4 top-4">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4">
       {/* Logo */}
       <div className="flex items-center ml-8">
         <Link to="/">
