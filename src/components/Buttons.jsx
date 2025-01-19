@@ -22,7 +22,7 @@ const DynamicButton = ({ size, state, textId, children, ...props }) => {
       case 'normal':
         return 'bg-[#3A3A3A] text-[#FFFFFF] hover:bg-[#696969] hover:text-[#3A3A3A]'
       case 'disabled':
-        return 'bg-[#5B5B5B] opacity-53 text-[#504F50] opacity-31 cursor-not-allowed'
+        return 'bg-[#5b5b5b87] text-[#5b5b5b87]  cursor-not-allowed'
       case 'highlighted':
         return 'bg-[#696969] text-[#3A3A3A] hover:bg-[#3A3A3A] hover:text-[#FFFFFF]'
       default:
@@ -35,7 +35,7 @@ const DynamicButton = ({ size, state, textId, children, ...props }) => {
 
   return (
     <button
-      className={`flex justify-center items-center ${sizeClasses} ${stateClasses} px-4 py-2 rounded-[60px] ${props.className}`}
+      className={`t16s flex justify-center items-center ${sizeClasses} ${stateClasses} px-4 py-2 rounded-[60px] ${props.className}`}
       disabled={state === 'disabled'}
       {...props}
     >
