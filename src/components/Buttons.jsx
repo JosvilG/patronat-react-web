@@ -22,7 +22,7 @@ const DynamicButton = ({ size, state, textId, children, ...props }) => {
       case 'normal':
         return 'bg-[#3A3A3A] text-[#FFFFFF] hover:bg-[#696969] hover:text-[#3A3A3A]'
       case 'disabled':
-        return 'bg-[#5b5b5b87] text-[#5b5b5b87]  cursor-not-allowed'
+        return 'bg-[rgba(91,91,91,0.53)] text-[rgba(80,79,80,0.31)]  cursor-not-allowed'
       case 'highlighted':
         return 'bg-[#696969] text-[#3A3A3A] hover:bg-[#3A3A3A] hover:text-[#FFFFFF]'
       default:
