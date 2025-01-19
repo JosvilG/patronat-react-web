@@ -7,13 +7,13 @@ const DynamicButton = ({ size, state, textId, children, ...props }) => {
   const getSizeClasses = (size) => {
     switch (size) {
       case 'large':
-        return 'min-w-[250px] max-w-[400px]'
+        return 'w-[400px] h-[56px]'
       case 'medium':
-        return 'min-w-[150px] max-w-[250px]'
+        return 'w-[250px] h-[56px]'
       case 'small':
-        return 'min-w-[100px] max-w-[150px]'
+        return 'w-[150px] h-[41px]'
       default:
-        return 'min-w-[150px] max-w-[250px]'
+        return 'w-[250px]'
     }
   }
 
