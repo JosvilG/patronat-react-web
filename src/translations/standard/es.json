@@ -24,6 +24,28 @@
     "settings": {
       "defaulLanguageTitle": "Idioma por defecto",
       "defaulLanguageDescription": "Selecciona el idioma por defecto de la web"
+    },
+    "events": {
+      "details": {
+        "popupTitle": "<p>Detalles del evento: ",
+        "popupText": "<p><strong>Descripción: </strong>",
+        "popupInitDate": "<p><strong>Fecha de inicio: </strong>",
+        "popupEndDate": "<p><strong>Fecha de finalización: </strong>",
+        "startDate": "Fecha de inicio",
+        "endDate": "Fecha de finalización",
+        "startTime": "Hora de inicio",
+        "endTime": "Hora de finalización",
+        "location": "Ubicación",
+        "capacity": "Capacidad",
+        "price": "Precio",
+        "minAge": "Edad mínima",
+        "collaborators": "Colaboradores",
+        "tags": "Etiquetas",
+        "organizer": "Organizador",
+        "allowCars": "Permitir coches",
+        "hasBar": "¿Hay bar?",
+        "status": "Estado"
+      }
     }
   },
   "components": {
@@ -67,6 +89,16 @@
     "inputs": {
       "addDocument": "Pulsa para añadir un documento",
       "enterPassword": "Introduce la contraseña"
+    },
+    "cards": {
+      "eventDateTitle": "Fecha del evento"
+    },
+    "calendar": {
+      "title": "Calendario de eventos",
+      "today": "Hoy",
+      "month": "Mes",
+      "week": "Semana",
+      "day": "Día"
     }
   }
 }
