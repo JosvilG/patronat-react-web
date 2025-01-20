@@ -1,4 +1,3 @@
-// popupService.js
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -22,6 +21,7 @@ export const showPopup = async (popupConfig) => {
 
   const result = await MySwal.fire({
     ...swalOptions,
+    html: swalOptions.text,
   })
 
   if (result.isConfirmed && typeof onConfirm === 'function') {
