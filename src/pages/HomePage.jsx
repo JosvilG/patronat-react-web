@@ -1,7 +1,5 @@
 import React from 'react'
-import { Calendar } from '../components/Calendar'
-import { EventCard } from '../components/EventCard'
-import { Navbar } from '../components/Navbar'
+import Calendar from './../components/Calendar'
 
 function HomePage() {
   return (
@@ -32,30 +30,13 @@ function HomePage() {
         <h2 className="mb-6 text-3xl font-semibold text-center">
           Eventos Destacados
         </h2>
-        <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl sm:grid-cols-2 md:grid-cols-3">
-          <EventCard />
-          <EventCard />
-          <EventCard />
-        </div>
       </section>
-
       <section className="py-16 bg-white">
         <h2 className="mb-6 text-3xl font-semibold text-center">
           Calendario de Eventos
         </h2>
         <div className="mx-auto max-w-7xl">
           <Calendar />
-        </div>
-      </section>
-
-      <section className="py-16 bg-gray-50">
-        <h2 className="mb-6 text-3xl font-semibold text-center">
-          Galería de Fotos
-        </h2>
-        <div className="grid grid-cols-1 gap-8 mx-auto max-w-7xl sm:grid-cols-2 md:grid-cols-3">
-          <div className="h-64 bg-gray-300 rounded-lg" />
-          <div className="h-64 bg-gray-300 rounded-lg" />
-          <div className="h-64 bg-gray-300 rounded-lg" />
         </div>
       </section>
     </div>
