@@ -16,6 +16,16 @@ function EventForm() {
 
   log.setLevel('debug')
 
+  const predefinedTags = [
+    'fmr',
+    'nadal',
+    'sants',
+    'raval',
+    'festival',
+    'reuniones',
+    'otros',
+  ]
+
   useEffect(() => {
     const fetchCollaborators = async () => {
       log.debug('Fetching collaborators...')
@@ -69,12 +79,9 @@ function EventForm() {
     })
   }
 
-  const handleTagsChange = (value) => {
-    log.debug('Tags changed to:', value)
-    setEventData({
-      ...eventData,
-      tags: value.split(',').map((tag) => tag.trim()),
-    })
+  const handleTagChange = (tag) => {
+    log.debug('Selecting tag:', tag)
+    setEventData({ ...eventData, tags: [tag] })
   }
 
   const handleSubmit = async (e) => {
@@ -412,22 +419,26 @@ function EventForm() {
           </select>
         </div>
 
+        {/* Etiquetas (tags) con radio buttons */}
         <div>
-          <label
-            htmlFor="tags"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Etiquetas
-          </label>
-          <input
-            type="text"
-            name="tags"
-            id="tags"
-            placeholder="Etiquetas separadas por comas"
-            value={eventData.tags.join(', ')}
-            onChange={(e) => handleTagsChange(e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          <h4 className="mb-2 text-sm font-semibold text-gray-700">
+            Selecciona una etiqueta
+          </h4>
+          <div className="space-y-2">
+            {predefinedTags.map((tag) => (
+              <label key={tag} className="inline-flex items-center">
+                <input
+                  type="radio"
+                  name="tag"
+                  value={tag}
+                  checked={eventData.tags.includes(tag)}
+                  onChange={() => handleTagChange(tag)}
+                  className="form-radio"
+                />
+                <span className="ml-2 text-sm text-gray-700">{tag}</span>
+              </label>
+            ))}
+          </div>
         </div>
 
         <div className="mt-4">
