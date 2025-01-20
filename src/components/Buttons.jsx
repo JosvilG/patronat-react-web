@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useTranslation } from 'react-i18next'
 
 const DynamicButton = ({ size, state, textId, children, ...props }) => {
@@ -42,6 +43,13 @@ const DynamicButton = ({ size, state, textId, children, ...props }) => {
       {textId ? t(textId) : children}
     </button>
   )
+}
+DynamicButton.propTypes = {
+  size: PropTypes.string,
+  state: PropTypes.string,
+  textId: PropTypes.string,
+  children: PropTypes.node,
+  className: PropTypes.string,
 }
 
 export default DynamicButton
