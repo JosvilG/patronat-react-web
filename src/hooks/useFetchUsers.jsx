@@ -4,8 +4,8 @@ import log from 'loglevel'
 import { db } from '../firebase/firebase'
 
 const useFetchUsers = () => {
-  const [users, setUsers] = useState([]) // Inicializado como un array vacío
-  const [filteredUsers, setFilteredUsers] = useState([]) // Inicializado como un array vacío
+  const [users, setUsers] = useState([])
+  const [filteredUsers, setFilteredUsers] = useState([])
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -17,10 +17,9 @@ const useFetchUsers = () => {
         const usersSnap = await getDocs(collection(db, 'users'))
         const usersList = usersSnap.docs.map((docSnap) => {
           const data = docSnap.data()
-          // Nos aseguramos de que cada usuario tenga un campo 'name'
           return {
             id: docSnap.id,
-            name: `${data.firstName} ${data.lastName}` || 'Sin nombre', // Valor por defecto si no tiene 'name'
+            name: `${data.firstName} ${data.lastName}` || 'Sin nombre',
             ...data,
           }
         })
@@ -39,7 +38,6 @@ const useFetchUsers = () => {
   }, [])
 
   useEffect(() => {
-    // Solo filtrar usuarios si la búsqueda tiene algún valor
     if (search.trim()) {
       setFilteredUsers(
         users.filter((user) =>
@@ -47,7 +45,6 @@ const useFetchUsers = () => {
         )
       )
     } else {
-      // Si no hay búsqueda, mostrar todos los usuarios
       setFilteredUsers(users)
     }
   }, [search, users])
