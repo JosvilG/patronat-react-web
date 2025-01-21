@@ -5,7 +5,10 @@ import { useTranslation } from 'react-i18next'
 
 const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
   const [isFullscreen, setIsFullscreen] = useState(false)
+  const [imgError, setImgError] = useState(false)
+  const [isLoaded, setIsLoaded] = useState(false)
   const { t } = useTranslation()
+
   const handleGalleryClick = () => {
     setIsFullscreen(true)
   }
@@ -14,35 +17,45 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
     setIsFullscreen(false)
   }
 
+  const handleImageLoad = () => {
+    setIsLoaded(true)
+  }
+
+  const handleImageError = () => {
+    console.log('Error al cargar la imagen, mostrando placeholder')
+    setImgError(true)
+    setIsLoaded(true)
+  }
+
   return (
     <>
-      {/* Card principal */}
       <div
-        className={`relative ${
-          type === 'gallery'
-            ? 'w-[550px] h-[400px] rounded-[60px]'
-            : 'w-[550px] h-[550px]'
-        } overflow-hidden group rounded-[60px] select-none`}
+        className={`relative w-full ${
+          type === 'gallery' ? 'sm:h-[400px]' : 'sm:h-[550px]'
+        } overflow-hidden group rounded-[60px] select-none transition-opacity duration-700 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
         onClick={() => {
           if (type === 'event' && link) {
             window.open(link, '_blank')
           }
         }}
       >
-        {/* Imagen principal */}
         <div
-          className={`${
-            type === 'gallery' ? 'h-full' : 'h-[400px]'
-          } relative cursor-pointer`}
+          className={`relative cursor-pointer ${
+            type === 'gallery' ? 'h-full' : 'h-auto sm:h-[400px]'
+          }`}
           onClick={type === 'gallery' ? handleGalleryClick : undefined}
         >
+          {/* Imagen */}
           <img
-            src={imageUrl}
+            src={imgError ? 'https://via.placeholder.com/150' : imageUrl}
             alt={title}
-            className="object-cover w-full h-full"
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+            className="object-cover w-full h-full rounded-[60px]"
           />
 
-          {/* Hover overlay para Gallery */}
           {type === 'gallery' && (
             <div
               className="absolute inset-0 flex items-end p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
@@ -59,7 +72,6 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
             </div>
           )}
 
-          {/* Hover overlay para Event */}
           {type === 'event' && (
             <div
               className="absolute inset-0 flex flex-row justify-end items-end p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100 rounded-[60px]"
@@ -74,32 +86,32 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
           )}
         </div>
 
-        {/* Contenido de la card para Event */}
         {type === 'event' && (
-          <div className="h-[150px] p-4">
-            <p className="pb-2 h-[60px] text-lg flex flex-row items-center  line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969]">
+          <div className="px-4 py-2">
+            <p className="pb-2 leading-8 flex flex-row items-center line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969]">
               {title}
             </p>
-            <p className="text-sm leading-7 text-gray-600 transition-colors t20r group-hover:text-[#696969] line-clamp-3">
+            <p className=" leading-7 text-gray-600 transition-colors t20r group-hover:text-[#696969] line-clamp-3">
               {description}
             </p>
           </div>
         )}
       </div>
 
-      {/* Modal de pantalla completa para Gallery */}
       {isFullscreen && type === 'gallery' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-md">
-          {/* Botón de cerrar */}
           <button
             className="absolute p-2 text-white bg-gray-700 rounded-full top-4 right-4"
             onClick={handleCloseFullscreen}
           >
             ✕
           </button>
-          {/* Imagen en pantalla completa */}
           <img
-            src={imageUrl}
+            src={
+              imgError
+                ? 'https://dynamoprojects.com/wp-content/uploads/2022/12/no-image.jpg'
+                : imageUrl
+            }
             alt={title}
             className="max-w-full max-h-full rounded-lg"
           />
@@ -108,6 +120,7 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
     </>
   )
 }
+
 DynamicCard.propTypes = {
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
