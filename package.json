@@ -45,6 +45,7 @@
     "@mui/icons-material": "^6.4.0",
     "@mui/material": "^6.4.0",
     "@mui/styled-engine-sc": "^6.4.0",
+    "browser-image-compression": "^2.0.2",
     "date-fns": "^4.1.0",
     "firebase": "^11.1.0",
     "framer-motion": "^11.18.1",
