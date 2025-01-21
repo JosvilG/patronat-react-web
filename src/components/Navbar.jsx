@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect, useRef } from 'react'
+import React, { useContext, useState, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import log from 'loglevel'
 import { useTranslation } from 'react-i18next'
@@ -10,7 +10,7 @@ import { useResizeListener } from '../hooks/useResizeListener'
 import { motion } from 'framer-motion'
 
 const navLinksData = [
-  { to: '/events', label: 'components.navbar.eventTitle' },
+  { to: '/events-list', label: 'components.navbar.eventTitle' },
   { to: '/gallery', label: 'components.navbar.galeryTitle' },
   { to: '/penas', label: 'components.navbar.crewTitle' },
   { to: '/about', label: 'components.navbar.whoWeAreTitle' },
@@ -113,7 +113,6 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4">
-      {/* Logo */}
       <div className="flex items-center ml-8">
         <Link to="/">
           <img
@@ -124,14 +123,12 @@ export function Navbar() {
         </Link>
       </div>
 
-      {/* Desktop Links */}
       {!isSmallScreen && (
         <div className="t16r flex h-auto min-h-[41px] items-center max-w-[605px] w-full justify-center px-2 bg-[#A0A0A0] rounded-full shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
           {renderNavLinks()}
         </div>
       )}
 
-      {/* Mobile Menu Button */}
       {isSmallScreen ? (
         <MobileMenuButton onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
       ) : (
@@ -148,7 +145,6 @@ export function Navbar() {
         )
       )}
 
-      {/* Mobile Menu Links */}
       {isSmallScreen && mobileMenuOpen && (
         <motion.div
           ref={mobileMenuRef}
@@ -184,7 +180,6 @@ export function Navbar() {
         </motion.div>
       )}
 
-      {/* Dropdown for User (Desktop Only) */}
       {user && !isSmallScreen && (
         <div
           className="relative z-50 hidden md:block mr-[90px]"
