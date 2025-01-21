@@ -6,6 +6,7 @@ const tagColors = {
   festival: 'bg-orange-100 text-orange-800',
   reuniones: 'bg-purple-100 text-purple-800',
   otros: 'bg-gray-100 text-gray-800',
+  prueba: 'bg-purple-100 text-pink-800',
 }
 
 export default tagColors
