@@ -13,6 +13,7 @@ import CrewForm from './pages/crews/register-crew'
 import Settings from './pages/users/userSettings'
 import InputsShowcase from './pages/Test'
 import EventPage from './pages/events/EventPage'
+import FullEventsPage from './pages/events/FullEventsPage'
 
 import './translations/index'
 
@@ -25,7 +26,8 @@ function App() {
           <Route path="login" element={<Auth />} />
           <Route path="register" element={<RegisterPage />} />
           <Route path="test" element={<InputsShowcase />} />
-          <Route path="/event/:id" element={<EventPage />} />
+          <Route path="events-list" element={<FullEventsPage />} />
+          <Route path="/event/:eventName" element={<EventPage />} />
           <Route
             path="dashboard"
             element={

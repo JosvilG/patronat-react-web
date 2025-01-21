@@ -1,24 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-import { doc, getDoc } from 'firebase/firestore'
+import { useParams, useNavigate } from 'react-router-dom'
+import { collection, getDocs } from 'firebase/firestore'
 import { db } from './../../firebase/firebase'
 import tagColors from './../../models/tagColors'
 import { useTranslation } from 'react-i18next'
 
 const EventPage = () => {
-  const { id } = useParams()
+  const { eventName } = useParams()
   const [event, setEvent] = useState(null)
   const { t } = useTranslation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchEvent = async () => {
       try {
-        const eventDoc = await getDoc(doc(db, 'events', id))
+        const querySnapshot = await getDocs(collection(db, 'events'))
+        const eventDoc = querySnapshot.docs.find(
+          (doc) =>
+            doc.data().title.toLowerCase().replace(/ /g, '-') === eventName
+        )
 
-        if (eventDoc.exists()) {
+        if (eventDoc) {
           setEvent(eventDoc.data())
         } else {
           console.log('Evento no encontrado')
+          navigate('/404')
         }
       } catch (error) {
         console.error('Error obteniendo el evento: ', error)
@@ -26,7 +32,7 @@ const EventPage = () => {
     }
 
     fetchEvent()
-  }, [id])
+  }, [eventName, navigate])
 
   if (!event) return <div>Cargando...</div>
 

@@ -8,6 +8,10 @@ import { showPopup } from '../services/popupService'
 import { useTranslation } from 'react-i18next'
 import tagColors from '../models/tagColors'
 
+const generateSlug = (title) => {
+  return title.toLowerCase().replace(/ /g, '-')
+}
+
 const buildPopupText = (eventData, t) => {
   const startDate = new Date(eventData.start).toLocaleString()
   const endDate = eventData.end
@@ -64,7 +68,8 @@ const Calendar = () => {
           'bg-gray-300 text-gray-700 rounded-lg py-2 px-4 hover:bg-gray-400',
       },
       onConfirm: () => {
-        navigate(`/event/${eventData.eventId}`)
+        const eventSlug = generateSlug(eventData.title)
+        navigate(`/event/${eventSlug}`)
       },
     })
   }
