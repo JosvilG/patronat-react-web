@@ -6,12 +6,12 @@ import { useNavigate } from 'react-router-dom'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
 import { db, storage } from '../../firebase/firebase'
-import { AuthContext } from '../../contexts/AuthContext' // Importa el AuthContext
+import { AuthContext } from '../../contexts/AuthContext'
 
 const MySwal = withReactContent(Swal)
 
 function UploadGalleryForm() {
-  const { user } = useContext(AuthContext) // Accede al usuario autenticado desde el contexto
+  const { user } = useContext(AuthContext)
   const [file, setFile] = useState(null)
   const [name, setName] = useState('')
   const [description, setDescription] = useState('')
@@ -20,7 +20,7 @@ function UploadGalleryForm() {
   const [visibility, setVisibility] = useState('public')
   const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState('')
-  const [progress, setProgress] = useState(0) // Progreso de la barra
+  const [progress, setProgress] = useState(0)
   const navigate = useNavigate()
 
   log.setLevel('info')
@@ -50,20 +50,16 @@ function UploadGalleryForm() {
     try {
       log.info('Iniciando subida del archivo a Firebase Storage...')
 
-      // Subir archivo con progreso
       const uploadTask = uploadBytesResumable(storageRef, file)
 
-      // Escuchar el progreso de la subida
       uploadTask.on(
         'state_changed',
         (snapshot) => {
-          // Calcular el progreso
           const progressPercent =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
           setProgress(progressPercent)
         },
         (error) => {
-          // Manejo de errores en la subida
           log.error('Error al subir el archivo:', error)
           MySwal.fire({
             title: '¡Error!',
@@ -74,14 +70,11 @@ function UploadGalleryForm() {
           setUploading(false)
         },
         async () => {
-          // Subida completada
           const url = await getDownloadURL(uploadTask.snapshot.ref)
           log.info('Archivo subido con éxito. URL del archivo:', url)
 
-          // Obtener el UID del usuario desde el contexto
-          const userId = user.uid // Accede al UID del usuario desde el contexto
+          const userId = user.uid
 
-          // Guardar metadatos en Firestore
           log.info('Guardando metadatos en Firestore...')
           await addDoc(collection(db, 'uploads'), {
             name: name || file.name,
@@ -92,7 +85,7 @@ function UploadGalleryForm() {
             url,
             size: file.size,
             type: file.type,
-            userId, // Aquí guardamos el UID del usuario
+            userId,
             createdAt: serverTimestamp(),
           })
 
@@ -107,7 +100,6 @@ function UploadGalleryForm() {
             navigate('/dashboard')
           })
 
-          // Limpiar formulario
           setName('')
           setDescription('')
           setCategory('')

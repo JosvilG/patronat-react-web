@@ -20,4 +20,5 @@ export const createEventModel = () => ({
   hasBar: false,
   status: 'Activo',
   createdAt: Timestamp.now(),
+  eventImage: '',
 })

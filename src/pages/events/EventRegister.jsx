@@ -1,20 +1,43 @@
 import React, { useState, useEffect } from 'react'
 import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import withReactContent from 'sweetalert2-react-content'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import log from 'loglevel'
-import { db } from '../../firebase/firebase'
+import { db, storage } from '../../firebase/firebase'
 import { createEventModel } from '../../models/eventData'
+import imageCompression from 'browser-image-compression'
+import Loader from '../../components/Loader'
 
 function EventForm() {
   const [eventData, setEventData] = useState(createEventModel())
   const [collaborators, setCollaborators] = useState([])
   const [search, setSearch] = useState('')
   const [filteredCollaborators, setFilteredCollaborators] = useState([])
+  const [file, setFile] = useState(null)
+  const [uploading] = useState(false)
+  const [progress, setProgress] = useState(0)
+  const [submitting, setSubmitting] = useState(false)
   const navigate = useNavigate()
 
   log.setLevel('debug')
+
+  const convertToWebP = async (imageFile) => {
+    try {
+      const options = {
+        maxSizeMB: 1,
+        maxWidthOrHeight: 800,
+        useWebWorker: true,
+        fileType: 'image/webp',
+      }
+      const compressedFile = await imageCompression(imageFile, options)
+      return compressedFile
+    } catch (error) {
+      log.error('Error al convertir la imagen:', error)
+      throw error
+    }
+  }
 
   const predefinedTags = [
     'fmr',
@@ -79,14 +102,59 @@ function EventForm() {
     })
   }
 
+  const uploadFile = async (file) => {
+    try {
+      log.info('Iniciando subida del archivo a Firebase Storage...')
+      const storageRef = ref(storage, `uploads/${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file)
+
+      return new Promise((resolve, reject) => {
+        uploadTask.on(
+          'state_changed',
+          (snapshot) => {
+            const progressPercent =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+            setProgress(progressPercent)
+          },
+          (error) => {
+            log.error('Error al subir el archivo:', error)
+            reject(error)
+          },
+          async () => {
+            const url = await getDownloadURL(uploadTask.snapshot.ref)
+            log.info('Archivo subido con éxito. URL del archivo:', url)
+            resolve(url)
+          }
+        )
+      })
+    } catch (error) {
+      log.error('Error al subir el archivo:', error)
+      throw error
+    }
+  }
+
   const handleTagChange = (tag) => {
     log.debug('Selecting tag:', tag)
     setEventData({ ...eventData, tags: [tag] })
   }
 
+  const handleFileChange = async (e) => {
+    const selectedFile = e.target.files[0]
+    if (selectedFile) {
+      log.info('Archivo seleccionado:', selectedFile)
+
+      try {
+        const webpFile = await convertToWebP(selectedFile)
+        setFile(webpFile)
+      } catch (error) {
+        log.error('Error al convertir la imagen:', error)
+      }
+    }
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-    log.debug('Submitting form with data:', eventData)
+    setSubmitting(true)
 
     const startTimestamp = Timestamp.fromDate(
       new Date(`${eventData.startDate}T${eventData.startTime}`)
@@ -96,14 +164,18 @@ function EventForm() {
     )
 
     try {
-      log.debug('Adding event to Firestore...')
+      let fileUrl = ''
+      if (file) {
+        fileUrl = await uploadFile(file)
+      }
+
       await addDoc(collection(db, 'events'), {
         ...eventData,
         startDateTime: startTimestamp,
         endDateTime: endTimestamp,
         createdAt: Timestamp.now(),
+        eventURL: fileUrl,
       })
-      log.info('Event successfully added to Firestore')
 
       const MySwal = withReactContent(Swal)
       MySwal.fire({
@@ -111,25 +183,17 @@ function EventForm() {
         text: 'El evento se ha creado y guardado con éxito.',
         icon: 'success',
         confirmButtonText: 'Aceptar',
-        confirmButtonColor: '#3085d6',
       }).then(() => {
-        log.debug('Redirecting to dashboard...')
         navigate('/dashboard')
       })
     } catch (error) {
-      log.error('Error al guardar el evento:', error)
-
       let errorMessage =
         'Hubo un error al registrar el evento. Por favor, intenta nuevamente.'
-
       if (error.code === 'unavailable') {
         errorMessage =
           'No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.'
       } else if (error.code === 'permission-denied') {
         errorMessage = 'No tienes permisos suficientes para crear este evento.'
-      } else if (error.message.includes('validation')) {
-        errorMessage =
-          'Faltan algunos campos obligatorios o hay un error en los datos proporcionados.'
       }
 
       const MySwal = withReactContent(Swal)
@@ -138,13 +202,16 @@ function EventForm() {
         text: errorMessage,
         icon: 'error',
         confirmButtonText: 'Cerrar',
-        confirmButtonColor: '#3085d6',
       })
+    } finally {
+      setSubmitting(false)
     }
   }
 
   return (
     <div>
+      <Loader loading={submitting} />
+
       <form
         onSubmit={handleSubmit}
         className="p-6 mx-auto space-y-6 bg-white rounded-lg shadow-lg max-w-7xl"
@@ -293,6 +360,22 @@ function EventForm() {
             onChange={handleChange}
             className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+
+        <div className="mt-4">
+          <h4 className="text-lg font-semibold">Subir Imagen</h4>
+          <input type="file" onChange={handleFileChange} className="mt-2" />
+          {uploading && <p>Subiendo archivo: {progress}%</p>}
+          {progress > 0 && progress < 100 && (
+            <div className="mt-2">
+              <div className="w-full h-2 bg-gray-200 rounded-md">
+                <div
+                  className="h-2 bg-blue-600 rounded-md"
+                  style={{ width: `${progress}%` }}
+                ></div>
+              </div>
+            </div>
+          )}
         </div>
 
         <div>

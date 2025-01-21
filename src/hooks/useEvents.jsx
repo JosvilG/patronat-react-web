@@ -48,6 +48,8 @@ const useEvents = () => {
               location: event.location,
               tags: event.tags || [],
               eventId: event.eventId,
+              eventURL: event.eventURL,
+              imageURL: event.imageURL,
             }
           } catch (error) {
             console.error(
