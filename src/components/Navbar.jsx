@@ -112,7 +112,7 @@ export function Navbar() {
     ))
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-white to-95%">
       <div className="flex items-center ml-8">
         <Link to="/">
           <img
