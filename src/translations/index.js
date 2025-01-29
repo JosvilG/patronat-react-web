@@ -11,8 +11,8 @@ i18next.use(initReactI18next).init({
     es: { translation: es },
     cat: { translation: cat },
   },
-  lng: localStorage.getItem('language') || 'en',
-  fallbackLng: 'en',
+  lng: localStorage.getItem('language') || 'es',
+  fallbackLng: 'es',
   interpolation: {
     escapeValue: false,
   },
