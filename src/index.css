@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;600;700;900&display=swap');
 /* Ensure Tailwind CSS is installed and configured */
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
@@ -112,6 +112,33 @@
   font-family: 'Poppins', sans-serif;
 }
 
+/* Font-size 36 */
+.t36l {
+  font-size: 36px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t36r {
+  font-size: 36px;
+  font-weight: 400;
+  font-family: 'Poppins', sans-serif;
+}
+.t36s {
+  font-size: 36px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t36b {
+  font-size: 36px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t36bl {
+  font-size: 36px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
+
 /* Font-size 40 */
 .t40l {
   font-size: 40px;
@@ -137,4 +164,78 @@
   font-size: 40px;
   font-weight: 900;
   font-family: 'Poppins', sans-serif;
+}
+
+/* Font-size 64 */
+.t64xl {
+  font-size: 64px;
+  font-weight: 100;
+  font-family: 'Poppins', sans-serif;
+}
+
+.t64l {
+  font-size: 64px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t64r {
+  font-size: 64px;
+  font-weight: 640;
+  font-family: 'Poppins', sans-serif;
+}
+.t64s {
+  font-size: 64px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t64b {
+  font-size: 64px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t64bl {
+  font-size: 64px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Font-size 96 */
+.t96xl {
+  font-size: 96px;
+  font-weight: 100;
+  font-family: 'Poppins', sans-serif;
+}
+
+.t96l {
+  font-size: 96px;
+  font-weight: 300;
+  font-family: 'Poppins', sans-serif;
+}
+.t96r {
+  font-size: 96px;
+  font-weight: 960;
+  font-family: 'Poppins', sans-serif;
+}
+.t96s {
+  font-size: 96px;
+  font-weight: 600;
+  font-family: 'Poppins', sans-serif;
+}
+.t96b {
+  font-size: 96px;
+  font-weight: 700;
+  font-family: 'Poppins', sans-serif;
+}
+.t96bl {
+  font-size: 96px;
+  font-weight: 900;
+  font-family: 'Poppins', sans-serif;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
