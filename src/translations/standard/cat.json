@@ -2,37 +2,84 @@
   "pages": {
     "crew": {
       "registerCrew": {
-        "title": "Crear Colla",
+        "title": "Crear Peña",
         "groupNameLabel": "Nom del Grup",
         "responsibleLabel": "Responsable",
-        "searchPlaceholder": "Ex.: Nom Un, Nom Dos, Nom Tres",
-        "userListTitle": "Llista d'Usuaris",
+        "searchPlaceholder": "Ex: Nom Un, Nom Dos, Nom Tres",
+        "userListTitle": "Llistat d'Usuaris",
         "addMemberButton": "Afegir",
         "selectedMembersTitle": "Membres Seleccionats",
         "removeMemberButton": "Eliminar",
-        "submitButton": "Crear Colla",
+        "submitButton": "Crear Peña",
         "errorPopup": {
           "title": "Error",
-          "text": "Alguna cosa ha anat malament. Intenta-ho més tard."
+          "text": "Alguna cosa ha anat malament. Torna-ho a intentar més tard."
         },
         "successPopup": {
-          "title": "Colla Creada Correctament",
-          "text": "La colla s'ha creat i desat correctament."
+          "title": "Peña Creada Correctament",
+          "text": "La peña s'ha creat i desat amb èxit."
         }
       }
     },
     "settings": {
       "defaulLanguageTitle": "Idioma per defecte",
-      "defaulLanguageDescription": "Selecciona l'idioma per defecte del web"
+      "defaulLanguageDescription": "Selecciona l'idioma per defecte del lloc web"
+    },
+    "events": {
+      "details": {
+        "popupTitle": "<p>Detalls de l'esdeveniment: ",
+        "popupText": "<p><strong>Descripció: </strong>",
+        "popupInitDate": "<p><strong>Data d'inici: </strong>",
+        "popupEndDate": "<p><strong>Data de finalització: </strong>",
+        "startDate": "Data d'inici",
+        "endDate": "Data de finalització",
+        "startTime": "Hora d'inici",
+        "endTime": "Hora de finalització",
+        "location": "Ubicació",
+        "capacity": "Capacitat",
+        "price": "Preu",
+        "minAge": "Edat mínima",
+        "collaborators": "Col·laboradors",
+        "tags": "Etiquetes",
+        "organizer": "Organitzador",
+        "allowCars": "Permetre cotxes",
+        "hasBar": "Hi ha bar?",
+        "status": "Estat"
+      }
+    },
+    "home": {
+      "heroSection": {
+        "title": "Patronat <br /> de festes de",
+        "roquetesTitle": "Roquetes",
+        "description": "Tot el que necessites saber sobre les festes a Roquetes està a només un clic de distància."
+      },
+      "aboutSection": {
+        "title": "Qui som?",
+        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
+      },
+      "galerySection": {
+        "title": "Galeria",
+        "noImages": "No hi ha imatges disponibles"
+      },
+      "eventSection": {
+        "title": "Properes festes"
+      },
+      "wantToParticipateSection": {
+        "title": "Vols participar?",
+        "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que tenen lloc al llarg de l'any.",
+        "secondPar": "Pots participar <b className='t24b'>fent-te membre</b> de l'associació i gaudir de tots els esdeveniments de l'any, incloent-hi l'entrada a les festes majors del poble cada any.",
+        "thirdPar": "Si tens un grup d'amics, també pots participar <b className='t24b'>inscrivint-te com a peña en el concurs de penyes</b> que es celebra cada any.",
+        "linksPar": "<a><b className='underline t24b'>Fes clic aquí</b></a> per veure els requisits per participar al concurs de penyes o <b className='underline t24b'>aquí</b> per registrar-te com a membre."
+      }
     }
   },
   "components": {
     "navbar": {
       "eventTitle": "Esdeveniments",
       "galeryTitle": "Galeria",
-      "crewTitle": "Colles",
-      "whoWeAreTitle": "Qui Som",
-      "dashboardTitle": "Panell de Control",
+      "crewTitle": "Penyes",
+      "whoWeAreTitle": "Nosaltres",
+      "dashboardTitle": "Panell de control",
       "profileTitle": "Perfil",
       "shopTitle": "Botiga",
       "settingsTitle": "Configuració",
@@ -41,19 +88,19 @@
     },
     "popup": {
       "confirmButtonText": "Acceptar",
-      "cancelButtonText": "Cancel·lar",
+      "cancelButtonText": "Cancelar",
       "closeButtonText": "Tancar",
       "tryAgainButtonText": "Torna-ho a intentar",
       "successTitle": "CONFIRMAT",
-      "successDescription": "Petició completada correctament",
+      "successDescription": "Petició realitzada correctament",
       "failTitle": "ERROR",
       "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
       "infoTitle": "INFO",
-      "warningTitle": "COMPTE"
+      "warningTitle": "CUIDAT"
     },
     "buttons": {
       "accept": "Acceptar",
-      "cancel": "Cancel·lar",
+      "cancel": "Cancelar",
       "close": "Tancar",
       "save": "Desar",
       "delete": "Eliminar",
@@ -65,7 +112,18 @@
       "finish": "Finalitzar"
     },
     "inputs": {
-      "addDocument": "Prem per afegir un document"
+      "addDocument": "Clica per afegir un document",
+      "enterPassword": "Introdueix la contrasenya"
+    },
+    "cards": {
+      "eventDateTitle": "Data de l'esdeveniment"
+    },
+    "calendar": {
+      "title": "Calendari d'esdeveniments",
+      "today": "Avui",
+      "month": "Mes",
+      "week": "Setmana",
+      "day": "Dia"
     }
   }
 }

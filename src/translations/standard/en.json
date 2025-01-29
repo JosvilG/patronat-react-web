@@ -5,7 +5,7 @@
         "title": "Create Crew",
         "groupNameLabel": "Group Name",
         "responsibleLabel": "Responsible",
-        "searchPlaceholder": "E.g.: Name One, Name Two, Name Three",
+        "searchPlaceholder": "E.g: Name One, Name Two, Name Three",
         "userListTitle": "User List",
         "addMemberButton": "Add",
         "selectedMembersTitle": "Selected Members",
@@ -16,14 +16,61 @@
           "text": "Something went wrong. Please try again later."
         },
         "successPopup": {
-          "title": "Crew Successfully Created",
-          "text": "The crew has been successfully created and saved."
+          "title": "Crew Created Successfully",
+          "text": "The crew has been created and saved successfully."
         }
       }
     },
     "settings": {
       "defaulLanguageTitle": "Default Language",
-      "defaulLanguageDescription": "Select the default language of the website"
+      "defaulLanguageDescription": "Select the default language for the website"
+    },
+    "events": {
+      "details": {
+        "popupTitle": "<p>Event Details: ",
+        "popupText": "<p><strong>Description: </strong>",
+        "popupInitDate": "<p><strong>Start Date: </strong>",
+        "popupEndDate": "<p><strong>End Date: </strong>",
+        "startDate": "Start Date",
+        "endDate": "End Date",
+        "startTime": "Start Time",
+        "endTime": "End Time",
+        "location": "Location",
+        "capacity": "Capacity",
+        "price": "Price",
+        "minAge": "Minimum Age",
+        "collaborators": "Collaborators",
+        "tags": "Tags",
+        "organizer": "Organizer",
+        "allowCars": "Allow Cars",
+        "hasBar": "Has Bar?",
+        "status": "Status"
+      }
+    },
+    "home": {
+      "heroSection": {
+        "title": "Patronat <br /> de festes de",
+        "roquetesTitle": "Roquetes",
+        "description": "Everything you need to know about the festivals in Roquetes is just a click away."
+      },
+      "aboutSection": {
+        "title": "Who are we?",
+        "description": "The Patronat de Festes de Roquetes is an independent, apolitical, non-profit organization responsible for organizing festivals and events for the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
+      },
+      "galerySection": {
+        "title": "Gallery",
+        "noImages": "No images available"
+      },
+      "eventSection": {
+        "title": "Upcoming Events"
+      },
+      "wantToParticipateSection": {
+        "title": "Do you want to participate?",
+        "firstPar": "There are many ways to help and participate in setting up festivals and events that take place throughout the year.",
+        "secondPar": "You can participate <b className='t24b'>by becoming a member</b> of the association and enjoy all the events of the year, which also includes entry to the village’s main festivals every year.",
+        "thirdPar": "If you have a group of friends, you can also participate <b className='t24b'>by registering as a crew in the crew competition</b> that takes place every year.",
+        "linksPar": "<a><b className='underline t24b'>Click here</b></a> to see the requirements to participate in the crew competition or <b className='underline t24b'>here</b> to register as a member."
+      }
     }
   },
   "components": {
@@ -37,19 +84,19 @@
       "shopTitle": "Shop",
       "settingsTitle": "Settings",
       "signOutTitle": "Sign Out",
-      "loginTitle": "Log In"
+      "loginTitle": "Login"
     },
     "popup": {
       "confirmButtonText": "Accept",
       "cancelButtonText": "Cancel",
       "closeButtonText": "Close",
       "tryAgainButtonText": "Retry",
-      "successTitle": "SUCCESS",
+      "successTitle": "CONFIRMED",
       "successDescription": "Request successfully completed",
       "failTitle": "ERROR",
       "failDecription": "Something went wrong. \n Please try again.",
       "infoTitle": "INFO",
-      "warningTitle": "WARNING"
+      "warningTitle": "CAUTION"
     },
     "buttons": {
       "accept": "Accept",
@@ -65,7 +112,18 @@
       "finish": "Finish"
     },
     "inputs": {
-      "addDocument": "Click to add a document"
+      "addDocument": "Click to add a document",
+      "enterPassword": "Enter password"
+    },
+    "cards": {
+      "eventDateTitle": "Event Date"
+    },
+    "calendar": {
+      "title": "Event Calendar",
+      "today": "Today",
+      "month": "Month",
+      "week": "Week",
+      "day": "Day"
     }
   }
 }

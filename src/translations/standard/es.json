@@ -46,6 +46,32 @@
         "hasBar": "¿Hay bar?",
         "status": "Estado"
       }
+    },
+    "home": {
+      "heroSection": {
+        "title": "Patronat <br /> de festes de",
+        "roquetesTitle": "Roquetes",
+        "description": "Todo lo que necesitas saber sobre las festividades en Roquetes está a solo un clic de distancia."
+      },
+      "aboutSection": {
+        "title": "Quienes somos?",
+        "description": "El Patronat de Festes de Roquetes es una organización independiente y apolítica sin ánimo de lucro encargada de organizar festivales y eventos para la localidad de Roquetes en Tarragona. Aquí puedes encontrar toda la información sobre los próximos eventos y mucho más."
+      },
+      "galerySection": {
+        "title": "Galería",
+        "noImages": "No hay imágenes disponibles"
+      },
+      "eventSection": {
+        "title": "Próximos eventos",
+        "noEvents": "No hay eventos próximamente"
+      },
+      "wantToParticipateSection": {
+        "title": "¿Quieres participar?",
+        "firstPar": "Hay muchas maneras de ayudar y participar en el montaje de fiestas y eventos que tienen lugar a lo largo del año.",
+        "secondPar": "Puedes participar <b className='t24b'>haciéndote miembro</b> de la asociación y disfrutar de todos los eventos del año, lo que también incluye la entrada a las fiestas mayores del pueblo cada año.",
+        "thirdPar": "Si tienes un grupo de amigos, también puedes participar <b className='t24b'>inscribiéndote como peña en el concurso de peñas</b> que se celebra cada año.",
+        "linksPar": "<a><b className='underline t24b'>Haz clic aquí</b></a> para ver los requisitos para participar en el concurso de peñas o <b className='underline t24b'>aquí</b> para registrarte como miembro."
+      }
     }
   },
   "components": {
