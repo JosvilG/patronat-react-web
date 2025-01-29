@@ -104,7 +104,7 @@ export default function Dashboard() {
         {
           id: 'add-files',
           title: 'Añadir Nuevos Archivos',
-          route: '/upload',
+          route: '/upload-file',
         },
         {
           id: 'delete-files',
