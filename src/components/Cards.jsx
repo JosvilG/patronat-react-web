@@ -79,7 +79,7 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
                 boxShadow: 'inset 0 -228px 17px -102px rgba(0, 0, 0, 0.45)',
               }}
             >
-              <p className="text-white t16b">
+              <p className="text-right text-white t16b">
                 {t('components.cards.eventDateTitle')} - {date}
               </p>
             </div>
