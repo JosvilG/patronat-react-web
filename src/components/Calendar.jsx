@@ -24,10 +24,10 @@ const buildPopupText = (eventData, t) => {
   `
 }
 
-const getEventClassNames = (eventTags) => {
+const getEventClassNames = (eventTags = []) => {
   let appliedClass = 'bg-[#D9D9D9] text-gray-800'
   for (const tag of eventTags) {
-    if (tagColors[tag]) {
+    if (tagColors?.[tag]) {
       appliedClass = tagColors[tag]
       break
     }
@@ -41,14 +41,15 @@ const Calendar = () => {
   const { t } = useTranslation()
 
   const handleEventClick = (info) => {
-    const { title, extendedProps, start, end } = info.event
+    const { title, start, end, extendedProps = {} } = info.event
+
     const eventData = {
       title,
-      description: extendedProps.description,
+      description: extendedProps?.description || 'Sin descripción',
       start,
       end,
-      tags: extendedProps.tags,
-      eventId: extendedProps.eventId,
+      tags: extendedProps?.tags || [],
+      eventId: extendedProps?.eventId || 'Sin ID',
     }
 
     showPopup({
@@ -76,9 +77,6 @@ const Calendar = () => {
 
   return (
     <div className="max-w-5xl p-6 mx-auto my-8 bg-white rounded-lg shadow-lg">
-      <h2 className="mb-6 text-2xl font-semibold text-center text-gray-800">
-        {t('components.calendar.title')}
-      </h2>
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -98,7 +96,7 @@ const Calendar = () => {
         contentHeight="auto"
         dayCellClassNames="border-gray-200"
         eventClassNames={({ event }) =>
-          getEventClassNames(event.extendedProps.tags || [])
+          getEventClassNames(event.extendedProps?.tags || [])
         }
         eventContent={(eventInfo) => (
           <div className="p-2">
@@ -106,7 +104,7 @@ const Calendar = () => {
               {eventInfo.event.title}
             </strong>
             <p className="text-sm">
-              {eventInfo.event.extendedProps.description}
+              {eventInfo.event.extendedProps?.description}
             </p>
           </div>
         )}
