@@ -57,8 +57,8 @@ const Calendar = () => {
       text: buildPopupText(eventData, t),
       icon: 'info',
       showCancelButton: true,
-      confirmButtonText: 'Ir al evento',
-      cancelButtonText: 'Cerrar',
+      confirmButtonText: t('components.popup.goToEventButton'),
+      cancelButtonText: t('components.popup.closeButtonText'),
       customClass: {
         popup: 'bg-white rounded-lg shadow-xl p-6',
         title: 'text-xl font-semibold text-gray-800',
