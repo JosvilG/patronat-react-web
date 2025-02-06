@@ -14,69 +14,53 @@ import Settings from './pages/users/userSettings'
 import InputsShowcase from './pages/Test'
 import EventPage from './pages/events/EventPage'
 import FullEventsPage from './pages/events/FullEventsPage'
+import AboutPage from './pages/AboutPage'
+import UnderConstruction from './pages/UnderConstruction'
 
 import './translations/index'
+import StaffControl from './pages/users/staffControl'
+import PartnersForm from './pages/partners/partnersForm'
+
+const publicRoutes = [
+  { path: '/', element: <HomePage /> },
+  { path: '/login', element: <Auth /> },
+  { path: '/register', element: <RegisterPage /> },
+  { path: '/test', element: <InputsShowcase /> },
+  { path: '/events-list', element: <FullEventsPage /> },
+  { path: '/event/:eventName', element: <EventPage /> },
+  { path: '/about', element: <AboutPage /> },
+  { path: '/partner-form', element: <PartnersForm /> },
+]
+
+const protectedRoutes = [
+  { path: '/dashboard', element: <Dashboard /> },
+  { path: '/staff-control', element: <StaffControl /> },
+  { path: '/new-event', element: <EventForm /> },
+  { path: '/upload-file', element: <UploadGalleryForm /> },
+  { path: '/new-crew', element: <CrewForm /> },
+  { path: '/profile', element: <ProfilePage /> },
+  { path: '/settings', element: <Settings /> },
+]
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<HomePage />} />
-          <Route path="login" element={<Auth />} />
-          <Route path="register" element={<RegisterPage />} />
-          <Route path="test" element={<InputsShowcase />} />
-          <Route path="events-list" element={<FullEventsPage />} />
-          <Route path="/event/:eventName" element={<EventPage />} />
-          <Route
-            path="dashboard"
-            element={
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="new-event"
-            element={
-              <ProtectedRoute>
-                <EventForm />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="upload-file"
-            element={
-              <ProtectedRoute>
-                <UploadGalleryForm />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="new-crew"
-            element={
-              <ProtectedRoute>
-                <CrewForm />
-              </ProtectedRoute>
-            }
-          />
-          {/* User dropdown Routes */}
-          <Route
-            path="profile"
-            element={
-              <ProtectedRoute>
-                <ProfilePage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="settings"
-            element={
-              <ProtectedRoute>
-                <Settings />
-              </ProtectedRoute>
-            }
-          />
+          {/* Rutas públicas */}
+          {publicRoutes.map(({ path, element }) => (
+            <Route key={path} path={path} element={element} />
+          ))}
+
+          {/* Rutas protegidas */}
+          {protectedRoutes.map(({ path, element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={<ProtectedRoute>{element}</ProtectedRoute>}
+            />
+          ))}
+          <Route path="*" element={<UnderConstruction />} />
         </Route>
       </Routes>
     </Router>

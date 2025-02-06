@@ -52,7 +52,6 @@ function Settings() {
         <div className="mt-6 text-center">
           <button
             type="button"
-            onClick={() => alert(t('settings.saved'))}
             className="px-6 py-2 text-white bg-blue-600 rounded-lg focus:outline-none hover:bg-blue-700"
           >
             {t('components.buttons.save')}
