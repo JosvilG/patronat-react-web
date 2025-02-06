@@ -31,8 +31,8 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
     <>
       <div
         className={`relative w-full ${
-          type === 'gallery' ? 'sm:h-[400px]' : 'sm:h-[550px]'
-        } overflow-hidden group rounded-[60px] select-none transition-opacity duration-700 ${
+          type === 'gallery' ? 'max-sm:h-[400px] h-[530px]' : 'sm:h-[550px]'
+        } overflow-hidden group select-none transition-opacity duration-700 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={() => {
@@ -60,11 +60,12 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
             <div
               className="absolute inset-0 flex items-end p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
               style={{
+                borderRadius: '60px',
                 boxShadow: 'inset 0 -228px 17px -102px rgba(0, 0, 0, 0.45)',
               }}
             >
               <div className="flex items-baseline justify-between w-full overflow-hidden text-white">
-                <p className="t40b text-[#3A3A3A] line-clamp-1">{title}</p>
+                <p className="text-white t40b line-clamp-1">{title}</p>
                 <button className="p-2 bg-black bg-opacity-50 rounded-full">
                   <OpenInFullIcon fontSize="medium"></OpenInFullIcon>
                 </button>
@@ -76,6 +77,7 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
             <div
               className="absolute inset-0 flex flex-row justify-end items-end p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100 rounded-[60px]"
               style={{
+                borderRadius: '60px',
                 boxShadow: 'inset 0 -228px 17px -102px rgba(0, 0, 0, 0.45)',
               }}
             >
@@ -88,7 +90,7 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
 
         {type === 'event' && (
           <div className="px-4 py-2">
-            <p className="pb-2 leading-8 flex flex-row items-center line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969]">
+            <p className="pb-2 leading-8 flex flex-row items-center line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969] leading-10">
               {title}
             </p>
             <p className=" leading-7 text-gray-600 transition-colors t20r group-hover:text-[#696969] line-clamp-3">
@@ -101,7 +103,7 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
       {isFullscreen && type === 'gallery' && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-md">
           <button
-            className="absolute p-2 text-white bg-gray-700 rounded-full top-4 right-4"
+            className="absolute rounded-[60px] p-2 text-white bg-gray-700 rounded-full top-4 right-4"
             onClick={handleCloseFullscreen}
           >
             ✕
