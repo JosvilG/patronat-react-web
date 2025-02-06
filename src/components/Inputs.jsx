@@ -7,13 +7,17 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import ExpandLessIcon from '@mui/icons-material/ExpandLess'
 import NumbersIcon from '@mui/icons-material/Numbers'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
+import EmailIcon from '@mui/icons-material/Email'
+import PhoneIcon from '@mui/icons-material/Phone'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark'
 
 const DynamicInput = ({ name, textId, type, options, ...props }) => {
   const { t } = useTranslation()
   const [selectedOption, setSelectedOption] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const translatedLabel = t(`${textId}.label`)
+  const translatedLabel = t(`${textId}`)
   const translatedPlaceholder = t(`${textId}.placeholder`)
 
   const handleSelectOption = (option) => {
@@ -64,7 +68,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
     switch (type) {
       case 'text':
         return (
-          <div className="my-4 w-fit min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
+          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2  min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
             <input
               name={name}
               type="text"
@@ -78,13 +82,56 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
             />
             <TitleIcon
               fontSize="large"
-              className="relative left-4 text-[#696969]"
+              className="relative left-4 max-sm:left-0 text-[#696969]"
             />
           </div>
         )
+
+      case 'users':
+        return (
+          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
+            <input
+              name={name}
+              type="text"
+              placeholder={translatedPlaceholder}
+              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
+              inputProps={{
+                className:
+                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
+              }}
+              {...props}
+            />
+            <AccountCircleIcon
+              fontSize="large"
+              className="relative left-4 max-sm:left-0 text-[#696969]"
+            />
+          </div>
+        )
+
+      case 'email':
+        return (
+          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
+            <input
+              name={name}
+              type="email"
+              placeholder={translatedPlaceholder}
+              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
+              inputProps={{
+                className:
+                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
+              }}
+              {...props}
+            />
+            <EmailIcon
+              fontSize="large"
+              className="relative left-4 max-sm:left-0 text-[#696969]"
+            />
+          </div>
+        )
+
       case 'password':
         return (
-          <div className="my-4 w-fit min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
+          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
             <input
               name={name}
               type="password"
@@ -98,7 +145,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
             />
             <VisibilityIcon
               fontSize="large"
-              className="relative left-4 text-[#696969]"
+              className="relative left-4 max-sm:left-0 text-[#696969]"
             ></VisibilityIcon>
           </div>
         )
@@ -112,7 +159,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
               name={name}
               type="number"
               placeholder={translatedPlaceholder}
-              className="t16l max-w-[200px] h-[54px] px-4 pr-12 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] focus:ring-2 focus:ring-blue-500  appearance-none"
+              className="t16l max-w-[200px] h-[54px] px-4 pr-12 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] focus:ring-2 appearance-none"
               inputProps={{
                 className:
                   'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
@@ -120,6 +167,48 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
               {...props}
             />
             <NumbersIcon className="relative right-[2.5rem] text-[#696969]"></NumbersIcon>
+          </div>
+        )
+
+      case 'dni':
+        return (
+          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
+            <input
+              name={name}
+              type="text"
+              placeholder={translatedPlaceholder}
+              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
+              inputProps={{
+                className:
+                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
+              }}
+              {...props}
+            />
+            <BrandingWatermarkIcon
+              fontSize="large"
+              className="relative left-4 max-sm:left-0 text-[#696969]"
+            ></BrandingWatermarkIcon>
+          </div>
+        )
+
+      case 'phone':
+        return (
+          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
+            <input
+              name={name}
+              type="number"
+              placeholder={translatedPlaceholder}
+              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
+              inputProps={{
+                className:
+                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
+              }}
+              {...props}
+            />
+            <PhoneIcon
+              fontSize="large"
+              className="relative left-4 max-sm:left-0 text-[#696969]"
+            ></PhoneIcon>
           </div>
         )
 
