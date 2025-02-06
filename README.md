@@ -76,22 +76,22 @@ Web minimalista para la organización de las fiestas del pueblo de Roquetes. La 
 
 ## Screenshots
 
-![Login](https://drive.google.com/file/d/19a0Kij-c_re540ezpLpQjDA9sf6mnm7v/view?usp=drive_link)
+![Login](https://imgur.com/WiAXnqT)
 
-![Signup](https://drive.google.com/file/d/1ffQl_NKAwZqFefrLGUY8oEPNwCAKgTyR/view?usp=drive_link)
+![Signup](https://imgur.com/erebU8J)
 
-![Recover Pass](https://drive.google.com/file/d/1GMgReTnQa9py3nS8yh-iNjB7cJ5UemWe/view?usp=drive_link)
+![Recover Pass](https://imgur.com/vqZ2uBx)
 
-![Home page](https://drive.google.com/file/d/1AIZcxu3LyHAoac-qFPcZO8DRolhUoggL/view?usp=drive_link)
+![Home page](https://imgur.com/UnZTpAH)
 
-![About us](https://drive.google.com/file/d/1HOZIJ6v5ckLCw1Z7ZosZyxx3wvHZtzeh/view?usp=drive_link)
+![About us](https://imgur.com/LKXw3bH)
 
-![Event list](https://drive.google.com/file/d/1va7tWHd4uy6T73HhSJKnvTF9Z8uOBvmm/view?usp=drive_link)
+![Event list](https://imgur.com/pZxJg68)
 
-![Gallery](https://drive.google.com/file/d/1qbQQnGqCjSC_WtqhygpsRDHQjooZ_hu4/view?usp=drive_link)
+![Event details](https://imgur.com/HOeddOY)
 
-![Event details](https://drive.google.com/file/d/1QcdOWawnWwv2fOpApTPadwo4S33Yj-EI/view?usp=drive_link)
+![New events](https://imgur.com/3xHPvaz)
 
-![New events](https://drive.google.com/file/d/1dtYk7Pzf1e1fsTzlkT-sdJB83sVUbTXg/view?usp=drive_link)
+![Gallery](https://imgur.com/E8WXFew)
 
-![Add collaborators](https://drive.google.com/file/d/1nNO2hYF0021rpnvkeBcuKXPh33vUl7zw/view?usp=drive_link)
+![Add collaborators](https://imgur.com/R3AQyZv)
