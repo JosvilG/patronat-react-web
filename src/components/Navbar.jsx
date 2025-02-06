@@ -8,12 +8,14 @@ import { useSignOut } from '../hooks/signOut'
 import { useOutsideClick } from '../hooks/useOutSideClickListener'
 import { useResizeListener } from '../hooks/useResizeListener'
 import { motion } from 'framer-motion'
+import PropTypes from 'prop-types'
 
 const navLinksData = [
   { to: '/events-list', label: 'components.navbar.eventTitle' },
   { to: '/gallery', label: 'components.navbar.galeryTitle' },
   { to: '/penas', label: 'components.navbar.crewTitle' },
   { to: '/about', label: 'components.navbar.whoWeAreTitle' },
+  { to: '/partner-form', label: 'components.navbar.partnersTitle' },
 ]
 
 const NavLink = ({ to, label, onClick, isSmallScreen }) => {
@@ -221,4 +223,27 @@ export function Navbar() {
       )}
     </nav>
   )
+}
+
+NavLink.propTypes = {
+  to: PropTypes.string.isRquired,
+  label: PropTypes.string.isRquired,
+  onClick: PropTypes.func.isRquired,
+  isSmallScreen: PropTypes.bool.isRquired,
+}
+
+DropdownMenu.propTypes = {
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      to: PropTypes.string,
+      label: PropTypes.string.isRequired,
+      onClick: PropTypes.func,
+      isButton: PropTypes.bool,
+    })
+  ).isRequired,
+  onClose: PropTypes.func.isRequired,
+}
+
+MobileMenuButton.propTypes = {
+  onClick: PropTypes.func.isRquired,
 }
