@@ -7,6 +7,8 @@ import Loader from '../components/Loader'
 import Calendar from '../components/Calendar'
 import { useTranslation } from 'react-i18next'
 import useGallery from '../hooks/useGallery'
+import { Link } from 'react-router-dom'
+import { Trans } from 'react-i18next'
 
 function HomePage() {
   const { t } = useTranslation()
@@ -94,7 +96,7 @@ const GallerySection = ({
       </div>
     ) : galleryImages.length >= 3 ? (
       <div className="relative">
-        <div className="flex justify-center overflow-hidden">
+        <div className="flex justify-center overflow-hidden max-sm:h-[400px]">
           <GalleryCard
             galleryImages={galleryImages}
             index={
@@ -137,7 +139,7 @@ const GallerySection = ({
 )
 
 const GalleryCard = ({ galleryImages, index }) => (
-  <div className="flex-shrink-0 w-[550px] h-[400px] transition-opacity duration-300 px-3">
+  <div className="flex-shrink-0 max-sm:w-[380px]  w-[550px] h-[530px] transition-opacity duration-300 px-3">
     <DynamicCard
       type="gallery"
       title={galleryImages[index]?.name}
@@ -160,10 +162,10 @@ const AboutSection = ({ t }) => (
 
 const GalleryNavigation = ({ onPrev, onNext }) => (
   <>
-    <div className="absolute inset-y-0 left-0 flex items-center justify-center">
+    <div className="absolute inset-y-0 left-0 flex items-center justify-center ">
       <button
         onClick={onPrev}
-        className="p-2 text-white bg-gray-700 h-[80px] w-[80px] rounded-full"
+        className="p-2 text-white bg-gray-700 max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full"
       >
         &lt;
       </button>
@@ -171,7 +173,7 @@ const GalleryNavigation = ({ onPrev, onNext }) => (
     <div className="absolute inset-y-0 right-0 flex items-center justify-center">
       <button
         onClick={onNext}
-        className="p-2 text-white bg-gray-700 h-[80px] w-[80px] rounded-full"
+        className="p-2 text-white bg-gray-700 max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full"
       >
         &gt;
       </button>
@@ -224,30 +226,32 @@ const WantToParticipateSection = ({ t }) => (
     <h2 className="text-right t64s mb-[48px]">
       {t('pages.home.wantToParticipateSection.title')}
     </h2>
-    <p
-      className="t24l m-w-[1109px] text-right mb-[40px]"
-      dangerouslySetInnerHTML={{
-        __html: t('pages.home.wantToParticipateSection.firstPar'),
-      }}
-    ></p>
-    <p
-      className="t24l m-w-[1109px] text-left mb-[40px]"
-      dangerouslySetInnerHTML={{
-        __html: t('pages.home.wantToParticipateSection.secondPar'),
-      }}
-    ></p>
-    <p
-      className="t24l m-w-[1109px] text-right mb-[40px]"
-      dangerouslySetInnerHTML={{
-        __html: t('pages.home.wantToParticipateSection.thirdPar'),
-      }}
-    ></p>
-    <p
-      className="t24l m-w-[1109px] text-center mb-[40px]"
-      dangerouslySetInnerHTML={{
-        __html: t('pages.home.wantToParticipateSection.linksPar'),
-      }}
-    ></p>
+    <p className="t24l m-w-[1109px] text-right mb-[40px]">
+      {t('pages.home.wantToParticipateSection.firstPar')}
+    </p>
+    <p className="t24l m-w-[1109px] text-left mb-[40px]">
+      {t('pages.home.wantToParticipateSection.secondPar')}
+    </p>
+    <p className="t24l m-w-[1109px] text-right mb-[40px]">
+      {t('pages.home.wantToParticipateSection.thirdPar')}
+    </p>
+    <p className="t24l m-w-[1109px] text-center mb-[40px]">
+      <Trans
+        i18nKey="pages.home.wantToParticipateSection.linksPar"
+        components={{
+          2: (
+            <Link to="/new-crew">
+              <b className="underline t24b" />
+            </Link>
+          ),
+          1: (
+            <Link to="/partner-form">
+              <b className="underline t24b" />
+            </Link>
+          ),
+        }}
+      />
+    </p>
   </section>
 )
 
