@@ -23,7 +23,7 @@
     },
     "settings": {
       "defaulLanguageTitle": "Idioma per defecte",
-      "defaulLanguageDescription": "Selecciona l'idioma per defecte del lloc web"
+      "defaulLanguageDescription": "Selecciona l'idioma per defecte de la web"
     },
     "events": {
       "details": {
@@ -51,7 +51,7 @@
       "heroSection": {
         "title": "Patronat <br /> de festes de",
         "roquetesTitle": "Roquetes",
-        "description": "Tot el que necessites saber sobre les festes a Roquetes està a només un clic de distància."
+        "description": "Tot el que necessites saber sobre les festivitats a Roquetes està a només un clic de distància."
       },
       "aboutSection": {
         "title": "Qui som?",
@@ -62,15 +62,21 @@
         "noImages": "No hi ha imatges disponibles"
       },
       "eventSection": {
-        "title": "Properes festes"
+        "title": "Pròxims esdeveniments",
+        "noEvents": "No hi ha esdeveniments pròximament"
       },
       "wantToParticipateSection": {
         "title": "Vols participar?",
         "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que tenen lloc al llarg de l'any.",
         "secondPar": "Pots participar <b className='t24b'>fent-te membre</b> de l'associació i gaudir de tots els esdeveniments de l'any, incloent-hi l'entrada a les festes majors del poble cada any.",
         "thirdPar": "Si tens un grup d'amics, també pots participar <b className='t24b'>inscrivint-te com a peña en el concurs de penyes</b> que es celebra cada any.",
-        "linksPar": "<a><b className='underline t24b'>Fes clic aquí</b></a> per veure els requisits per participar al concurs de penyes o <b className='underline t24b'>aquí</b> per registrar-te com a membre."
+        "linksPar": "<a><b className='underline t24b'>Fes clic aquí</b></a> per veure els requisits per participar en el concurs de penyes o <b className='underline t24b'>aquí</b> per registrar-te com a membre."
       }
+    },
+    "underConstruction": {
+      "title": "Pàgina en construcció",
+      "weAreWorking": "Aquesta pàgina encara no està disponible. Torna més tard.",
+      "askUs": "Si tens alguna pregunta, no dubtis a contactar-nos."
     }
   },
   "components": {
@@ -84,7 +90,8 @@
       "shopTitle": "Botiga",
       "settingsTitle": "Configuració",
       "signOutTitle": "Tancar Sessió",
-      "loginTitle": "Iniciar Sessió"
+      "loginTitle": "Iniciar Sessió",
+      "partnersTitle": "Socis"
     },
     "popup": {
       "confirmButtonText": "Acceptar",
@@ -96,7 +103,8 @@
       "failTitle": "ERROR",
       "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
       "infoTitle": "INFO",
-      "warningTitle": "CUIDAT"
+      "warningTitle": "CUIDAT",
+      "goToEventButton": "Anar a l'esdeveniment"
     },
     "buttons": {
       "accept": "Acceptar",

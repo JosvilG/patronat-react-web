@@ -5,7 +5,7 @@
         "title": "Create Crew",
         "groupNameLabel": "Group Name",
         "responsibleLabel": "Responsible",
-        "searchPlaceholder": "E.g: Name One, Name Two, Name Three",
+        "searchPlaceholder": "E.g.: Name One, Name Two, Name Three",
         "userListTitle": "User List",
         "addMemberButton": "Add",
         "selectedMembersTitle": "Selected Members",
@@ -17,13 +17,13 @@
         },
         "successPopup": {
           "title": "Crew Created Successfully",
-          "text": "The crew has been created and saved successfully."
+          "text": "The crew has been successfully created and saved."
         }
       }
     },
     "settings": {
       "defaulLanguageTitle": "Default Language",
-      "defaulLanguageDescription": "Select the default language for the website"
+      "defaulLanguageDescription": "Select the default language of the website"
     },
     "events": {
       "details": {
@@ -43,34 +43,40 @@
         "tags": "Tags",
         "organizer": "Organizer",
         "allowCars": "Allow Cars",
-        "hasBar": "Has Bar?",
+        "hasBar": "Is there a bar?",
         "status": "Status"
       }
     },
     "home": {
       "heroSection": {
-        "title": "Patronat <br /> de festes de",
+        "title": "Festival <br /> Board of",
         "roquetesTitle": "Roquetes",
-        "description": "Everything you need to know about the festivals in Roquetes is just a click away."
+        "description": "Everything you need to know about festivals in Roquetes is just a click away."
       },
       "aboutSection": {
         "title": "Who are we?",
-        "description": "The Patronat de Festes de Roquetes is an independent, apolitical, non-profit organization responsible for organizing festivals and events for the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
+        "description": "The Roquetes Festival Board is an independent, non-political, non-profit organization responsible for organizing festivals and events in the town of Roquetes, Tarragona. Here you can find all the information about upcoming events and much more."
       },
       "galerySection": {
         "title": "Gallery",
         "noImages": "No images available"
       },
       "eventSection": {
-        "title": "Upcoming Events"
+        "title": "Upcoming Events",
+        "noEvents": "No upcoming events"
       },
       "wantToParticipateSection": {
-        "title": "Do you want to participate?",
-        "firstPar": "There are many ways to help and participate in setting up festivals and events that take place throughout the year.",
-        "secondPar": "You can participate <b className='t24b'>by becoming a member</b> of the association and enjoy all the events of the year, which also includes entry to the village’s main festivals every year.",
-        "thirdPar": "If you have a group of friends, you can also participate <b className='t24b'>by registering as a crew in the crew competition</b> that takes place every year.",
-        "linksPar": "<a><b className='underline t24b'>Click here</b></a> to see the requirements to participate in the crew competition or <b className='underline t24b'>here</b> to register as a member."
+        "title": "Want to participate?",
+        "firstPar": "There are many ways to help and participate in organizing festivals and events throughout the year.",
+        "secondPar": "You can participate by <b className='t24b'>becoming a member</b> of the association and enjoying all the year's events, including entry to the town's major festivals each year.",
+        "thirdPar": "If you have a group of friends, you can also participate by <b className='t24b'>registering as a crew in the crew contest</b> held every year.",
+        "linksPar": "<a><b className='underline t24b'>Click here</b></a> to see the requirements to participate in the crew contest or <b className='underline t24b'>here</b> to register as a member."
       }
+    },
+    "underConstruction": {
+      "title": "Page Under Construction",
+      "weAreWorking": "This page is not available yet. Please check back later.",
+      "askUs": "If you have any questions, feel free to contact us."
     }
   },
   "components": {
@@ -78,25 +84,27 @@
       "eventTitle": "Events",
       "galeryTitle": "Gallery",
       "crewTitle": "Crews",
-      "whoWeAreTitle": "Who We Are",
+      "whoWeAreTitle": "About Us",
       "dashboardTitle": "Dashboard",
       "profileTitle": "Profile",
       "shopTitle": "Shop",
       "settingsTitle": "Settings",
       "signOutTitle": "Sign Out",
-      "loginTitle": "Login"
+      "loginTitle": "Log In",
+      "partnersTitle": "Partners"
     },
     "popup": {
       "confirmButtonText": "Accept",
       "cancelButtonText": "Cancel",
       "closeButtonText": "Close",
-      "tryAgainButtonText": "Retry",
+      "tryAgainButtonText": "Try Again",
       "successTitle": "CONFIRMED",
-      "successDescription": "Request successfully completed",
+      "successDescription": "Request completed successfully",
       "failTitle": "ERROR",
-      "failDecription": "Something went wrong. \n Please try again.",
+      "failDecription": "Something went wrong.\nPlease try again.",
       "infoTitle": "INFO",
-      "warningTitle": "CAUTION"
+      "warningTitle": "WARNING",
+      "goToEventButton": "Go to Event"
     },
     "buttons": {
       "accept": "Accept",

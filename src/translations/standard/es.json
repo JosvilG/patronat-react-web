@@ -54,7 +54,7 @@
         "description": "Todo lo que necesitas saber sobre las festividades en Roquetes está a solo un clic de distancia."
       },
       "aboutSection": {
-        "title": "Quienes somos?",
+        "title": "¿Quiénes somos?",
         "description": "El Patronat de Festes de Roquetes es una organización independiente y apolítica sin ánimo de lucro encargada de organizar festivales y eventos para la localidad de Roquetes en Tarragona. Aquí puedes encontrar toda la información sobre los próximos eventos y mucho más."
       },
       "galerySection": {
@@ -72,6 +72,11 @@
         "thirdPar": "Si tienes un grupo de amigos, también puedes participar <b className='t24b'>inscribiéndote como peña en el concurso de peñas</b> que se celebra cada año.",
         "linksPar": "<a><b className='underline t24b'>Haz clic aquí</b></a> para ver los requisitos para participar en el concurso de peñas o <b className='underline t24b'>aquí</b> para registrarte como miembro."
       }
+    },
+    "underConstruction": {
+      "title": "Página en construcción",
+      "weAreWorking": "Esta página aún no está disponible. Vuelve más tarde.",
+      "askUs": "Si tienes alguna pregunta, no dudes en contactarnos."
     }
   },
   "components": {
@@ -85,7 +90,8 @@
       "shopTitle": "Tienda",
       "settingsTitle": "Configuración",
       "signOutTitle": "Cerrar Sesión",
-      "loginTitle": "Iniciar Sesión"
+      "loginTitle": "Iniciar Sesión",
+      "partnersTitle": "Socios"
     },
     "popup": {
       "confirmButtonText": "Aceptar",
@@ -97,7 +103,8 @@
       "failTitle": "ERROR",
       "failDecription": "Algo ha salido mal. \n Por favor vuelve a intentarlo.",
       "infoTitle": "INFO",
-      "warningTitle": "CUIDADO"
+      "warningTitle": "CUIDADO",
+      "goToEventButton": "Ir al evento"
     },
     "buttons": {
       "accept": "Aceptar",
