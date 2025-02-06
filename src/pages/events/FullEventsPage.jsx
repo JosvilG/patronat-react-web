@@ -24,7 +24,7 @@ const FullEventsPage = () => {
   const isAdmin = userData?.role === 'admin'
 
   return (
-    <div className="container p-4 mx-auto">
+    <div className="container min-h-screen p-4 mx-auto">
       <h1 className="mb-4 text-2xl font-bold text-center">Lista de Eventos</h1>
 
       {isAdmin ? (
