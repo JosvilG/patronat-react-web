@@ -1,8 +1,7 @@
 import React from 'react'
 import HomePage from '../pages/HomePage'
-import Auth from '../pages/LoginPage'
-import RegisterPage from '../pages/RegisterPage'
-import InputsShowcase from '../pages/Test'
+import Auth from '../pages/access/LoginPage'
+import RegisterPage from '../pages/access/RegisterPage'
 import FullEventsPage from '../pages/events/FullEventsPage'
 import EventPage from '../pages/events/EventPage'
 import AboutPage from '../pages/AboutPage'
@@ -20,7 +19,6 @@ export const publicRoutes = [
   { path: '/', element: <HomePage /> },
   { path: '/login', element: <Auth /> },
   { path: '/register', element: <RegisterPage /> },
-  { path: '/test', element: <InputsShowcase /> },
   { path: '/events-list', element: <FullEventsPage /> },
   { path: '/event/:eventName', element: <EventPage /> },
   { path: '/about', element: <AboutPage /> },
