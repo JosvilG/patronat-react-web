@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+# 🎉 Web del Patronat de Festes de Roquetes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Web minimalista para la organización de las fiestas del pueblo de Roquetes. La plataforma permite mostrar y gestionar eventos a través de un calendario, galerías de imágenes, socios, concursos, usuarios, premios, historia de la asociación, colaboradores y mucho más. Además, cuenta con un chat y un canal de comunicación con la asociación, así como la compra de entradas en la tienda.
 
-## Available Scripts
+## ✨ Características principales
 
-In the project directory, you can run:
+- 🎭 Gestor de eventos con calendario interactivo
 
-### `npm start`
+- 🖼️ Galería de imágenes para revivir los mejores momentos
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- 👥 Gestor de socios y concursos
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- 🏆 Historial de premios y concursos
 
-### `npm test`
+- 🏛️ Historia de la asociación y colaboradores
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- 💬 Chat y canal de comunicación con la asociación
 
-### `npm run build`
+- 🎟️ Compra de entradas online
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 🔑 Autenticación completa (login, registro, recuperación de contraseña)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- 🎛️ Dashboard exclusivo para miembros de la asociación para gestionar la web y la base de datos
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## 🛠️ Tecnologías Usadas
 
-### `npm run eject`
+<div align="left">
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="40" alt="react logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg" height="40" alt="materialui logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original-wordmark.svg" height="40" alt="tailwindcss logo"  />
+  <img width="12" />
+  <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/firebase/firebase-plain.svg" height="40" alt="firebase logo"  />
+</div>
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+###
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Authors
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- [@JosvilG](https://www.github.com/JosvilG)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Features
 
-## Learn More
+- Gestor de eventos con calendario interactivo: Un calendario dinámico para visualizar los eventos programados, permitiendo a los usuarios conocer los detalles y fechas de cada actividad.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Galería de imágenes: Espacio para revivir los mejores momentos con fotos de eventos pasados y actividades de la asociación.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Gestor de socios y concursos: Los miembros pueden ser gestionados dentro del sistema, y las competiciones se pueden organizar y seguir a través de la plataforma.
 
-### Code Splitting
+- Historial de premios y concursos: Los usuarios pueden consultar el historial de premios y concursos organizados por la asociación.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Historia de la asociación y colaboradores: Una sección que explica la misión, visión y la historia del Patronat de Festes de Roquetes, y presenta a los colaboradores y su rol en la comunidad.
 
-### Analyzing the Bundle Size
+- Chat y canal de comunicación con la asociación: Los usuarios tienen un canal directo para comunicarse con los miembros de la asociación, facilitando la interacción y el soporte.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Compra de entradas online: Sistema de pago integrado para que los usuarios compren entradas para los eventos de manera sencilla y segura.
 
-### Making a Progressive Web App
+- Autenticación completa (login, registro, recuperación de contraseña): Los usuarios pueden registrarse, iniciar sesión y recuperar su contraseña de forma segura.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+- Dashboard exclusivo para miembros de la asociación: Los miembros de la asociación tienen acceso a un panel de control donde pueden gestionar la web y la base de datos.
 
-### Advanced Configuration
+- Landing Page: La página de inicio presenta la misión de la asociación, eventos destacados y acceso directo a las funcionalidades clave del sitio.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Roles y Permisos: El sistema permite asignar diferentes roles (administrador, miembro, invitado), otorgando permisos específicos para acceder a distintas funcionalidades del sitio.
 
-### Deployment
+- Tienda de Entradas para Eventos: Los usuarios pueden comprar entradas para eventos programados a través de una tienda online fácil de usar.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+- Gestión de Grupos de Personas: Los miembros pueden formar y gestionar grupos para diferentes actividades, facilitando la organización y coordinación de eventos.
 
-### `npm run build` fails to minify
+- Tablas de Competición: Un sistema para gestionar las tablas de clasificación de las competiciones organizadas, con actualizaciones automáticas de resultados.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Apartado "Quiénes Somos": Una sección dedicada a la historia, misión y visión del Patronat de Festes de Roquetes, donde los visitantes pueden aprender más sobre la asociación y su labor en la comunidad.
+
+## Screenshots
+
+![Login](https://drive.google.com/file/d/19a0Kij-c_re540ezpLpQjDA9sf6mnm7v/view?usp=drive_link)
+
+![Signup](https://drive.google.com/file/d/1ffQl_NKAwZqFefrLGUY8oEPNwCAKgTyR/view?usp=drive_link)
+
+![Recover Pass](https://drive.google.com/file/d/1GMgReTnQa9py3nS8yh-iNjB7cJ5UemWe/view?usp=drive_link)
+
+![Home page](https://drive.google.com/file/d/1AIZcxu3LyHAoac-qFPcZO8DRolhUoggL/view?usp=drive_link)
+
+![About us](https://drive.google.com/file/d/1HOZIJ6v5ckLCw1Z7ZosZyxx3wvHZtzeh/view?usp=drive_link)
+
+![Event list](https://drive.google.com/file/d/1va7tWHd4uy6T73HhSJKnvTF9Z8uOBvmm/view?usp=drive_link)
+
+![Gallery](https://drive.google.com/file/d/1qbQQnGqCjSC_WtqhygpsRDHQjooZ_hu4/view?usp=drive_link)
+
+![Event details](https://drive.google.com/file/d/1QcdOWawnWwv2fOpApTPadwo4S33Yj-EI/view?usp=drive_link)
+
+![New events](https://drive.google.com/file/d/1dtYk7Pzf1e1fsTzlkT-sdJB83sVUbTXg/view?usp=drive_link)
+
+![Add collaborators](https://drive.google.com/file/d/1nNO2hYF0021rpnvkeBcuKXPh33vUl7zw/view?usp=drive_link)
