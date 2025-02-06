@@ -3,7 +3,6 @@ export const createUserModel = () => ({
   password: '',
   firstName: '',
   lastName: '',
-  username: '',
   phoneNumber: '',
   age: '',
   birthDate: '',
