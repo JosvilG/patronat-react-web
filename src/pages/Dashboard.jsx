@@ -47,6 +47,11 @@ export default function Dashboard() {
           title: 'Historial de Usuarios',
           route: '/user-history',
         },
+        {
+          id: 'staff-control',
+          title: 'Staff control',
+          route: '/staff-control',
+        },
       ],
     },
     {
