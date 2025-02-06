@@ -239,3 +239,8 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.wantTo a{
+  text-decoration: underline;
+  font-weight: 600;
+}
