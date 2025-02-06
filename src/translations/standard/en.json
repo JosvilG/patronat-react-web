@@ -5,7 +5,7 @@
         "title": "Create Crew",
         "groupNameLabel": "Group Name",
         "responsibleLabel": "Responsible",
-        "searchPlaceholder": "E.g.: Name One, Name Two, Name Three",
+        "searchPlaceholder": "Ex: Name One, Name Two, Name Three",
         "userListTitle": "User List",
         "addMemberButton": "Add",
         "selectedMembersTitle": "Selected Members",
@@ -23,7 +23,7 @@
     },
     "settings": {
       "defaulLanguageTitle": "Default Language",
-      "defaulLanguageDescription": "Select the default language of the website"
+      "defaulLanguageDescription": "Select the default language for the website"
     },
     "events": {
       "details": {
@@ -42,20 +42,20 @@
         "collaborators": "Collaborators",
         "tags": "Tags",
         "organizer": "Organizer",
-        "allowCars": "Allow Cars",
+        "allowCars": "Allow cars",
         "hasBar": "Is there a bar?",
         "status": "Status"
       }
     },
     "home": {
       "heroSection": {
-        "title": "Festival <br /> Board of",
+        "title": "Festival Board <br /> of",
         "roquetesTitle": "Roquetes",
-        "description": "Everything you need to know about festivals in Roquetes is just a click away."
+        "description": "Everything you need to know about the festivals in Roquetes is just one click away."
       },
       "aboutSection": {
         "title": "Who are we?",
-        "description": "The Roquetes Festival Board is an independent, non-political, non-profit organization responsible for organizing festivals and events in the town of Roquetes, Tarragona. Here you can find all the information about upcoming events and much more."
+        "description": "The Patronat de Festes de Roquetes is an independent, non-political, non-profit organization responsible for organizing festivals and events for the town of Roquetes, Tarragona. Here you can find all the information about upcoming events and much more."
       },
       "galerySection": {
         "title": "Gallery",
@@ -67,16 +67,37 @@
       },
       "wantToParticipateSection": {
         "title": "Want to participate?",
-        "firstPar": "There are many ways to help and participate in organizing festivals and events throughout the year.",
-        "secondPar": "You can participate by <b className='t24b'>becoming a member</b> of the association and enjoying all the year's events, including entry to the town's major festivals each year.",
-        "thirdPar": "If you have a group of friends, you can also participate by <b className='t24b'>registering as a crew in the crew contest</b> held every year.",
-        "linksPar": "<a><b className='underline t24b'>Click here</b></a> to see the requirements to participate in the crew contest or <b className='underline t24b'>here</b> to register as a member."
+        "firstPar": "There are many ways to help and participate in setting up parties and events that take place throughout the year.",
+        "secondPar": "You can participate by becoming a member of the association and enjoy all the events of the year, which also includes entry to the town's annual major festivals.",
+        "thirdPar": "If you have a group of friends, you can also participate by registering as a crew in the crew contest held every year.",
+        "linksPar": "<2>Click here</2> to see the requirements to participate in the crew contest or <1>here</1> to register as a member."
       }
     },
     "underConstruction": {
       "title": "Page Under Construction",
-      "weAreWorking": "This page is not available yet. Please check back later.",
+      "weAreWorking": "This page is not yet available. Please check back later.",
       "askUs": "If you have any questions, feel free to contact us."
+    },
+    "userRegister": {
+      "title": "User Registration",
+      "description": "Please fill in the fields to complete your registration",
+      "name": "First Name",
+      "surname": "Last Name",
+      "user": "Enter a username",
+      "email": "Enter an email address",
+      "password": "Enter your password",
+      "phone": "Phone",
+      "dni": "ID Number",
+      "birthDate": "Birth Date"
+    },
+    "loagin": {
+      "title": "Log In",
+      "description": "Welcome back, please log in to continue",
+      "mailInput": "Enter your email address",
+      "passwordInput": "Enter your password",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account? ",
+      "register": "Register"
     }
   },
   "components": {
@@ -84,7 +105,7 @@
       "eventTitle": "Events",
       "galeryTitle": "Gallery",
       "crewTitle": "Crews",
-      "whoWeAreTitle": "About Us",
+      "whoWeAreTitle": "Who We Are",
       "dashboardTitle": "Dashboard",
       "profileTitle": "Profile",
       "shopTitle": "Shop",
@@ -101,9 +122,9 @@
       "successTitle": "CONFIRMED",
       "successDescription": "Request completed successfully",
       "failTitle": "ERROR",
-      "failDecription": "Something went wrong.\nPlease try again.",
+      "failDecription": "Something went wrong. \n Please try again.",
       "infoTitle": "INFO",
-      "warningTitle": "WARNING",
+      "warningTitle": "CAUTION",
       "goToEventButton": "Go to Event"
     },
     "buttons": {
@@ -117,7 +138,9 @@
       "search": "Search",
       "back": "Back",
       "next": "Next",
-      "finish": "Finish"
+      "finish": "Finish",
+      "register": "Register",
+      "login": "Log In"
     },
     "inputs": {
       "addDocument": "Click to add a document",

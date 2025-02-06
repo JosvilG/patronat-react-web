@@ -68,15 +68,36 @@
       "wantToParticipateSection": {
         "title": "¿Quieres participar?",
         "firstPar": "Hay muchas maneras de ayudar y participar en el montaje de fiestas y eventos que tienen lugar a lo largo del año.",
-        "secondPar": "Puedes participar <b className='t24b'>haciéndote miembro</b> de la asociación y disfrutar de todos los eventos del año, lo que también incluye la entrada a las fiestas mayores del pueblo cada año.",
-        "thirdPar": "Si tienes un grupo de amigos, también puedes participar <b className='t24b'>inscribiéndote como peña en el concurso de peñas</b> que se celebra cada año.",
-        "linksPar": "<a><b className='underline t24b'>Haz clic aquí</b></a> para ver los requisitos para participar en el concurso de peñas o <b className='underline t24b'>aquí</b> para registrarte como miembro."
+        "secondPar": "Puedes participar haciéndote miembro de la asociación y disfrutar de todos los eventos del año, lo que también incluye la entrada a las fiestas mayores del pueblo cada año.",
+        "thirdPar": "Si tienes un grupo de amigos, también puedes participar inscribiéndote como peña en el concurso de peñas que se celebra cada año.",
+        "linksPar": "<2>Haz clic aquí</2> para ver los requisitos para participar en el concurso de peñas o <1>aquí</1> para registrarte como miembro."
       }
     },
     "underConstruction": {
       "title": "Página en construcción",
       "weAreWorking": "Esta página aún no está disponible. Vuelve más tarde.",
       "askUs": "Si tienes alguna pregunta, no dudes en contactarnos."
+    },
+    "userRegister": {
+      "title": "Registro de usuario",
+      "description": "Por favor, rellena los campos para completar tu registro",
+      "name": "Nombre",
+      "surname": "Apellidos",
+      "user": "Introduce un usuario",
+      "email": "Introduce un correo electrónico",
+      "password": "Introduce tu contraseña",
+      "phone": "Teléfono",
+      "dni": "DNI",
+      "birthDate": "Fecha de nacimiento"
+    },
+    "loagin": {
+      "title": "Iniciar sesión",
+      "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
+      "mailInput": "Introduce tu correo electrónico",
+      "passwordInput": "Introduce tu contraseña",
+      "forgotPassword": "¿Has olvidado tu contraseña?",
+      "noAccount": "¿No tienes una cuenta? ",
+      "register": "Regístrate"
     }
   },
   "components": {
@@ -117,7 +138,9 @@
       "search": "Buscar",
       "back": "Volver",
       "next": "Siguiente",
-      "finish": "Finalizar"
+      "finish": "Finalizar",
+      "register": "Registrar",
+      "login": "Iniciar Sesión"
     },
     "inputs": {
       "addDocument": "Pulsa para añadir un documento",

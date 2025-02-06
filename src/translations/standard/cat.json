@@ -2,7 +2,7 @@
   "pages": {
     "crew": {
       "registerCrew": {
-        "title": "Crear Peña",
+        "title": "Crear Penya",
         "groupNameLabel": "Nom del Grup",
         "responsibleLabel": "Responsable",
         "searchPlaceholder": "Ex: Nom Un, Nom Dos, Nom Tres",
@@ -10,20 +10,20 @@
         "addMemberButton": "Afegir",
         "selectedMembersTitle": "Membres Seleccionats",
         "removeMemberButton": "Eliminar",
-        "submitButton": "Crear Peña",
+        "submitButton": "Crear Penya",
         "errorPopup": {
           "title": "Error",
           "text": "Alguna cosa ha anat malament. Torna-ho a intentar més tard."
         },
         "successPopup": {
-          "title": "Peña Creada Correctament",
-          "text": "La peña s'ha creat i desat amb èxit."
+          "title": "Penya Creada Correctament",
+          "text": "La penya s'ha creat i desat amb èxit."
         }
       }
     },
     "settings": {
       "defaulLanguageTitle": "Idioma per defecte",
-      "defaulLanguageDescription": "Selecciona l'idioma per defecte de la web"
+      "defaulLanguageDescription": "Selecciona l'idioma per defecte del web"
     },
     "events": {
       "details": {
@@ -51,11 +51,11 @@
       "heroSection": {
         "title": "Patronat <br /> de festes de",
         "roquetesTitle": "Roquetes",
-        "description": "Tot el que necessites saber sobre les festivitats a Roquetes està a només un clic de distància."
+        "description": "Tot el que necessites saber sobre les festivitats a Roquetes és a només un clic de distància."
       },
       "aboutSection": {
         "title": "Qui som?",
-        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
+        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes, a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
       },
       "galerySection": {
         "title": "Galeria",
@@ -68,15 +68,36 @@
       "wantToParticipateSection": {
         "title": "Vols participar?",
         "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que tenen lloc al llarg de l'any.",
-        "secondPar": "Pots participar <b className='t24b'>fent-te membre</b> de l'associació i gaudir de tots els esdeveniments de l'any, incloent-hi l'entrada a les festes majors del poble cada any.",
-        "thirdPar": "Si tens un grup d'amics, també pots participar <b className='t24b'>inscrivint-te com a peña en el concurs de penyes</b> que es celebra cada any.",
-        "linksPar": "<a><b className='underline t24b'>Fes clic aquí</b></a> per veure els requisits per participar en el concurs de penyes o <b className='underline t24b'>aquí</b> per registrar-te com a membre."
+        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, el que també inclou l'entrada a les festes majors del poble cada any.",
+        "thirdPar": "Si tens un grup d'amics, també pots participar inscrivint-te com a penya en el concurs de penyes que se celebra cada any.",
+        "linksPar": "<2>Fes clic aquí</2> per veure els requisits per participar en el concurs de penyes o <1>aquí</1> per registrar-te com a membre."
       }
     },
     "underConstruction": {
       "title": "Pàgina en construcció",
       "weAreWorking": "Aquesta pàgina encara no està disponible. Torna més tard.",
       "askUs": "Si tens alguna pregunta, no dubtis a contactar-nos."
+    },
+    "userRegister": {
+      "title": "Registre d'usuari",
+      "description": "Si us plau, omple els camps per completar el teu registre",
+      "name": "Nom",
+      "surname": "Cognoms",
+      "user": "Introdueix un usuari",
+      "email": "Introdueix un correu electrònic",
+      "password": "Introdueix la teva contrasenya",
+      "phone": "Telèfon",
+      "dni": "DNI",
+      "birthDate": "Data de naixement"
+    },
+    "loagin": {
+      "title": "Iniciar sessió",
+      "description": "Benvingut de nou, si us plau inicia sessió per continuar",
+      "mailInput": "Introdueix el teu correu electrònic",
+      "passwordInput": "Introdueix la teva contrasenya",
+      "forgotPassword": "Has oblidat la teva contrasenya?",
+      "noAccount": "No tens un compte? ",
+      "register": "Registra't"
     }
   },
   "components": {
@@ -95,7 +116,7 @@
     },
     "popup": {
       "confirmButtonText": "Acceptar",
-      "cancelButtonText": "Cancelar",
+      "cancelButtonText": "Cancel·lar",
       "closeButtonText": "Tancar",
       "tryAgainButtonText": "Torna-ho a intentar",
       "successTitle": "CONFIRMAT",
@@ -103,12 +124,12 @@
       "failTitle": "ERROR",
       "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
       "infoTitle": "INFO",
-      "warningTitle": "CUIDAT",
+      "warningTitle": "COMPTE",
       "goToEventButton": "Anar a l'esdeveniment"
     },
     "buttons": {
       "accept": "Acceptar",
-      "cancel": "Cancelar",
+      "cancel": "Cancel·lar",
       "close": "Tancar",
       "save": "Desar",
       "delete": "Eliminar",
@@ -117,10 +138,12 @@
       "search": "Cercar",
       "back": "Tornar",
       "next": "Següent",
-      "finish": "Finalitzar"
+      "finish": "Finalitzar",
+      "register": "Registrar",
+      "login": "Iniciar Sessió"
     },
     "inputs": {
-      "addDocument": "Clica per afegir un document",
+      "addDocument": "Prem per afegir un document",
       "enterPassword": "Introdueix la contrasenya"
     },
     "cards": {
