@@ -87,7 +87,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
           <div className="my-4 w-fit min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
             <input
               name={name}
-              type="text"
+              type="password"
               placeholder={t('components.inputs.enterPassword')}
               className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
               inputProps={{
