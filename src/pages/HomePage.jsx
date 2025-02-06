@@ -86,13 +86,13 @@ const GallerySection = ({
 }) => (
   <section className="py-16 bg-transparent">
     <h2 className="mb-6 text-right t64s">
-      {t('pages.home.galerySection.title')}
+      <a href="/gallery">{t('pages.home.galerySection.title')}</a>
     </h2>
     {loadingGallery ? (
       <div className="flex items-center justify-center">
         <Loader loading={loadingGallery} />
       </div>
-    ) : galleryImages.length > 0 ? (
+    ) : galleryImages.length >= 3 ? (
       <div className="relative">
         <div className="flex justify-center overflow-hidden">
           <GalleryCard
@@ -115,17 +115,29 @@ const GallerySection = ({
             scale={0.9}
           />
         </div>
-
         <GalleryNavigation onPrev={onPrev} onNext={onNext} />
       </div>
-    ) : (
-      <p className="text-center"> {t('pages.home.galerySection.noImages')}</p>
-    )}
+    ) : galleryImages.length >= 1 ? (
+      <div className="flex justify-center">
+        <GalleryCard
+          galleryImages={galleryImages}
+          index={currentGalleryIndex}
+        />
+        {galleryImages.length === 2 && (
+          <GalleryCard
+            galleryImages={galleryImages}
+            index={(currentGalleryIndex + 1) % galleryImages.length}
+          />
+        )}
+      </div>
+    ) : galleryImages.length === 0 ? (
+      <p className="text-center">{t('pages.home.gallerySection.noImages')}</p>
+    ) : null}
   </section>
 )
 
 const GalleryCard = ({ galleryImages, index }) => (
-  <div className="flex-shrink-0 w-[550px] h-[400px] transition-opacity duration-300">
+  <div className="flex-shrink-0 w-[550px] h-[400px] transition-opacity duration-300 px-3">
     <DynamicCard
       type="gallery"
       title={galleryImages[index]?.name}
@@ -138,7 +150,7 @@ const GalleryCard = ({ galleryImages, index }) => (
 const AboutSection = ({ t }) => (
   <section className="py-10 mb-[84px] text-center bg-transparent">
     <h2 className="text-left t64s mb-[48px]">
-      {t('pages.home.aboutSection.title')}
+      <a href="/about">{t('pages.home.aboutSection.title')}</a>
     </h2>
     <p className="t24l m-w-[1109px]">
       {t('pages.home.aboutSection.description')}
@@ -170,7 +182,7 @@ const GalleryNavigation = ({ onPrev, onNext }) => (
 const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
   <section className="py-16 bg-transparent">
     <h2 className="mb-6 text-left t64s">
-      {t('pages.home.eventSection.title')}
+      <a href="/events-list"> {t('pages.home.eventSection.title')}</a>
     </h2>
     {loadingEvents ? (
       <div className="flex items-center justify-center">
@@ -208,7 +220,7 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
 )
 
 const WantToParticipateSection = ({ t }) => (
-  <section className="py-10 mb-[84px] text-center bg-transparent">
+  <section className="wantTo py-10 mb-[84px] text-center bg-transparent">
     <h2 className="text-right t64s mb-[48px]">
       {t('pages.home.wantToParticipateSection.title')}
     </h2>
