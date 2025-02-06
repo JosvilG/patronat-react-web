@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import '../animations/loading.css'
 
-const Loader = ({ loading, size = '50px', color = '#25b09b' }) => {
+const Loader = ({ loading, size = '50px', color = 'rgb(21, 100, 46)' }) => {
   if (!loading) return null
 
   const loaderStyle = {
