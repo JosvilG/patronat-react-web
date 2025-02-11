@@ -74,8 +74,8 @@
       }
     },
     "underConstruction": {
-      "title": "Página en construcción",
-      "weAreWorking": "Esta página aún no está disponible. Vuelve más tarde.",
+      "title": "Página no encontrada",
+      "weAreWorking": "Esta página no existe o aún no está disponible. Vuelve más tarde.",
       "askUs": "Si tienes alguna pregunta, no dudes en contactarnos."
     },
     "userRegister": {
@@ -90,7 +90,7 @@
       "dni": "DNI",
       "birthDate": "Fecha de nacimiento"
     },
-    "loagin": {
+    "login": {
       "title": "Iniciar sesión",
       "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
       "mailInput": "Introduce tu correo electrónico",
@@ -98,6 +98,11 @@
       "forgotPassword": "¿Has olvidado tu contraseña?",
       "noAccount": "¿No tienes una cuenta? ",
       "register": "Regístrate"
+    },
+    "recoverPage": {
+      "title": "Recuperar contraseña",
+      "description": "Introduce tu correo electrónico para recuperar tu contraseña",
+      "email": "Correo electrónico"
     }
   },
   "components": {
@@ -125,7 +130,8 @@
       "failDecription": "Algo ha salido mal. \n Por favor vuelve a intentarlo.",
       "infoTitle": "INFO",
       "warningTitle": "CUIDADO",
-      "goToEventButton": "Ir al evento"
+      "goToEventButton": "Ir al evento",
+      "recoverSuccess": "Correo enviado correctamente"
     },
     "buttons": {
       "accept": "Aceptar",
@@ -140,7 +146,9 @@
       "next": "Siguiente",
       "finish": "Finalizar",
       "register": "Registrar",
-      "login": "Iniciar Sesión"
+      "login": "Iniciar Sesión",
+      "processing": "Procesando",
+      "recover": "Recuperar"
     },
     "inputs": {
       "addDocument": "Pulsa para añadir un documento",

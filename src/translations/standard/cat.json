@@ -13,7 +13,7 @@
         "submitButton": "Crear Penya",
         "errorPopup": {
           "title": "Error",
-          "text": "Alguna cosa ha anat malament. Torna-ho a intentar més tard."
+          "text": "Alguna cosa ha anat malament. Intenta-ho novament més tard."
         },
         "successPopup": {
           "title": "Penya Creada Correctament",
@@ -55,7 +55,7 @@
       },
       "aboutSection": {
         "title": "Qui som?",
-        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes, a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
+        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
       },
       "galerySection": {
         "title": "Galeria",
@@ -68,14 +68,14 @@
       "wantToParticipateSection": {
         "title": "Vols participar?",
         "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que tenen lloc al llarg de l'any.",
-        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, el que també inclou l'entrada a les festes majors del poble cada any.",
+        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, la qual cosa també inclou l'entrada a les festes majors del poble cada any.",
         "thirdPar": "Si tens un grup d'amics, també pots participar inscrivint-te com a penya en el concurs de penyes que se celebra cada any.",
         "linksPar": "<2>Fes clic aquí</2> per veure els requisits per participar en el concurs de penyes o <1>aquí</1> per registrar-te com a membre."
       }
     },
     "underConstruction": {
-      "title": "Pàgina en construcció",
-      "weAreWorking": "Aquesta pàgina encara no està disponible. Torna més tard.",
+      "title": "Pàgina no disponible",
+      "weAreWorking": "Aquesta pàgina encara no existeix o no està disponible. Torna més tard.",
       "askUs": "Si tens alguna pregunta, no dubtis a contactar-nos."
     },
     "userRegister": {
@@ -90,7 +90,7 @@
       "dni": "DNI",
       "birthDate": "Data de naixement"
     },
-    "loagin": {
+    "login": {
       "title": "Iniciar sessió",
       "description": "Benvingut de nou, si us plau inicia sessió per continuar",
       "mailInput": "Introdueix el teu correu electrònic",
@@ -98,6 +98,11 @@
       "forgotPassword": "Has oblidat la teva contrasenya?",
       "noAccount": "No tens un compte? ",
       "register": "Registra't"
+    },
+    "recoverPage": {
+      "title": "Recuperar contrasenya",
+      "description": "Introdueix el teu correu electrònic per recuperar la teva contrasenya",
+      "email": "Correu electrònic"
     }
   },
   "components": {
@@ -118,14 +123,15 @@
       "confirmButtonText": "Acceptar",
       "cancelButtonText": "Cancel·lar",
       "closeButtonText": "Tancar",
-      "tryAgainButtonText": "Torna-ho a intentar",
+      "tryAgainButtonText": "Reintentar",
       "successTitle": "CONFIRMAT",
       "successDescription": "Petició realitzada correctament",
       "failTitle": "ERROR",
       "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
       "infoTitle": "INFO",
       "warningTitle": "COMPTE",
-      "goToEventButton": "Anar a l'esdeveniment"
+      "goToEventButton": "Anar a l'esdeveniment",
+      "recoverSuccess": "Correu enviat correctament"
     },
     "buttons": {
       "accept": "Acceptar",
@@ -140,7 +146,9 @@
       "next": "Següent",
       "finish": "Finalitzar",
       "register": "Registrar",
-      "login": "Iniciar Sessió"
+      "login": "Iniciar Sessió",
+      "processing": "Processant",
+      "recover": "Recuperar"
     },
     "inputs": {
       "addDocument": "Prem per afegir un document",
