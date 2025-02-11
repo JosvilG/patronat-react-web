@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import log from 'loglevel'
 import { useTranslation } from 'react-i18next'
@@ -18,13 +18,17 @@ function LoginPage() {
   const [backgroundImage, setBackgroundImage] = useState(null)
 
   useEffect(() => {
-    if (galleryImages.length > 0) {
+    const storedBackground = localStorage.getItem('loginBackgroundImage')
+    if (storedBackground) {
+      setBackgroundImage(storedBackground)
+    } else if (galleryImages.length > 0) {
       const loginImages = galleryImages.filter((image) =>
         image.tags.includes('login')
       )
-
       if (loginImages.length > 0) {
-        setBackgroundImage(loginImages[0].url)
+        const imageUrl = loginImages[0].url
+        setBackgroundImage(imageUrl)
+        localStorage.setItem('loginBackgroundImage', imageUrl)
       }
     }
   }, [galleryImages])
@@ -47,12 +51,12 @@ function LoginPage() {
   }
 
   return (
-    <div className="grid items-center mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 h-fit justify-items-center sm:px-6 lg:px-8">
+    <div className="grid items-center h-screen mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
       <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-40">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.loagin.title')}</h1>
+          <h1 className="text-black t40b">{t('pages.login.title')}</h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
-            {t('pages.loagin.description')}{' '}
+            {t('pages.login.description')}
           </p>
         </div>
 
@@ -68,7 +72,7 @@ function LoginPage() {
             name="email"
             type="text"
             textId="loginPage.email"
-            placeholder={t('pages.loagin.mailInput')}
+            placeholder={t('pages.login.mailInput')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -78,31 +82,35 @@ function LoginPage() {
             name="password"
             type="password"
             textId="loginPage.password"
-            placeholder={t('pages.loagin.passwordInput')}
+            placeholder={t('pages.login.passwordInput')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
+
           <div className="flex items-center justify-between">
             <p className="text-sm text-black">
-              <a className="t12s " href="/register">
-                {t('pages.loagin.forgotPassword')}
-              </a>
+              <Link className="t12s" to="/recover-password">
+                {t('pages.login.forgotPassword')}
+              </Link>
             </p>
           </div>
+
           <DynamicButton size="large" state="normal" type="submit">
             {t('components.buttons.login')}
           </DynamicButton>
         </form>
+
         <div className="flex items-center justify-center mt-4">
           <p className="text-black t12r">
-            {t('pages.loagin.noAccount')}
-            <a className="t12b" href="/register">
-              {t('pages.loagin.register')}
-            </a>
+            {t('pages.login.noAccount')}{' '}
+            <Link className="t12b" to="/register">
+              {t('pages.login.register')}
+            </Link>
           </p>
         </div>
       </div>
+
       <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:relative md:bottom-20">
         <img
           src={backgroundImage}

@@ -16,20 +16,25 @@ function RegisterPage() {
   const [formData, setFormData] = useState(createUserModel())
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [age, setAge] = useState(null) // Estado para la edad
+  const [age, setAge] = useState(null)
   const { galleryImages } = useGallery()
   const { t } = useTranslation()
 
   const [backgroundImage, setBackgroundImage] = useState(null)
 
   useEffect(() => {
-    if (galleryImages.length > 0) {
+    const storedBackground = localStorage.getItem('loginBackgroundImage')
+    if (storedBackground) {
+      setBackgroundImage(storedBackground)
+    } else if (galleryImages.length > 0) {
       const loginImages = galleryImages.filter((image) =>
         image.tags.includes('login')
       )
 
       if (loginImages.length > 0) {
-        setBackgroundImage(loginImages[0].url)
+        const imageUrl = loginImages[0].url
+        setBackgroundImage(imageUrl)
+        localStorage.setItem('loginBackgroundImage', imageUrl)
       }
     }
   }, [galleryImages])
@@ -55,13 +60,12 @@ function RegisterPage() {
       [name]: value,
     }))
 
-    // Si el campo cambiado es birthDate, calculamos la edad
     if (name === 'birthDate') {
       const calculatedAge = calculateAge(value)
       setAge(calculatedAge)
       setFormData((prevData) => ({
         ...prevData,
-        age: calculatedAge, // Guardamos la edad calculada en formData
+        age: calculatedAge,
       }))
     }
   }
@@ -103,7 +107,7 @@ function RegisterPage() {
   }
 
   return (
-    <div className="items-center mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 h-fit justify-items-center sm:px-6 lg:px-8">
+    <div className="items-center h-screen mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
       <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px]">
         <div className="max-w-lg mx-auto text-center">
           <h1 className="text-black t40b">{t('pages.userRegister.title')}</h1>
@@ -186,8 +190,15 @@ function RegisterPage() {
             onChange={(e) => handleChange('password', e.target.value)}
             required
           />
-          <DynamicButton size="large" state="normal" type="submit">
-            {t('components.buttons.register')}
+          <DynamicButton
+            size="large"
+            state="normal"
+            type="submit"
+            disabled={loading}
+          >
+            {loading
+              ? t('components.buttons.processing')
+              : t('components.buttons.register')}
           </DynamicButton>
         </form>
       </div>
