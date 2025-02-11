@@ -18,7 +18,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
   const [isOpen, setIsOpen] = useState(false)
 
   const translatedLabel = t(`${textId}`)
-  const translatedPlaceholder = t(`${textId}.placeholder`)
+  const translatedPlaceholder = t(`${textId}`)
 
   const handleSelectOption = (option) => {
     setSelectedOption(option)
