@@ -37,7 +37,7 @@ const DynamicButton = ({ size, state, textId, children, ...props }) => {
   return (
     <button
       className={`t16s flex justify-center items-center ${sizeClasses} ${stateClasses} px-4 py-2 rounded-[60px] ${props.className}`}
-      disabled={state === 'disabled'}
+      disabled={state === 'disabled' || props.disabled}
       {...props}
     >
       {textId ? t(textId) : children}
@@ -50,6 +50,7 @@ DynamicButton.propTypes = {
   textId: PropTypes.string,
   children: PropTypes.node,
   className: PropTypes.string,
+  disabled: PropTypes.bool,
 }
 
 export default DynamicButton
