@@ -14,6 +14,7 @@ import UploadGalleryForm from '../pages/galery/uploadFiles'
 import CrewForm from '../pages/crews/register-crew'
 import ProfilePage from '../pages/ProfilePage'
 import Settings from '../pages/users/userSettings'
+import RecoverPassword from '../pages/access/RecoverPassword'
 
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
@@ -23,6 +24,7 @@ export const publicRoutes = [
   { path: '/event/:eventName', element: <EventPage /> },
   { path: '/about', element: <AboutPage /> },
   { path: '/partner-form', element: <PartnersForm /> },
+  { path: '/recover-password', element: <RecoverPassword /> },
 ]
 
 export const protectedRoutes = [
