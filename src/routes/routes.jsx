@@ -15,6 +15,7 @@ import CrewForm from '../pages/crews/register-crew'
 import ProfilePage from '../pages/ProfilePage'
 import Settings from '../pages/users/userSettings'
 import RecoverPassword from '../pages/access/RecoverPassword'
+import ResetPassword from '../pages/access/ResetPassword'
 
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
@@ -25,6 +26,7 @@ export const publicRoutes = [
   { path: '/about', element: <AboutPage /> },
   { path: '/partner-form', element: <PartnersForm /> },
   { path: '/recover-password', element: <RecoverPassword /> },
+  { path: '/reset-password', element: <ResetPassword /> },
 ]
 
 export const protectedRoutes = [

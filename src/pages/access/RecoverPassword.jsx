@@ -20,10 +20,13 @@ const RecoverPassword = () => {
     setLoading(true)
 
     const auth = getAuth()
+    const actionCodeSettings = {
+      url: `${window.location.origin}/reset-password`,
+      handleCodeInApp: true,
+    }
 
     try {
-      await sendPasswordResetEmail(auth, email)
-
+      await sendPasswordResetEmail(auth, email, actionCodeSettings)
       showPopup({
         title: t('components.popup.successTitle'),
         text: t('components.popup.recoverSuccess'),
