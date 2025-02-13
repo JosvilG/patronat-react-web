@@ -18,22 +18,22 @@ const ResetPassword = () => {
   const { galleryImages } = useGallery()
   const [backgroundImage, setBackgroundImage] = useState(null)
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    const code = params.get('oobCode')
-    if (code) {
-      setOobCode(code)
-    } else {
-      showPopup({
-        title: t('components.popup.failTitle'),
-        text: t('components.popup.invalidLink'),
-        icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
-        confirmButtonColor: '#d33',
-        onConfirm: () => navigate('/login'),
-      })
-    }
-  }, [location])
+  // useEffect(() => {
+  //   const params = new URLSearchParams(location.search)
+  //   const code = params.get('oobCode')
+  //   if (code) {
+  //     setOobCode(code)
+  //   } else {
+  //     showPopup({
+  //       title: t('components.popup.failTitle'),
+  //       text: t('components.popup.invalidLink'),
+  //       icon: 'error',
+  //       confirmButtonText: t('components.popup.confirmButtonText'),
+  //       confirmButtonColor: '#d33',
+  //       onConfirm: () => navigate('/login'),
+  //     })
+  //   }
+  // }, [location])
 
   useEffect(() => {
     const storedBackground = localStorage.getItem('loginBackgroundImage')
@@ -94,9 +94,9 @@ const ResetPassword = () => {
     <div className="grid items-center h-screen mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
       <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-40">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.recoverPage.title')}</h1>
+          <h1 className="text-black t40b">{t('pages.resetPassword.title')}</h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
-            {t('pages.recoverPage.description')}
+            {t('pages.resetPassword.description')}
           </p>
         </div>
         <form
@@ -105,7 +105,7 @@ const ResetPassword = () => {
         >
           <DynamicInput
             name="newPassword"
-            textId={t('pages.resetPassword.newPassword')}
+            placeholder={t('pages.resetPassword.newPassword')}
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -113,7 +113,7 @@ const ResetPassword = () => {
           />
           <DynamicInput
             name="confirmPassword"
-            textId={t('pages.resetPassword.confirmPassword')}
+            placeholder={t('pages.resetPassword.confirmPassword')}
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
@@ -122,7 +122,7 @@ const ResetPassword = () => {
           <DynamicButton
             size="medium"
             state={loading ? 'disabled' : 'normal'}
-            textId={t('components.buttons.reset')}
+            textId={t('components.buttons.recover')}
             type="submit"
             disabled={loading}
           />
