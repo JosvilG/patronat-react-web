@@ -103,6 +103,12 @@
       "title": "Recover Password",
       "description": "Enter your email to recover your password",
       "email": "Email"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "description": "Please fill in the fields to complete your password change",
+      "newPassword": "Enter your new password",
+      "confirmPassword": "Repeat the password"
     }
   },
   "components": {

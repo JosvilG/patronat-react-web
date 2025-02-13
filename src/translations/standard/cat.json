@@ -103,6 +103,12 @@
       "title": "Recuperar contrasenya",
       "description": "Introdueix el teu correu electrònic per recuperar la teva contrasenya",
       "email": "Correu electrònic"
+    },
+    "resetPassword": {
+      "title": "Restablir contrasenya",
+      "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
+      "newPassword": "Introdueix la teva nova contrasenya",
+      "confirmPassword": "Repeteix la contrasenya"
     }
   },
   "components": {

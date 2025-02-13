@@ -103,6 +103,12 @@
       "title": "Recuperar contraseña",
       "description": "Introduce tu correo electrónico para recuperar tu contraseña",
       "email": "Correo electrónico"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
+      "newPassword": "Introduce tu nueva contraseña",
+      "confirmPassword": "Repite la contraseña"
     }
   },
   "components": {
