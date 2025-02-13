@@ -2,6 +2,16 @@
 
 Web minimalista para la organización de las fiestas del pueblo de Roquetes. La plataforma permite mostrar y gestionar eventos a través de un calendario, galerías de imágenes, socios, concursos, usuarios, premios, historia de la asociación, colaboradores y mucho más. Además, cuenta con un chat y un canal de comunicación con la asociación, así como la compra de entradas en la tienda.
 
+## Como iniciar el proyecto
+
+En este proyecto estamos usando Bun como compilador. Para ello es necesario tener instalado Bun `1.1.36`. Una vez instalado bun podemos cambiar entre versiones usando
+el comando `bunx bun@1.1.36 --version` o instalar el gestor de versiones para bun llamado `bun-manage`, instalar la version ejecutando `bun-manage install 1.1.36` y posteriormente el comando `bun-manage use 1.1.36` para usar la versión especificada del compilador
+
+Cuando ya tengamos bun instalado y configurada la version que queremos utilizar ejecutaremos el comando `bun i` para instalar las dependencias y esto generará un archivo
+`bun.lockb` (que es el equivalente al package-lock.json de npm).
+
+Ejecutamos el comando `bun run start` para iniciar el proyecto.
+
 ## ✨ Características principales
 
 - 🎭 Gestor de eventos con calendario interactivo
