@@ -39,6 +39,7 @@ const FullEventsPage = () => {
                 year: 'numeric',
               }),
               haveChevron: true,
+              link: `/event/${event.title.toLowerCase().replace(/ /g, '-')}`,
               action: () => {
                 alert(`Evento seleccionado: ${event.title}`)
               },
