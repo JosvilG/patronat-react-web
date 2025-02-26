@@ -5,12 +5,14 @@ const DynamicItems = ({ items }) => {
   const [expandedIndex, setExpandedIndex] = useState(null)
 
   return (
-    <div className="space-y-0">
+    <div className="px-4 pb-[20px]">
       {items.map((item, index) => (
         <div key={index} className="relative w-fit min-w-[400px] max-w-[100%]">
           <div
-            className={`flex items-center justify-between px-4 py-2 h-[54px] text-[#252525] hover:text-gray-700 max-w-[100%] ${
-              index !== items.length - 1 ? 'border-b border-[#252525]' : ''
+            className={`flex items-center justify-between px-4 py-2 h-[40px] text-[#252525] hover:text-gray-700 max-w-[100%] ${
+              index !== items.length - 1 && item.type !== 'eventData'
+                ? 'border-b border-[#252525]'
+                : ''
             }`}
           >
             {item.icon && (
@@ -23,16 +25,18 @@ const DynamicItems = ({ items }) => {
               </div>
             )}
 
-            <div className="flex flex-col flex-1 max-w-[90%]">
+            <div
+              className={`flex ${item.type === 'eventData' ? 'flex-row' : 'flex-col'}`}
+            >
               <span
-                className="t16l text-base text-[#252525] truncate overflow-hidden whitespace-nowrap"
+                className="t16b text-base text-[#252525] truncate overflow-hidden whitespace-nowrap mr-4"
                 title={item.title}
               >
                 {item.title}
               </span>
               {item.description && (
                 <span
-                  className="overflow-hidden text-sm text-gray-500 truncate whitespace-nowrap"
+                  className="overflow-hidden text-sm truncate t16r whitespace-nowrap"
                   title={item.description}
                 >
                   {item.description}
@@ -109,6 +113,7 @@ DynamicItems.propTypes = {
       haveChevron: PropTypes.bool,
       link: PropTypes.string,
       action: PropTypes.func,
+      type: PropTypes.string,
     })
   ).isRequired,
 }
