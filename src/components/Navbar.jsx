@@ -168,16 +168,37 @@ export function Navbar() {
               isSmallScreen={isSmallScreen}
             />
           ) : (
-            <button
-              type="button"
-              onClick={async () => {
-                await handleSignOut()
-                setMobileMenuOpen(false)
-              }}
-              className="t16s h-[39px] min-h-[39px] flex flex-col justify-center items-center w-full mb-1 rounded-[27px] bg-[#A0A0A0] hover:bg-gray-200 text-[#1E1E1E] hover:text-gray-900 focus:text-gray-900 active:text-gray-900 focus:bg-[#D9D9D9] active:bg-[#D9D9D9] transition duration-300 ease-in-out shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
-            >
-              {t('components.navbar.signOutTitle')}
-            </button>
+            <>
+              <NavLink
+                to="/profile"
+                label={t('components.navbar.profileTitle')}
+                onClick={() => {
+                  log.info('Navegando a la página de perfil.')
+                  setMobileMenuOpen(false)
+                }}
+                isSmallScreen={isSmallScreen}
+              />
+              {userData?.role === 'admin' && (
+                <NavLink
+                  to="/dashboard"
+                  label={t('components.navbar.dashboardTitle')}
+                  onClick={() => {
+                    log.info('Navegando al panel de control.')
+                    setMobileMenuOpen(false)
+                  }}
+                  isSmallScreen={isSmallScreen}
+                />
+              )}
+              <NavLink
+                to="/login"
+                label={t('components.navbar.signOutTitle')}
+                onClick={async () => {
+                  await handleSignOut()
+                  setMobileMenuOpen(false)
+                }}
+                isSmallScreen={isSmallScreen}
+              />
+            </>
           )}
         </motion.div>
       )}
@@ -198,7 +219,7 @@ export function Navbar() {
               className="w-10 h-10 rounded-full shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
             />
           </button>
-          {dropdownOpen && (
+          {dropdownOpen && userData && (
             <DropdownMenu
               items={[
                 { to: '/profile', label: t('components.navbar.profileTitle') },
@@ -206,7 +227,7 @@ export function Navbar() {
                   to: '/settings',
                   label: t('components.navbar.settingsTitle'),
                 },
-                userData.role === 'admin' && {
+                userData?.role === 'admin' && {
                   to: '/dashboard',
                   label: t('components.navbar.dashboardTitle'),
                 },
@@ -226,10 +247,10 @@ export function Navbar() {
 }
 
 NavLink.propTypes = {
-  to: PropTypes.string.isRquired,
-  label: PropTypes.string.isRquired,
-  onClick: PropTypes.func.isRquired,
-  isSmallScreen: PropTypes.bool.isRquired,
+  to: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  isSmallScreen: PropTypes.bool.isRequired,
 }
 
 DropdownMenu.propTypes = {
@@ -245,5 +266,5 @@ DropdownMenu.propTypes = {
 }
 
 MobileMenuButton.propTypes = {
-  onClick: PropTypes.func.isRquired,
+  onClick: PropTypes.func.isRequired,
 }
