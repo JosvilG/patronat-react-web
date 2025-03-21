@@ -55,7 +55,7 @@
       },
       "aboutSection": {
         "title": "Qui som?",
-        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
+        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes, a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
       },
       "galerySection": {
         "title": "Galeria",
@@ -68,14 +68,14 @@
       "wantToParticipateSection": {
         "title": "Vols participar?",
         "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que tenen lloc al llarg de l'any.",
-        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, la qual cosa també inclou l'entrada a les festes majors del poble cada any.",
+        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, incloent-hi l'entrada a les festes majors del poble cada any.",
         "thirdPar": "Si tens un grup d'amics, també pots participar inscrivint-te com a penya en el concurs de penyes que se celebra cada any.",
         "linksPar": "<2>Fes clic aquí</2> per veure els requisits per participar en el concurs de penyes o <1>aquí</1> per registrar-te com a membre."
       }
     },
     "underConstruction": {
-      "title": "Pàgina no disponible",
-      "weAreWorking": "Aquesta pàgina encara no existeix o no està disponible. Torna més tard.",
+      "title": "Pàgina no trobada",
+      "weAreWorking": "Aquesta pàgina no existeix o encara no està disponible. Torna més tard.",
       "askUs": "Si tens alguna pregunta, no dubtis a contactar-nos."
     },
     "userRegister": {
@@ -109,6 +109,55 @@
       "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
       "newPassword": "Introdueix la teva nova contrasenya",
       "confirmPassword": "Repeteix la contrasenya"
+    },
+    "collaborators": {
+      "title": "Afegir col·laboradors a la base de dades",
+      "noCollaborators": "No hi ha col·laboradors disponibles",
+      "registerCollaborators": {
+        "title": "Crear un nou col·laborador",
+        "fileLabel": "Afegir el logotip del col·laborador",
+        "nameLabel": "Nom del col·laborador",
+        "uploadButton": "Crear col·laborador",
+        "uploadingText": "Creant...",
+        "successPopup": {
+          "title": "Èxit!",
+          "text": "El col·laborador s'ha creat correctament."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "Hi ha hagut un problema en crear el col·laborador. Torna-ho a intentar."
+        },
+        "authError": "Has d'estar autenticat per crear col·laboradors.",
+        "fileRequired": "Si us plau, selecciona un logotip."
+      },
+      "modifyCollaborators": {
+        "title": "Modificar un col·laborador",
+        "fileLabel": "Modifica el nom i la imatge del col·laborador",
+        "nameLabel": "Nou nom del col·laborador",
+        "imageLabel": "Nova imatge del col·laborador",
+        "oldImageTitle": "Logotip actual",
+        "newImageTitle": "Nou logotip",
+        "uploadButton": "Desar canvis",
+        "uploadingText": "Modificant...",
+        "successPopup": {
+          "title": "Èxit!",
+          "text": "El col·laborador s'ha modificat correctament."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "Hi ha hagut un problema en modificar el col·laborador. Torna-ho a intentar."
+        },
+        "authError": "Has d'estar autenticat per modificar col·laboradors.",
+        "fileRequired": "Si us plau, selecciona un logotip."
+      },
+      "listCollaborators": {
+        "title": "Llistat de col·laboradors",
+        "searchPlaceholder": "Cercar col·laborador...",
+        "addNewButton": "Afegir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Carregant col·laboradors..."
+      }
     }
   },
   "components": {
@@ -170,5 +219,10 @@
       "week": "Setmana",
       "day": "Dia"
     }
+  },
+  "utils": {
+    "fileRelated": "És necessari seleccionar un fitxer",
+    "fileSize": "La mida del fitxer no pot superar els 5MB",
+    "fileType": "El fitxer ha de ser de tipus imatge (png, jpg, jpeg)"
   }
 }

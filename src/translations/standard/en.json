@@ -23,7 +23,7 @@
     },
     "settings": {
       "defaulLanguageTitle": "Default Language",
-      "defaulLanguageDescription": "Select the default language for the website"
+      "defaulLanguageDescription": "Select the default language of the website"
     },
     "events": {
       "details": {
@@ -49,13 +49,13 @@
     },
     "home": {
       "heroSection": {
-        "title": "Festival <br /> Board of",
+        "title": "Festival <br /> Committee of",
         "roquetesTitle": "Roquetes",
-        "description": "Everything you need to know about the festivities in Roquetes is just a click away."
+        "description": "Everything you need to know about the festivals in Roquetes is just a click away."
       },
       "aboutSection": {
         "title": "Who are we?",
-        "description": "The Festival Board of Roquetes is an independent, non-political, non-profit organization responsible for organizing festivals and events in Roquetes, Tarragona. Here you can find all the information about upcoming events and much more."
+        "description": "The Festival Committee of Roquetes is an independent, non-political, non-profit organization responsible for organizing festivals and events in the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
       },
       "galerySection": {
         "title": "Gallery",
@@ -67,27 +67,27 @@
       },
       "wantToParticipateSection": {
         "title": "Want to participate?",
-        "firstPar": "There are many ways to help and take part in setting up festivals and events throughout the year.",
-        "secondPar": "You can participate by becoming a member of the association and enjoying all the year's events, including entry to the town's annual major festivals.",
-        "thirdPar": "If you have a group of friends, you can also participate by registering as a crew in the annual crew competition.",
-        "linksPar": "<2>Click here</2> to see the requirements to participate in the crew competition or <1>here</1> to register as a member."
+        "firstPar": "There are many ways to help and participate in setting up the festivals and events that take place throughout the year.",
+        "secondPar": "You can participate by becoming a member of the association and enjoying all the events of the year, which also includes entry to the town’s main festival each year.",
+        "thirdPar": "If you have a group of friends, you can also participate by registering as a crew in the annual crew contest.",
+        "linksPar": "<2>Click here</2> to see the requirements for participating in the crew contest or <1>here</1> to register as a member."
       }
     },
     "underConstruction": {
-      "title": "Page not available",
-      "weAreWorking": "This page is not yet available or not exist. Please check back later.",
-      "askUs": "If you have any questions, don't hesitate to contact us."
+      "title": "Page Not Found",
+      "weAreWorking": "This page does not exist or is not yet available. Please check back later.",
+      "askUs": "If you have any questions, feel free to contact us."
     },
     "userRegister": {
       "title": "User Registration",
       "description": "Please fill in the fields to complete your registration",
-      "name": "First Name",
-      "surname": "Last Name",
+      "name": "Name",
+      "surname": "Surname",
       "user": "Enter a username",
       "email": "Enter an email",
       "password": "Enter your password",
       "phone": "Phone",
-      "dni": "ID Number",
+      "dni": "ID",
       "birthDate": "Date of Birth"
     },
     "login": {
@@ -108,7 +108,56 @@
       "title": "Reset Password",
       "description": "Please fill in the fields to complete your password change",
       "newPassword": "Enter your new password",
-      "confirmPassword": "Repeat the password"
+      "confirmPassword": "Repeat password"
+    },
+    "collaborators": {
+      "title": "Add collaborators to the database",
+      "noCollaborators": "No collaborators available",
+      "registerCollaborators": {
+        "title": "Create a new collaborator",
+        "fileLabel": "Add collaborator's logo",
+        "nameLabel": "Collaborator's name",
+        "uploadButton": "Create collaborator",
+        "uploadingText": "Creating...",
+        "successPopup": {
+          "title": "Success!",
+          "text": "The collaborator was created successfully."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "There was a problem creating the collaborator. Please try again."
+        },
+        "authError": "You must be authenticated to create collaborators.",
+        "fileRequired": "Please select a logo."
+      },
+      "modifyCollaborators": {
+        "title": "Modify a collaborator",
+        "fileLabel": "Modify the collaborator's name and image",
+        "nameLabel": "New collaborator name",
+        "imageLabel": "New collaborator image",
+        "oldImageTitle": "Current logo",
+        "newImageTitle": "New logo",
+        "uploadButton": "Save changes",
+        "uploadingText": "Modifying...",
+        "successPopup": {
+          "title": "Success!",
+          "text": "The collaborator was modified successfully."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "There was a problem modifying the collaborator. Please try again."
+        },
+        "authError": "You must be authenticated to modify collaborators.",
+        "fileRequired": "Please select a logo."
+      },
+      "listCollaborators": {
+        "title": "List of collaborators",
+        "searchPlaceholder": "Search collaborator...",
+        "addNewButton": "Add",
+        "modifyButton": "Modify",
+        "deleteButton": "Delete",
+        "loadingText": "Loading collaborators..."
+      }
     }
   },
   "components": {
@@ -119,9 +168,9 @@
       "whoWeAreTitle": "About Us",
       "dashboardTitle": "Dashboard",
       "profileTitle": "Profile",
-      "shopTitle": "Shop",
+      "shopTitle": "Store",
       "settingsTitle": "Settings",
-      "signOutTitle": "Log Out",
+      "signOutTitle": "Sign Out",
       "loginTitle": "Log In",
       "partnersTitle": "Partners"
     },
@@ -153,11 +202,12 @@
       "finish": "Finish",
       "register": "Register",
       "login": "Log In",
-      "processing": "Processing"
+      "processing": "Processing",
+      "recover": "Recover"
     },
     "inputs": {
       "addDocument": "Tap to add a document",
-      "enterPassword": "Enter your password"
+      "enterPassword": "Enter password"
     },
     "cards": {
       "eventDateTitle": "Event Date"
@@ -169,5 +219,10 @@
       "week": "Week",
       "day": "Day"
     }
+  },
+  "utils": {
+    "fileRelated": "A file must be selected",
+    "fileSize": "The file size cannot exceed 5MB",
+    "fileType": "The file must be an image (png, jpg, jpeg)"
   }
 }
