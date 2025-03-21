@@ -55,15 +55,25 @@ export default function Dashboard() {
       ],
     },
     {
-      id: 'socios',
-      title: 'Socios',
-      description: 'Gestiona los socios de la plataforma.',
+      id: 'socios & colaboradores',
+      title: 'Socios & colaboradores',
+      description: 'Gestiona los socios y colaborares de la plataforma.',
       icon: '🤝',
       actions: [
         {
           id: 'manage-socios',
           title: 'Gestión de Socios',
           route: '/socios',
+        },
+        {
+          id: 'create-collaborator',
+          title: 'Crear nuevo colaborador',
+          route: '/new-collaborator',
+        },
+        {
+          id: 'list-collaborator',
+          title: 'Lista de colaboradores',
+          route: '/list-collaborator',
         },
       ],
     },
