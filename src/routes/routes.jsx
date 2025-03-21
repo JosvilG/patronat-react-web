@@ -16,6 +16,9 @@ import ProfilePage from '../pages/ProfilePage'
 import Settings from '../pages/users/userSettings'
 import RecoverPassword from '../pages/access/RecoverPassword'
 import ResetPassword from '../pages/access/ResetPassword'
+import CollaboratorRegisterForm from '../pages/collaborators/CollabRegister'
+import CollaboratorModifyForm from '../pages/collaborators/CollabModify'
+import CollabList from '../pages/collaborators/CollabList'
 
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
@@ -37,4 +40,7 @@ export const protectedRoutes = [
   { path: '/new-crew', element: <CrewForm /> },
   { path: '/profile', element: <ProfilePage /> },
   { path: '/settings', element: <Settings /> },
+  { path: '/new-collaborator', element: <CollaboratorRegisterForm /> },
+  { path: '/modify-collaborator/:id', element: <CollaboratorModifyForm /> },
+  { path: '/list-collaborator', element: <CollabList /> },
 ]
