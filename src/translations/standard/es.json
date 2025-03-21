@@ -109,6 +109,55 @@
       "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
       "newPassword": "Introduce tu nueva contraseña",
       "confirmPassword": "Repite la contraseña"
+    },
+    "collaborators": {
+      "title": "Añadir colaboradores a la base de datos",
+      "noCollaborators": "No hay colaboradores disponibles",
+      "registerCollaborators": {
+        "title": "Crear nuevo colaborador",
+        "fileLabel": "Añadir logo del colaborador",
+        "nameLabel": "Nombre del colaborador",
+        "uploadButton": "Crear colaborador",
+        "uploadingText": "Creando...",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El colaborador se creó correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al crear el colaborador. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para crear colaboradores.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "modifyCollaborators": {
+        "title": "Modificar un colaborador",
+        "fileLabel": "Modifica el nombre y la imagen del colaborador",
+        "nameLabel": "Nuevo nombre del colaborador",
+        "imageLabel": "Nueva imagen del colaborador",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nuevo logo",
+        "uploadButton": "Guardar cambios",
+        "uploadingText": "Modificando...",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El colaborador se modifico correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el colaborador. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para modificar colaboradores.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "listCollaborators": {
+        "title": "Listado de colaboradores",
+        "searchPlaceholder": "Buscar colaborador...",
+        "addNewButton": "Añadir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Cargando colaboradores..."
+      }
     }
   },
   "components": {
@@ -170,5 +219,10 @@
       "week": "Semana",
       "day": "Día"
     }
+  },
+  "utils": {
+    "fileRelated": "Es necesario seleccionar un archivo",
+    "fileSize": "El tamaño del archivo no puede superar los 5MB",
+    "fileType": "El archivo debe ser de tipo imagen (png, jpg, jpeg)"
   }
 }
