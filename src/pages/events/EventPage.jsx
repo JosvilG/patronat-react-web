@@ -209,33 +209,33 @@ const EventPage = () => {
 
   return (
     <div className="h-auto px-4">
-      <h1 className="text-center t40s mb-28">{event.title}</h1>
+      <h1 className="mb-20 text-center t64b">{event.title}</h1>
       <div className="grid gap-6 md:grid-cols-5">
         <div className="md:col-span-3">
           <DynamicCard
             key={event.eventId}
             type="gallery"
-            extraClass="h-[53rem]"
+            extraClass="h-[53rem] "
             imageUrl={event.imageURL || event.eventURL || '/placeholder.png'}
           />
         </div>
         <div>
-          <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8">
+          <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8  text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
             <h3 className="pt-4 pl-8 t40b">Horas y fechas</h3>
             <DynamicItems items={eventDataDetails || []} />
           </div>
-          <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8">
+          <div className="space-y-4 bg-[#D9D9D9] rounded-[60px]  h-fit w-[430px] mb-8  text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
             <h3 className="pt-4 pl-8 t40b">Localización y acceso</h3>
             <DynamicItems items={eventAccessDetails || []} />
           </div>
-          <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8">
+          <div className="space-y-4 bg-[#D9D9D9] rounded-[60px]  h-fit w-[430px] mb-8  text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
             <h3 className="pt-4 pl-8 t40b">Precios y servicios</h3>
             <DynamicItems items={eventServicesDetails || []} />
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-between p-4 bg-gray-200 rounded-lg md:flex-row">
+      <div className="flex flex-col items-center justify-between p-4 bg-gray-200 rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
         <div className="w-full md:w-auto">
           <p className="mb-3 text-xl font-bold">Organizado por:</p>
           {organizer ? (
