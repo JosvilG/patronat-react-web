@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import DynamicButton from './Buttons'
 
 const DynamicItems = ({ items }) => {
   const [expandedIndex, setExpandedIndex] = useState(null)
@@ -51,7 +52,10 @@ const DynamicItems = ({ items }) => {
             )}
 
             {item.haveChevron && (
-              <button
+              <DynamicButton
+                type="button"
+                size="small"
+                state="normal"
                 onClick={() => {
                   if (item.link) {
                     window.location.href = item.link
@@ -59,7 +63,6 @@ const DynamicItems = ({ items }) => {
                     item.action()
                   }
                 }}
-                className="flex flex-row justify-center items-center ml-2 h-[46px] w-[76px] text-[#252525] hover:text-gray-700 border-l-2 border-[#252525]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -75,18 +78,20 @@ const DynamicItems = ({ items }) => {
                     d="M9 5l7 7-7 7"
                   />
                 </svg>
-              </button>
+              </DynamicButton>
             )}
 
             {item.expandable && (
-              <button
+              <DynamicButton
+                type="button"
+                size="small"
+                state="normal"
                 onClick={() =>
                   setExpandedIndex((prev) => (prev === index ? null : index))
                 }
-                className="ml-4 text-sm text-blue-500 hover:underline"
               >
                 {expandedIndex === index ? 'Collapse' : 'Expand'}
-              </button>
+              </DynamicButton>
             )}
           </div>
 
