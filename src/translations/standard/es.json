@@ -158,6 +158,67 @@
         "deleteButton": "Eliminar",
         "loadingText": "Cargando colaboradores..."
       }
+    },
+
+    "participants": {
+      "title": "Añadir participantes a la base de datos",
+      "noParticipants": "No hay participantes disponibles",
+      "registerParticipants": {
+        "title": "Crear nuevo participante",
+        "fileLabel": "Añadir logo del participante",
+        "nameLabel": "Nombre del participante",
+        "descriptionLabel": "Añade una descripción sobre el participante",
+        "uploadButton": "Crear participante",
+        "uploadingText": "Creando...",
+        "socialMediaTitle": "Redes sociales del participante",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "previewImageTitle": "Vista previa del logo",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El participante se creó correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al crear el participante. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para crear participantes.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "modifyParticipants": {
+        "title": "Modificar un participante",
+        "fileLabel": "Modifica el nombre y la imagen del participante",
+        "nameLabel": "Nuevo nombre del participante",
+        "descriptionLabel": "Modifica la descripción del participante",
+        "imageLabel": "Nueva imagen del participante",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nuevo logo",
+        "uploadButton": "Guardar cambios",
+        "uploadingText": "Modificando...",
+        "socialMediaTitle": "Modificar las redes sociales del participante",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El participante se modifico correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el participante. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para modificar participantes.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "listParticipants": {
+        "title": "Listado de participantes",
+        "searchPlaceholder": "Buscar participante...",
+        "addNewButton": "Añadir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Cargando participantes..."
+      }
     }
   },
   "components": {
