@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, doc, getDoc } from 'firebase/firestore'
 import { db } from './../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
 import Loader from '../../components/Loader'
@@ -11,6 +11,8 @@ const EventPage = () => {
   const { eventName } = useParams()
   const [event, setEvent] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [collaborators, setCollaborators] = useState({})
+  const [participants, setParticipants] = useState({})
   const { t } = useTranslation()
   const navigate = useNavigate()
 
@@ -25,20 +27,78 @@ const EventPage = () => {
         )
 
         if (eventDoc) {
-          setEvent(eventDoc.data())
+          const eventData = eventDoc.data()
+          setEvent(eventData)
+
+          console.log('Evento encontrado:', eventData)
+          console.log('IDs de los colaboradores:', eventData.collaborators)
+
+          if (eventData.collaborators?.length) {
+            fetchCollaborators(eventData.collaborators)
+          }
+
+          if (eventData.participants?.length) {
+            fetchParticipants(eventData.participants)
+          }
         } else {
           console.log('Evento no encontrado')
           navigate('/404')
         }
       } catch (error) {
         console.error('Error obteniendo el evento: ', error)
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchEvent()
   }, [eventName, navigate])
+
+  const fetchCollaborators = async (collaboratorIds) => {
+    try {
+      const collaboratorsData = {}
+
+      for (const collabId of collaboratorIds) {
+        const docRef = doc(db, 'collaborators', collabId)
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+          const data = docSnap.data()
+          collaboratorsData[collabId] = { url: data.url, name: data.name }
+        } else {
+          console.log(`No se encontró el colaborador con ID: ${collabId}`)
+        }
+      }
+
+      setCollaborators(collaboratorsData)
+    } catch (error) {
+      console.error('Error obteniendo los colaboradores:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchParticipants = async (participantsIds) => {
+    try {
+      const participantsData = {}
+
+      for (const partId of participantsIds) {
+        const docRef = doc(db, 'participants', partId)
+        const docSnap = await getDoc(docRef)
+
+        if (docSnap.exists()) {
+          const data = docSnap.data()
+          participantsData[partId] = { url: data.url, name: data.name }
+        } else {
+          console.log(`No se encontró el participante con ID: ${partId}`)
+        }
+      }
+
+      setParticipants(participantsData)
+    } catch (error) {
+      console.error('Error obteniendo los participantes:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
 
   if (loading) {
     return <Loader loading={loading} />
@@ -63,13 +123,13 @@ const EventPage = () => {
     },
     {
       title: t('pages.events.details.startTime'),
-      type: 'eventData',
       description: event.startTime,
+      type: 'eventData',
     },
     event.endTime && {
       title: t('pages.events.details.endTime'),
-      type: 'eventData',
       description: event.endTime,
+      type: 'eventData',
     },
   ].filter(Boolean)
 
@@ -79,7 +139,6 @@ const EventPage = () => {
       description: event.location,
       type: 'eventData',
     },
-
     {
       title: t('pages.events.details.capacity'),
       description: event.capacity,
@@ -110,31 +169,18 @@ const EventPage = () => {
     },
   ].filter(Boolean)
 
-  const eventOtherDetails = [].filter(Boolean)
-
-  if (event.collaborators?.length) {
-    eventOtherDetails.push({
-      title: t('pages.events.details.collaborators'),
-      description: event.collaborators.join(', '),
-    })
-  }
+  console.log('Colaboradores:', collaborators)
 
   return (
-    <div className="px-4">
+    <div className="h-auto px-4">
       <h1 className="text-center t40s mb-28">{event.title}</h1>
-
       <div className="grid gap-6 md:grid-cols-5">
         <div className="md:col-span-3">
           <DynamicCard
             key={event.eventId}
             type="gallery"
-            imageUrl={
-              event.imageURL
-                ? event.imageURL
-                : event.eventURL
-                  ? event.eventURL
-                  : '/placeholder.png'
-            }
+            extraClass="h-[53rem]"
+            imageUrl={event.imageURL || event.eventURL || '/placeholder.png'}
           />
         </div>
         <div>
@@ -143,48 +189,72 @@ const EventPage = () => {
             <DynamicItems items={eventDataDetails || []} />
           </div>
           <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8">
-            <h3 className="pt-4 pl-8 t40b">Localización y acceso </h3>
+            <h3 className="pt-4 pl-8 t40b">Localización y acceso</h3>
             <DynamicItems items={eventAccessDetails || []} />
           </div>
           <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8">
             <h3 className="pt-4 pl-8 t40b">Precios y servicios</h3>
             <DynamicItems items={eventServicesDetails || []} />
           </div>
-          <button className="w-full p-3 text-white bg-black rounded-lg">
-            Get a ticket
-          </button>
         </div>
       </div>
 
       <div className="flex flex-col items-center justify-between p-4 bg-gray-200 rounded-lg md:flex-row">
         <div>
-          <p className="font-bold">Organized by:</p>
+          <p className="font-bold">Organizado por:</p>
           <p>{event.organizer}</p>
+          <div className="flex items-center gap-4">
+            {event.collaborators?.map((collabId) => (
+              <div key={collabId} className="flex items-center gap-2">
+                <img
+                  src={collaborators[collabId]?.url || '/placeholder.png'}
+                  alt={`Collaborator ${collaborators[collabId]?.name || collabId}`}
+                  className="object-cover w-12 h-12 rounded-full"
+                />
+                <span className="font-medium">
+                  {collaborators[collabId]?.name || 'Desconocido'}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
         <div>
-          <p className="font-bold">With the collaboration of:</p>
-          <p>{event.collaborators?.join(', ') || 'N/A'}</p>
+          <p className="font-bold">Con la colaboración de:</p>
+          <div className="flex items-center gap-4">
+            {event.collaborators?.map((collabId) => (
+              <div key={collabId} className="flex items-center gap-2">
+                <img
+                  src={collaborators[collabId]?.url || '/placeholder.png'}
+                  alt={`Collaborator ${collaborators[collabId]?.name || collabId}`}
+                  className="object-cover w-12 h-12 rounded-full"
+                />
+                <span className="font-medium">
+                  {collaborators[collabId]?.name || 'Desconocido'}
+                </span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
-      <h2 className="text-2xl font-bold text-center">
-        With the performance of:
-      </h2>
-      <div className="space-y-6">
-        {event.performers?.map((performer, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center gap-6 md:flex-row"
-          >
-            <div className="flex items-center justify-center w-full h-48 bg-gray-300 rounded-lg md:w-1/3">
-              <span className="text-gray-500">Image Placeholder</span>
-            </div>
-            <div className="flex-1 text-center md:text-left">
-              <h3 className="text-xl font-bold">{performer.name}</h3>
-              <p className="text-gray-600">{performer.description}</p>
-            </div>
+      <div className="flex flex-col items-center justify-between p-4 my-20 rounded-lg md:flex-row">
+        <div className="w-full text-center">
+          <h2 className="t64r">Con la participación de:</h2>
+          <div className="flex items-center gap-4 my-20">
+            {event.participants?.map((partId) => (
+              <div key={partId} className="flex items-center gap-2">
+                <img
+                  src={participants[partId]?.url || '/placeholder.png'}
+                  alt={`Collaborator ${participants[partId]?.name || partId}`}
+                  className="object-cover w-64 h-64 rounded-full"
+                />
+                <span className="t64l">
+                  {participants[partId]?.name || 'Desconocido'}
+                </span>
+              </div>
+            ))}
           </div>
-        ))}
+        </div>
       </div>
     </div>
   )
