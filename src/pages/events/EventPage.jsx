@@ -6,6 +6,9 @@ import { useTranslation } from 'react-i18next'
 import Loader from '../../components/Loader'
 import DynamicCard from '../../components/Cards'
 import DynamicItems from '../../components/Items'
+import InstagramIcon from '@mui/icons-material/Instagram'
+import FacebookIcon from '@mui/icons-material/Facebook'
+import XIcon from '@mui/icons-material/X'
 
 const EventPage = () => {
   const { eventName } = useParams()
@@ -13,6 +16,7 @@ const EventPage = () => {
   const [loading, setLoading] = useState(true)
   const [collaborators, setCollaborators] = useState({})
   const [participants, setParticipants] = useState({})
+  const [organizer, setOrganizer] = useState(null) // Estado para almacenar los datos del organizador
   const { t } = useTranslation()
   const navigate = useNavigate()
 
@@ -40,6 +44,10 @@ const EventPage = () => {
           if (eventData.participants?.length) {
             fetchParticipants(eventData.participants)
           }
+
+          if (eventData.organizer) {
+            fetchOrganizer(eventData.organizer)
+          }
         } else {
           console.log('Evento no encontrado')
           navigate('/404')
@@ -51,6 +59,27 @@ const EventPage = () => {
 
     fetchEvent()
   }, [eventName, navigate])
+
+  const fetchOrganizer = async (organizerId) => {
+    try {
+      const docRef = doc(db, 'collaborators', organizerId)
+      const docSnap = await getDoc(docRef)
+
+      if (docSnap.exists()) {
+        const data = docSnap.data()
+        setOrganizer({
+          id: organizerId,
+          url: data.url,
+          name: data.name,
+          role: data.role || '',
+        })
+      } else {
+        console.log(`No se encontró el organizador con ID: ${organizerId}`)
+      }
+    } catch (error) {
+      console.error('Error obteniendo el organizador:', error)
+    }
+  }
 
   const fetchCollaborators = async (collaboratorIds) => {
     try {
@@ -86,7 +115,14 @@ const EventPage = () => {
 
         if (docSnap.exists()) {
           const data = docSnap.data()
-          participantsData[partId] = { url: data.url, name: data.name }
+          participantsData[partId] = {
+            url: data.url,
+            name: data.name,
+            desc: data.description,
+            twitter: data.twitter,
+            instagram: data.instagram,
+            facebook: data.facebook,
+          }
         } else {
           console.log(`No se encontró el participante con ID: ${partId}`)
         }
@@ -200,37 +236,31 @@ const EventPage = () => {
       </div>
 
       <div className="flex flex-col items-center justify-between p-4 bg-gray-200 rounded-lg md:flex-row">
-        <div>
-          <p className="font-bold">Organizado por:</p>
-          <p>{event.organizer}</p>
-          <div className="flex items-center gap-4">
-            {event.collaborators?.map((collabId) => (
-              <div key={collabId} className="flex items-center gap-2">
-                <img
-                  src={collaborators[collabId]?.url || '/placeholder.png'}
-                  alt={`Collaborator ${collaborators[collabId]?.name || collabId}`}
-                  className="object-cover w-12 h-12 rounded-full"
-                />
-                <span className="font-medium">
-                  {collaborators[collabId]?.name || 'Desconocido'}
-                </span>
-              </div>
-            ))}
-          </div>
+        <div className="w-full md:w-auto">
+          <p className="mb-3 text-xl font-bold">Organizado por:</p>
+          {organizer ? (
+            <div className="flex items-center gap-3">
+              <img
+                src={organizer.url || '/placeholder.png'}
+                alt={`Organizador ${organizer.name}`}
+                className="object-cover w-24 h-24 rounded-full"
+              />
+            </div>
+          ) : (
+            <p>{event.organizer || 'Organizador no definido'}</p>
+          )}
         </div>
-        <div>
-          <p className="font-bold">Con la colaboración de:</p>
-          <div className="flex items-center gap-4">
+
+        <div className="mt-6 md:mt-0">
+          <p className="mb-3 text-xl font-bold">Con la colaboración de:</p>
+          <div className="flex flex-wrap items-center gap-4">
             {event.collaborators?.map((collabId) => (
-              <div key={collabId} className="flex items-center gap-2">
+              <div key={collabId} className="flex flex-col items-center gap-2">
                 <img
                   src={collaborators[collabId]?.url || '/placeholder.png'}
                   alt={`Collaborator ${collaborators[collabId]?.name || collabId}`}
-                  className="object-cover w-12 h-12 rounded-full"
+                  className="object-contain w-24 h-24 rounded-full"
                 />
-                <span className="font-medium">
-                  {collaborators[collabId]?.name || 'Desconocido'}
-                </span>
               </div>
             ))}
           </div>
@@ -239,18 +269,63 @@ const EventPage = () => {
 
       <div className="flex flex-col items-center justify-between p-4 my-20 rounded-lg md:flex-row">
         <div className="w-full text-center">
-          <h2 className="t64r">Con la participación de:</h2>
-          <div className="flex items-center gap-4 my-20">
+          <h2 className="t64bl">Con la participación de:</h2>
+          <div className="flex flex-col items-center gap-4 my-20">
             {event.participants?.map((partId) => (
-              <div key={partId} className="flex items-center gap-2">
+              <div key={partId} className="flex justify-start min-w-full gap-6">
                 <img
                   src={participants[partId]?.url || '/placeholder.png'}
                   alt={`Collaborator ${participants[partId]?.name || partId}`}
                   className="object-cover w-64 h-64 rounded-full"
                 />
-                <span className="t64l">
-                  {participants[partId]?.name || 'Desconocido'}
-                </span>
+                <div className="flex flex-col items-start justify-center">
+                  <span className="t64b">{participants[partId]?.name}</span>
+                  <p className="t24l">{participants[partId]?.desc}</p>
+                  <div className="flex items-center gap-4 mt-2">
+                    {participants[partId]?.twitter && (
+                      <a
+                        href={
+                          participants[partId]?.twitter.startsWith('http')
+                            ? participants[partId]?.twitter
+                            : `https://twitter.com/${participants[partId]?.twitter.replace('@', '')}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-black transition-colors hover:text-blue-500"
+                      >
+                        <XIcon fontSize="large" />
+                      </a>
+                    )}
+                    {participants[partId]?.instagram && (
+                      <a
+                        href={
+                          participants[partId]?.instagram.startsWith('http')
+                            ? participants[partId]?.instagram
+                            : `https://instagram.com/${participants[partId]?.instagram.replace('@', '')}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-black transition-colors hover:text-pink-600"
+                      >
+                        <InstagramIcon fontSize="large" />
+                      </a>
+                    )}
+                    {participants[partId]?.facebook && (
+                      <a
+                        href={
+                          participants[partId]?.facebook.startsWith('http')
+                            ? participants[partId]?.facebook
+                            : `https://facebook.com/${participants[partId]?.facebook}`
+                        }
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-black transition-colors hover:text-blue-700"
+                      >
+                        <FacebookIcon fontSize="large" />
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
