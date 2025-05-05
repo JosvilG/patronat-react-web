@@ -16,12 +16,10 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DynamicButton from '../../components/Buttons'
 
-// Modificar el modelo de evento para incluir participantes
 const createEventModelWithParticipants = () => {
   const baseModel = createEventModel()
   return {
     ...baseModel,
-    participants: [], // Añadir array de participantes
   }
 }
 
@@ -34,6 +32,8 @@ function EventForm() {
   const [participantSearch, setParticipantSearch] = useState('')
   const [filteredCollaborators, setFilteredCollaborators] = useState([])
   const [filteredParticipants, setFilteredParticipants] = useState([])
+  const [organizerSearch, setOrganizerSearch] = useState('')
+  const [filteredOrganizers, setFilteredOrganizers] = useState([])
   const [file, setFile] = useState(null)
   const [uploading] = useState(false)
   const [progress, setProgress] = useState(0)
@@ -112,6 +112,14 @@ function EventForm() {
     )
   }, [participantSearch, participants])
 
+  useEffect(() => {
+    setFilteredOrganizers(
+      collaborators.filter((collab) =>
+        collab.name.toLowerCase().includes(organizerSearch.toLowerCase())
+      )
+    )
+  }, [organizerSearch, collaborators])
+
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
     setEventData({
@@ -149,6 +157,20 @@ function EventForm() {
     setEventData({
       ...eventData,
       participants: eventData.participants.filter((id) => id !== participantId),
+    })
+  }
+
+  const setOrganizer = (collab) => {
+    setEventData({
+      ...eventData,
+      organizer: collab.id,
+    })
+  }
+
+  const removeOrganizer = () => {
+    setEventData({
+      ...eventData,
+      organizer: '',
     })
   }
 
@@ -289,15 +311,81 @@ function EventForm() {
                 required
               />
             </div>
+
             <div className="col-span-2">
-              <DynamicInput
-                name="organizer"
-                textId={t(`${viewDictionary}.organizerLabel`)}
-                type="text"
-                value={eventData.organizer}
-                onChange={handleChange}
-              />
+              <h3 className="mb-4 text-lg font-semibold text-gray-700">
+                {t(`${viewDictionary}.organizerLabel`)}
+              </h3>
+
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <DynamicInput
+                    name="searchOrganizer"
+                    textId="Buscar organizador"
+                    type="text"
+                    value={organizerSearch}
+                    onChange={(e) => setOrganizerSearch(e.target.value)}
+                  />
+
+                  <div className="p-2 mt-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                    <DynamicItems
+                      items={filteredOrganizers.map((collab) => ({
+                        title: collab.name,
+                        description: collab.role,
+                        type: 'eventData',
+                        icon: (
+                          <button
+                            type="button"
+                            onClick={() => setOrganizer(collab)}
+                          >
+                            <AddIcon fontSize="small" />
+                          </button>
+                        ),
+                      }))}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="mb-2 text-gray-700 t16r">
+                    Organizador Seleccionado
+                  </h4>
+                  <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                    {eventData.organizer ? (
+                      <DynamicItems
+                        items={(() => {
+                          const organizer = collaborators.find(
+                            (collab) => collab.id === eventData.organizer
+                          )
+                          return organizer
+                            ? [
+                                {
+                                  title: organizer.name,
+                                  description: organizer.role,
+                                  type: 'eventData',
+                                  icon: (
+                                    <button
+                                      type="button"
+                                      onClick={removeOrganizer}
+                                    >
+                                      <DeleteIcon fontSize="small" />
+                                    </button>
+                                  ),
+                                },
+                              ]
+                            : []
+                        })()}
+                      />
+                    ) : (
+                      <p className="p-2 text-gray-500">
+                        Ningún organizador seleccionado
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
             </div>
+
             <div className="col-span-2">
               <DynamicInput
                 name="location"
@@ -305,7 +393,7 @@ function EventForm() {
                 type="text"
                 value={eventData.location}
                 onChange={handleChange}
-              />{' '}
+              />
             </div>
           </div>
         </div>
