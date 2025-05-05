@@ -51,7 +51,7 @@ function HomePage() {
 }
 
 const HeroSection = ({ t }) => (
-  <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-white">
+  <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-transparent">
     <div className="absolute inset-0 z-0 bg-transparent" />
     <div className="relative z-10 flex flex-col justify-between h-full">
       <p
