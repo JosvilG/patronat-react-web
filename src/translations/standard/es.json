@@ -45,6 +45,45 @@
         "allowCars": "Permitir coches:",
         "hasBar": "¿Hay bar?:",
         "status": "Estado:"
+      },
+      "registerEvent": {
+        "title": "Crear Evento",
+        "basicInfoTitle": "Información Básica",
+        "dateInfoTitle": "Fechas y Horarios",
+        "detailsInfoTitle": "Detalles del evento",
+        "galleryInfoTitle": "Imagenes de portada",
+        "collaboratorsInfoTitle": "Colaboradores",
+        "tagsInfoTitle": "Etiquetas",
+        "nameLabel": "Nombre del Evento",
+        "descriptionLabel": "Añade una descripción",
+        "initDateLabel": "Especifica la fecha de Inicio",
+        "endDateLabel": "Especifica la fecha de Finalización",
+        "startTimeLabel": "Cual es la hora de Inicio",
+        "endTimeLabel": "Cual es la hora de Finalización",
+        "locationLabel": "Especifica una ubicación",
+        "capacityLabel": "Cual es la máxima capacidad",
+        "priceLabel": "Que precio tiene el evento",
+        "minAgeLabel": "Cual es la edad mínima ",
+        "collaboratorsSearchLabel": "Busca colaboradores",
+        "collaboratorsLabel": "Seleccione colaboradores",
+        "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
+        "tagsLabel": "Seleccione etiquetas",
+        "organizerLabel": "Añade un organizador",
+        "allowCarsLabel": "¿Se permiten carros?",
+        "categoryLabel": "Seleccione una categoría",
+        "hasBarLabel": "¿Hay Barra?",
+        "statusLabel": "Estado",
+        "imageURL": "Añade una URL de la imagen de portada",
+        "addImage": "Añadir imagen para la portada",
+        "submitButton": "Crear Evento",
+        "errorPopup": {
+          "title": "Error",
+          "text": "Algo salió mal. Intenta nuevamente más tarde."
+        },
+        "successPopup": {
+          "title": "Evento Creado Correctamente",
+          "text": "El evento se ha creado y guardado con éxito."
+        }
       }
     },
     "home": {
@@ -170,5 +209,9 @@
       "week": "Semana",
       "day": "Día"
     }
+  },
+  "utils": {
+    "yes": "Sí",
+    "no": "No"
   }
 }
