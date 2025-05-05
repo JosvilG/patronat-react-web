@@ -22,7 +22,17 @@ function HomePage() {
   const { events, loading: loadingEvents, handleEventClick } = useEvents()
 
   const upcomingEvents = events
-    .filter((event) => new Date(event.start) >= new Date())
+    .filter((event) => {
+      const eventDate = new Date(event.start)
+      const now = new Date()
+
+      const isSameDay =
+        eventDate.getDate() === now.getDate() &&
+        eventDate.getMonth() === now.getMonth() &&
+        eventDate.getFullYear() === now.getFullYear()
+
+      return isSameDay || eventDate >= now
+    })
     .sort((a, b) => new Date(a.start) - new Date(b.start))
     .slice(0, 3)
 
