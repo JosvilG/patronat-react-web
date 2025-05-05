@@ -19,6 +19,9 @@ import ResetPassword from '../pages/access/ResetPassword'
 import CollaboratorRegisterForm from '../pages/collaborators/CollabRegister'
 import CollaboratorModifyForm from '../pages/collaborators/CollabModify'
 import CollabList from '../pages/collaborators/CollabList'
+import ParticipantRegisterForm from '../pages/participants/ParticipantRegister'
+import ParticipantModifyForm from '../pages/participants/ParticipantModify'
+import ParticipantList from '../pages/participants/ParticipantList'
 
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
@@ -43,4 +46,7 @@ export const protectedRoutes = [
   { path: '/new-collaborator', element: <CollaboratorRegisterForm /> },
   { path: '/modify-collaborator/:id', element: <CollaboratorModifyForm /> },
   { path: '/list-collaborator', element: <CollabList /> },
+  { path: '/new-participant', element: <ParticipantRegisterForm /> },
+  { path: '/modify-participant/:id', element: <ParticipantModifyForm /> },
+  { path: '/list-participant', element: <ParticipantList /> },
 ]
