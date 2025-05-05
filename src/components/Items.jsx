@@ -2,15 +2,18 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import DynamicButton from './Buttons'
 
-const DynamicItems = ({ items }) => {
+const DynamicItems = ({ items, extraClass }) => {
   const [expandedIndex, setExpandedIndex] = useState(null)
 
   return (
     <div className="px-4 pb-[20px]">
       {items.map((item, index) => (
-        <div key={index} className="relative w-fit min-w-[400px] max-w-[100%]">
+        <div
+          key={index}
+          className={`relative w-full min-w-[400px] max-w-[100%] ${extraClass}`}
+        >
           <div
-            className={`flex items-center justify-between px-4 py-2 h-[40px] text-[#252525] hover:text-gray-700 max-w-[100%] ${
+            className={`flex items-center justify-between px-4 py-2 h-fit text-[#252525] hover:text-gray-700 max-w-[100%] ${
               index !== items.length - 1 && item.type !== 'eventData'
                 ? 'border-b border-[#252525]'
                 : ''
@@ -121,6 +124,7 @@ DynamicItems.propTypes = {
       type: PropTypes.string,
     })
   ).isRequired,
+  extraClass: PropTypes.string,
 }
 
 export default DynamicItems
