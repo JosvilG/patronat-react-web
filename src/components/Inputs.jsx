@@ -120,7 +120,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
               name={name}
               type="email"
               placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden  focus:outline-none"
+              className="t16l w-[312px] overflow-hidden  focus:outline-none bg-transparent"
               inputProps={{
                 className:
                   'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
@@ -136,12 +136,12 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
 
       case 'password':
         return (
-          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2   text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2  min-w-[400px] h-[54px] px-4 py-2 flex flex-row items-center text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
             <input
               name={name}
               type="password"
               placeholder={t('components.inputs.enterPassword')}
-              className="t16l w-[312px] overflow-hidden  focus:outline-none"
+              className="t16l w-[312px] overflow-hidden  focus:outline-none bg-transparent"
               inputProps={{
                 className:
                   'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
@@ -182,7 +182,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
               name={name}
               type="text"
               placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden  focus:outline-none"
+              className="t16l w-[312px] overflow-hidden  focus:outline-none bg-transparent"
               inputProps={{
                 className:
                   'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
@@ -203,7 +203,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
               name={name}
               type="number"
               placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden  focus:outline-none"
+              className="t16l w-[312px] overflow-hidden  focus:outline-none bg-transparent"
               inputProps={{
                 className:
                   'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
