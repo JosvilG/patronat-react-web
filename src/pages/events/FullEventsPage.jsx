@@ -29,6 +29,7 @@ const FullEventsPage = () => {
 
       {isAdmin ? (
         <DynamicItems
+          extraClass={'mb-4'}
           items={events.map((event) => {
             return {
               title: event.title,
