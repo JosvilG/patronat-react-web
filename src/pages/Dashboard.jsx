@@ -55,9 +55,10 @@ export default function Dashboard() {
       ],
     },
     {
-      id: 'socios & colaboradores',
-      title: 'Socios & colaboradores',
-      description: 'Gestiona los socios y colaborares de la plataforma.',
+      id: 'socios',
+      title: 'Socios',
+      description:
+        'Gestiona los socios del Patronat de Festes. Modifica las cuotas, datos personales, etc.',
       icon: '🤝',
       actions: [
         {
@@ -65,6 +66,14 @@ export default function Dashboard() {
           title: 'Gestión de Socios',
           route: '/socios',
         },
+      ],
+    },
+    {
+      id: 'colaboradores',
+      title: 'Colaboradores',
+      description:
+        'Gestiona los colaborares del Patronat de Festes. Entidades,  organizaciones o personas que colaboran.',
+      actions: [
         {
           id: 'create-collaborator',
           title: 'Crear nuevo colaborador',
@@ -74,6 +83,24 @@ export default function Dashboard() {
           id: 'list-collaborator',
           title: 'Lista de colaboradores',
           route: '/list-collaborator',
+        },
+      ],
+    },
+    {
+      id: 'participantes',
+      title: 'Participantes',
+      description:
+        'Gestiona los participantes en los eventos del Patronat de Festes. Dj, grupos musicales, etc.',
+      actions: [
+        {
+          id: 'create-participants',
+          title: 'Crear nuevo participante',
+          route: '/new-participant',
+        },
+        {
+          id: 'list-participants',
+          title: 'Lista de participantes',
+          route: '/list-participant',
         },
       ],
     },
