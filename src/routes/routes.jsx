@@ -16,7 +16,7 @@ import ProfilePage from '../pages/ProfilePage'
 import Settings from '../pages/users/userSettings'
 import RecoverPassword from '../pages/access/RecoverPassword'
 import ResetPassword from '../pages/access/ResetPassword'
-
+import EventModify from '../pages/events/EventModify'
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
   { path: '/login', element: <Auth /> },
@@ -37,4 +37,5 @@ export const protectedRoutes = [
   { path: '/new-crew', element: <CrewForm /> },
   { path: '/profile', element: <ProfilePage /> },
   { path: '/settings', element: <Settings /> },
+  { path: '/edit-event/:eventName', element: <EventModify /> },
 ]
