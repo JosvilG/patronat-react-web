@@ -114,7 +114,7 @@ export function Navbar() {
     ))
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-white to-95%">
+    <nav className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-white to-95%">
       <div className="flex items-center ml-8">
         <Link to="/">
           <img
@@ -126,7 +126,7 @@ export function Navbar() {
       </div>
 
       {!isSmallScreen && (
-        <div className="t16r flex h-auto min-h-[41px] items-center max-w-[605px] w-full justify-center px-2 text-[#D9D9D9] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-full transition duration-300 hover:shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
+        <div className="t16r flex h-auto min-h-[41px] items-center max-w-[605px] w-full justify-center px-2 text-[#D9D9D9] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-full transition duration-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
           {renderNavLinks()}
         </div>
       )}

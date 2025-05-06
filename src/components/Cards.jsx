@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { useTranslation } from 'react-i18next'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const DynamicCard = ({
   type,
@@ -15,14 +16,23 @@ const DynamicCard = ({
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [imgError, setImgError] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
+  const fullscreenRef = useRef(null)
   const { t } = useTranslation()
 
   const handleGalleryClick = () => {
     setIsFullscreen(true)
+    document.body.style.overflow = 'hidden'
   }
 
   const handleCloseFullscreen = () => {
     setIsFullscreen(false)
+    document.body.style.overflow = 'auto'
+  }
+
+  const handleFullscreenBackdropClick = (e) => {
+    if (fullscreenRef.current === e.target) {
+      handleCloseFullscreen()
+    }
   }
 
   const handleImageLoad = () => {
@@ -57,7 +67,6 @@ const DynamicCard = ({
           }`}
           onClick={type === 'gallery' ? handleGalleryClick : undefined}
         >
-          {/* Imagen */}
           <img
             src={imgError ? 'https://via.placeholder.com/150' : imageUrl}
             alt={title}
@@ -103,32 +112,51 @@ const DynamicCard = ({
             <p className="pb-2 flex flex-row items-center line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969] leading-10">
               {title}
             </p>
-            <p className=" leading-7 text-gray-600 transition-colors t20r group-hover:text-[#696969] line-clamp-3">
+            <p className="leading-7 text-gray-600 transition-colors t20r group-hover:text-[#696969] line-clamp-3">
               {description}
             </p>
           </div>
         )}
       </div>
 
-      {isFullscreen && type === 'gallery' && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-md">
-          <button
-            className="absolute rounded-[60px] p-2 text-white bg-gray-700 rounded-full top-4 right-4"
-            onClick={handleCloseFullscreen}
+      <AnimatePresence>
+        {isFullscreen && type === 'gallery' && (
+          <motion.div
+            ref={fullscreenRef}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 cursor-pointer backdrop-blur-md"
+            onClick={handleFullscreenBackdropClick}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            ✕
-          </button>
-          <img
-            src={
-              imgError
-                ? 'https://dynamoprojects.com/wp-content/uploads/2022/12/no-image.jpg'
-                : imageUrl
-            }
-            alt={title}
-            className="max-w-full max-h-full rounded-lg"
-          />
-        </div>
-      )}
+            <motion.div
+              className="relative max-w-[90%] max-h-[90%] cursor-default"
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              onClick={(e) => e.stopPropagation()} // Evita que los clics en la imagen se propaguen al fondo
+            >
+              <img
+                src={
+                  imgError
+                    ? 'https://dynamoprojects.com/wp-content/uploads/2022/12/no-image.jpg'
+                    : imageUrl
+                }
+                alt={title}
+                className="max-w-full max-h-[90vh] rounded-lg object-contain"
+              />
+              {title && (
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-black bg-opacity-50 rounded-b-lg">
+                  <h3 className="text-xl font-bold">{title}</h3>
+                  {description && <p className="mt-1 text-sm">{description}</p>}
+                </div>
+              )}
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }
