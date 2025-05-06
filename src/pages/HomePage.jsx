@@ -128,7 +128,7 @@ const GallerySection = ({
   }, [galleryImages])
 
   return (
-    <section className="py-16 bg-transparent">
+    <section className="py-16 bg-transparent max-w-[156vh]">
       <h2 className="mb-6 text-right t64s">
         <a href="/gallery">{t('pages.home.galerySection.title')}</a>
       </h2>
@@ -156,6 +156,7 @@ const GallerySection = ({
                   }
                   opacity={0.5}
                   scale={0.9}
+                  clickable={false}
                 />
               </motion.div>
               <motion.div
@@ -184,6 +185,7 @@ const GallerySection = ({
                   index={(currentGalleryIndex + 1) % galleryImages.length}
                   opacity={0.5}
                   scale={0.9}
+                  clickable={false}
                 />
               </motion.div>
             </AnimatePresence>
@@ -214,7 +216,13 @@ const GallerySection = ({
   )
 }
 
-const GalleryCard = ({ galleryImages, index, opacity = 1, scale = 1 }) => (
+const GalleryCard = ({
+  galleryImages,
+  index,
+  opacity = 1,
+  scale = 1,
+  clickable = true,
+}) => (
   <motion.div
     className="flex-shrink-0 max-sm:w-[380px] w-[550px] h-[530px] transition-all duration-300 px-3"
     style={{ opacity, scale }}
@@ -224,6 +232,7 @@ const GalleryCard = ({ galleryImages, index, opacity = 1, scale = 1 }) => (
       title={galleryImages[index]?.name}
       imageUrl={galleryImages[index]?.url}
       description={galleryImages[index]?.description}
+      clickable={clickable} // Pasar la propiedad clickable
     />
   </motion.div>
 )
@@ -379,6 +388,7 @@ GalleryCard.propTypes = {
   index: PropTypes.number.isRequired,
   opacity: PropTypes.number,
   scale: PropTypes.number,
+  clickable: PropTypes.bool,
 }
 
 export default HomePage

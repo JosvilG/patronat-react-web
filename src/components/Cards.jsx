@@ -12,6 +12,7 @@ const DynamicCard = ({
   imageUrl,
   extraClass,
   link,
+  clickable = true,
 }) => {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [imgError, setImgError] = useState(false)
@@ -20,8 +21,10 @@ const DynamicCard = ({
   const { t } = useTranslation()
 
   const handleGalleryClick = () => {
-    setIsFullscreen(true)
-    document.body.style.overflow = 'hidden'
+    if (clickable) {
+      setIsFullscreen(true)
+      document.body.style.overflow = 'hidden'
+    }
   }
 
   const handleCloseFullscreen = () => {
@@ -56,16 +59,18 @@ const DynamicCard = ({
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={() => {
-          if (type === 'event' && link) {
+          if (clickable && type === 'event' && link) {
             window.open(link)
           }
         }}
       >
         <div
-          className={`relative cursor-pointer ${
+          className={`relative ${clickable ? 'cursor-pointer' : 'cursor-default'} ${
             type === 'gallery' ? 'h-full' : 'h-auto sm:h-[400px]'
-          }`}
-          onClick={type === 'gallery' ? handleGalleryClick : undefined}
+          } ${!clickable ? 'pointer-events-none' : ''}`}
+          onClick={
+            clickable && type === 'gallery' ? handleGalleryClick : undefined
+          }
         >
           <img
             src={imgError ? 'https://via.placeholder.com/150' : imageUrl}
@@ -77,7 +82,9 @@ const DynamicCard = ({
 
           {type === 'gallery' && (
             <div
-              className="absolute inset-0 flex items-end p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100"
+              className={`absolute inset-0 flex items-end p-4 transition-opacity duration-300 ${
+                clickable ? 'opacity-0 group-hover:opacity-100' : 'opacity-0'
+              }`}
               style={{
                 borderRadius: '60px',
                 boxShadow: 'inset 0 -228px 17px -102px rgba(0, 0, 0, 0.45)',
@@ -85,7 +92,10 @@ const DynamicCard = ({
             >
               <div className="flex items-baseline justify-between w-full overflow-hidden text-white">
                 <p className="text-white t40b line-clamp-1">{title}</p>
-                <button className="p-2 bg-black bg-opacity-50 rounded-full">
+                <button
+                  className="p-2 bg-black bg-opacity-50 rounded-full"
+                  disabled={!clickable}
+                >
                   <OpenInFullIcon fontSize="medium"></OpenInFullIcon>
                 </button>
               </div>
@@ -94,7 +104,9 @@ const DynamicCard = ({
 
           {type === 'event' && (
             <div
-              className="absolute inset-0 flex flex-row justify-end items-end p-4 transition-opacity duration-300 opacity-0 group-hover:opacity-100 rounded-[60px]"
+              className={`absolute inset-0 flex flex-row justify-end items-end p-4 transition-opacity duration-300 ${
+                clickable ? 'opacity-0 group-hover:opacity-100' : 'opacity-0'
+              } rounded-[60px]`}
               style={{
                 borderRadius: '60px',
                 boxShadow: 'inset 0 -228px 17px -102px rgba(0, 0, 0, 0.45)',
@@ -136,7 +148,7 @@ const DynamicCard = ({
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              onClick={(e) => e.stopPropagation()} // Evita que los clics en la imagen se propaguen al fondo
+              onClick={(e) => e.stopPropagation()}
             >
               <img
                 src={
@@ -169,6 +181,7 @@ DynamicCard.propTypes = {
   date: PropTypes.string,
   imageUrl: PropTypes.string.isRequired,
   link: PropTypes.string,
+  clickable: PropTypes.bool,
 }
 
 export default DynamicCard
