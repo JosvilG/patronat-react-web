@@ -108,7 +108,7 @@ function RegisterPage() {
 
   return (
     <div className="items-center h-screen mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
-      <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px]">
+      <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px] z-10">
         <div className="max-w-lg mx-auto text-center">
           <h1 className="text-black t40b">{t('pages.userRegister.title')}</h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
@@ -202,7 +202,7 @@ function RegisterPage() {
           </DynamicButton>
         </form>
       </div>
-      <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:relative md:bottom-20">
+      <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply">
         <img
           src={backgroundImage}
           alt="login portada"

@@ -1,9 +1,7 @@
-// pages/HomePage.js
 import React from 'react'
 import PropTypes from 'prop-types'
 import DynamicCard from './../components/Cards'
 import useEvents from '../hooks/useEvents'
-import Loader from '../components/Loader'
 import Calendar from '../components/Calendar'
 import { useTranslation } from 'react-i18next'
 import useGallery from '../hooks/useGallery'
@@ -22,7 +20,22 @@ function HomePage() {
   const { events, loading: loadingEvents, handleEventClick } = useEvents()
 
   const upcomingEvents = events
-    .filter((event) => new Date(event.start) >= new Date())
+    .filter((event) => {
+      const eventStartDate = new Date(event.start)
+      const eventEndDate = event.end ? new Date(event.end) : null
+      const now = new Date()
+
+      const isSameDay =
+        eventStartDate.getDate() === now.getDate() &&
+        eventStartDate.getMonth() === now.getMonth() &&
+        eventStartDate.getFullYear() === now.getFullYear()
+
+      const isActive =
+        eventEndDate && now >= eventStartDate && now <= eventEndDate
+      const isFuture = eventStartDate >= now
+
+      return isSameDay || isActive || isFuture
+    })
     .sort((a, b) => new Date(a.start) - new Date(b.start))
     .slice(0, 3)
 
@@ -51,7 +64,7 @@ function HomePage() {
 }
 
 const HeroSection = ({ t }) => (
-  <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-white">
+  <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-transparent">
     <div className="absolute inset-0 z-0 bg-transparent" />
     <div className="relative z-10 flex flex-col justify-between h-full">
       <p
@@ -92,7 +105,7 @@ const GallerySection = ({
     </h2>
     {loadingGallery ? (
       <div className="flex items-center justify-center">
-        <Loader loading={loadingGallery} />
+        {/* <Loader loading={loadingGallery} /> */}
       </div>
     ) : galleryImages.length >= 3 ? (
       <div className="relative">
@@ -188,7 +201,7 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
     </h2>
     {loadingEvents ? (
       <div className="flex items-center justify-center">
-        <Loader loading={loadingEvents} />
+        {/* <Loader loading={loadingEvents} /> */}
       </div>
     ) : events.length > 0 ? (
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">

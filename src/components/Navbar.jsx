@@ -65,7 +65,7 @@ const DropdownMenu = ({ items, onClose }) => (
           <button
             key={index}
             onClick={item.onClick}
-            className="t12s flex w-full px-4 py-2 text-sm text-left transition duration-300 ease-in-out rounded-[27px] justify-center bg-[#A0A0A0] hover:bg-gray-200 active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className="t12s flex w-full px-4 py-2 text-sm text-left transition duration-300 ease-in-out rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
           >
             {item.label}
           </button>
@@ -73,7 +73,7 @@ const DropdownMenu = ({ items, onClose }) => (
           <Link
             key={index}
             to={item.to}
-            className="t12s flex px-4 py-2 text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center bg-[#A0A0A0] hover:bg-gray-200 active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className="t12s flex px-4 py-2 text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
             onClick={() => {
               log.info(`Navegando a ${item.label}`)
               onClose()
@@ -126,7 +126,7 @@ export function Navbar() {
       </div>
 
       {!isSmallScreen && (
-        <div className="t16r flex h-auto min-h-[41px] items-center max-w-[605px] w-full justify-center px-2 bg-[#A0A0A0] rounded-full shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
+        <div className="t16r flex h-auto min-h-[41px] items-center max-w-[605px] w-full justify-center px-2 text-[#D9D9D9] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-full transition duration-300 hover:shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
           {renderNavLinks()}
         </div>
       )}

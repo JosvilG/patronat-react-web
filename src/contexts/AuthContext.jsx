@@ -54,7 +54,6 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  // Memoriza el valor del contexto
   const value = useMemo(
     () => ({ user, userData, loading }),
     [user, userData, loading]

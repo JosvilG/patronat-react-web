@@ -91,9 +91,12 @@ const DynamicButton = ({ size, state, type, textId, children, ...props }) => {
   const stateClasses = getStateClasses(state)
   const { icon, classes: typeClasses } = getTypeClasses(type)
 
+  const transitionClasses =
+    'transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]'
+
   return (
     <button
-      className={`t16s flex justify-center items-center ${sizeClasses} ${stateClasses} px-4 py-2 rounded-[60px] ${props.className} ${typeClasses}`}
+      className={`t16s flex justify-center items-center ${sizeClasses} ${stateClasses} px-4 py-2 rounded-[60px] ${props.className} ${typeClasses} ${transitionClasses}`}
       disabled={state === 'disabled' || props.disabled}
       {...props}
     >

@@ -1,17 +1,20 @@
-import React, { useContext } from 'react'
+import React, { useState, useEffect } from 'react'
 import useEvents from '../../hooks/useEvents'
-import DynamicItems from '../../components/Items'
 import DynamicCard from '../../components/Cards'
-import Loader from '../../components/Loader'
-import { AuthContext } from '../../contexts/AuthContext'
+import DynamicInput from '../../components/Inputs'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 const FullEventsPage = () => {
-  const { events, loading, error } = useEvents()
-  const { userData } = useContext(AuthContext)
+  const { events, error } = useEvents()
+  const navigate = useNavigate()
+  const { t } = useTranslation()
+  const [searchQuery, setSearchQuery] = useState('')
+  const [filteredEvents, setFilteredEvents] = useState([])
 
-  if (loading) {
-    return <Loader loading={loading} />
-  }
+  useEffect(() => {
+    setFilteredEvents(events)
+  }, [events])
 
   if (error) {
     return (
@@ -21,36 +24,48 @@ const FullEventsPage = () => {
     )
   }
 
-  const isAdmin = userData?.role === 'admin'
+  const handleEventClick = (event) => {
+    navigate(`/event/${event.title.toLowerCase().replace(/ /g, '-')}`)
+  }
+
+  const handleSearchChange = (event) => {
+    const query = event.target.value.toLowerCase()
+    setSearchQuery(query)
+
+    const filtered = events.filter(
+      (event) =>
+        (event.title && event.title.toLowerCase().includes(query)) ||
+        (event.description &&
+          event.description.toLowerCase().includes(query)) ||
+        (event.location && event.location.toLowerCase().includes(query))
+    )
+
+    setFilteredEvents(filtered)
+  }
 
   return (
     <div className="container min-h-screen p-4 mx-auto">
       <h1 className="mb-4 text-2xl font-bold text-center">Lista de Eventos</h1>
 
-      {isAdmin ? (
-        <DynamicItems
-          items={events.map((event) => {
-            return {
-              title: event.title,
-              description: event.description,
-              badge: new Date(event.start).toLocaleDateString('es-ES', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-              }),
-              haveChevron: true,
-              action: () => {
-                alert(`Evento seleccionado: ${event.title}`)
-              },
-            }
-          })}
+      <div className="max-w-md mx-auto mb-8">
+        <DynamicInput
+          name="search"
+          type="text"
+          textId="Buscar eventos"
+          placeholder="Buscar por título o descripción"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
-      ) : (
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {events.map((event) => {
-            return (
+      </div>
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {filteredEvents.map((event) => {
+          return (
+            <div
+              key={event.eventId}
+              onClick={() => handleEventClick(event)}
+              className="cursor-pointer"
+            >
               <DynamicCard
-                key={event.eventId}
                 type="event"
                 title={event.title}
                 description={event.description}
@@ -59,19 +74,13 @@ const FullEventsPage = () => {
                   month: 'short',
                   year: 'numeric',
                 })}
-                imageUrl={
-                  event.imageURL
-                    ? event.imageURL
-                    : event.eventURL
-                      ? event.eventURL
-                      : '/placeholder.png'
-                }
+                imageUrl={event.eventURL ? event.eventURL : '/placeholder.png'}
                 link={`/event/${event.title.toLowerCase().replace(/ /g, '-')}`}
               />
-            )
-          })}
-        </div>
-      )}
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

@@ -62,6 +62,10 @@ function CollabList() {
     }
   }
 
+  const generateSlug = (name) => {
+    return name.toLowerCase().replace(/ /g, '-')
+  }
+
   if (loading)
     return (
       <Loader
@@ -113,7 +117,18 @@ function CollabList() {
 
             <div className="flex space-x-2">
               <DynamicButton
-                onClick={() => navigate(`/modify-collaborator/${collab.id}`)}
+                onClick={() => {
+                  const slug = generateSlug(collab.name)
+                  console.log(
+                    'Navegando a editar colaborador:',
+                    slug,
+                    'ID:',
+                    collab.id
+                  )
+                  navigate(`/modify-collaborator/${slug}`, {
+                    state: { collaboratorId: collab.id },
+                  })
+                }}
                 size="small"
                 state="normal"
                 textId={t(`${viewDictionary}.modifyButton`)}

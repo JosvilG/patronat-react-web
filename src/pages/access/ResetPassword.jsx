@@ -18,23 +18,6 @@ const ResetPassword = () => {
   const { galleryImages } = useGallery()
   const [backgroundImage, setBackgroundImage] = useState(null)
 
-  // useEffect(() => {
-  //   const params = new URLSearchParams(location.search)
-  //   const code = params.get('oobCode')
-  //   if (code) {
-  //     setOobCode(code)
-  //   } else {
-  //     showPopup({
-  //       title: t('components.popup.failTitle'),
-  //       text: t('components.popup.invalidLink'),
-  //       icon: 'error',
-  //       confirmButtonText: t('components.popup.confirmButtonText'),
-  //       confirmButtonColor: '#d33',
-  //       onConfirm: () => navigate('/login'),
-  //     })
-  //   }
-  // }, [location])
-
   useEffect(() => {
     const storedBackground = localStorage.getItem('loginBackgroundImage')
     if (storedBackground) {

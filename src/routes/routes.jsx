@@ -22,6 +22,8 @@ import CollabList from '../pages/collaborators/CollabList'
 import ParticipantRegisterForm from '../pages/participants/ParticipantRegister'
 import ParticipantModifyForm from '../pages/participants/ParticipantModify'
 import ParticipantList from '../pages/participants/ParticipantList'
+import EventModify from '../pages/events/EventModify'
+import EventList from '../pages/events/EventList'
 
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
@@ -44,9 +46,11 @@ export const protectedRoutes = [
   { path: '/profile', element: <ProfilePage /> },
   { path: '/settings', element: <Settings /> },
   { path: '/new-collaborator', element: <CollaboratorRegisterForm /> },
-  { path: '/modify-collaborator/:id', element: <CollaboratorModifyForm /> },
+  { path: '/modify-collaborator/:slug', element: <CollaboratorModifyForm /> },
   { path: '/list-collaborator', element: <CollabList /> },
   { path: '/new-participant', element: <ParticipantRegisterForm /> },
-  { path: '/modify-participant/:id', element: <ParticipantModifyForm /> },
+  { path: '/modify-participant/:slug', element: <ParticipantModifyForm /> },
   { path: '/list-participant', element: <ParticipantList /> },
+  { path: '/events-control-list', element: <EventList /> },
+  { path: '/edit-event/:slug', element: <EventModify /> },
 ]

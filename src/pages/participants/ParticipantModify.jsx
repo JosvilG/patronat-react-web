@@ -1,6 +1,13 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
+import React, { useState, useEffect, useContext, useRef } from 'react'
+import { useNavigate, useParams, useLocation } from 'react-router-dom'
+import {
+  doc,
+  getDoc,
+  updateDoc,
+  serverTimestamp,
+  collection,
+  getDocs,
+} from 'firebase/firestore'
 import {
   ref,
   uploadBytesResumable,
@@ -20,7 +27,12 @@ import DynamicCard from '../../components/Cards'
 function ParticipantModifyForm() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { id } = useParams()
+  const { slug } = useParams()
+  const location = useLocation()
+  const participantId = location.state?.participantId
+
+  const foundIdRef = useRef(null)
+
   const { user } = useContext(AuthContext)
   const viewDictionary = 'pages.participants.modifyParticipants'
 
@@ -37,42 +49,115 @@ function ParticipantModifyForm() {
     newImageUrl: null,
   })
 
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  const generateSafeSlug = (name) => {
+    return (name || '')
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+  }
+
+  const getStoragePathFromUrl = (url) => {
+    try {
+      if (!url) return null
+      const path = url.split('/o/')[1]?.split('?')[0]
+      return path ? decodeURIComponent(path) : null
+    } catch (e) {
+      console.error('Error extracting storage path:', e)
+      return null
+    }
+  }
+
   useEffect(() => {
     const fetchParticipant = async () => {
       try {
-        const docRef = doc(db, 'participants', id)
-        const docSnap = await getDoc(docRef)
-        if (docSnap.exists()) {
-          setFormState({
-            name: docSnap.data().name || '',
-            description: docSnap.data().description || '',
-            instagram: docSnap.data().instagram || '',
-            facebook: docSnap.data().facebook || '',
-            twitter: docSnap.data().twitter || '',
-            currentUrl: docSnap.data().url || '',
-            file: null,
-            uploading: false,
-            submitting: false,
-            newImageUrl: null,
-          })
+        if (participantId) {
+          const docRef = doc(db, 'participants', participantId)
+          const docSnap = await getDoc(docRef)
+
+          if (docSnap.exists()) {
+            setFormState({
+              name: docSnap.data().name || '',
+              description: docSnap.data().description || '',
+              instagram: docSnap.data().instagram || '',
+              facebook: docSnap.data().facebook || '',
+              twitter: docSnap.data().twitter || '',
+              currentUrl: docSnap.data().url || '',
+              file: null,
+              uploading: false,
+              submitting: false,
+              newImageUrl: null,
+            })
+            setLoading(false)
+          } else {
+            showPopup({
+              title: t(`${viewDictionary}.notFoundTitle`),
+              text: t(`${viewDictionary}.notFoundText`),
+              icon: 'error',
+              confirmButtonText: t('components.popup.confirmButtonText'),
+            })
+            navigate('/dashboard')
+          }
         } else {
-          showPopup({
-            title: t(`${viewDictionary}.notFoundTitle`),
-            text: t(`${viewDictionary}.notFoundText`),
-            icon: 'error',
-            confirmButtonText: t('components.popup.confirmButtonText'),
-          })
-          navigate('/dashboard')
+          const participantsRef = collection(db, 'participants')
+          const querySnapshot = await getDocs(participantsRef)
+
+          let found = false
+
+          for (const docSnapshot of querySnapshot.docs) {
+            const data = docSnapshot.data()
+            const nameSlug = generateSafeSlug(data.name)
+
+            if (nameSlug === slug) {
+              setFormState({
+                name: data.name || '',
+                description: data.description || '',
+                instagram: data.instagram || '',
+                facebook: data.facebook || '',
+                twitter: data.twitter || '',
+                currentUrl: data.url || '',
+                file: null,
+                uploading: false,
+                submitting: false,
+                newImageUrl: null,
+              })
+
+              foundIdRef.current = docSnapshot.id
+
+              found = true
+              setLoading(false)
+              break
+            }
+          }
+
+          if (!found) {
+            setError('No se encontró el participante especificado.')
+            showPopup({
+              title: t(`${viewDictionary}.notFoundTitle`),
+              text: t(`${viewDictionary}.notFoundText`),
+              icon: 'error',
+              confirmButtonText: t('components.popup.confirmButtonText'),
+            })
+            navigate('/dashboard')
+          }
         }
       } catch (error) {
         console.error('Error fetching participant:', error)
+        setError('Ocurrió un error al cargar los datos del participante.')
+        setLoading(false)
       }
     }
+
     fetchParticipant()
-  }, [id, navigate, t])
+  }, [participantId, slug, navigate, t])
 
   const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0]
+    const selectedFile = e.target.files?.[0]
+    if (!selectedFile) return
+
     const validationError = validateFile(selectedFile, t)
 
     if (validationError) {
@@ -97,10 +182,8 @@ function ParticipantModifyForm() {
 
     setFormState((prev) => ({ ...prev, uploading: true }))
 
-    const fileName =
-      formState.name.trim() ||
-      formState.file.name.replace(/[^a-zA-Z0-9.]/g, '_')
-    const storageRef = ref(storage, `participants/${fileName}`)
+    const safeFileName = `${Date.now()}_${(formState.name.trim() || 'participant').replace(/[^a-zA-Z0-9]/g, '_')}`
+    const storageRef = ref(storage, `participants/${safeFileName}`)
 
     return new Promise((resolve, reject) => {
       const uploadTask = uploadBytesResumable(storageRef, formState.file)
@@ -124,13 +207,16 @@ function ParticipantModifyForm() {
 
           if (formState.currentUrl) {
             try {
-              const oldImageRef = ref(storage, formState.currentUrl)
-              await deleteObject(oldImageRef)
+              const storagePath = getStoragePathFromUrl(formState.currentUrl)
+              if (storagePath) {
+                const oldImageRef = ref(storage, storagePath)
+                await deleteObject(oldImageRef)
+              }
             } catch (error) {
               console.error('Error deleting old image:', error)
             }
           }
-          resolve({ url, fileName })
+          resolve({ url, fileName: safeFileName })
         }
       )
     })
@@ -139,6 +225,30 @@ function ParticipantModifyForm() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setFormState((prev) => ({ ...prev, submitting: true }))
+
+    if (!formState.name.trim()) {
+      await showPopup({
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: 'El nombre del participante es obligatorio',
+        icon: 'error',
+        confirmButtonText: t('components.popup.confirmButtonText'),
+      })
+      setFormState((prev) => ({ ...prev, submitting: false }))
+      return
+    }
+
+    const idToUse = participantId || foundIdRef.current
+
+    if (!idToUse) {
+      await showPopup({
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: 'No se pudo identificar el participante a actualizar',
+        icon: 'error',
+        confirmButtonText: t('components.popup.confirmButtonText'),
+      })
+      setFormState((prev) => ({ ...prev, submitting: false }))
+      return
+    }
 
     const validationError = formState.file
       ? validateFile(formState.file, t)
@@ -167,7 +277,7 @@ function ParticipantModifyForm() {
 
     try {
       let updatedFields = {
-        name: formState.name,
+        name: formState.name.trim(),
         description: formState.description,
         instagram: formState.instagram,
         facebook: formState.facebook,
@@ -188,20 +298,62 @@ function ParticipantModifyForm() {
       updatedFields.lastUpdateDate = serverTimestamp()
       updatedFields.userId = user.uid
 
-      await updateDoc(doc(db, 'participants', id), updatedFields)
+      await updateDoc(doc(db, 'participants', idToUse), updatedFields)
 
-      showPopup({
+      await showPopup({
         title: t(`${viewDictionary}.successPopup.title`),
         text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
         confirmButtonText: t('components.popup.confirmButtonText'),
       })
+
       navigate('/dashboard')
     } catch (error) {
       console.error('Error updating participant:', error)
+      await showPopup({
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: 'Error al actualizar el participante',
+        icon: 'error',
+        confirmButtonText: t('components.popup.confirmButtonText'),
+      })
     } finally {
       setFormState((prev) => ({ ...prev, submitting: false }))
     }
+  }
+
+  useEffect(() => {
+    return () => {
+      if (formState.newImageUrl) {
+        URL.revokeObjectURL(formState.newImageUrl)
+      }
+    }
+  }, [formState.newImageUrl])
+
+  if (loading) {
+    return (
+      <Loader
+        loading={true}
+        size="50px"
+        color="rgb(21, 100, 46)"
+        text="Cargando información del participante..."
+      />
+    )
+  }
+
+  if (error) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h1 className="mb-4 text-2xl font-bold text-red-500">Error</h1>
+        <p className="text-lg">{error}</p>
+        <DynamicButton
+          onClick={() => navigate('/list-participant')}
+          size="medium"
+          state="normal"
+          textId="Volver a la lista de participantes"
+          className="mt-4"
+        />
+      </div>
+    )
   }
 
   return (
@@ -222,6 +374,7 @@ function ParticipantModifyForm() {
               setFormState((prev) => ({ ...prev, name: e.target.value }))
             }
             disabled={formState.uploading}
+            required
           />
         </div>
 
@@ -243,7 +396,6 @@ function ParticipantModifyForm() {
         </h2>
 
         <div className="flex flex-col items-center w-full">
-          <h1 className="mb-4 t16r">{t(`${viewDictionary}.instagramLabel`)}</h1>
           <DynamicInput
             name="instagram"
             type="text"
@@ -257,7 +409,6 @@ function ParticipantModifyForm() {
         </div>
 
         <div className="flex flex-col items-center w-full">
-          <h1 className="mb-4 t16r">{t(`${viewDictionary}.facebookLabel`)}</h1>
           <DynamicInput
             name="facebook"
             type="text"
@@ -271,7 +422,6 @@ function ParticipantModifyForm() {
         </div>
 
         <div className="flex flex-col items-center w-full">
-          <h1 className="mb-4 t16r">{t(`${viewDictionary}.twitterLabel`)}</h1>
           <DynamicInput
             name="twitter"
             type="text"
@@ -285,7 +435,6 @@ function ParticipantModifyForm() {
         </div>
 
         <div className="flex flex-col items-center w-full">
-          <h1 className="mb-4 t16r">{t(`${viewDictionary}.imageLabel`)}</h1>
           <DynamicInput
             name="file"
             type="document"
