@@ -18,7 +18,7 @@ const Loader = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-white backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex flex-col items-center justify-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]"
       role="status"
       aria-live="polite"
     >

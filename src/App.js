@@ -5,10 +5,12 @@ import ProtectedRoute from './components/ProtectedRoute'
 import UnderConstruction from './pages/UnderConstruction'
 import './translations/index'
 import { publicRoutes, protectedRoutes } from './routes/routes'
+import ScrollToTop from './utils/scrollToTop'
 
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
           {/* Rutas públicas */}

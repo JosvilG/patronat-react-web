@@ -3,7 +3,15 @@ import PropTypes from 'prop-types'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { useTranslation } from 'react-i18next'
 
-const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
+const DynamicCard = ({
+  type,
+  title,
+  description,
+  date,
+  imageUrl,
+  extraClass,
+  link,
+}) => {
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [imgError, setImgError] = useState(false)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -31,13 +39,15 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
     <>
       <div
         className={`relative w-full ${
-          type === 'gallery' ? 'max-sm:h-[400px] h-[530px]' : 'sm:h-[550px]'
+          type === 'gallery'
+            ? `max-sm:h-[400px] h-[530px] ${extraClass}`
+            : 'sm:h-auto'
         } overflow-hidden group select-none transition-opacity duration-700 ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         }`}
         onClick={() => {
           if (type === 'event' && link) {
-            window.open(link, '_blank')
+            window.open(link)
           }
         }}
       >
@@ -90,7 +100,7 @@ const DynamicCard = ({ type, title, description, date, imageUrl, link }) => {
 
         {type === 'event' && (
           <div className="px-4 py-2">
-            <p className="pb-2 leading-8 flex flex-row items-center line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969] leading-10">
+            <p className="pb-2 flex flex-row items-center line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969] leading-10">
               {title}
             </p>
             <p className=" leading-7 text-gray-600 transition-colors t20r group-hover:text-[#696969] line-clamp-3">
@@ -127,6 +137,7 @@ DynamicCard.propTypes = {
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
+  extraClass: PropTypes.string,
   date: PropTypes.string,
   imageUrl: PropTypes.string.isRequired,
   link: PropTypes.string,

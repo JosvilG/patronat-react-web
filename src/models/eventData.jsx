@@ -13,7 +13,7 @@ export const createEventModel = () => ({
   minAge: 0,
   collaborators: [],
   tags: [],
-  category: '',
+  participants: [],
   imageURL: '',
   organizer: '',
   allowCars: false,

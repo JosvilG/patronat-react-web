@@ -76,7 +76,7 @@ const Calendar = () => {
   }
 
   return (
-    <div className="max-w-5xl p-6 mx-auto my-8 bg-white rounded-lg shadow-lg">
+    <div className="max-w-5xl p-6 mx-auto my-8 bg-white backdrop-blur-[17px] bg-[rgba(255,255,255,0.4)]  rounded-xl -webkit-backdrop-filter: blur(17px) saturate(180%); shadow-lg">
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"
@@ -98,16 +98,37 @@ const Calendar = () => {
         eventClassNames={({ event }) =>
           getEventClassNames(event.extendedProps?.tags || [])
         }
-        eventContent={(eventInfo) => (
-          <div className="p-2">
-            <strong className="block text-lg font-semibold">
-              {eventInfo.event.title}
-            </strong>
-            <p className="text-sm">
-              {eventInfo.event.extendedProps?.description}
-            </p>
-          </div>
-        )}
+        eventContent={(eventInfo) => {
+          // Obtener las etiquetas del evento
+          const eventTags = eventInfo.event.extendedProps?.tags || []
+
+          // Determinar las clases de estilo basadas en las etiquetas
+          let textClass = 'text-black' // Valor predeterminado
+
+          // Buscar la primera etiqueta que coincida con tagColors para aplicar su estilo
+          for (const tag of eventTags) {
+            if (tagColors?.[tag]) {
+              // Extraer solo la parte del texto (text-color) de la clase de la etiqueta
+              const tagStyle = tagColors[tag]
+              const textStyleMatch = tagStyle.match(/text-[a-z0-9-]+/)
+              if (textStyleMatch) {
+                textClass = textStyleMatch[0]
+                break
+              }
+            }
+          }
+
+          return (
+            <div className={`p-2 ${textClass}`}>
+              <strong className={`block text-lg font-semibold ${textClass}`}>
+                {eventInfo.event.title}
+              </strong>
+              <p className={`text-sm ${textClass}`}>
+                {eventInfo.event.extendedProps?.description}
+              </p>
+            </div>
+          )
+        }}
       />
     </div>
   )

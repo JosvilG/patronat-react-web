@@ -1,4 +1,3 @@
-// hooks/useMenuToggle.js
 import { useState } from 'react'
 
 export const useMenuToggle = () => {

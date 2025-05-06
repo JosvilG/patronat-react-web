@@ -26,7 +26,20 @@ function LoginPage() {
         image.tags.includes('login')
       )
       if (loginImages.length > 0) {
-        const imageUrl = loginImages[0].url
+        const sortedImages = [...loginImages].sort((a, b) => {
+          if (a.createdAt instanceof Date && b.createdAt instanceof Date) {
+            return b.createdAt - a.createdAt
+          }
+          if (
+            typeof a.createdAt === 'number' &&
+            typeof b.createdAt === 'number'
+          ) {
+            return b.createdAt - a.createdAt
+          }
+          return new Date(b.createdAt) - new Date(a.createdAt)
+        })
+
+        const imageUrl = sortedImages[0].url
         setBackgroundImage(imageUrl)
         localStorage.setItem('loginBackgroundImage', imageUrl)
       }
@@ -52,7 +65,7 @@ function LoginPage() {
 
   return (
     <div className="grid items-center h-screen mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
-      <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-40">
+      <div className="relative z-10 rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-40">
         <div className="max-w-lg mx-auto text-center">
           <h1 className="text-black t40b">{t('pages.login.title')}</h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
@@ -71,8 +84,7 @@ function LoginPage() {
           <DynamicInput
             name="email"
             type="text"
-            textId="loginPage.email"
-            placeholder={t('pages.login.mailInput')}
+            textId={t('pages.login.mailInput')}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -81,8 +93,7 @@ function LoginPage() {
           <DynamicInput
             name="password"
             type="password"
-            textId="loginPage.password"
-            placeholder={t('pages.login.passwordInput')}
+            textId={t('pages.login.passwordInput')}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -111,7 +122,7 @@ function LoginPage() {
         </div>
       </div>
 
-      <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:relative md:bottom-20">
+      <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply">
         <img
           src={backgroundImage}
           alt="login portada"

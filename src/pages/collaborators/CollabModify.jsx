@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import {
   ref,
@@ -19,46 +19,60 @@ import DynamicCard from '../../components/Cards'
 function CollaboratorModifyForm() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const { id } = useParams()
+  const location = useLocation()
+  const collaboratorId = location.state?.collaboratorId
   const viewDictionary = 'pages.collaborators.modifyCollaborators'
 
-  const [formState, setFormState] = useState({
+  const [formData, setFormData] = useState({
     name: '',
+    email: '',
     file: null,
     currentUrl: '',
     uploading: false,
     submitting: false,
     newImageUrl: null,
   })
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchCollaborator = async () => {
+      if (!collaboratorId) {
+        console.error('No se proporcionó un ID de colaborador válido')
+        setError('No se pudo cargar la información del colaborador.')
+        setLoading(false)
+        return
+      }
+
       try {
-        const docRef = doc(db, 'collaborators', id)
+        const docRef = doc(db, 'collaborators', collaboratorId)
         const docSnap = await getDoc(docRef)
+
         if (docSnap.exists()) {
-          setFormState({
-            name: docSnap.data().name,
-            currentUrl: docSnap.data().url,
+          const collabData = docSnap.data()
+          setFormData({
+            id: docSnap.id,
+            name: collabData.name || '',
+            email: collabData.email || '',
+            currentUrl: collabData.url || '',
             file: null,
             uploading: false,
             submitting: false,
             newImageUrl: null,
           })
         } else {
-          showPopup({
-            title: t(`${viewDictionary}.notFoundTitle`),
-            text: t(`${viewDictionary}.notFoundText`),
-            icon: 'error',
-          })
-          navigate('/list-collaborator')
+          setError('No se encontró el colaborador especificado.')
         }
       } catch (error) {
-        console.error('Error fetching collaborator:', error)
+        console.error('Error al cargar los datos del colaborador:', error)
+        setError('Ocurrió un error al cargar los datos del colaborador.')
+      } finally {
+        setLoading(false)
       }
     }
+
     fetchCollaborator()
-  }, [id, navigate, t])
+  }, [collaboratorId])
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0]
@@ -73,7 +87,7 @@ function CollaboratorModifyForm() {
       return
     }
 
-    setFormState((prev) => ({
+    setFormData((prev) => ({
       ...prev,
       file: selectedFile,
       newImageUrl: URL.createObjectURL(selectedFile),
@@ -81,15 +95,15 @@ function CollaboratorModifyForm() {
   }
 
   const handleUpload = async () => {
-    if (!formState.file) return { url: formState.currentUrl }
+    if (!formData.file) return { url: formData.currentUrl }
 
-    setFormState((prev) => ({ ...prev, uploading: true }))
+    setFormData((prev) => ({ ...prev, uploading: true }))
 
-    const fileName = formState.file.name.replace(/[^a-zA-Z0-9.]/g, '_')
+    const fileName = formData.file.name.replace(/[^a-zA-Z0-9.]/g, '_')
     const storageRef = ref(storage, `collaborators/${fileName}`)
 
     return new Promise((resolve, reject) => {
-      const uploadTask = uploadBytesResumable(storageRef, formState.file)
+      const uploadTask = uploadBytesResumable(storageRef, formData.file)
 
       uploadTask.on(
         'state_changed',
@@ -101,14 +115,14 @@ function CollaboratorModifyForm() {
             text: t(`${viewDictionary}.errorPopup.text`),
             icon: 'error',
           })
-          setFormState((prev) => ({ ...prev, uploading: false }))
+          setFormData((prev) => ({ ...prev, uploading: false }))
           reject(error)
         },
         async () => {
           const url = await getDownloadURL(uploadTask.snapshot.ref)
 
-          if (formState.currentUrl) {
-            const oldImageRef = ref(storage, formState.currentUrl)
+          if (formData.currentUrl) {
+            const oldImageRef = ref(storage, formData.currentUrl)
             try {
               await deleteObject(oldImageRef)
             } catch (error) {
@@ -123,10 +137,10 @@ function CollaboratorModifyForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setFormState((prev) => ({ ...prev, submitting: true }))
+    setFormData((prev) => ({ ...prev, submitting: true }))
 
-    const validationError = formState.file
-      ? validateFile(formState.file, t)
+    const validationError = formData.file
+      ? validateFile(formData.file, t)
       : null
     if (validationError) {
       await showPopup({
@@ -134,20 +148,20 @@ function CollaboratorModifyForm() {
         text: validationError,
         icon: 'error',
       })
-      setFormState((prev) => ({ ...prev, submitting: false }))
+      setFormData((prev) => ({ ...prev, submitting: false }))
       return
     }
 
     try {
-      let updatedFields = { name: formState.name }
-      let newUrl = formState.currentUrl
+      let updatedFields = { name: formData.name, email: formData.email }
+      let newUrl = formData.currentUrl
 
-      if (formState.file) {
+      if (formData.file) {
         const { url } = await handleUpload()
         newUrl = url
       }
 
-      if (newUrl !== formState.currentUrl) {
+      if (newUrl !== formData.currentUrl) {
         updatedFields.url = newUrl
       }
 
@@ -155,7 +169,7 @@ function CollaboratorModifyForm() {
 
       updatedFields.lastUpdateDate = lastUpdateDate
 
-      await updateDoc(doc(db, 'collaborators', id), updatedFields)
+      await updateDoc(doc(db, 'collaborators', collaboratorId), updatedFields)
 
       showPopup({
         title: t(`${viewDictionary}.successPopup.title`),
@@ -166,13 +180,21 @@ function CollaboratorModifyForm() {
     } catch (error) {
       console.error('Error updating collaborator:', error)
     } finally {
-      setFormState((prev) => ({ ...prev, submitting: false }))
+      setFormData((prev) => ({ ...prev, submitting: false }))
     }
+  }
+
+  if (loading) {
+    return <Loader loading={loading} />
+  }
+
+  if (error) {
+    return <div>{error}</div>
   }
 
   return (
     <div className="h-auto p-6 mx-auto text-center max-w-fit ">
-      <Loader loading={formState.submitting} />
+      <Loader loading={formData.submitting} />
       <h1 className="mb-4 t40b">{t(`${viewDictionary}.title`)}</h1>
       <form
         onSubmit={handleSubmit}
@@ -184,11 +206,23 @@ function CollaboratorModifyForm() {
             <DynamicInput
               name="name"
               type="text"
-              value={formState.name}
+              value={formData.name}
               onChange={(e) =>
-                setFormState((prev) => ({ ...prev, name: e.target.value }))
+                setFormData((prev) => ({ ...prev, name: e.target.value }))
               }
-              disabled={formState.uploading}
+              disabled={formData.uploading}
+            />
+          </div>
+          <div className="flex flex-col items-center">
+            <h1 className="mb-4 t16r">{t(`${viewDictionary}.emailLabel`)}</h1>
+            <DynamicInput
+              name="email"
+              type="email"
+              value={formData.email}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, email: e.target.value }))
+              }
+              disabled={formData.uploading}
             />
           </div>
           <div className="flex flex-col items-center">
@@ -197,13 +231,13 @@ function CollaboratorModifyForm() {
               name="file"
               type="document"
               onChange={handleFileChange}
-              disabled={formState.uploading}
+              disabled={formData.uploading}
             />
           </div>
         </div>
 
         <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 sm:gap-4">
-          {formState.currentUrl && (
+          {formData.currentUrl && (
             <div>
               <h1 className="mb-4 t16r">
                 {t(`${viewDictionary}.oldImageTitle`)}
@@ -211,12 +245,12 @@ function CollaboratorModifyForm() {
               <DynamicCard
                 type="gallery"
                 title="Imagen actual"
-                imageUrl={formState.currentUrl}
+                imageUrl={formData.currentUrl}
               />
             </div>
           )}
 
-          {formState.newImageUrl && (
+          {formData.newImageUrl && (
             <div>
               <h1 className="mb-4 t16r">
                 {t(`${viewDictionary}.newImageTitle`)}
@@ -224,7 +258,7 @@ function CollaboratorModifyForm() {
               <DynamicCard
                 type="gallery"
                 title="Nueva imagen"
-                imageUrl={formState.newImageUrl}
+                imageUrl={formData.newImageUrl}
               />
             </div>
           )}
@@ -233,13 +267,13 @@ function CollaboratorModifyForm() {
         <DynamicButton
           type="submit"
           size="large"
-          state={formState.uploading ? 'disabled' : 'normal'}
+          state={formData.uploading ? 'disabled' : 'normal'}
           textId={
-            formState.uploading
+            formData.uploading
               ? `${viewDictionary}.uploadingText`
               : `${viewDictionary}.uploadButton`
           }
-          disabled={formState.uploading}
+          disabled={formData.uploading}
         />
       </form>
     </div>

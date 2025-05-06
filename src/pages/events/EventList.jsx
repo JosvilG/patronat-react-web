@@ -6,62 +6,60 @@ import { useNavigate } from 'react-router-dom'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 
-function ParticipantList() {
+function EventList() {
   const { t } = useTranslation()
   const navigate = useNavigate()
-  const [participant, setParticipants] = useState([])
-  const [filteredParticipants, setFilteredParticipants] = useState([])
+  const [events, setEvents] = useState([])
+  const [filteredEvents, setFilteredEvents] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
-  const viewDictionary = 'pages.participants.listParticipants'
+  const viewDictionary = 'pages.events.fullListEvents'
 
   useEffect(() => {
-    const fetchParticipant = async () => {
+    const fetchEvents = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, 'participants'))
-        const participantData = querySnapshot.docs.map((doc) => ({
+        const querySnapshot = await getDocs(collection(db, 'events'))
+        const eventData = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }))
-        setParticipants(participantData)
-        setFilteredParticipants(participantData)
+        setEvents(eventData)
+        setFilteredEvents(eventData)
       } catch (error) {
-        console.error('Error fetching participants:', error)
+        console.error('Error fetching collaborators:', error)
       }
     }
 
-    fetchParticipant()
+    fetchEvents()
   }, [])
 
   const handleSearchChange = (event) => {
     const query = event.target.value
     setSearchQuery(query)
 
-    const filtered = participant.filter(
-      (part) =>
-        (part.name && part.name.toLowerCase().includes(query)) ||
-        (part.email && part.email.toLowerCase().includes(query))
+    const filtered = events.filter(
+      (event) => event.title && event.title.toLowerCase().includes(query)
     )
 
-    setFilteredParticipants(filtered)
+    setFilteredEvents(filtered)
   }
 
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, 'participants', id))
-      const updateParticipants = participant.filter((part) => part.id !== id)
-      setParticipants(updateParticipants)
-      setFilteredParticipants(updateParticipants)
+      await deleteDoc(doc(db, 'events', id))
+      const updatedEvents = events.filter((event) => event.id !== id)
+      setEvents(updatedEvents)
+      setFilteredEvents(updatedEvents)
     } catch (error) {
-      console.error('Error deleting participant:', error)
+      console.error('Error deleting event:', error)
     }
   }
 
-  const generateSlug = (name) => {
-    return name.toLowerCase().replace(/ /g, '-')
+  const generateSlug = (title) => {
+    return title.toLowerCase().replace(/ /g, '-')
   }
 
   return (
-    <div className="h-screen max-h-[75vh] p-6 mx-auto max-w-full md:max-w-fit">
+    <div className="max-w-full p-6 mx-auto md:max-w-fit">
       <h1 className="mb-4 text-2xl font-bold">
         {t(`${viewDictionary}.title`)}
       </h1>
@@ -69,14 +67,14 @@ function ParticipantList() {
         <DynamicInput
           name="search"
           type="text"
-          textId="searchPlaceholder"
+          textId={t(`${viewDictionary}.searchPlaceholder`)}
           placeholder={t(`${viewDictionary}.searchPlaceholder`)}
           value={searchQuery}
           onChange={handleSearchChange}
         />
         <div className="pl-0 sm:pl-32">
           <DynamicButton
-            onClick={() => navigate(`/new-participant/`)}
+            onClick={() => navigate(`/new-event/`)}
             size="small"
             state="normal"
             type="add"
@@ -85,32 +83,33 @@ function ParticipantList() {
         </div>
       </div>
       <ul className="space-y-4">
-        {filteredParticipants.map((part) => (
+        {filteredEvents.map((event) => (
           <li
-            key={part.id}
+            key={event.id}
             className="flex items-center justify-between p-4 space-x-4 bg-gray-100 rounded-lg shadow"
           >
             <div className="flex items-center space-x-4">
               <img
-                src={part.url}
-                alt={part.name}
+                src={event.eventURL}
+                alt={event.title}
                 className="object-cover w-16 h-16 rounded-full"
               />
-              <span className="text-lg font-semibold">{part.name}</span>
+              <span className="text-lg font-semibold">{event.title}</span>
             </div>
 
             <div className="flex space-x-2">
               <DynamicButton
                 onClick={() => {
-                  const slug = generateSlug(part.name)
+                  // Usar el slug del título en lugar del ID
+                  const slug = generateSlug(event.title)
                   console.log(
-                    'Navegando a editar participante:',
+                    'Navegando a editar evento:',
                     slug,
                     'ID:',
-                    part.id
+                    event.id
                   )
-                  navigate(`/modify-participant/${slug}`, {
-                    state: { participantId: part.id },
+                  navigate(`/edit-event/${slug}`, {
+                    state: { eventId: event.id },
                   })
                 }}
                 size="small"
@@ -118,7 +117,7 @@ function ParticipantList() {
                 textId={t(`${viewDictionary}.modifyButton`)}
               />
               <DynamicButton
-                onClick={() => handleDelete(part.id)}
+                onClick={() => handleDelete(event.id)}
                 size="x-small"
                 type="delete"
               />
@@ -130,4 +129,4 @@ function ParticipantList() {
   )
 }
 
-export default ParticipantList
+export default EventList
