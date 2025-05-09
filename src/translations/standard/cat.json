@@ -13,63 +13,204 @@
         "submitButton": "Crear Penya",
         "errorPopup": {
           "title": "Error",
-          "text": "Alguna cosa ha anat malament. Intenta-ho novament més tard."
+          "text": "Alguna cosa ha anat malament. Intenta-ho de nou més tard."
         },
         "successPopup": {
-          "title": "Penya Creada Correctament",
-          "text": "La penya s'ha creat i desat amb èxit."
+          "title": "Penya Creat Correctament",
+          "text": "La penya s'ha creat i guardat correctament."
         }
       }
     },
     "settings": {
       "defaulLanguageTitle": "Idioma per defecte",
-      "defaulLanguageDescription": "Selecciona l'idioma per defecte del web"
+      "defaulLanguageDescription": "Selecciona l'idioma per defecte de la web"
     },
     "events": {
       "details": {
-        "popupTitle": "<p>Detalls de l'esdeveniment: ",
-        "popupText": "<p><strong>Descripció: </strong>",
-        "popupInitDate": "<p><strong>Data d'inici: </strong>",
-        "popupEndDate": "<p><strong>Data de finalització: </strong>",
-        "startDate": "Data d'inici",
-        "endDate": "Data de finalització",
-        "startTime": "Hora d'inici",
-        "endTime": "Hora de finalització",
-        "location": "Ubicació",
-        "capacity": "Capacitat",
-        "price": "Preu",
-        "minAge": "Edat mínima",
-        "collaborators": "Col·laboradors",
-        "tags": "Etiquetes",
-        "organizer": "Organitzador",
-        "allowCars": "Permetre cotxes",
+        "popupTitle": "Detalls de l'esdeveniment: ",
+        "popupText": "Descripció:",
+        "popupInitDate": "Data d'inici:",
+        "popupEndDate": "Data de finalització:",
+        "startDate": "Data d'inici:",
+        "endDate": "Data de finalització:",
+        "startTime": "Hora d'inici:",
+        "endTime": "Hora de finalització:",
+        "dateInfoTitle": "Dates i Hores",
+        "locationInfoTitle": "Lloc i accés",
+        "pricesInfoTitle": "Preus i serveis",
+        "location": "Ubicació:",
+        "capacity": "Capacitat:",
+        "price": "Preu:",
+        "minAge": "Edat mínima:",
+        "collaborators": "Amb la col·laboració de:",
+        "tags": "Etiquetes:",
+        "organizer": "Organitzat per",
+        "allowCars": "Permetre carros",
         "hasBar": "Hi ha bar?",
-        "status": "Estat"
+        "status": "Estat:",
+        "downloadPermission": "Descarregar autorització",
+        "withParticipation": "Amb la participació de:"
+      },
+      "registerEvent": {
+        "title": "Crear Esdeveniment",
+        "basicInfoTitle": "Informació Bàsica",
+        "dateInfoTitle": "Dates i Horaris",
+        "detailsInfoTitle": "Detalls de l'esdeveniment",
+        "galleryInfoTitle": "Imatges de portada",
+        "collaboratorsInfoTitle": "Col·laboradors",
+        "tagsInfoTitle": "Etiquetes",
+        "nameLabel": "Nom de l'Esdeveniment",
+        "descriptionLabel": "Afegeix una descripció",
+        "initDateLabel": "Data d'Inici",
+        "endDateLabel": "Data de Finalització",
+        "startTimeLabel": "Hora d'Inici",
+        "endTimeLabel": "Hora de Finalització",
+        "locationLabel": "Especifica una ubicació",
+        "capacityLabel": "Quina és la capacitat màxima",
+        "priceLabel": "Quin preu té l'esdeveniment",
+        "minAgeLabel": "Quina és l'edat mínima",
+        "collaboratorsSearchLabel": "Cerca col·laboradors",
+        "collaboratorsLabel": "Selecciona col·laboradors",
+        "collaboratorsSelectedLabel": "Col·laboradors Seleccionats",
+        "tagsLabel": "Selecciona etiquetes",
+        "organizerLabel": "Afegeix un organitzador",
+        "allowCarsLabel": "Es permeten carros?",
+        "categoryLabel": "Selecciona una categoria",
+        "hasBarLabel": "Hi ha Barra?",
+        "statusLabel": "Estat",
+        "imageURL": "Afegeix una URL de la imatge de portada",
+        "addImage": "Afegir imatge per a la portada",
+        "submitButton": "Crear Esdeveniment",
+        "errorPopup": {
+          "title": "Error",
+          "text": "Alguna cosa ha anat malament. Intenta-ho de nou més tard."
+        },
+        "successPopup": {
+          "title": "Esdeveniment Creat Correctament",
+          "text": "L'esdeveniment s'ha creat i guardat correctament."
+        }
+      },
+      "fullListEvents": {
+        "title": "Llistat d'Esdeveniments",
+        "searchPlaceholder": "Cercar esdeveniment...",
+        "addNewButton": "Afegir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Carregant esdeveniments...",
+        "noEvents": "No hi ha esdeveniments disponibles",
+        "noEventsFound": "No s'han trobat esdeveniments amb aquest nom.",
+        "eventDateTitle": "Data de l'esdeveniment",
+        "eventTimeTitle": "Hora de l'esdeveniment",
+        "eventLocationTitle": "Ubicació de l'esdeveniment",
+        "eventStatusTitle": "Estat de l'esdeveniment"
+      },
+      "modifyEvent": {
+        "title": "Modificar Esdeveniment",
+        "basicInfoTitle": "Informació Bàsica",
+        "dateInfoTitle": "Dates i Horaris",
+        "detailsInfoTitle": "Detalls de l'esdeveniment",
+        "galleryInfoTitle": "Imatges de portada",
+        "collaboratorsInfoTitle": "Col·laboradors",
+        "tagsInfoTitle": "Etiquetes",
+        "addImage": "Afegir imatge per a la portada",
+        "imageURL": "Afegeix una URL de la imatge de portada",
+        "nameLabel": "Nom de l'Esdeveniment",
+        "descriptionLabel": "Afegeix una descripció",
+        "initDateLabel": "Data d'Inici",
+        "endDateLabel": "Data de Finalització",
+        "startTimeLabel": "Hora d'Inici",
+        "endTimeLabel": "Hora de Finalització",
+        "locationLabel": "Especifica una ubicació",
+        "capacityLabel": "Quina és la capacitat màxima",
+        "priceLabel": "Quin preu té l'esdeveniment",
+        "minAgeLabel": "Quina és l'edat mínima",
+        "collaboratorsSearchLabel": "Cerca col·laboradors",
+        "collaboratorsLabel": "Selecciona col·laboradors",
+        "collaboratorsSelectedLabel": "Col·laboradors Seleccionats",
+        "tagsLabel": "Selecciona etiquetes",
+        "organizerLabel": "Afegeix un organitzador",
+        "allowCarsLabel": "Es permeten carros?",
+        "categoryLabel": "Selecciona una categoria",
+        "hasBarLabel": "Hi ha Barra?",
+        "statusLabel": "<p>Estat</p> <p>Proper</p> <p>Finalitzat</p> <p>Cancel·lat</p> <p>Posposat</p> <p>En curs</p> <p>Proper</p> <p>Finalitzat</p> <p>Cancel·lat</p> <p>Posposat</p> <p>En curs</p> <p>Tancat</p><",
+        "submitButton": "Desar",
+        "successPopup": {
+          "title": "Èxit!",
+          "text": "L'esdeveniment s'ha modificat correctament."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "Hi ha hagut un problema al modificar l'esdeveniment. Torna a intentar-ho."
+        }
       }
+    },
+    "files": {
+      "uploadFiles": {
+        "title": "Pujar arxius",
+        "fileLabel": "Selecciona un arxiu",
+        "uploadButton": "Pujar imatge",
+        "nameLabel": "Nom de l'arxiu",
+        "descriptionLabel": "Descripció de l'arxiu",
+        "categoryLabel": "Categoria de l'arxiu",
+        "tagsLabel": "Etiquetes de l'arxiu",
+        "tagsDescription": "*Pots afegir més d'una etiqueta separant-les amb comes",
+        "visibilityLabel": "Visibilitat de l'arxiu",
+        "visibliityDescription": "*Si no selecciones res, l'arxiu serà privat",
+        "visibilityPrivate": "Privat",
+        "visibilityPublic": "Públic",
+        "optimizingText": "Optimitzant imatge...",
+        "optimizationSuccessText": "Imatge optimitzada correctament.",
+        "optimizationErrorText": "Error en optimitzar la imatge.",
+        "fileRequired": "Si us plau selecciona un arxiu.",
+        "popups": {
+          "successTitle": "Èxit!",
+          "successText": "L'arxiu s'ha pujat correctament.",
+          "successButtonText": "Desar",
+          "errorTitle": "Error!",
+          "errorText": "Hi ha hagut un problema en pujar l'arxiu. Torna a intentar-ho."
+        }
+      },
+      "listUploads": {
+        "title": "Llista d'arxius",
+        "fileLabel": "Selecciona un arxiu",
+        "searchPlaceholder": "Cercar arxiu...",
+        "loadingText": "Carregant arxius..."
+      }
+    },
+    "gallery": {
+      "title": "Galeria",
+      "searchLabel": "Cercar imatges a la galeria",
+      "searchGallery": "Cercar imatges...",
+      "orderBy": "Ordenar per:",
+      "orderByDateAsc": "Data de pujada (més antiga)",
+      "orderByDateDesc": "Data de pujada (més recent)",
+      "orderByNameAsc": "Nom de l'arxiu (A-Z)",
+      "orderByNameDesc": "Nom de l'arxiu (Z-A)",
+      "noImagesFound": "No s'han trobat imatges."
     },
     "home": {
       "heroSection": {
         "title": "Patronat <br /> de festes de",
         "roquetesTitle": "Roquetes",
-        "description": "Tot el que necessites saber sobre les festivitats a Roquetes és a només un clic de distància."
+        "description": "Tot el que necessites saber sobre les festivitats a Roquetes està a només un clic de distància."
       },
       "aboutSection": {
         "title": "Qui som?",
-        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes, a Tarragona. Aquí pots trobar tota la informació sobre els pròxims esdeveniments i molt més."
+        "description": "El Patronat de Festes de Roquetes és una organització independent i apolítica sense ànim de lucre encarregada d'organitzar festivals i esdeveniments per a la localitat de Roquetes a Tarragona. Aquí pots trobar tota la informació sobre els propers esdeveniments i molt més."
       },
       "galerySection": {
         "title": "Galeria",
         "noImages": "No hi ha imatges disponibles"
       },
       "eventSection": {
-        "title": "Pròxims esdeveniments",
+        "title": "Propers esdeveniments",
         "noEvents": "No hi ha esdeveniments pròximament"
       },
       "wantToParticipateSection": {
         "title": "Vols participar?",
-        "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que tenen lloc al llarg de l'any.",
-        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, incloent-hi l'entrada a les festes majors del poble cada any.",
-        "thirdPar": "Si tens un grup d'amics, també pots participar inscrivint-te com a penya en el concurs de penyes que se celebra cada any.",
+        "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que es fan al llarg de l'any.",
+        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, la qual cosa també inclou l'entrada a les festes majors del poble cada any.",
+        "thirdPar": "Si tens un grup d'amics, també pots participar inscrivint-te com a penya en el concurs de penyes que es celebra cada any.",
         "linksPar": "<2>Fes clic aquí</2> per veure els requisits per participar en el concurs de penyes o <1>aquí</1> per registrar-te com a membre."
       }
     },
@@ -96,7 +237,7 @@
       "mailInput": "Introdueix el teu correu electrònic",
       "passwordInput": "Introdueix la teva contrasenya",
       "forgotPassword": "Has oblidat la teva contrasenya?",
-      "noAccount": "No tens un compte? ",
+      "noAccount": "No tens un compte?",
       "register": "Registra't"
     },
     "recoverPage": {
@@ -106,16 +247,16 @@
     },
     "resetPassword": {
       "title": "Restablir contrasenya",
-      "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
+      "description": "Si us plau, omple els camps per completar el teu canvi de contrasenya",
       "newPassword": "Introdueix la teva nova contrasenya",
       "confirmPassword": "Repeteix la contrasenya"
     },
     "collaborators": {
-      "title": "Afegir col·laboradors a la base de dades",
+      "title": "Nou col·laborador",
       "noCollaborators": "No hi ha col·laboradors disponibles",
       "registerCollaborators": {
-        "title": "Crear un nou col·laborador",
-        "fileLabel": "Afegir el logotip del col·laborador",
+        "title": "Crear nou col·laborador",
+        "fileLabel": "Afegeix logo del col·laborador",
         "nameLabel": "Nom del col·laborador",
         "uploadButton": "Crear col·laborador",
         "uploadingText": "Creant...",
@@ -125,18 +266,18 @@
         },
         "errorPopup": {
           "title": "Error!",
-          "text": "Hi ha hagut un problema en crear el col·laborador. Torna-ho a intentar."
+          "text": "Hi ha hagut un problema en crear el col·laborador. Torna a intentar-ho."
         },
         "authError": "Has d'estar autenticat per crear col·laboradors.",
-        "fileRequired": "Si us plau, selecciona un logotip."
+        "fileRequired": "Si us plau selecciona un logo."
       },
       "modifyCollaborators": {
         "title": "Modificar un col·laborador",
         "fileLabel": "Modifica el nom i la imatge del col·laborador",
         "nameLabel": "Nou nom del col·laborador",
         "imageLabel": "Nova imatge del col·laborador",
-        "oldImageTitle": "Logotip actual",
-        "newImageTitle": "Nou logotip",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nou logo",
         "uploadButton": "Desar canvis",
         "uploadingText": "Modificant...",
         "successPopup": {
@@ -145,10 +286,10 @@
         },
         "errorPopup": {
           "title": "Error!",
-          "text": "Hi ha hagut un problema en modificar el col·laborador. Torna-ho a intentar."
+          "text": "Hi ha hagut un problema en modificar el col·laborador. Torna a intentar-ho."
         },
         "authError": "Has d'estar autenticat per modificar col·laboradors.",
-        "fileRequired": "Si us plau, selecciona un logotip."
+        "fileRequired": "Si us plau selecciona un logo."
       },
       "listCollaborators": {
         "title": "Llistat de col·laboradors",
@@ -157,6 +298,67 @@
         "modifyButton": "Modificar",
         "deleteButton": "Eliminar",
         "loadingText": "Carregant col·laboradors..."
+      }
+    },
+
+    "participants": {
+      "title": "Nou participant",
+      "noParticipants": "No hi ha participants disponibles",
+      "registerParticipants": {
+        "title": "Crear nou participant",
+        "fileLabel": "Afegeix logo del participant",
+        "nameLabel": "Nom del participant",
+        "descriptionLabel": "Afegeix una descripció sobre el participant",
+        "uploadButton": "Crear participant",
+        "uploadingText": "Creant...",
+        "socialMediaTitle": "Xarxes socials del participant",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "previewImageTitle": "Vista prèvia del logo",
+        "successPopup": {
+          "title": "Èxit!",
+          "text": "El participant s'ha creat correctament."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "Hi ha hagut un problema en crear el participant. Torna a intentar-ho."
+        },
+        "authError": "Has d'estar autenticat per crear participants.",
+        "fileRequired": "Si us plau selecciona un logo."
+      },
+      "modifyParticipants": {
+        "title": "Modificar un participant",
+        "fileLabel": "Modifica el nom i la imatge del participant",
+        "nameLabel": "Nou nom del participant",
+        "descriptionLabel": "Modifica la descripció del participant",
+        "imageLabel": "Nova imatge del participant",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nou logo",
+        "uploadButton": "Desar canvis",
+        "uploadingText": "Modificant...",
+        "socialMediaTitle": "Modificar les xarxes socials del participant",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "successPopup": {
+          "title": "Èxit!",
+          "text": "El participant s'ha modificat correctament."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "Hi ha hagut un problema en modificar el participant. Torna a intentar-ho."
+        },
+        "authError": "Has d'estar autenticat per modificar participants.",
+        "fileRequired": "Si us plau selecciona un logo."
+      },
+      "listParticipants": {
+        "title": "Llistat de participants",
+        "searchPlaceholder": "Cercar participant...",
+        "addNewButton": "Afegir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Carregant participants..."
       }
     }
   },
@@ -170,27 +372,27 @@
       "profileTitle": "Perfil",
       "shopTitle": "Botiga",
       "settingsTitle": "Configuració",
-      "signOutTitle": "Tancar Sessió",
-      "loginTitle": "Iniciar Sessió",
+      "signOutTitle": "Tancar sessió",
+      "loginTitle": "Iniciar sessió",
       "partnersTitle": "Socis"
     },
     "popup": {
       "confirmButtonText": "Acceptar",
-      "cancelButtonText": "Cancel·lar",
+      "cancelButtonText": "Cancelar",
       "closeButtonText": "Tancar",
-      "tryAgainButtonText": "Reintentar",
+      "tryAgainButtonText": "Torna a intentar",
       "successTitle": "CONFIRMAT",
-      "successDescription": "Petició realitzada correctament",
+      "successDescription": "Sol·licitud realitzada correctament",
       "failTitle": "ERROR",
-      "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
+      "failDecription": "Alguna cosa ha anat malament. \n Si us plau torna a intentar-ho.",
       "infoTitle": "INFO",
-      "warningTitle": "COMPTE",
+      "warningTitle": "CUIDAT",
       "goToEventButton": "Anar a l'esdeveniment",
       "recoverSuccess": "Correu enviat correctament"
     },
     "buttons": {
       "accept": "Acceptar",
-      "cancel": "Cancel·lar",
+      "cancel": "Cancelar",
       "close": "Tancar",
       "save": "Desar",
       "delete": "Eliminar",
@@ -201,7 +403,7 @@
       "next": "Següent",
       "finish": "Finalitzar",
       "register": "Registrar",
-      "login": "Iniciar Sessió",
+      "login": "Iniciar sessió",
       "processing": "Processant",
       "recover": "Recuperar"
     },
@@ -221,8 +423,10 @@
     }
   },
   "utils": {
-    "fileRelated": "És necessari seleccionar un fitxer",
-    "fileSize": "La mida del fitxer no pot superar els 5MB",
-    "fileType": "El fitxer ha de ser de tipus imatge (png, jpg, jpeg)"
+    "fileRelated": "És necessari seleccionar un arxiu",
+    "fileSize": "La mida de l'arxiu no pot superar els 5MB",
+    "fileType": "L'arxiu ha de ser d'un tipus imatge (png, jpg, jpeg)",
+    "yes": "Sí",
+    "no": "No"
   }
 }

@@ -252,7 +252,7 @@
       "confirmPassword": "Repite la contraseña"
     },
     "collaborators": {
-      "title": "Añadir colaboradores a la base de datos",
+      "title": "Nuevo colaborador",
       "noCollaborators": "No hay colaboradores disponibles",
       "registerCollaborators": {
         "title": "Crear nuevo colaborador",
@@ -302,7 +302,7 @@
     },
 
     "participants": {
-      "title": "Añadir participantes a la base de datos",
+      "title": "Nuevo participante",
       "noParticipants": "No hay participantes disponibles",
       "registerParticipants": {
         "title": "Crear nuevo participante",

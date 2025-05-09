@@ -5,7 +5,7 @@
         "title": "Create Crew",
         "groupNameLabel": "Group Name",
         "responsibleLabel": "Responsible",
-        "searchPlaceholder": "E.g.: Name One, Name Two, Name Three",
+        "searchPlaceholder": "E.g., Name One, Name Two, Name Three",
         "userListTitle": "User List",
         "addMemberButton": "Add",
         "selectedMembersTitle": "Selected Members",
@@ -16,46 +16,187 @@
           "text": "Something went wrong. Please try again later."
         },
         "successPopup": {
-          "title": "Crew Successfully Created",
+          "title": "Crew Created Successfully",
           "text": "The crew has been successfully created and saved."
         }
       }
     },
     "settings": {
       "defaulLanguageTitle": "Default Language",
-      "defaulLanguageDescription": "Select the default language of the website"
+      "defaulLanguageDescription": "Select the default language for the website"
     },
     "events": {
       "details": {
-        "popupTitle": "<p>Event Details: ",
-        "popupText": "<p><strong>Description: </strong>",
-        "popupInitDate": "<p><strong>Start Date: </strong>",
-        "popupEndDate": "<p><strong>End Date: </strong>",
-        "startDate": "Start Date",
-        "endDate": "End Date",
-        "startTime": "Start Time",
-        "endTime": "End Time",
-        "location": "Location",
-        "capacity": "Capacity",
-        "price": "Price",
-        "minAge": "Minimum Age",
-        "collaborators": "Collaborators",
-        "tags": "Tags",
-        "organizer": "Organizer",
+        "popupTitle": "Event Details: ",
+        "popupText": "Description:",
+        "popupInitDate": "Start Date:",
+        "popupEndDate": "End Date:",
+        "startDate": "Start Date:",
+        "endDate": "End Date:",
+        "startTime": "Start Time:",
+        "endTime": "End Time:",
+        "dateInfoTitle": "Dates and Times",
+        "locationInfoTitle": "Location and Access",
+        "pricesInfoTitle": "Prices and Services",
+        "location": "Location:",
+        "capacity": "Capacity:",
+        "price": "Price:",
+        "minAge": "Minimum Age:",
+        "collaborators": "With the collaboration of:",
+        "tags": "Tags:",
+        "organizer": "Organized by",
         "allowCars": "Allow Cars",
         "hasBar": "Is there a bar?",
-        "status": "Status"
+        "status": "Status:",
+        "downloadPermission": "Download Authorization",
+        "withParticipation": "With the participation of:"
+      },
+      "registerEvent": {
+        "title": "Create Event",
+        "basicInfoTitle": "Basic Information",
+        "dateInfoTitle": "Dates and Times",
+        "detailsInfoTitle": "Event Details",
+        "galleryInfoTitle": "Cover Images",
+        "collaboratorsInfoTitle": "Collaborators",
+        "tagsInfoTitle": "Tags",
+        "nameLabel": "Event Name",
+        "descriptionLabel": "Add a description",
+        "initDateLabel": "Start Date",
+        "endDateLabel": "End Date",
+        "startTimeLabel": "Start Time",
+        "endTimeLabel": "End Time",
+        "locationLabel": "Specify a location",
+        "capacityLabel": "What is the maximum capacity",
+        "priceLabel": "What price is the event",
+        "minAgeLabel": "What is the minimum age",
+        "collaboratorsSearchLabel": "Search collaborators",
+        "collaboratorsLabel": "Select collaborators",
+        "collaboratorsSelectedLabel": "Selected Collaborators",
+        "tagsLabel": "Select tags",
+        "organizerLabel": "Add an organizer",
+        "allowCarsLabel": "Are cars allowed?",
+        "categoryLabel": "Select a category",
+        "hasBarLabel": "Is there a bar?",
+        "statusLabel": "Status",
+        "imageURL": "Add a URL for the cover image",
+        "addImage": "Add image for the cover",
+        "submitButton": "Create Event",
+        "errorPopup": {
+          "title": "Error",
+          "text": "Something went wrong. Please try again later."
+        },
+        "successPopup": {
+          "title": "Event Created Successfully",
+          "text": "The event has been created and saved successfully."
+        }
+      },
+      "fullListEvents": {
+        "title": "Event List",
+        "searchPlaceholder": "Search event...",
+        "addNewButton": "Add",
+        "modifyButton": "Modify",
+        "deleteButton": "Delete",
+        "loadingText": "Loading events...",
+        "noEvents": "No events available",
+        "noEventsFound": "No events found with that name.",
+        "eventDateTitle": "Event Date",
+        "eventTimeTitle": "Event Time",
+        "eventLocationTitle": "Event Location",
+        "eventStatusTitle": "Event Status"
+      },
+      "modifyEvent": {
+        "title": "Modify Event",
+        "basicInfoTitle": "Basic Information",
+        "dateInfoTitle": "Dates and Times",
+        "detailsInfoTitle": "Event Details",
+        "galleryInfoTitle": "Cover Images",
+        "collaboratorsInfoTitle": "Collaborators",
+        "tagsInfoTitle": "Tags",
+        "addImage": "Add image for the cover",
+        "imageURL": "Add a URL for the cover image",
+        "nameLabel": "Event Name",
+        "descriptionLabel": "Add a description",
+        "initDateLabel": "Start Date",
+        "endDateLabel": "End Date",
+        "startTimeLabel": "Start Time",
+        "endTimeLabel": "End Time",
+        "locationLabel": "Specify a location",
+        "capacityLabel": "What is the maximum capacity",
+        "priceLabel": "What price is the event",
+        "minAgeLabel": "What is the minimum age",
+        "collaboratorsSearchLabel": "Search collaborators",
+        "collaboratorsLabel": "Select collaborators",
+        "collaboratorsSelectedLabel": "Selected Collaborators",
+        "tagsLabel": "Select tags",
+        "organizerLabel": "Add an organizer",
+        "allowCarsLabel": "Are cars allowed?",
+        "categoryLabel": "Select a category",
+        "hasBarLabel": "Is there a bar?",
+        "statusLabel": "<p>Status</p> <p>Upcoming</p> <p>Completed</p> <p>Cancelled</p> <p>Postponed</p> <p>In Progress</p> <p>Upcoming</p> <p>Completed</p> <p>Cancelled</p> <p>Postponed</p> <p>In Progress</p> <p>Closed</p><",
+        "submitButton": "Save",
+        "successPopup": {
+          "title": "Success!",
+          "text": "The event has been modified successfully."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "There was a problem modifying the event. Please try again."
+        }
       }
+    },
+    "files": {
+      "uploadFiles": {
+        "title": "Upload Files",
+        "fileLabel": "Select a file",
+        "uploadButton": "Upload image",
+        "nameLabel": "File Name",
+        "descriptionLabel": "File Description",
+        "categoryLabel": "File Category",
+        "tagsLabel": "File Tags",
+        "tagsDescription": "*You can add more than one tag by separating them with commas",
+        "visibilityLabel": "File Visibility",
+        "visibliityDescription": "*If no option is selected, the file will be private",
+        "visibilityPrivate": "Private",
+        "visibilityPublic": "Public",
+        "optimizingText": "Optimizing image...",
+        "optimizationSuccessText": "Image optimized successfully.",
+        "optimizationErrorText": "Error optimizing image.",
+        "fileRequired": "Please select a file.",
+        "popups": {
+          "successTitle": "Success!",
+          "successText": "The file has been uploaded successfully.",
+          "successButtonText": "Save",
+          "errorTitle": "Error!",
+          "errorText": "There was a problem uploading the file. Please try again."
+        }
+      },
+      "listUploads": {
+        "title": "File List",
+        "fileLabel": "Select a file",
+        "searchPlaceholder": "Search file...",
+        "loadingText": "Loading files..."
+      }
+    },
+    "gallery": {
+      "title": "Gallery",
+      "searchLabel": "Search images in the gallery",
+      "searchGallery": "Search images...",
+      "orderBy": "Order by:",
+      "orderByDateAsc": "Upload date (oldest)",
+      "orderByDateDesc": "Upload date (newest)",
+      "orderByNameAsc": "File name (A-Z)",
+      "orderByNameDesc": "File name (Z-A)",
+      "noImagesFound": "No images found."
     },
     "home": {
       "heroSection": {
-        "title": "Festival <br /> Committee of",
+        "title": "Festivals Board <br /> of",
         "roquetesTitle": "Roquetes",
-        "description": "Everything you need to know about the festivals in Roquetes is just a click away."
+        "description": "Everything you need to know about festivals in Roquetes is just a click away."
       },
       "aboutSection": {
         "title": "Who are we?",
-        "description": "The Festival Committee of Roquetes is an independent, non-political, non-profit organization responsible for organizing festivals and events in the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
+        "description": "The Roquetes Festival Board is an independent, apolitical, non-profit organization responsible for organizing festivals and events for the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
       },
       "galerySection": {
         "title": "Gallery",
@@ -63,41 +204,41 @@
       },
       "eventSection": {
         "title": "Upcoming Events",
-        "noEvents": "No upcoming events"
+        "noEvents": "No events coming soon"
       },
       "wantToParticipateSection": {
         "title": "Want to participate?",
-        "firstPar": "There are many ways to help and participate in setting up the festivals and events that take place throughout the year.",
-        "secondPar": "You can participate by becoming a member of the association and enjoying all the events of the year, which also includes entry to the town’s main festival each year.",
-        "thirdPar": "If you have a group of friends, you can also participate by registering as a crew in the annual crew contest.",
-        "linksPar": "<2>Click here</2> to see the requirements for participating in the crew contest or <1>here</1> to register as a member."
+        "firstPar": "There are many ways to help and participate in organizing the festivals and events that take place throughout the year.",
+        "secondPar": "You can participate by becoming a member of the association and enjoy all the events of the year, which also includes entry to the town’s major festivals each year.",
+        "thirdPar": "If you have a group of friends, you can also participate by signing up as a crew in the annual crew competition.",
+        "linksPar": "<2>Click here</2> to view the requirements for participating in the crew competition or <1>here</1> to register as a member."
       }
     },
     "underConstruction": {
-      "title": "Page Not Found",
-      "weAreWorking": "This page does not exist or is not yet available. Please check back later.",
+      "title": "Page not found",
+      "weAreWorking": "This page doesn't exist or is not available yet. Please check back later.",
       "askUs": "If you have any questions, feel free to contact us."
     },
     "userRegister": {
       "title": "User Registration",
-      "description": "Please fill in the fields to complete your registration",
-      "name": "Name",
-      "surname": "Surname",
+      "description": "Please fill out the fields to complete your registration",
+      "name": "First Name",
+      "surname": "Last Name",
       "user": "Enter a username",
-      "email": "Enter an email",
+      "email": "Enter an email address",
       "password": "Enter your password",
       "phone": "Phone",
-      "dni": "ID",
+      "dni": "DNI",
       "birthDate": "Date of Birth"
     },
     "login": {
-      "title": "Log In",
+      "title": "Login",
       "description": "Welcome back, please log in to continue",
       "mailInput": "Enter your email",
       "passwordInput": "Enter your password",
       "forgotPassword": "Forgot your password?",
-      "noAccount": "Don't have an account? ",
-      "register": "Sign Up"
+      "noAccount": "Don't have an account?",
+      "register": "Register"
     },
     "recoverPage": {
       "title": "Recover Password",
@@ -106,18 +247,18 @@
     },
     "resetPassword": {
       "title": "Reset Password",
-      "description": "Please fill in the fields to complete your password change",
+      "description": "Please fill out the fields to complete your password change",
       "newPassword": "Enter your new password",
-      "confirmPassword": "Repeat password"
+      "confirmPassword": "Confirm your password"
     },
     "collaborators": {
-      "title": "Add collaborators to the database",
+      "title": "New Collaborator",
       "noCollaborators": "No collaborators available",
       "registerCollaborators": {
-        "title": "Create a new collaborator",
-        "fileLabel": "Add collaborator's logo",
-        "nameLabel": "Collaborator's name",
-        "uploadButton": "Create collaborator",
+        "title": "Create New Collaborator",
+        "fileLabel": "Add collaborator logo",
+        "nameLabel": "Collaborator Name",
+        "uploadButton": "Create Collaborator",
         "uploadingText": "Creating...",
         "successPopup": {
           "title": "Success!",
@@ -127,12 +268,12 @@
           "title": "Error!",
           "text": "There was a problem creating the collaborator. Please try again."
         },
-        "authError": "You must be authenticated to create collaborators.",
+        "authError": "You must be logged in to create collaborators.",
         "fileRequired": "Please select a logo."
       },
       "modifyCollaborators": {
-        "title": "Modify a collaborator",
-        "fileLabel": "Modify the collaborator's name and image",
+        "title": "Modify Collaborator",
+        "fileLabel": "Modify the name and image of the collaborator",
         "nameLabel": "New collaborator name",
         "imageLabel": "New collaborator image",
         "oldImageTitle": "Current logo",
@@ -147,16 +288,77 @@
           "title": "Error!",
           "text": "There was a problem modifying the collaborator. Please try again."
         },
-        "authError": "You must be authenticated to modify collaborators.",
+        "authError": "You must be logged in to modify collaborators.",
         "fileRequired": "Please select a logo."
       },
       "listCollaborators": {
-        "title": "List of collaborators",
+        "title": "Collaborator List",
         "searchPlaceholder": "Search collaborator...",
         "addNewButton": "Add",
         "modifyButton": "Modify",
         "deleteButton": "Delete",
         "loadingText": "Loading collaborators..."
+      }
+    },
+
+    "participants": {
+      "title": "New Participant",
+      "noParticipants": "No participants available",
+      "registerParticipants": {
+        "title": "Create New Participant",
+        "fileLabel": "Add participant logo",
+        "nameLabel": "Participant Name",
+        "descriptionLabel": "Add a description about the participant",
+        "uploadButton": "Create Participant",
+        "uploadingText": "Creating...",
+        "socialMediaTitle": "Participant Social Media",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "previewImageTitle": "Logo preview",
+        "successPopup": {
+          "title": "Success!",
+          "text": "The participant was created successfully."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "There was a problem creating the participant. Please try again."
+        },
+        "authError": "You must be logged in to create participants.",
+        "fileRequired": "Please select a logo."
+      },
+      "modifyParticipants": {
+        "title": "Modify Participant",
+        "fileLabel": "Modify the name and image of the participant",
+        "nameLabel": "New participant name",
+        "descriptionLabel": "Modify the description of the participant",
+        "imageLabel": "New participant image",
+        "oldImageTitle": "Current logo",
+        "newImageTitle": "New logo",
+        "uploadButton": "Save changes",
+        "uploadingText": "Modifying...",
+        "socialMediaTitle": "Modify participant's social media",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "successPopup": {
+          "title": "Success!",
+          "text": "The participant was modified successfully."
+        },
+        "errorPopup": {
+          "title": "Error!",
+          "text": "There was a problem modifying the participant. Please try again."
+        },
+        "authError": "You must be logged in to modify participants.",
+        "fileRequired": "Please select a logo."
+      },
+      "listParticipants": {
+        "title": "Participant List",
+        "searchPlaceholder": "Search participant...",
+        "addNewButton": "Add",
+        "modifyButton": "Modify",
+        "deleteButton": "Delete",
+        "loadingText": "Loading participants..."
       }
     }
   },
@@ -165,22 +367,22 @@
       "eventTitle": "Events",
       "galeryTitle": "Gallery",
       "crewTitle": "Crews",
-      "whoWeAreTitle": "About Us",
+      "whoWeAreTitle": "Who We Are",
       "dashboardTitle": "Dashboard",
       "profileTitle": "Profile",
-      "shopTitle": "Store",
+      "shopTitle": "Shop",
       "settingsTitle": "Settings",
       "signOutTitle": "Sign Out",
-      "loginTitle": "Log In",
+      "loginTitle": "Login",
       "partnersTitle": "Partners"
     },
     "popup": {
-      "confirmButtonText": "Accept",
+      "confirmButtonText": "Confirm",
       "cancelButtonText": "Cancel",
       "closeButtonText": "Close",
-      "tryAgainButtonText": "Retry",
+      "tryAgainButtonText": "Try Again",
       "successTitle": "CONFIRMED",
-      "successDescription": "Request successfully completed",
+      "successDescription": "Request completed successfully",
       "failTitle": "ERROR",
       "failDecription": "Something went wrong. \n Please try again.",
       "infoTitle": "INFO",
@@ -201,12 +403,12 @@
       "next": "Next",
       "finish": "Finish",
       "register": "Register",
-      "login": "Log In",
+      "login": "Login",
       "processing": "Processing",
       "recover": "Recover"
     },
     "inputs": {
-      "addDocument": "Tap to add a document",
+      "addDocument": "Click to add a document",
       "enterPassword": "Enter password"
     },
     "cards": {
@@ -221,8 +423,10 @@
     }
   },
   "utils": {
-    "fileRelated": "A file must be selected",
+    "fileRelated": "You must select a file",
     "fileSize": "The file size cannot exceed 5MB",
-    "fileType": "The file must be an image (png, jpg, jpeg)"
+    "fileType": "The file must be an image (png, jpg, jpeg)",
+    "yes": "Yes",
+    "no": "No"
   }
 }
