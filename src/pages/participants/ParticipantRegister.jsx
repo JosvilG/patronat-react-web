@@ -177,13 +177,29 @@ function ParticipantRegisterForm() {
   )
 
   return (
-    <div className="h-screen max-w-lg p-6 mx-auto">
+    <div className="flex flex-col items-center h-screen max-w-lg p-6 mx-auto">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 text-2xl font-bold">
-        {t('pages.participants.title')}
-      </h1>
+      <h1 className="mb-4 text-center t64b">{t('pages.participants.title')}</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <h1 className="mb-4 t16r">{t(`${viewDictionary}.nameLabel`)}</h1>
+        <DynamicInput
+          name="file"
+          textId={`${viewDictionary}.fileLabel`}
+          type="document"
+          onChange={handleFileChange}
+          disabled={formState.uploading}
+          required
+          accept="image/*"
+        />
+        {formState.newImageUrl && (
+          <div className="mt-4">
+            <DynamicCard
+              type="gallery"
+              title={t(`${viewDictionary}.previewImageTitle`)}
+              imageUrl={formState.newImageUrl}
+            />
+          </div>
+        )}
+
         <DynamicInput
           name="name"
           textId={`${viewDictionary}.nameLabel`}
@@ -242,24 +258,6 @@ function ParticipantRegisterForm() {
           disabled={formState.uploading}
         />
 
-        <DynamicInput
-          name="file"
-          textId={`${viewDictionary}.fileLabel`}
-          type="document"
-          onChange={handleFileChange}
-          disabled={formState.uploading}
-          required
-          accept="image/*"
-        />
-        {formState.newImageUrl && (
-          <div className="mt-4">
-            <DynamicCard
-              type="gallery"
-              title={t(`${viewDictionary}.previewImageTitle`)}
-              imageUrl={formState.newImageUrl}
-            />
-          </div>
-        )}
         <div>
           <DynamicButton
             type="submit"

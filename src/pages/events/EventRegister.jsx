@@ -300,9 +300,9 @@ function EventForm() {
       <Loader loading={submitting} />
 
       <form onSubmit={handleSubmit} className="p-6 mx-auto space-y-6 max-w-7xl">
-        <h2 className="mb-6 text-2xl font-bold text-gray-800">
+        <h1 className="mb-6 text-center text-gray-800 t64b">
           {t(`${viewDictionary}.title`)}
-        </h2>
+        </h1>
 
         {/* Sección de información básica */}
         <div className="p-4 mb-6 rounded-lg ">

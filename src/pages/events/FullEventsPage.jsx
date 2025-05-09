@@ -11,6 +11,7 @@ const FullEventsPage = () => {
   const { t } = useTranslation()
   const [searchQuery, setSearchQuery] = useState('')
   const [filteredEvents, setFilteredEvents] = useState([])
+  const viewDictionary = 'pages.events.fullListEvents'
 
   useEffect(() => {
     setFilteredEvents(events)
@@ -45,14 +46,15 @@ const FullEventsPage = () => {
 
   return (
     <div className="container min-h-screen p-4 mx-auto">
-      <h1 className="mb-4 text-2xl font-bold text-center">Lista de Eventos</h1>
+      <h1 className="mb-4 text-2xl font-bold text-center">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
       <div className="max-w-md mx-auto mb-8">
         <DynamicInput
           name="search"
           type="text"
-          textId="Buscar eventos"
-          placeholder="Buscar por título o descripción"
+          placeholder={t(`${viewDictionary}.searchPlaceholder`)}
           value={searchQuery}
           onChange={handleSearchChange}
         />

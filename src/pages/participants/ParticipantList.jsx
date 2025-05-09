@@ -62,14 +62,11 @@ function ParticipantList() {
 
   return (
     <div className="h-screen max-h-[75vh] p-6 mx-auto max-w-full md:max-w-fit">
-      <h1 className="mb-4 text-2xl font-bold">
-        {t(`${viewDictionary}.title`)}
-      </h1>
+      <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>
       <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
-          textId="searchPlaceholder"
           placeholder={t(`${viewDictionary}.searchPlaceholder`)}
           value={searchQuery}
           onChange={handleSearchChange}
