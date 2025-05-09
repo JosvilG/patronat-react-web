@@ -12,7 +12,7 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark'
 
-const DynamicInput = ({ name, textId, type, options, ...props }) => {
+const DynamicInput = ({ name, textId, type, options, required, ...props }) => {
   const { t } = useTranslation()
   const [selectedOption, setSelectedOption] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
@@ -24,6 +24,9 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
   const handleSelectOption = (option) => {
     setSelectedOption(option)
     setIsOpen(false)
+    if (props.onChange) {
+      props.onChange({ target: { name, value: option.value } })
+    }
   }
 
   const renderCustomSelect = () => (
@@ -56,7 +59,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
               <div
                 key={index}
                 onClick={() => handleSelectOption(option)}
-                className="px-4 py-2 w-[348px] mb-1 text-[#D9D9D9] hover:bg-[#797979] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+                className="px-4 py-2 w-[348px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
               >
                 {t(option.label)}
               </div>
@@ -382,10 +385,7 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
         return (
           <div className="my-4">
             {shouldShowLabel && (
-              <label
-                htmlFor={name}
-                className="block mb-2 text-sm font-semibold"
-              >
+              <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
               </label>
             )}

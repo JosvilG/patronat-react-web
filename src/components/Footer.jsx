@@ -2,7 +2,7 @@ import React from 'react'
 
 function Footer() {
   return (
-    <footer className="w-full h-[211px]  hover:bg-[#797979] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] max-sm:h-64 max-sm:mb-0 text-black flex flex-col items-center relative">
+    <footer className="w-full h-[211px]   backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] max-sm:h-64 max-sm:mb-0 text-black flex flex-col items-center relative">
       <p className="absolute text-center t20sb top-10 max-sm:top-6">
         Carretera del Reguers, km 1, Roquetes
         <br />
