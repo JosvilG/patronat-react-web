@@ -161,7 +161,6 @@ function CollaboratorRegisterForm() {
         {t('pages.collaborators.title')}
       </h1>
       <form onSubmit={handleSubmit} className="space-y-4">
-        <h1 className="mb-4 t16r">{t(`${viewDictionary}.nameLabel`)}</h1>
         <DynamicInput
           name="name"
           textId={`${viewDictionary}.nameLabel`}
