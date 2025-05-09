@@ -109,7 +109,7 @@
         "basicInfoTitle": "Información Básica",
         "dateInfoTitle": "Fechas y Horarios",
         "detailsInfoTitle": "Detalles del evento",
-        "galleryInfoTitle": "Imagenes de portada",
+        "galleryInfoTitle": "Imágenes de portada",
         "collaboratorsInfoTitle": "Colaboradores",
         "tagsInfoTitle": "Etiquetas",
         "addImage": "Añadir imagen para la portada",
@@ -143,6 +143,50 @@
           "text": "Hubo un problema al modificar el evento. Inténtalo nuevamente."
         }
       }
+    },
+    "files": {
+      "uploadFiles": {
+        "title": "Subir archivos",
+        "fileLabel": "Selecciona una archivo",
+        "uploadButton": "Subir imagen",
+        "nameLabel": "Nombre del archivo",
+        "descriptionLabel": "Descripción del archivo",
+        "categoryLabel": "Categoría del archivo",
+        "tagsLabel": "Etiquetas del archivo",
+        "tagsDescription": "*Puedes añadir más de una etiqueta separándolas con comas",
+        "visibilityLabel": "Visibilidad del archivo",
+        "visibliityDescription": "*En caso de no seleccionar nada, el archivo será privado",
+        "visibilityPrivate": "Privado",
+        "visibilityPublic": "Público",
+        "optimizingText": "Optimizando imagen...",
+        "optimizationSuccessText": "Imagen optimizada correctamente.",
+        "optimizationErrorText": "Error al optimizar la imagen.",
+        "fileRequired": "Por favor selecciona un archivo.",
+        "popups": {
+          "successTitle": "¡Éxito!",
+          "successText": "El archivo se subió correctamente.",
+          "successButtonText": "Guardar",
+          "errorTitle": "¡Error!",
+          "errorText": "Hubo un problema al subir el archivo. Inténtalo nuevamente."
+        }
+      },
+      "listUploads": {
+        "title": "Lista de archivos",
+        "fileLabel": "Selecciona una archivo",
+        "searchPlaceholder": "Buscar archivo...",
+        "loadingText": "Cargando archivos..."
+      }
+    },
+    "gallery": {
+      "title": "Galería",
+      "searchLabel": "Buscar imágenes en la galería",
+      "searchGallery": "Buscar imágenes...",
+      "orderBy": "Ordenar por:",
+      "orderByDateAsc": "Fecha de subida (más antigua)",
+      "orderByDateDesc": "Fecha de subida (más reciente)",
+      "orderByNameAsc": "Nombre del archivo (A-Z)",
+      "orderByNameDesc": "Nombre del archivo (Z-A)",
+      "noImagesFound": "No se encontraron imágenes."
     },
     "home": {
       "heroSection": {
