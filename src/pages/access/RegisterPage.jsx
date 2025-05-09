@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import log from 'loglevel'
 import { doc, setDoc, Timestamp } from 'firebase/firestore'
+import { motion } from 'framer-motion'
 import { createUserModel } from '../../models/usersData'
 import { db } from '../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
-import useGallery from '../../hooks/useGallery'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
+import useTaggedImage from '../../hooks/useTaggedImage'
+import usePointerAnimation from '../../hooks/usePointerAnimation'
 
 function RegisterPage() {
   const navigate = useNavigate()
@@ -17,27 +19,12 @@ function RegisterPage() {
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
   const [age, setAge] = useState(null)
-  const { galleryImages } = useGallery()
   const { t } = useTranslation()
 
-  const [backgroundImage, setBackgroundImage] = useState(null)
-
-  useEffect(() => {
-    const storedBackground = localStorage.getItem('loginBackgroundImage')
-    if (storedBackground) {
-      setBackgroundImage(storedBackground)
-    } else if (galleryImages.length > 0) {
-      const loginImages = galleryImages.filter((image) =>
-        image.tags.includes('login')
-      )
-
-      if (loginImages.length > 0) {
-        const imageUrl = loginImages[0].url
-        setBackgroundImage(imageUrl)
-        localStorage.setItem('loginBackgroundImage', imageUrl)
-      }
-    }
-  }, [galleryImages])
+  // Usar los hooks personalizados
+  const { moveX, moveY, handleMouseMove } = usePointerAnimation()
+  const { backgroundImage, imageLoaded, handleImageLoad, handleImageError } =
+    useTaggedImage('login', '/images/default-login.jpg')
 
   const calculateAge = (birthDate) => {
     if (!birthDate) return null
@@ -202,13 +189,50 @@ function RegisterPage() {
           </DynamicButton>
         </form>
       </div>
-      <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply">
-        <img
-          src={backgroundImage}
-          alt="login portada"
-          className="object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 lg:w-[80%] mg:w-[90%] sm:w-full h-full"
-        />
-      </div>
+
+      {/* Sección de imagen con animación */}
+      <motion.div
+        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply"
+        onMouseMove={handleMouseMove}
+      >
+        {backgroundImage && (
+          <motion.div
+            className="relative w-full h-full overflow-hidden"
+            style={{
+              x: moveX,
+              y: moveY,
+            }}
+          >
+            <motion.img
+              src={backgroundImage}
+              alt="register portada"
+              className={`
+                object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 
+                lg:w-[80%] mg:w-[90%] sm:w-full h-full
+                transition-opacity duration-1000 ease-in-out
+                ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+              `}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              style={{
+                width: '105%',
+                height: '105%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+              }}
+              initial={{ scale: 1.02 }}
+              animate={{
+                scale: 1.02,
+                opacity: imageLoaded ? 1 : 0,
+              }}
+              transition={{
+                opacity: { duration: 0.8, ease: 'easeInOut' },
+                scale: { duration: 1.2, ease: 'easeOut' },
+              }}
+            />
+          </motion.div>
+        )}
+      </motion.div>
     </div>
   )
 }

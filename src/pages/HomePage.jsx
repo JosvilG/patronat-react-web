@@ -9,6 +9,8 @@ import { Link } from 'react-router-dom'
 import { Trans } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 
+import patronatLogo from '../assets/logos/Patronat_50_color.png'
+
 function HomePage() {
   const { t } = useTranslation()
   const {
@@ -42,7 +44,7 @@ function HomePage() {
 
   return (
     <div className="flex flex-col items-center min-h-screen px-4 bg-transparent">
-      <HeroSection t={t} />
+      <HeroSection t={t} logoSrc={patronatLogo} />
       <AboutSection t={t} />
       <GallerySection
         t={t}
@@ -64,8 +66,15 @@ function HomePage() {
   )
 }
 
-const HeroSection = ({ t }) => (
+const HeroSection = ({ t, logoSrc }) => (
   <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-transparent">
+    <div className="absolute inset-0 flex items-center justify-center">
+      <img
+        src={logoSrc}
+        alt="Patronat 50 Aniversari"
+        className="absolute w-full h-auto -z-10 opacity-5 top-4 left-4 "
+      />
+    </div>
     <div className="absolute inset-0 bg-transparent" />
     <div className="relative flex flex-col justify-between h-full">
       <p
@@ -128,14 +137,12 @@ const GallerySection = ({
   }, [galleryImages])
 
   return (
-    <section className="py-16 bg-transparent max-w-[156vh]">
+    <section className="py-16 bg-transparent max-w-[156vh] min-w-full">
       <h2 className="mb-6 text-right t64s">
         <a href="/gallery">{t('pages.home.galerySection.title')}</a>
       </h2>
       {loadingGallery ? (
-        <div className="flex items-center justify-center">
-          {/* <Loader loading={loadingGallery} /> */}
-        </div>
+        <div className="flex items-center justify-center"></div>
       ) : galleryImages.length >= 3 ? (
         <div className="relative">
           <div className="flex justify-center overflow-hidden max-sm:h-[400px]">
@@ -364,6 +371,7 @@ AboutSection.propTypes = {
 
 HeroSection.propTypes = {
   t: PropTypes.func.isRequired,
+  logoSrc: PropTypes.string.isRequired,
 }
 
 WantToParticipateSection.propTypes = {

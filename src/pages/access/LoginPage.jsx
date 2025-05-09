@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
 import log from 'loglevel'
 import { useTranslation } from 'react-i18next'
-import useGallery from '../../hooks/useGallery'
+import { motion } from 'framer-motion'
+import usePointerAnimation from '../../hooks/usePointerAnimation'
+import useTaggedImage from '../../hooks/useTaggedImage'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 
@@ -14,37 +16,9 @@ function LoginPage() {
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const { galleryImages } = useGallery()
-  const [backgroundImage, setBackgroundImage] = useState(null)
-
-  useEffect(() => {
-    const storedBackground = localStorage.getItem('loginBackgroundImage')
-    if (storedBackground) {
-      setBackgroundImage(storedBackground)
-    } else if (galleryImages.length > 0) {
-      const loginImages = galleryImages.filter((image) =>
-        image.tags.includes('login')
-      )
-      if (loginImages.length > 0) {
-        const sortedImages = [...loginImages].sort((a, b) => {
-          if (a.createdAt instanceof Date && b.createdAt instanceof Date) {
-            return b.createdAt - a.createdAt
-          }
-          if (
-            typeof a.createdAt === 'number' &&
-            typeof b.createdAt === 'number'
-          ) {
-            return b.createdAt - a.createdAt
-          }
-          return new Date(b.createdAt) - new Date(a.createdAt)
-        })
-
-        const imageUrl = sortedImages[0].url
-        setBackgroundImage(imageUrl)
-        localStorage.setItem('loginBackgroundImage', imageUrl)
-      }
-    }
-  }, [galleryImages])
+  const { moveX, moveY, handleMouseMove } = usePointerAnimation()
+  const { backgroundImage, imageLoaded, handleImageLoad, handleImageError } =
+    useTaggedImage('login')
 
   const handleLogin = async (e) => {
     e.preventDefault()
@@ -102,11 +76,11 @@ function LoginPage() {
           <div className="flex items-center justify-between">
             <p className="text-sm text-black">
               <Link className="t12s" to="/recover-password">
-                {t('pages.login.forgotPassword')}
-              </Link>
-            </p>
+                {' '}
+                {t('pages.login.forgotPassword')}{' '}
+              </Link>{' '}
+            </p>{' '}
           </div>
-
           <DynamicButton size="large" state="normal" type="submit">
             {t('components.buttons.login')}
           </DynamicButton>
@@ -122,13 +96,48 @@ function LoginPage() {
         </div>
       </div>
 
-      <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply">
-        <img
-          src={backgroundImage}
-          alt="login portada"
-          className="object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 lg:w-[80%] mg:w-[90%] sm:w-full h-full"
-        />
-      </div>
+      <motion.div
+        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply"
+        onMouseMove={handleMouseMove}
+      >
+        {backgroundImage && (
+          <motion.div
+            className="relative w-full h-full overflow-hidden"
+            style={{
+              x: moveX,
+              y: moveY,
+            }}
+          >
+            <motion.img
+              src={backgroundImage}
+              alt="login portada"
+              className={`
+                object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 
+                lg:w-[80%] mg:w-[90%] sm:w-full h-full
+                transition-opacity duration-1000 ease-in-out
+                ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+              `}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              style={{
+                width: '105%',
+                height: '105%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+              }}
+              initial={{ scale: 1.02 }}
+              animate={{
+                scale: 1.02,
+                opacity: imageLoaded ? 1 : 0,
+              }}
+              transition={{
+                opacity: { duration: 0.8, ease: 'easeInOut' },
+                scale: { duration: 1.2, ease: 'easeOut' },
+              }}
+            />
+          </motion.div>
+        )}
+      </motion.div>
     </div>
   )
 }
