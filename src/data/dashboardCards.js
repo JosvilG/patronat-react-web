@@ -27,14 +27,14 @@ export const cards = [
     actions: [
       {
         id: 'manage-users',
-        title: 'Gestión de Usuarios',
-        route: '/usuarios',
+        title: 'Listado de Usuarios',
+        route: '/users-list',
         type: 'edit',
       },
       {
         id: 'user-history',
         title: 'Historial de Usuarios',
-        route: '/user-history',
+        route: '/users-history',
         type: 'view',
       },
       {
