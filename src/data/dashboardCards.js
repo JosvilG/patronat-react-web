@@ -12,12 +12,6 @@ export const cards = [
         type: 'add',
       },
       {
-        id: 'event-history',
-        title: 'Historial de Eventos',
-        route: '/event-history',
-        type: 'view',
-      },
-      {
         id: 'events-control-list',
         title: 'Lista de Eventos',
         route: '/events-control-list',
