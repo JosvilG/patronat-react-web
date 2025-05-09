@@ -187,7 +187,7 @@ function EventForm() {
   const uploadFile = async (file, progressSetter, isAuthDoc = false) => {
     try {
       // Determinar la carpeta de destino según el tipo de archivo
-      const folderPath = isAuthDoc ? 'autorizations' : 'uploads'
+      const folderPath = isAuthDoc ? 'authorizations' : 'uploads'
       const storageRef = ref(storage, `${folderPath}/${file.name}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
 

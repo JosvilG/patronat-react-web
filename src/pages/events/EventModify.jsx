@@ -331,7 +331,7 @@ function EventModify() {
       const safeFileName = `${timestamp}_${(eventData.title || 'event').replace(/[^a-zA-Z0-9]/g, '_')}`
 
       // Determinar la carpeta de destino según el tipo de archivo
-      const folderPath = isAuthDoc ? 'autorizations' : 'uploads'
+      const folderPath = isAuthDoc ? 'authorizations' : 'uploads'
       const storageRef = ref(storage, `${folderPath}/${safeFileName}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
 
