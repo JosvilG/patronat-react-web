@@ -25,6 +25,7 @@ import Loader from '../../components/Loader'
 import { showPopup } from '../../services/popupService'
 import useChangeTracker from '../../hooks/useModificationsRegister'
 import { validateFile, processFile } from '../../utils/fileValidator'
+import useSlug from '../../hooks/useSlug'
 
 function UserControl() {
   const navigate = useNavigate()
@@ -32,6 +33,7 @@ function UserControl() {
   const params = useParams()
   const location = useLocation()
   const { slug } = params
+  const { generateSlug } = useSlug()
 
   const userId = location.state?.userId
 
@@ -68,18 +70,7 @@ function UserControl() {
     tag: 'users',
     entityType: 'user',
   })
-
-  const generateUserSlug = (firstName, lastName) => {
-    const fullName = `${firstName || ''} ${lastName || ''}`.trim()
-    return (
-      fullName
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim() || 'usuario'
-    )
-  }
+  // Usamos el hook useSlug en lugar de esta función
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -98,13 +89,11 @@ function UserControl() {
         } else if (slug) {
           const usersSnapshot = await getDocs(collection(db, 'users'))
           let found = false
-
           for (const userDoc of usersSnapshot.docs) {
             const userData = userDoc.data()
-            const currentSlug = generateUserSlug(
-              userData.firstName,
-              userData.lastName
-            )
+            const fullName =
+              `${userData.firstName || ''} ${userData.lastName || ''}`.trim()
+            const currentSlug = generateSlug(fullName) || 'usuario'
 
             if (currentSlug === slug) {
               targetUserId = userDoc.id

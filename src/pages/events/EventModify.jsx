@@ -29,6 +29,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import DynamicButton from '../../components/Buttons'
 import DynamicCard from '../../components/Cards'
 import { validateFile } from '../../utils/fileValidator'
+import useSlug from '../../hooks/useSlug'
 
 const createEventModelWithParticipants = () => {
   const baseModel = createEventModel()
@@ -42,6 +43,7 @@ function EventModify() {
   const location = useLocation()
   const params = useParams()
   const { slug } = params
+  const { generateSlug } = useSlug()
 
   const eventId = location.state?.eventId
   const [eventData, setEventData] = useState(createEventModelWithParticipants())
@@ -68,15 +70,7 @@ function EventModify() {
   const isSubmitting = useRef(false)
 
   log.setLevel('debug')
-
-  const generateSafeSlug = (title) => {
-    return (title || '')
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim()
-  }
+  // Utilizamos el hook useSlug en lugar de la función local
 
   const getStoragePathFromUrl = (url) => {
     try {
@@ -135,14 +129,13 @@ function EventModify() {
           await fetchEventById(eventId)
           return
         }
-
         const eventsCollection = collection(db, 'events')
         const querySnapshot = await getDocs(eventsCollection)
 
         let found = false
         for (const docSnapshot of querySnapshot.docs) {
           const data = docSnapshot.data()
-          const currentSlug = generateSafeSlug(data.title)
+          const currentSlug = generateSlug(data.title)
 
           if (currentSlug === slug) {
             await fetchEventById(docSnapshot.id)

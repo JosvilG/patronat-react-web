@@ -23,6 +23,7 @@ import { showPopup } from '../../services/popupService'
 import { useTranslation } from 'react-i18next'
 import { validateFile } from '../../utils/fileValidator'
 import DynamicCard from '../../components/Cards'
+import useSlug from '../../hooks/useSlug'
 
 function ParticipantModifyForm() {
   const { t } = useTranslation()
@@ -30,6 +31,7 @@ function ParticipantModifyForm() {
   const { slug } = useParams()
   const location = useLocation()
   const participantId = location.state?.participantId
+  const { generateSlug } = useSlug()
 
   const foundIdRef = useRef(null)
 
@@ -51,14 +53,7 @@ function ParticipantModifyForm() {
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-
-  const generateSafeSlug = (name) => {
-    return (name || '')
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-  }
+  // Usamos el hook useSlug en lugar de definir la función localmente
 
   const getStoragePathFromUrl = (url) => {
     try {
@@ -105,10 +100,9 @@ function ParticipantModifyForm() {
           const querySnapshot = await getDocs(participantsRef)
 
           let found = false
-
           for (const docSnapshot of querySnapshot.docs) {
             const data = docSnapshot.data()
-            const nameSlug = generateSafeSlug(data.name)
+            const nameSlug = generateSlug(data.name)
 
             if (nameSlug === slug) {
               setFormState({

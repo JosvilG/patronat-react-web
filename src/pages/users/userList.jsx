@@ -11,6 +11,7 @@ import PaginationControl from '../../components/Pagination'
 import useFetchUsers from '../../hooks/useFetchUsers'
 import useChangeTracker from '../../hooks/useModificationsRegister'
 import { showPopup } from '../../services/popupService'
+import useSlug from '../../hooks/useSlug'
 
 function UserList() {
   const { t } = useTranslation()
@@ -19,6 +20,7 @@ function UserList() {
   const viewDictionary = 'pages.users.listUsers'
   const auth = getAuth()
   const [deletingUserId, setDeletingUserId] = useState(null)
+  const { generateSlug } = useSlug()
 
   const { trackDeletion, isTracking } = useChangeTracker({
     tag: 'users',
@@ -40,21 +42,11 @@ function UserList() {
       setPage(1)
     }
   }, [filteredUsers, page])
-
-  const generateUserSlug = (firstName, lastName) => {
-    const fullName = `${firstName || ''} ${lastName || ''}`.trim()
-    return (
-      fullName
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim() || 'usuario'
-    )
-  }
+  // Usamos el hook useSlug en lugar de la función local
 
   const navigateToUserEdit = (user) => {
-    const slug = generateUserSlug(user.firstName, user.lastName)
+    const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+    const slug = generateSlug(fullName) || 'usuario'
     navigate(`/edit-user/${slug}`, {
       state: { userId: user.id },
     })
@@ -130,9 +122,9 @@ function UserList() {
       setDeletingUserId(null)
     }
   }
-
   const navigateToUserDetail = (user) => {
-    const slug = generateUserSlug(user.firstName, user.lastName)
+    const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim()
+    const slug = generateSlug(fullName) || 'usuario'
     navigate(`/profile/${slug}`, {
       state: { userId: user.id },
     })

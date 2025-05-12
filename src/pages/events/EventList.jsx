@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
+import useSlug from '../../hooks/useSlug'
 
 function EventList() {
   const { t } = useTranslation()
@@ -13,6 +14,7 @@ function EventList() {
   const [filteredEvents, setFilteredEvents] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const viewDictionary = 'pages.events.fullListEvents'
+  const { generateSlug } = useSlug()
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -53,10 +55,7 @@ function EventList() {
       return
     }
   }
-
-  const generateSlug = (title) => {
-    return title.toLowerCase().replace(/ /g, '-')
-  }
+  // Usando el hook useSlug en lugar de la función local
 
   return (
     <div className="max-w-full p-6 mx-auto md:max-w-fit">

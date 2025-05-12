@@ -9,19 +9,9 @@ import { useOutsideClick } from '../hooks/useOutSideClickListener'
 import { useResizeListener } from '../hooks/useResizeListener'
 import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
+import useSlug from '../hooks/useSlug'
 
-// Función para generar slug a partir de nombre y apellido
-const generateUserSlug = (firstName, lastName) => {
-  const fullName = `${firstName || ''} ${lastName || ''}`.trim()
-  return (
-    fullName
-      .toLowerCase()
-      .replace(/[^\w\s-]/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim() || 'usuario'
-  )
-}
+// Ahora usamos el hook useSlug directamente en cada componente
 
 const navLinksData = [
   { to: '/events-list', label: 'components.navbar.eventTitle' },
@@ -123,16 +113,18 @@ export function Navbar() {
   const dropdownRef = useRef(null)
   const mobileMenuRef = useRef(null)
   const navigate = useNavigate()
+  const { generateSlug } = useSlug()
 
   log.setLevel('info')
 
   useOutsideClick(mobileMenuRef, () => setMobileMenuOpen(false))
   useOutsideClick(dropdownRef, () => !isSmallScreen && setDropdownOpen(false))
-
   // Función para navegar al perfil del usuario actual
   const navigateToProfile = () => {
     if (userData) {
-      const slug = generateUserSlug(userData.firstName, userData.lastName)
+      const fullName =
+        `${userData.firstName || ''} ${userData.lastName || ''}`.trim()
+      const slug = generateSlug(fullName) || 'usuario'
       navigate(`/profile/${slug}`, {
         state: { userId: userData.id || user.uid },
       })

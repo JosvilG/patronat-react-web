@@ -26,18 +26,17 @@ function Settings() {
   )
   const [emailNotifications, setEmailNotifications] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [loading, setLoading] = useState(true)
+  const [setLoading] = useState(true)
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
   const viewDictionary = 'pages.settings'
   const [initialUserData, setInitialUserData] = useState(null)
 
   // Inicializar el hook de seguimiento de cambios
-  const { trackChanges, trackDeletion, detectChanges, isTracking } =
-    useChangeTracker({
-      tag: 'users',
-      entityType: 'user',
-    })
+  const { trackDeletion, isTracking } = useChangeTracker({
+    tag: 'users',
+    entityType: 'user',
+  })
 
   // Cargar configuraciones existentes del usuario
   useEffect(() => {

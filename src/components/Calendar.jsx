@@ -7,10 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { showPopup } from '../services/popupService'
 import { useTranslation } from 'react-i18next'
 import tagColors from '../models/tagColors'
-
-const generateSlug = (title) => {
-  return title.toLowerCase().replace(/ /g, '-')
-}
+import useSlug from '../hooks/useSlug'
 
 const buildPopupText = (eventData, t) => {
   const startDate = new Date(eventData.start).toLocaleString()
@@ -39,6 +36,7 @@ const Calendar = () => {
   const { events } = useEvents()
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const { generateSlug } = useSlug()
 
   const handleEventClick = (info) => {
     const { title, start, end, extendedProps = {} } = info.event

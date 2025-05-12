@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
+import useSlug from '../../hooks/useSlug'
 
 function ParticipantList() {
   const { t } = useTranslation()
@@ -13,6 +14,7 @@ function ParticipantList() {
   const [filteredParticipants, setFilteredParticipants] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const viewDictionary = 'pages.participants.listParticipants'
+  const { generateSlug } = useSlug()
 
   useEffect(() => {
     const fetchParticipant = async () => {
@@ -54,10 +56,6 @@ function ParticipantList() {
     } catch (error) {
       return
     }
-  }
-
-  const generateSlug = (name) => {
-    return name.toLowerCase().replace(/ /g, '-')
   }
 
   return (

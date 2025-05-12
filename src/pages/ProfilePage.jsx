@@ -6,6 +6,7 @@ import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
 import Loader from '../components/Loader'
 import { useTranslation } from 'react-i18next'
+import useSlug from '../hooks/useSlug'
 
 function ProfilePage() {
   const { userData: authUserData, loading: authLoading } =
@@ -18,20 +19,11 @@ function ProfilePage() {
   const userId = location.state?.userId
   const { t } = useTranslation()
   const viewDictionary = 'pages.users.userProfile'
-
-  const generateUserSlug = (firstName, lastName) => {
-    const fullName = `${firstName || ''} ${lastName || ''}`.trim()
-    return (
-      fullName
-        .toLowerCase()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/\s+/g, '-')
-        .replace(/-+/g, '-')
-        .trim() || 'usuario'
-    )
-  }
+  const { generateSlug } = useSlug()
 
   useEffect(() => {
+    if (authLoading) return
+
     const fetchUserData = async () => {
       setLoading(true)
       try {
@@ -51,10 +43,9 @@ function ProfilePage() {
 
           for (const userDoc of usersSnapshot.docs) {
             const userData = userDoc.data()
-            const currentSlug = generateUserSlug(
-              userData.firstName,
-              userData.lastName
-            )
+            const fullName =
+              `${userData.firstName || ''} ${userData.lastName || ''}`.trim()
+            const currentSlug = generateSlug(fullName) || 'usuario'
 
             if (currentSlug === slug) {
               setProfileData({ id: userDoc.id, ...userData })
