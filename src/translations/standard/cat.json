@@ -3,65 +3,66 @@
     "crew": {
       "registerCrew": {
         "title": "Crear Penya",
-        "groupNameLabel": "Nom del Grup",
+        "groupNameLabel": "Nom de la penya",
         "responsibleLabel": "Responsable",
-        "searchPlaceholder": "Ej: Nombre Uno, Nombre Dos, Nombre Tres",
-        "userListTitle": "Llistat d'Usuaris",
+        "searchPlaceholder": "Ex: Nom Un, Nom Dos, Nom Tres",
+        "userListTitle": "Llistat d'usuaris",
         "addMemberButton": "Afegir",
-        "selectedMembersTitle": "Membres Seleccionats",
+        "selectedMembersTitle": "Membres seleccionats",
         "removeMemberButton": "Eliminar",
-        "submitButton": "Crear Penya",
+        "submitButton": "Crear penya",
         "errorPopup": {
           "title": "Error",
-          "text": "Algo salió mal. Intenta nuevamente más tarde."
+          "text": "Alguna cosa ha fallat. Torna-ho a intentar més tard."
         },
         "successPopup": {
-          "title": "Penya Creat Correctament",
-          "text": "La peña se ha creado y guardado con éxito."
+          "title": "Penya creada correctament",
+          "text": "La penya s'ha creat i guardat amb èxit."
         }
       }
     },
     "settings": {
       "title": "Configuració del compte",
-      "loadingSettings": "Cargando configuraciones...",
+      "loadingSettings": "Carregant configuració...",
       "languageSection": {
-        "title": "Idioma",
-        "description": "Selecciona el idioma en el que quieres ver la aplicación."
+        "title": "Llengua",
+        "description": "Selecciona la llengua amb què vols veure l'aplicació."
       },
       "notificationsSection": {
         "title": "Notificacions per correu electrònic",
-        "description": "Configura cuándo quieres recibir notificaciones por correo electrónico.",
-        "emailToggle": "Recibir notificaciones por correo electrónico"
+        "description": "Configura quan vols rebre notificacions per correu.",
+        "emailToggle": "Rebre notificacions per correu"
       },
       "deleteSection": {
         "title": "Eliminar compte",
-        "description": "Esta acción eliminará permanentemente tu cuenta y todos tus datos asociados. Esta acción no se puede deshacer.",
-        "showConfirmButton": "Eliminar mi cuenta",
-        "confirmationText": "Por favor, introduce tu contraseña para confirmar la eliminación de tu cuenta. Esta acción es permanente y no podrá revertirse.",
-        "passwordLabel": "Confirmar contraseña",
-        "cancelButton": "Cancelar",
+        "description": "Aquesta acció eliminarà permanentment el teu compte i totes les dades associades. Aquesta acció no es pot desfer.",
+        "showConfirmButton": "Eliminar el meu compte",
+        "confirmationText": "Introdueix la teva contrasenya per confirmar l'eliminació del compte. Aquesta acció és permanent i no es pot revertir.",
+        "passwordLabel": "Confirmar contrasenya",
+        "cancelButton": "Cancel·lar",
         "confirmButton": "Eliminar"
       },
-      "saveButton": "Desar configuracions",
+      "saveButton": "Desar configuració",
       "successPopup": {
-        "title": "Configuraciones guardadas",
-        "text": "Tus configuraciones se han guardado correctamente."
+        "title": "Configuració desada",
+        "text": "La configuració s'ha desat correctament."
       },
       "errorPopup": {
         "title": "Error",
-        "text": "Hubo un problema al guardar tus configuraciones. Inténtalo de nuevo."
+        "text": "Hi ha hagut un problema en desar la configuració. Torna-ho a intentar."
       },
       "deleteSuccess": {
-        "title": "Cuenta eliminada",
-        "text": "Tu cuenta ha sido eliminada correctamente."
+        "title": "Compte eliminat",
+        "text": "El teu compte s'ha eliminat correctament."
       },
       "deleteError": {
-        "title": "Error al eliminar",
-        "defaultText": "No se pudo eliminar tu cuenta. Por favor, inténtalo de nuevo.",
-        "wrongPassword": "La contraseña ingresada es incorrecta.",
-        "recentLogin": "Por motivos de seguridad, debes iniciar sesión nuevamente antes de eliminar tu cuenta."
+        "title": "Error en eliminar",
+        "defaultText": "No s'ha pogut eliminar el compte. Torna-ho a intentar.",
+        "wrongPassword": "La contrasenya introduïda és incorrecta.",
+        "recentLogin": "Per motius de seguretat, has d'iniciar sessió de nou abans d'eliminar el compte."
       }
     },
+
     "events": {
       "details": {
         "popupTitle": "Detalles del evento: ",
@@ -529,17 +530,17 @@
   },
   "components": {
     "navbar": {
-      "eventTitle": "Eventos",
-      "galeryTitle": "Galería",
-      "crewTitle": "Peñas",
-      "whoWeAreTitle": "Nosotros",
-      "dashboardTitle": "Panel de control",
+      "eventTitle": "Esdeveniments",
+      "galeryTitle": "Galeria",
+      "crewTitle": "Penyes",
+      "whoWeAreTitle": "Qui som",
+      "dashboardTitle": "Panell de control",
       "profileTitle": "Perfil",
-      "shopTitle": "Tienda",
-      "settingsTitle": "Configuración",
-      "signOutTitle": "Cerrar Sesión",
-      "loginTitle": "Iniciar Sesión",
-      "partnersTitle": "Socios"
+      "shopTitle": "Botiga",
+      "settingsTitle": "Configuració",
+      "signOutTitle": "Tancar sessió",
+      "loginTitle": "Iniciar sessió",
+      "partnersTitle": "Socis"
     },
     "popup": {
       "confirmButtonText": "Aceptar",
@@ -556,20 +557,20 @@
       "recoverSuccess": "Correo enviado correctamente"
     },
     "buttons": {
-      "accept": "Aceptar",
-      "cancel": "Cancelar",
-      "close": "Cerrar",
-      "save": "Guardar",
+      "accept": "Acceptar",
+      "cancel": "Cancel·lar",
+      "close": "Tancar",
+      "save": "Desar",
       "delete": "Eliminar",
       "edit": "Editar",
       "add": "Afegir",
-      "search": "Buscar",
-      "back": "Volver",
-      "next": "Siguiente",
-      "finish": "Finalizar",
-      "register": "Registrar",
-      "login": "Iniciar Sesión",
-      "processing": "Procesando",
+      "search": "Cercar",
+      "back": "Tornar",
+      "next": "Següent",
+      "finish": "Finalitzar",
+      "register": "Registrar-se",
+      "login": "Iniciar sessió",
+      "processing": "Processant",
       "recover": "Recuperar"
     },
     "inputs": {
@@ -588,9 +589,9 @@
     }
   },
   "utils": {
-    "fileRelated": "Es necesario seleccionar un archivo",
-    "fileSize": "El tamaño del archivo no puede superar los 5MB",
-    "fileType": "El archivo debe ser de tipo imagen (png, jpg, jpeg)",
+    "fileRelated": "És necessari seleccionar un fitxer",
+    "fileSize": "La mida del fitxer no pot superar els 5MB",
+    "fileType": "El fitxer ha de ser de tipus imatge (png, jpg, jpeg)",
     "yes": "Sí",
     "no": "No"
   }
