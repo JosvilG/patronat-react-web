@@ -12,6 +12,8 @@ import DynamicButton from '../../components/Buttons'
 import useTaggedImage from '../../hooks/useTaggedImage'
 import usePointerAnimation from '../../hooks/usePointerAnimation'
 
+import useChangeTracker from '../../hooks/useModificationsRegister'
+
 function RegisterPage() {
   const navigate = useNavigate()
   const auth = getAuth()
@@ -20,8 +22,13 @@ function RegisterPage() {
   const [loading, setLoading] = useState(false)
   const [age, setAge] = useState(null)
   const { t } = useTranslation()
+  const viewDictionary = 'pages.userRegister'
 
-  // Usar los hooks personalizados
+  const { trackCreation, isTracking } = useChangeTracker({
+    tag: 'users',
+    entityType: 'user',
+  })
+
   const { moveX, moveY, handleMouseMove } = usePointerAnimation()
   const { backgroundImage, imageLoaded, handleImageLoad, handleImageError } =
     useTaggedImage('login', '/images/default-login.jpg')
@@ -70,7 +77,7 @@ function RegisterPage() {
       )
       const { user } = userCredential
 
-      await setDoc(doc(db, 'users', user.uid), {
+      const userData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         phoneNumber: formData.phoneNumber,
@@ -79,15 +86,39 @@ function RegisterPage() {
         dni: formData.dni,
         email: formData.email,
         createdAt: Timestamp.fromDate(new Date()),
-        modificationHistory: [],
         modifiedAt: Timestamp.fromDate(new Date()),
         role: 'user',
-      })
+      }
 
-      navigate('/')
+      await setDoc(doc(db, 'users', user.uid), userData)
+
+      await trackCreation({
+        entityId: user.uid,
+        entityData: userData,
+        modifierId: user.uid,
+        entityName: `${userData.firstName} ${userData.lastName}`,
+        sensitiveFields: ['password', 'dni'],
+        onSuccess: () => {
+          navigate('/')
+        },
+        onError: (error) => {
+          log.warn('Usuario creado pero error al registrar cambios:', error)
+          navigate('/')
+        },
+      })
     } catch (err) {
       log.error('Error al crear cuenta:', err)
-      setError('Hubo un error al crear tu cuenta. Por favor, intenta de nuevo.')
+      setError(
+        err.code === 'auth/email-already-in-use'
+          ? t(
+              'common.errorMessages.emailInUse',
+              'Este correo electrónico ya está registrado'
+            )
+          : t(
+              'common.errorMessages.genericRegistration',
+              'Hubo un error al crear tu cuenta. Por favor, intenta de nuevo.'
+            )
+      )
     } finally {
       setLoading(false)
     }
@@ -97,9 +128,9 @@ function RegisterPage() {
     <div className="items-center h-screen mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
       <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px] z-10">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.userRegister.title')}</h1>
+          <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
-            {t('pages.userRegister.description')}
+            {t(`${viewDictionary}.description`)}
           </p>
         </div>
         {error && <p className="mb-4 text-center text-red-500">{error}</p>}
@@ -109,38 +140,34 @@ function RegisterPage() {
         >
           <DynamicInput
             name="firstName"
-            textId="firstName"
             type="text"
-            placeholder={t('pages.userRegister.name')}
+            textId={`${viewDictionary}.name`}
             value={formData.firstName}
             onChange={(e) => handleChange('firstName', e.target.value)}
             required
           />
           <DynamicInput
             name="lastName"
-            textId="lastName"
             type="text"
             value={formData.lastName}
-            placeholder={t('pages.userRegister.surname')}
+            textId={`${viewDictionary}.surname`}
             onChange={(e) => handleChange('lastName', e.target.value)}
             required
           />
           <DynamicInput
             name="phoneNumber"
-            textId="phoneNumber"
             type="phone"
             value={formData.phoneNumber}
-            placeholder={t('pages.userRegister.phone')}
+            textId={`${viewDictionary}.phone`}
             onChange={(e) => handleChange('phoneNumber', e.target.value)}
             required
           />
           <div className="flex items-center justify-between max-sm:w-[373px]">
             <DynamicInput
               name="birthDate"
-              textId="pages.userRegister.birthDate"
               type="date"
               value={formData.birthDate}
-              placeholder={t('pages.userRegister.birthDate')}
+              textId={`${viewDictionary}.birthDate`}
               onChange={(e) => handleChange('birthDate', e.target.value)}
               required
             />
@@ -152,41 +179,44 @@ function RegisterPage() {
           </div>
           <DynamicInput
             name="dni"
-            textId="dni"
             type="dni"
             value={formData.dni}
-            placeholder={t('pages.userRegister.dni')}
+            textId={`${viewDictionary}.dni`}
             onChange={(e) => handleChange('dni', e.target.value)}
             required
           />
           <DynamicInput
             name="email"
-            textId="email"
             type="email"
             value={formData.email}
-            placeholder={t('pages.userRegister.email')}
+            textId={`${viewDictionary}.email`}
             onChange={(e) => handleChange('email', e.target.value)}
             required
           />
           <DynamicInput
             name="password"
-            textId="password"
             type="password"
             value={formData.password}
-            placeholder={t('pages.userRegister.password')}
+            textId={`${viewDictionary}.password`}
             onChange={(e) => handleChange('password', e.target.value)}
             required
           />
           <DynamicButton
             size="large"
-            state="normal"
+            state={loading || isTracking ? 'disabled' : 'normal'}
             type="submit"
-            disabled={loading}
-          >
-            {loading
-              ? t('components.buttons.processing')
-              : t('components.buttons.register')}
-          </DynamicButton>
+            textId="components.buttons.register"
+            disabled={loading || isTracking}
+          />
+
+          {isTracking && (
+            <p className="mt-2 text-sm text-center text-gray-600">
+              {t(
+                'pages.users.listUsers.trackingChanges',
+                'Registrando cambios...'
+              )}
+            </p>
+          )}
         </form>
       </div>
 
