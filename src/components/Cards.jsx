@@ -43,7 +43,6 @@ const DynamicCard = ({
   }
 
   const handleImageError = () => {
-    console.log('Error al cargar la imagen, mostrando placeholder')
     setImgError(true)
     setIsLoaded(true)
   }

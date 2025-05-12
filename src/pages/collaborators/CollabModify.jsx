@@ -38,7 +38,6 @@ function CollaboratorModifyForm() {
   useEffect(() => {
     const fetchCollaborator = async () => {
       if (!collaboratorId) {
-        console.error('No se proporcionó un ID de colaborador válido')
         setError('No se pudo cargar la información del colaborador.')
         setLoading(false)
         return
@@ -64,7 +63,6 @@ function CollaboratorModifyForm() {
           setError('No se encontró el colaborador especificado.')
         }
       } catch (error) {
-        console.error('Error al cargar los datos del colaborador:', error)
         setError('Ocurrió un error al cargar los datos del colaborador.')
       } finally {
         setLoading(false)
@@ -109,7 +107,6 @@ function CollaboratorModifyForm() {
         'state_changed',
         null,
         (error) => {
-          console.error('Upload error:', error)
           showPopup({
             title: t(`${viewDictionary}.errorPopup.title`),
             text: t(`${viewDictionary}.errorPopup.text`),
@@ -126,7 +123,7 @@ function CollaboratorModifyForm() {
             try {
               await deleteObject(oldImageRef)
             } catch (error) {
-              console.error('Error deleting old image:', error)
+              return
             }
           }
           resolve({ url })
@@ -177,8 +174,6 @@ function CollaboratorModifyForm() {
         icon: 'success',
       })
       navigate('/list-collaborator')
-    } catch (error) {
-      console.error('Error updating collaborator:', error)
     } finally {
       setFormData((prev) => ({ ...prev, submitting: false }))
     }

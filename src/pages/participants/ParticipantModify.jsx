@@ -66,7 +66,6 @@ function ParticipantModifyForm() {
       const path = url.split('/o/')[1]?.split('?')[0]
       return path ? decodeURIComponent(path) : null
     } catch (e) {
-      console.error('Error extracting storage path:', e)
       return null
     }
   }
@@ -145,7 +144,6 @@ function ParticipantModifyForm() {
           }
         }
       } catch (error) {
-        console.error('Error fetching participant:', error)
         setError('Ocurrió un error al cargar los datos del participante.')
         setLoading(false)
       }
@@ -192,7 +190,6 @@ function ParticipantModifyForm() {
         'state_changed',
         null,
         (error) => {
-          console.error('Upload error:', error)
           showPopup({
             title: t(`${viewDictionary}.errorPopup.title`),
             text: t(`${viewDictionary}.errorPopup.text`),
@@ -213,7 +210,7 @@ function ParticipantModifyForm() {
                 await deleteObject(oldImageRef)
               }
             } catch (error) {
-              console.error('Error deleting old image:', error)
+              return
             }
           }
           resolve({ url, fileName: safeFileName })
@@ -309,7 +306,6 @@ function ParticipantModifyForm() {
 
       navigate('/dashboard')
     } catch (error) {
-      console.error('Error updating participant:', error)
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
         text: 'Error al actualizar el participante',

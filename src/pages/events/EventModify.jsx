@@ -84,7 +84,6 @@ function EventModify() {
       const path = url.split('/o/')[1]?.split('?')[0]
       return path ? decodeURIComponent(path) : null
     } catch (e) {
-      console.error('Error extracting storage path:', e)
       return null
     }
   }
@@ -153,14 +152,12 @@ function EventModify() {
         }
 
         if (!found) {
-          console.error('No se encontró el evento.')
           setError(
             'No se encontró el evento con el identificador proporcionado'
           )
           setLoading(false)
         }
       } catch (error) {
-        console.error('Error al buscar el evento por slug:', error)
         setError('Error al cargar el evento')
         setLoading(false)
       }
@@ -191,12 +188,10 @@ function EventModify() {
           })
           setLoading(false)
         } else {
-          console.error('No se encontró el evento.')
           setError('No se encontró el evento')
           setLoading(false)
         }
       } catch (error) {
-        console.error('Error al cargar el evento:', error)
         setError('Error al cargar el evento')
         setLoading(false)
       }
@@ -213,7 +208,7 @@ function EventModify() {
         setCollaborators(collaboratorsList)
         setFilteredCollaborators(collaboratorsList)
       } catch (error) {
-        console.error('Error al cargar colaboradores:', error)
+        return
       }
     }
 
@@ -228,7 +223,7 @@ function EventModify() {
         setParticipants(participantsList)
         setFilteredParticipants(participantsList)
       } catch (error) {
-        console.error('Error al cargar participantes:', error)
+        return
       }
     }
 
@@ -356,10 +351,9 @@ function EventModify() {
                 if (storagePath) {
                   const oldImageRef = ref(storage, storagePath)
                   await deleteObject(oldImageRef)
-                  console.log('Imagen anterior eliminada con éxito')
                 }
               } catch (error) {
-                console.error('Error al eliminar la imagen anterior:', error)
+                return
               }
             } else if (isAuthDoc && eventData.authDocumentURL) {
               try {
@@ -369,10 +363,9 @@ function EventModify() {
                 if (storagePath) {
                   const oldDocRef = ref(storage, storagePath)
                   await deleteObject(oldDocRef)
-                  console.log('Documento anterior eliminado con éxito')
                 }
               } catch (error) {
-                console.error('Error al eliminar el documento anterior:', error)
+                return
               }
             }
 
@@ -514,8 +507,6 @@ function EventModify() {
 
       navigate('/events-control-list')
     } catch (error) {
-      console.error('Error al actualizar el evento:', error)
-
       let errorMessage =
         'Hubo un error al actualizar el evento. Por favor, intenta nuevamente.'
       if (error.code === 'unavailable') {

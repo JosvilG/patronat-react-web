@@ -25,7 +25,7 @@ function EventList() {
         setEvents(eventData)
         setFilteredEvents(eventData)
       } catch (error) {
-        console.error('Error fetching collaborators:', error)
+        return
       }
     }
 
@@ -50,7 +50,7 @@ function EventList() {
       setEvents(updatedEvents)
       setFilteredEvents(updatedEvents)
     } catch (error) {
-      console.error('Error deleting event:', error)
+      return
     }
   }
 
@@ -102,12 +102,7 @@ function EventList() {
                 onClick={() => {
                   // Usar el slug del título en lugar del ID
                   const slug = generateSlug(event.title)
-                  console.log(
-                    'Navegando a editar evento:',
-                    slug,
-                    'ID:',
-                    event.id
-                  )
+
                   navigate(`/edit-event/${slug}`, {
                     state: { eventId: event.id },
                   })

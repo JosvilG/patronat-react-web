@@ -33,9 +33,6 @@ const EventPage = () => {
           const eventData = eventDoc.data()
           setEvent(eventData)
 
-          console.log('Evento encontrado:', eventData)
-          console.log('IDs de los colaboradores:', eventData.collaborators)
-
           if (eventData.collaborators?.length) {
             fetchCollaborators(eventData.collaborators)
           }
@@ -48,11 +45,10 @@ const EventPage = () => {
             fetchOrganizer(eventData.organizer)
           }
         } else {
-          console.log('Evento no encontrado')
           navigate('/404')
         }
       } catch (error) {
-        console.error('Error obteniendo el evento: ', error)
+        return
       }
     }
 
@@ -72,11 +68,9 @@ const EventPage = () => {
           name: data.name,
           role: data.role || '',
         })
-      } else {
-        console.log(`No se encontró el organizador con ID: ${organizerId}`)
       }
     } catch (error) {
-      console.error('Error obteniendo el organizador:', error)
+      return
     }
   }
 
@@ -91,14 +85,12 @@ const EventPage = () => {
         if (docSnap.exists()) {
           const data = docSnap.data()
           collaboratorsData[collabId] = { url: data.url, name: data.name }
-        } else {
-          console.log(`No se encontró el colaborador con ID: ${collabId}`)
         }
       }
 
       setCollaborators(collaboratorsData)
     } catch (error) {
-      console.error('Error obteniendo los colaboradores:', error)
+      return
     }
   }
 
@@ -120,14 +112,12 @@ const EventPage = () => {
             instagram: data.instagram,
             facebook: data.facebook,
           }
-        } else {
-          console.log(`No se encontró el participante con ID: ${partId}`)
         }
       }
 
       setParticipants(participantsData)
     } catch (error) {
-      console.error('Error obteniendo los participantes:', error)
+      return
     }
   }
 
@@ -161,7 +151,6 @@ const EventPage = () => {
           }, 100)
         })
         .catch((error) => {
-          console.error('Error al descargar el documento:', error)
           alert('No se pudo descargar el documento de autorización.')
         })
     }
@@ -241,8 +230,6 @@ const EventPage = () => {
       type: 'eventData',
     },
   ].filter(Boolean)
-
-  console.log('Colaboradores:', collaborators)
 
   return (
     <div className="h-auto px-4">

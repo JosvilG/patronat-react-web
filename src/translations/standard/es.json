@@ -22,8 +22,45 @@
       }
     },
     "settings": {
-      "defaulLanguageTitle": "Idioma por defecto",
-      "defaulLanguageDescription": "Selecciona el idioma por defecto de la web"
+      "title": "Configuración de cuenta",
+      "loadingSettings": "Cargando configuraciones...",
+      "languageSection": {
+        "title": "Idioma",
+        "description": "Selecciona el idioma en el que quieres ver la aplicación."
+      },
+      "notificationsSection": {
+        "title": "Notificaciones por correo",
+        "description": "Configura cuándo quieres recibir notificaciones por correo electrónico.",
+        "emailToggle": "Recibir notificaciones por correo electrónico"
+      },
+      "deleteSection": {
+        "title": "Eliminar cuenta",
+        "description": "Esta acción eliminará permanentemente tu cuenta y todos tus datos asociados. Esta acción no se puede deshacer.",
+        "showConfirmButton": "Eliminar mi cuenta",
+        "confirmationText": "Por favor, introduce tu contraseña para confirmar la eliminación de tu cuenta. Esta acción es permanente y no podrá revertirse.",
+        "passwordLabel": "Confirmar contraseña",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Eliminar"
+      },
+      "saveButton": "Guardar configuraciones",
+      "successPopup": {
+        "title": "Configuraciones guardadas",
+        "text": "Tus configuraciones se han guardado correctamente."
+      },
+      "errorPopup": {
+        "title": "Error",
+        "text": "Hubo un problema al guardar tus configuraciones. Inténtalo de nuevo."
+      },
+      "deleteSuccess": {
+        "title": "Cuenta eliminada",
+        "text": "Tu cuenta ha sido eliminada correctamente."
+      },
+      "deleteError": {
+        "title": "Error al eliminar",
+        "defaultText": "No se pudo eliminar tu cuenta. Por favor, inténtalo de nuevo.",
+        "wrongPassword": "La contraseña ingresada es incorrecta.",
+        "recentLogin": "Por motivos de seguridad, debes iniciar sesión nuevamente antes de eliminar tu cuenta."
+      }
     },
     "events": {
       "details": {
@@ -219,37 +256,134 @@
       "weAreWorking": "Esta página no existe o aún no está disponible. Vuelve más tarde.",
       "askUs": "Si tienes alguna pregunta, no dudes en contactarnos."
     },
-    "userRegister": {
-      "title": "Registro de usuario",
-      "description": "Por favor, rellena los campos para completar tu registro",
-      "name": "Nombre",
-      "surname": "Apellidos",
-      "user": "Introduce un usuario",
-      "email": "Introduce un correo electrónico",
-      "password": "Introduce tu contraseña",
-      "phone": "Teléfono",
-      "dni": "DNI",
-      "birthDate": "Fecha de nacimiento"
-    },
-    "login": {
-      "title": "Iniciar sesión",
-      "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
-      "mailInput": "Introduce tu correo electrónico",
-      "passwordInput": "Introduce tu contraseña",
-      "forgotPassword": "¿Has olvidado tu contraseña?",
-      "noAccount": "¿No tienes una cuenta? ",
-      "register": "Regístrate"
-    },
-    "recoverPage": {
-      "title": "Recuperar contraseña",
-      "description": "Introduce tu correo electrónico para recuperar tu contraseña",
-      "email": "Correo electrónico"
-    },
-    "resetPassword": {
-      "title": "Restablecer contraseña",
-      "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
-      "newPassword": "Introduce tu nueva contraseña",
-      "confirmPassword": "Repite la contraseña"
+    "users": {
+      "userHistoryView": {
+        "title": "Historial de usuario",
+        "userInfoTitle": "Información del usuario",
+        "searchHistory": "Buscar en el historial...",
+        "searchNoCoincidence": "No se encontraron resultados que coincidan con tu búsqueda.",
+        "searchNoRegistration": "No hay registro de cambios disponibles",
+        "searchQuantityResults": "Mostrando {{paginated}} de {{total}} resultados registrados",
+        "chargeHistoryFailure": "Error al cargar el historial de usuarios",
+        "chargingHistory": "Cargando historial...",
+        "createLabel": "Creación",
+        "modifyLabel": "Modificación",
+        "deleteLabel": "Eliminación",
+        "changeLabel": "Cambio",
+        "modifiedByLabel": "Modificado por: ",
+        "unknownUserLabel": "Desconocido",
+        "changesRealizedLabel": "Cambios realizados",
+        "idReferenceLabel": "ID de referencia: "
+      },
+      "listUsers": {
+        "title": "Lista de Usuarios",
+        "searchPlaceholder": "Buscar por nombre, apellido...",
+        "loadingText": "Cargando usuarios...",
+        "trackingChanges": "Registrando cambios...",
+        "noUsers": "No hay usuarios registrados.",
+        "noResultsFound": "No se encontraron usuarios que coincidan con la búsqueda.",
+        "confirmDelete": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.",
+        "deleteSuccess": "Usuario eliminado",
+        "userDeleted": "El usuario ha sido eliminado correctamente",
+        "userDeletedNoLog": "El usuario ha sido eliminado, pero hubo un error al registrar la acción",
+        "deleteError": "Hubo un error al eliminar el usuario",
+        "protectedData": "Datos protegidos",
+        "noValue": "Sin valor",
+        "emptyString": "Cadena vacía",
+        "addUser": "Añadir usuario",
+        "editUser": "Editar usuario",
+        "viewProfile": "Ver perfil",
+        "userInfo": {
+          "name": "Nombre",
+          "email": "Correo electrónico",
+          "dni": "DNI",
+          "phone": "Teléfono"
+        }
+      },
+      "userModify": {
+        "title": "Actualizar datos de ",
+        "editUserTitle": "Editar usuario",
+        "descriptionTitle": "Modifica tus datos personales",
+        "editUserDescription": "Modificando datos de {{firstName}} {{lastName}}",
+        "isStaff": "Es miembro del staff",
+        "position": "Posición",
+        "description": "Descripción",
+        "startDate": "Fecha de incorporación",
+        "endDate": "Fecha de finalización",
+        "document": "Documento",
+        "oldDocTitle": "Documento actual",
+        "newDocTitle": "Nuevo documento",
+        "viewCurrent": "Ver documento actual",
+        "trackingChanges": "Registrando cambios...",
+        "loadingUser": "Cargando datos del usuario...",
+        "receiveEmails": "Recibir correos electrónicos",
+        "selectLanguage": "Idioma por defecto",
+        "successPopup": {
+          "title": "Actualización exitosa",
+          "text": "Los datos han sido actualizados correctamente"
+        },
+        "noChangesPopup": {
+          "title": "Sin cambios",
+          "text": "No se detectaron cambios en los datos"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Hubo un error al actualizar los datos. Por favor, intenta de nuevo."
+        },
+        "staffSection": {
+          "title": "Información de Staff",
+          "visibilityLabel": "Mostrar u ocultar información de staff",
+          "visibilityDescription": "La información de staff solo será visible para administradores"
+        },
+        "documentUpload": {
+          "uploadProgress": "{{progress}}% completado",
+          "errorText": "Hubo un error al subir el documento. Se guardarán el resto de datos.",
+          "pdfPreview": "Vista previa del PDF",
+          "documentPreview": "Vista previa del documento"
+        }
+      },
+      "userProfile": {
+        "title": "Perfil de Usuario",
+        "loading": "Cargando perfil de usuario...",
+        "notFound": "Usuario no encontrado",
+        "errorLoading": "No se pudieron cargar los datos del usuario",
+        "personalInformation": {
+          "title": "Información Personal",
+          "name": "Nombre:",
+          "email": "Correo Electrónico:",
+          "dni": "DNI:",
+          "phone": "Teléfono:",
+          "birthDate": "Fecha de Nacimiento:",
+          "age": "Edad:",
+          "ageValue": "{{age}} años"
+        },
+        "staffInformation": {
+          "title": "Información de Staff",
+          "position": "Posición:",
+          "startDate": "Fecha de Incorporación:",
+          "endDate": "Fecha de Finalización:",
+          "description": "Descripción:",
+          "document": "Documento:",
+          "viewDocument": "Ver Documento"
+        },
+        "preferences": {
+          "title": "Preferencias de Usuario",
+          "language": "Idioma preferido:",
+          "notifications": "Notificaciones por correo:",
+          "enabled": "Activadas",
+          "disabled": "Desactivadas"
+        },
+        "accountInformation": {
+          "title": "Información de la Cuenta",
+          "registrationDate": "Fecha de Registro:",
+          "lastUpdate": "Última actualización:"
+        },
+        "actions": {
+          "editProfile": "Editar Perfil",
+          "viewHistory": "Ver Historial",
+          "backToList": "Volver a la lista"
+        }
+      }
     },
     "collaborators": {
       "title": "Nuevo colaborador",
@@ -300,7 +434,6 @@
         "loadingText": "Cargando colaboradores..."
       }
     },
-
     "participants": {
       "title": "Nuevo participante",
       "noParticipants": "No hay participantes disponibles",
@@ -360,6 +493,38 @@
         "deleteButton": "Eliminar",
         "loadingText": "Cargando participantes..."
       }
+    },
+    "userRegister": {
+      "title": "Registro de usuario",
+      "description": "Por favor, rellena los campos para completar tu registro",
+      "name": "Nombre",
+      "surname": "Apellidos",
+      "user": "Introduce un usuario",
+      "email": "Introduce un correo electrónico",
+      "password": "Introduce tu contraseña",
+      "phone": "Teléfono",
+      "dni": "DNI",
+      "birthDate": "Fecha de nacimiento"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
+      "mailInput": "Introduce tu correo electrónico",
+      "passwordInput": "Introduce tu contraseña",
+      "forgotPassword": "¿Has olvidado tu contraseña?",
+      "noAccount": "¿No tienes una cuenta? ",
+      "register": "Regístrate"
+    },
+    "recoverPage": {
+      "title": "Recuperar contraseña",
+      "description": "Introduce tu correo electrónico para recuperar tu contraseña",
+      "email": "Correo electrónico"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
+      "newPassword": "Introduce tu nueva contraseña",
+      "confirmPassword": "Repite la contraseña"
     }
   },
   "components": {

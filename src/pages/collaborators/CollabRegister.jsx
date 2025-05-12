@@ -60,7 +60,6 @@ function CollaboratorRegisterForm() {
         file: selectedFile,
         newImageUrl: URL.createObjectURL(selectedFile),
       }))
-      log.info('Archivo seleccionado:', selectedFile)
     },
     [t]
   )
@@ -91,7 +90,6 @@ function CollaboratorRegisterForm() {
         },
         async () => {
           const url = await getDownloadURL(uploadTask.snapshot.ref)
-          log.info('Archivo subido con éxito. URL:', url)
           resolve({ url, fileName })
         }
       )
@@ -135,7 +133,6 @@ function CollaboratorRegisterForm() {
           userId: user.uid,
         })
 
-        log.info('Datos guardados correctamente en Firestore.')
         await showPopup({
           title: t(`${viewDictionary}.successPopup.title`),
           text: t(`${viewDictionary}.successPopup.text`),

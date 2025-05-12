@@ -2,28 +2,65 @@
   "pages": {
     "crew": {
       "registerCrew": {
-        "title": "Create Crew",
+        "title": "Create Group",
         "groupNameLabel": "Group Name",
         "responsibleLabel": "Responsible",
         "searchPlaceholder": "E.g., Name One, Name Two, Name Three",
         "userListTitle": "User List",
         "addMemberButton": "Add",
         "selectedMembersTitle": "Selected Members",
-        "removeMemberButton": "Remove",
-        "submitButton": "Create Crew",
+        "removeMemberButton": "Delete",
+        "submitButton": "Create Group",
         "errorPopup": {
           "title": "Error",
           "text": "Something went wrong. Please try again later."
         },
         "successPopup": {
-          "title": "Crew Created Successfully",
-          "text": "The crew has been successfully created and saved."
+          "title": "Group Created Successfully",
+          "text": "The group has been created and saved successfully."
         }
       }
     },
     "settings": {
-      "defaulLanguageTitle": "Default Language",
-      "defaulLanguageDescription": "Select the default language for the website"
+      "title": "Account Settings",
+      "loadingSettings": "Loading settings...",
+      "languageSection": {
+        "title": "Language",
+        "description": "Select the language in which you want to view the application."
+      },
+      "notificationsSection": {
+        "title": "Email Notifications",
+        "description": "Set when you want to receive email notifications.",
+        "emailToggle": "Receive email notifications"
+      },
+      "deleteSection": {
+        "title": "Delete Account",
+        "description": "This action will permanently delete your account and all associated data. This action cannot be undone.",
+        "showConfirmButton": "Delete my account",
+        "confirmationText": "Please enter your password to confirm the deletion of your account. This action is permanent and cannot be undone.",
+        "passwordLabel": "Confirm password",
+        "cancelButton": "Cancel",
+        "confirmButton": "Delete"
+      },
+      "saveButton": "Save settings",
+      "successPopup": {
+        "title": "Settings Saved",
+        "text": "Your settings have been saved successfully."
+      },
+      "errorPopup": {
+        "title": "Error",
+        "text": "There was a problem saving your settings. Please try again."
+      },
+      "deleteSuccess": {
+        "title": "Account Deleted",
+        "text": "Your account has been deleted successfully."
+      },
+      "deleteError": {
+        "title": "Deletion Error",
+        "defaultText": "Your account could not be deleted. Please try again.",
+        "wrongPassword": "The entered password is incorrect.",
+        "recentLogin": "For security reasons, you need to log in again before deleting your account."
+      }
     },
     "events": {
       "details": {
@@ -42,14 +79,14 @@
         "capacity": "Capacity:",
         "price": "Price:",
         "minAge": "Minimum Age:",
-        "collaborators": "With the collaboration of:",
+        "collaborators": "In collaboration with:",
         "tags": "Tags:",
         "organizer": "Organized by",
-        "allowCars": "Allow Cars",
-        "hasBar": "Is there a bar?",
+        "allowCars": "Allow cars",
+        "hasBar": "Is there a bar?:",
         "status": "Status:",
-        "downloadPermission": "Download Authorization",
-        "withParticipation": "With the participation of:"
+        "downloadPermission": "Download authorization",
+        "withParticipation": "With participation from:"
       },
       "registerEvent": {
         "title": "Create Event",
@@ -67,9 +104,9 @@
         "endTimeLabel": "End Time",
         "locationLabel": "Specify a location",
         "capacityLabel": "What is the maximum capacity",
-        "priceLabel": "What price is the event",
+        "priceLabel": "What is the event price",
         "minAgeLabel": "What is the minimum age",
-        "collaboratorsSearchLabel": "Search collaborators",
+        "collaboratorsSearchLabel": "Search for collaborators",
         "collaboratorsLabel": "Select collaborators",
         "collaboratorsSelectedLabel": "Selected Collaborators",
         "tagsLabel": "Select tags",
@@ -78,8 +115,8 @@
         "categoryLabel": "Select a category",
         "hasBarLabel": "Is there a bar?",
         "statusLabel": "Status",
-        "imageURL": "Add a URL for the cover image",
-        "addImage": "Add image for the cover",
+        "imageURL": "Add a cover image URL",
+        "addImage": "Add cover image",
         "submitButton": "Create Event",
         "errorPopup": {
           "title": "Error",
@@ -99,10 +136,10 @@
         "loadingText": "Loading events...",
         "noEvents": "No events available",
         "noEventsFound": "No events found with that name.",
-        "eventDateTitle": "Event Date",
-        "eventTimeTitle": "Event Time",
-        "eventLocationTitle": "Event Location",
-        "eventStatusTitle": "Event Status"
+        "eventDateTitle": "Event date",
+        "eventTimeTitle": "Event time",
+        "eventLocationTitle": "Event location",
+        "eventStatusTitle": "Event status"
       },
       "modifyEvent": {
         "title": "Modify Event",
@@ -112,8 +149,8 @@
         "galleryInfoTitle": "Cover Images",
         "collaboratorsInfoTitle": "Collaborators",
         "tagsInfoTitle": "Tags",
-        "addImage": "Add image for the cover",
-        "imageURL": "Add a URL for the cover image",
+        "addImage": "Add cover image",
+        "imageURL": "Add a cover image URL",
         "nameLabel": "Event Name",
         "descriptionLabel": "Add a description",
         "initDateLabel": "Start Date",
@@ -122,9 +159,9 @@
         "endTimeLabel": "End Time",
         "locationLabel": "Specify a location",
         "capacityLabel": "What is the maximum capacity",
-        "priceLabel": "What price is the event",
+        "priceLabel": "What is the event price",
         "minAgeLabel": "What is the minimum age",
-        "collaboratorsSearchLabel": "Search collaborators",
+        "collaboratorsSearchLabel": "Search for collaborators",
         "collaboratorsLabel": "Select collaborators",
         "collaboratorsSelectedLabel": "Selected Collaborators",
         "tagsLabel": "Select tags",
@@ -132,11 +169,11 @@
         "allowCarsLabel": "Are cars allowed?",
         "categoryLabel": "Select a category",
         "hasBarLabel": "Is there a bar?",
-        "statusLabel": "<p>Status</p> <p>Upcoming</p> <p>Completed</p> <p>Cancelled</p> <p>Postponed</p> <p>In Progress</p> <p>Upcoming</p> <p>Completed</p> <p>Cancelled</p> <p>Postponed</p> <p>In Progress</p> <p>Closed</p><",
+        "statusLabel": "<p>Status</p> <p>Upcoming</p> <p>Finished</p> <p>Cancelled</p> <p>Postponed</p> <p>Ongoing</p> <p>Upcoming</p> <p>Finished</p> <p>Cancelled</p> <p>Postponed</p> <p>Ongoing</p> <p>Closed</p>",
         "submitButton": "Save",
         "successPopup": {
           "title": "Success!",
-          "text": "The event has been modified successfully."
+          "text": "The event was successfully modified."
         },
         "errorPopup": {
           "title": "Error!",
@@ -149,22 +186,22 @@
         "title": "Upload Files",
         "fileLabel": "Select a file",
         "uploadButton": "Upload image",
-        "nameLabel": "File Name",
-        "descriptionLabel": "File Description",
-        "categoryLabel": "File Category",
-        "tagsLabel": "File Tags",
-        "tagsDescription": "*You can add more than one tag by separating them with commas",
-        "visibilityLabel": "File Visibility",
+        "nameLabel": "File name",
+        "descriptionLabel": "File description",
+        "categoryLabel": "File category",
+        "tagsLabel": "File tags",
+        "tagsDescription": "*You can add multiple tags by separating them with commas",
+        "visibilityLabel": "File visibility",
         "visibliityDescription": "*If no option is selected, the file will be private",
         "visibilityPrivate": "Private",
         "visibilityPublic": "Public",
         "optimizingText": "Optimizing image...",
         "optimizationSuccessText": "Image optimized successfully.",
-        "optimizationErrorText": "Error optimizing image.",
+        "optimizationErrorText": "Error optimizing the image.",
         "fileRequired": "Please select a file.",
         "popups": {
           "successTitle": "Success!",
-          "successText": "The file has been uploaded successfully.",
+          "successText": "The file was uploaded successfully.",
           "successButtonText": "Save",
           "errorTitle": "Error!",
           "errorText": "There was a problem uploading the file. Please try again."
@@ -181,7 +218,7 @@
       "title": "Gallery",
       "searchLabel": "Search images in the gallery",
       "searchGallery": "Search images...",
-      "orderBy": "Order by:",
+      "orderBy": "Sort by:",
       "orderByDateAsc": "Upload date (oldest)",
       "orderByDateDesc": "Upload date (newest)",
       "orderByNameAsc": "File name (A-Z)",
@@ -190,75 +227,172 @@
     },
     "home": {
       "heroSection": {
-        "title": "Festivals Board <br /> of",
+        "title": "Patronage <br /> of festivals of",
         "roquetesTitle": "Roquetes",
-        "description": "Everything you need to know about festivals in Roquetes is just a click away."
+        "description": "Everything you need to know about the festivities in Roquetes is just a click away."
       },
       "aboutSection": {
         "title": "Who are we?",
-        "description": "The Roquetes Festival Board is an independent, apolitical, non-profit organization responsible for organizing festivals and events for the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
+        "description": "The Patronage of Festivals of Roquetes is an independent and apolitical non-profit organization in charge of organizing festivals and events for the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
       },
       "galerySection": {
         "title": "Gallery",
         "noImages": "No images available"
       },
       "eventSection": {
-        "title": "Upcoming Events",
-        "noEvents": "No events coming soon"
+        "title": "Upcoming events",
+        "noEvents": "No upcoming events"
       },
       "wantToParticipateSection": {
         "title": "Want to participate?",
-        "firstPar": "There are many ways to help and participate in organizing the festivals and events that take place throughout the year.",
-        "secondPar": "You can participate by becoming a member of the association and enjoy all the events of the year, which also includes entry to the town’s major festivals each year.",
-        "thirdPar": "If you have a group of friends, you can also participate by signing up as a crew in the annual crew competition.",
-        "linksPar": "<2>Click here</2> to view the requirements for participating in the crew competition or <1>here</1> to register as a member."
+        "firstPar": "There are many ways to help and participate in organizing the parties and events that take place throughout the year.",
+        "secondPar": "You can participate by becoming a member of the association and enjoy all the events of the year, including entry to the town's main festivals each year.",
+        "thirdPar": "If you have a group of friends, you can also participate by signing up as a group in the annual group contest.",
+        "linksPar": "<2>Click here</2> to see the requirements for participating in the group contest or <1>here</1> to register as a member."
       }
     },
     "underConstruction": {
       "title": "Page not found",
-      "weAreWorking": "This page doesn't exist or is not available yet. Please check back later.",
+      "weAreWorking": "This page does not exist or is not yet available. Please come back later.",
       "askUs": "If you have any questions, feel free to contact us."
     },
-    "userRegister": {
-      "title": "User Registration",
-      "description": "Please fill out the fields to complete your registration",
-      "name": "First Name",
-      "surname": "Last Name",
-      "user": "Enter a username",
-      "email": "Enter an email address",
-      "password": "Enter your password",
-      "phone": "Phone",
-      "dni": "DNI",
-      "birthDate": "Date of Birth"
-    },
-    "login": {
-      "title": "Login",
-      "description": "Welcome back, please log in to continue",
-      "mailInput": "Enter your email",
-      "passwordInput": "Enter your password",
-      "forgotPassword": "Forgot your password?",
-      "noAccount": "Don't have an account?",
-      "register": "Register"
-    },
-    "recoverPage": {
-      "title": "Recover Password",
-      "description": "Enter your email to recover your password",
-      "email": "Email"
-    },
-    "resetPassword": {
-      "title": "Reset Password",
-      "description": "Please fill out the fields to complete your password change",
-      "newPassword": "Enter your new password",
-      "confirmPassword": "Confirm your password"
+    "users": {
+      "userHistoryView": {
+        "title": "User History",
+        "userInfoTitle": "User Information",
+        "searchHistory": "Search history...",
+        "searchNoCoincidence": "No results found that match your search.",
+        "searchNoRegistration": "No change records available",
+        "searchQuantityResults": "Showing {{paginated}} of {{total}} recorded results",
+        "chargeHistoryFailure": "Error loading user history",
+        "chargingHistory": "Loading history...",
+        "createLabel": "Creation",
+        "modifyLabel": "Modification",
+        "deleteLabel": "Deletion",
+        "changeLabel": "Change",
+        "modifiedByLabel": "Modified by: ",
+        "unknownUserLabel": "Unknown",
+        "changesRealizedLabel": "Changes made",
+        "idReferenceLabel": "Reference ID: "
+      },
+      "listUsers": {
+        "title": "User List",
+        "searchPlaceholder": "Search by name, surname...",
+        "loadingText": "Loading users...",
+        "trackingChanges": "Tracking changes...",
+        "noUsers": "No registered users.",
+        "noResultsFound": "No users found matching the search.",
+        "confirmDelete": "Are you sure you want to delete this user? This action cannot be undone.",
+        "deleteSuccess": "User deleted",
+        "userDeleted": "User was deleted successfully",
+        "userDeletedNoLog": "User was deleted, but there was an error logging the action",
+        "deleteError": "There was an error deleting the user",
+        "protectedData": "Protected data",
+        "noValue": "No value",
+        "emptyString": "Empty string",
+        "addUser": "Add user",
+        "editUser": "Edit user",
+        "viewProfile": "View profile",
+        "userInfo": {
+          "name": "Name",
+          "email": "Email",
+          "dni": "ID",
+          "phone": "Phone"
+        }
+      },
+      "userModify": {
+        "title": "Update data for ",
+        "editUserTitle": "Edit user",
+        "descriptionTitle": "Modify your personal data",
+        "editUserDescription": "Modifying data for {{firstName}} {{lastName}}",
+        "isStaff": "Is staff member",
+        "position": "Position",
+        "description": "Description",
+        "startDate": "Start date",
+        "endDate": "End date",
+        "document": "Document",
+        "oldDocTitle": "Current document",
+        "newDocTitle": "New document",
+        "viewCurrent": "View current document",
+        "trackingChanges": "Tracking changes...",
+        "loadingUser": "Loading user data...",
+        "receiveEmails": "Receive emails",
+        "selectLanguage": "Default language",
+        "successPopup": {
+          "title": "Update successful",
+          "text": "The data has been updated successfully"
+        },
+        "noChangesPopup": {
+          "title": "No changes",
+          "text": "No changes were detected in the data"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "There was an error updating the data. Please try again."
+        },
+        "staffSection": {
+          "title": "Staff Information",
+          "visibilityLabel": "Show or hide staff information",
+          "visibilityDescription": "Staff information will only be visible to administrators"
+        },
+        "documentUpload": {
+          "uploadProgress": "{{progress}}% completed",
+          "errorText": "There was an error uploading the document. The rest of the data will be saved.",
+          "pdfPreview": "PDF preview",
+          "documentPreview": "Document preview"
+        }
+      },
+      "userProfile": {
+        "title": "User Profile",
+        "loading": "Loading user profile...",
+        "notFound": "User not found",
+        "errorLoading": "Could not load user data",
+        "personalInformation": {
+          "title": "Personal Information",
+          "name": "Name:",
+          "email": "Email:",
+          "dni": "ID:",
+          "phone": "Phone:",
+          "birthDate": "Birth Date:",
+          "age": "Age:",
+          "ageValue": "{{age}} years"
+        },
+        "staffInformation": {
+          "title": "Staff Information",
+          "position": "Position:",
+          "startDate": "Start Date:",
+          "endDate": "End Date:",
+          "description": "Description:",
+          "document": "Document:",
+          "viewDocument": "View Document"
+        },
+        "preferences": {
+          "title": "User Preferences",
+          "language": "Preferred language:",
+          "notifications": "Email notifications:",
+          "enabled": "Enabled",
+          "disabled": "Disabled"
+        },
+        "accountInformation": {
+          "title": "Account Information",
+          "registrationDate": "Registration Date:",
+          "lastUpdate": "Last update:"
+        },
+        "actions": {
+          "editProfile": "Edit Profile",
+          "viewHistory": "View History",
+          "backToList": "Back to list"
+        }
+      }
     },
     "collaborators": {
-      "title": "New Collaborator",
+      "title": "New collaborator",
       "noCollaborators": "No collaborators available",
       "registerCollaborators": {
-        "title": "Create New Collaborator",
+        "title": "Create new collaborator",
         "fileLabel": "Add collaborator logo",
-        "nameLabel": "Collaborator Name",
-        "uploadButton": "Create Collaborator",
+        "nameLabel": "Collaborator name",
+        "uploadButton": "Create collaborator",
         "uploadingText": "Creating...",
         "successPopup": {
           "title": "Success!",
@@ -272,8 +406,8 @@
         "fileRequired": "Please select a logo."
       },
       "modifyCollaborators": {
-        "title": "Modify Collaborator",
-        "fileLabel": "Modify the name and image of the collaborator",
+        "title": "Modify a collaborator",
+        "fileLabel": "Modify collaborator name and image",
         "nameLabel": "New collaborator name",
         "imageLabel": "New collaborator image",
         "oldImageTitle": "Current logo",
@@ -300,18 +434,17 @@
         "loadingText": "Loading collaborators..."
       }
     },
-
     "participants": {
-      "title": "New Participant",
+      "title": "New participant",
       "noParticipants": "No participants available",
       "registerParticipants": {
-        "title": "Create New Participant",
+        "title": "Create new participant",
         "fileLabel": "Add participant logo",
-        "nameLabel": "Participant Name",
+        "nameLabel": "Participant name",
         "descriptionLabel": "Add a description about the participant",
-        "uploadButton": "Create Participant",
+        "uploadButton": "Create participant",
         "uploadingText": "Creating...",
-        "socialMediaTitle": "Participant Social Media",
+        "socialMediaTitle": "Participant social media",
         "facebookLabel": "Facebook",
         "instagramLabel": "Instagram",
         "twitterLabel": "Twitter",
@@ -328,10 +461,10 @@
         "fileRequired": "Please select a logo."
       },
       "modifyParticipants": {
-        "title": "Modify Participant",
-        "fileLabel": "Modify the name and image of the participant",
+        "title": "Modify a participant",
+        "fileLabel": "Modify participant name and image",
         "nameLabel": "New participant name",
-        "descriptionLabel": "Modify the description of the participant",
+        "descriptionLabel": "Modify participant description",
         "imageLabel": "New participant image",
         "oldImageTitle": "Current logo",
         "newImageTitle": "New logo",
@@ -360,24 +493,56 @@
         "deleteButton": "Delete",
         "loadingText": "Loading participants..."
       }
+    },
+    "userRegister": {
+      "title": "User Registration",
+      "description": "Please fill in the fields to complete your registration",
+      "name": "Name",
+      "surname": "Surname",
+      "user": "Enter a username",
+      "email": "Enter an email address",
+      "password": "Enter your password",
+      "phone": "Phone",
+      "dni": "ID",
+      "birthDate": "Date of birth"
+    },
+    "login": {
+      "title": "Log In",
+      "description": "Welcome back, please log in to continue",
+      "mailInput": "Enter your email address",
+      "passwordInput": "Enter your password",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account? ",
+      "register": "Register"
+    },
+    "recoverPage": {
+      "title": "Recover Password",
+      "description": "Enter your email address to recover your password",
+      "email": "Email address"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "description": "Please fill in the fields to complete your password change",
+      "newPassword": "Enter your new password",
+      "confirmPassword": "Confirm password"
     }
   },
   "components": {
     "navbar": {
       "eventTitle": "Events",
       "galeryTitle": "Gallery",
-      "crewTitle": "Crews",
-      "whoWeAreTitle": "Who We Are",
+      "crewTitle": "Groups",
+      "whoWeAreTitle": "About Us",
       "dashboardTitle": "Dashboard",
       "profileTitle": "Profile",
-      "shopTitle": "Shop",
+      "shopTitle": "Store",
       "settingsTitle": "Settings",
       "signOutTitle": "Sign Out",
-      "loginTitle": "Login",
+      "loginTitle": "Log In",
       "partnersTitle": "Partners"
     },
     "popup": {
-      "confirmButtonText": "Confirm",
+      "confirmButtonText": "Accept",
       "cancelButtonText": "Cancel",
       "closeButtonText": "Close",
       "tryAgainButtonText": "Try Again",
@@ -387,7 +552,7 @@
       "failDecription": "Something went wrong. \n Please try again.",
       "infoTitle": "INFO",
       "warningTitle": "WARNING",
-      "goToEventButton": "Go to Event",
+      "goToEventButton": "Go to event",
       "recoverSuccess": "Email sent successfully"
     },
     "buttons": {
@@ -403,7 +568,7 @@
       "next": "Next",
       "finish": "Finish",
       "register": "Register",
-      "login": "Login",
+      "login": "Log In",
       "processing": "Processing",
       "recover": "Recover"
     },
@@ -423,9 +588,9 @@
     }
   },
   "utils": {
-    "fileRelated": "You must select a file",
+    "fileRelated": "A file must be selected",
     "fileSize": "The file size cannot exceed 5MB",
-    "fileType": "The file must be an image (png, jpg, jpeg)",
+    "fileType": "The file must be of type image (png, jpg, jpeg)",
     "yes": "Yes",
     "no": "No"
   }

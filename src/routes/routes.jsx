@@ -35,10 +35,14 @@ import UploadFileForm from '../pages/files/UploadFiles'
 
 // Páginas de administración y configuración
 import Dashboard from '../pages/Dashboard'
-import StaffControl from '../pages/users/staffControl'
 import CrewForm from '../pages/crews/register-crew'
 import ProfilePage from '../pages/ProfilePage'
 import Settings from '../pages/users/userSettings'
+
+// Páginas de usuarios
+import UserControl from '../pages/users/userModify'
+import UserList from '../pages/users/userList'
+import UserHistory from '../pages/users/userHistory'
 
 export const publicRoutes = [
   // Rutas públicas
@@ -57,7 +61,6 @@ export const publicRoutes = [
 export const protectedRoutes = [
   // Rutas protegidas
   { path: '/dashboard', element: <Dashboard /> },
-  { path: '/staff-control', element: <StaffControl /> },
   { path: '/new-event', element: <EventForm /> },
   { path: '/edit-event/:slug', element: <EventModify /> },
   { path: '/events-control-list', element: <EventList /> },
@@ -70,6 +73,10 @@ export const protectedRoutes = [
   { path: '/upload-file', element: <UploadFileForm /> },
   { path: '/upload-list', element: <UploadList /> },
   { path: '/new-crew', element: <CrewForm /> },
-  { path: '/profile', element: <ProfilePage /> },
+  { path: '/profile/:slug', element: <ProfilePage /> },
   { path: '/settings', element: <Settings /> },
+  { path: '/user-modify', element: <UserControl /> },
+  { path: '/edit-user/:slug', element: <UserControl /> },
+  { path: '/users-list', element: <UserList /> },
+  { path: '/users-history/', element: <UserHistory /> },
 ]

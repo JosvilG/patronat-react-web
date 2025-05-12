@@ -8,10 +8,9 @@ export const useSignOut = () => {
 
   const handleSignOut = async () => {
     try {
-      log.info('Intentando cerrar sesión...')
       await signOut(auth)
-      log.info('Cierre de sesión exitoso, redirigiendo a la página principal.')
       navigate('/')
+      localStorage.removeItem('language')
     } catch (err) {
       log.error('Error al cerrar sesión:', err)
     }

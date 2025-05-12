@@ -14,12 +14,9 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const auth = getAuth()
-    log.info('Esperando cambios en el estado de autenticación...')
 
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       if (firebaseUser) {
-        log.info('Usuario autenticado, obteniendo datos del usuario...')
-
         const fetchUserData = async () => {
           try {
             const docRef = doc(db, 'users', firebaseUser.uid)
@@ -28,9 +25,6 @@ export function AuthProvider({ children }) {
             if (docSnap.exists()) {
               setUserData(docSnap.data())
               setUser(firebaseUser)
-              log.info('Datos del usuario obtenidos correctamente.')
-            } else {
-              log.info('No se encontró el documento del usuario.')
             }
           } catch (error) {
             log.error('Error al obtener los datos del usuario:', error)
@@ -41,7 +35,6 @@ export function AuthProvider({ children }) {
 
         fetchUserData()
       } else {
-        log.info('No hay usuario autenticado, limpiando estado...')
         setUser(null)
         setUserData(null)
         setLoading(false)
@@ -50,7 +43,6 @@ export function AuthProvider({ children }) {
 
     return () => {
       unsubscribe()
-      log.info('Desuscrito de cambios en el estado de autenticación.')
     }
   }, [])
 
