@@ -274,9 +274,6 @@ function Settings() {
       <h1 className="mb-4 t40b">
         {t(`${viewDictionary}.title`, 'Configuración de cuenta')}
       </h1>
-
-      <p className="mb-6 t16r">{t(`${viewDictionary}.description`)}</p>
-
       <form className="flex flex-col items-center space-y-4">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 min-w-max">
           {/* Nueva sección para preferencias de usuario */}
