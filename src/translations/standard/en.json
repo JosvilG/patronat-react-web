@@ -2,431 +2,596 @@
   "pages": {
     "crew": {
       "registerCrew": {
-        "title": "Create Crew",
-        "groupNameLabel": "Group Name",
+        "title": "Crear Peña",
+        "groupNameLabel": "Nombre del Grupo",
         "responsibleLabel": "Responsible",
-        "searchPlaceholder": "E.g., Name One, Name Two, Name Three",
-        "userListTitle": "User List",
-        "addMemberButton": "Add",
-        "selectedMembersTitle": "Selected Members",
-        "removeMemberButton": "Remove",
-        "submitButton": "Create Crew",
+        "searchPlaceholder": "Ej: Nombre Uno, Nombre Dos, Nombre Tres",
+        "userListTitle": "Listado de Usuarios",
+        "addMemberButton": "Añadir",
+        "selectedMembersTitle": "Miembros Seleccionados",
+        "removeMemberButton": "Delete",
+        "submitButton": "Crear Peña",
         "errorPopup": {
           "title": "Error",
-          "text": "Something went wrong. Please try again later."
+          "text": "Algo salió mal. Intenta nuevamente más tarde."
         },
         "successPopup": {
-          "title": "Crew Created Successfully",
-          "text": "The crew has been successfully created and saved."
+          "title": "Peña Creada Correctamente",
+          "text": "La peña se ha creado y guardado con éxito."
         }
       }
     },
     "settings": {
-      "defaulLanguageTitle": "Default Language",
-      "defaulLanguageDescription": "Select the default language for the website"
+      "title": "Configuración de cuenta",
+      "loadingSettings": "Cargando configuraciones...",
+      "languageSection": {
+        "title": "Language",
+        "description": "Selecciona el idioma en el que quieres ver la aplicación."
+      },
+      "notificationsSection": {
+        "title": "Notificaciones por correo",
+        "description": "Configura cuándo quieres recibir notificaciones por correo electrónico.",
+        "emailToggle": "Recibir notificaciones por correo electrónico"
+      },
+      "deleteSection": {
+        "title": "Eliminar cuenta",
+        "description": "Esta acción eliminará permanentemente tu cuenta y todos tus datos asociados. Esta acción no se puede deshacer.",
+        "showConfirmButton": "Eliminar mi cuenta",
+        "confirmationText": "Por favor, introduce tu contraseña para confirmar la eliminación de tu cuenta. Esta acción es permanente y no podrá revertirse.",
+        "passwordLabel": "Confirmar contraseña",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Delete"
+      },
+      "saveButton": "Guardar configuraciones",
+      "successPopup": {
+        "title": "Configuraciones guardadas",
+        "text": "Tus configuraciones se han guardado correctamente."
+      },
+      "errorPopup": {
+        "title": "Error",
+        "text": "Hubo un problema al guardar tus configuraciones. Inténtalo de nuevo."
+      },
+      "deleteSuccess": {
+        "title": "Cuenta eliminada",
+        "text": "Tu cuenta ha sido eliminada correctamente."
+      },
+      "deleteError": {
+        "title": "Error al eliminar",
+        "defaultText": "No se pudo eliminar tu cuenta. Por favor, inténtalo de nuevo.",
+        "wrongPassword": "La contraseña ingresada es incorrecta.",
+        "recentLogin": "Por motivos de seguridad, debes iniciar sesión nuevamente antes de eliminar tu cuenta."
+      }
     },
     "events": {
       "details": {
-        "popupTitle": "Event Details: ",
-        "popupText": "Description:",
-        "popupInitDate": "Start Date:",
-        "popupEndDate": "End Date:",
-        "startDate": "Start Date:",
-        "endDate": "End Date:",
-        "startTime": "Start Time:",
-        "endTime": "End Time:",
-        "dateInfoTitle": "Dates and Times",
-        "locationInfoTitle": "Location and Access",
-        "pricesInfoTitle": "Prices and Services",
-        "location": "Location:",
-        "capacity": "Capacity:",
-        "price": "Price:",
-        "minAge": "Minimum Age:",
-        "collaborators": "With the collaboration of:",
-        "tags": "Tags:",
-        "organizer": "Organized by",
-        "allowCars": "Allow Cars",
-        "hasBar": "Is there a bar?",
-        "status": "Status:",
-        "downloadPermission": "Download Authorization",
-        "withParticipation": "With the participation of:"
+        "popupTitle": "Detalles del evento: ",
+        "popupText": "Descripción:",
+        "popupInitDate": "Fecha de inicio:",
+        "popupEndDate": "Fecha de finalización:",
+        "startDate": "Fecha de inicio:",
+        "endDate": "Fecha de finalización:",
+        "startTime": "Hora de inicio:",
+        "endTime": "Hora de finalización:",
+        "dateInfoTitle": "Fechas y Horas",
+        "locationInfoTitle": "Lugar y acceso",
+        "pricesInfoTitle": "Precios y servicios",
+        "location": "Ubicación:",
+        "capacity": "Capacidad:",
+        "price": "Precio:",
+        "minAge": "Edad mínima:",
+        "collaborators": "Con la colaboración de:",
+        "tags": "Etiquetas:",
+        "organizer": "Organizado por",
+        "allowCars": "Permitir coches",
+        "hasBar": "¿Hay bar?:",
+        "status": "Estado:",
+        "downloadPermission": "Descargar autorización",
+        "withParticipation": "Con la participación de:"
       },
       "registerEvent": {
-        "title": "Create Event",
-        "basicInfoTitle": "Basic Information",
-        "dateInfoTitle": "Dates and Times",
-        "detailsInfoTitle": "Event Details",
-        "galleryInfoTitle": "Cover Images",
-        "collaboratorsInfoTitle": "Collaborators",
-        "tagsInfoTitle": "Tags",
-        "nameLabel": "Event Name",
-        "descriptionLabel": "Add a description",
-        "initDateLabel": "Start Date",
-        "endDateLabel": "End Date",
-        "startTimeLabel": "Start Time",
-        "endTimeLabel": "End Time",
-        "locationLabel": "Specify a location",
-        "capacityLabel": "What is the maximum capacity",
-        "priceLabel": "What price is the event",
-        "minAgeLabel": "What is the minimum age",
-        "collaboratorsSearchLabel": "Search collaborators",
-        "collaboratorsLabel": "Select collaborators",
-        "collaboratorsSelectedLabel": "Selected Collaborators",
-        "tagsLabel": "Select tags",
-        "organizerLabel": "Add an organizer",
-        "allowCarsLabel": "Are cars allowed?",
-        "categoryLabel": "Select a category",
-        "hasBarLabel": "Is there a bar?",
-        "statusLabel": "Status",
-        "imageURL": "Add a URL for the cover image",
-        "addImage": "Add image for the cover",
-        "submitButton": "Create Event",
+        "title": "Crear Evento",
+        "basicInfoTitle": "Información Básica",
+        "dateInfoTitle": "Fechas y Horarios",
+        "detailsInfoTitle": "Detalles del evento",
+        "galleryInfoTitle": "Imagenes de portada",
+        "collaboratorsInfoTitle": "Colaboradores",
+        "tagsInfoTitle": "Etiquetas",
+        "nameLabel": "Nombre del Evento",
+        "descriptionLabel": "Añade una descripción",
+        "initDateLabel": "Fecha de Inicio",
+        "endDateLabel": "Fecha de Finalización",
+        "startTimeLabel": "Hora de Inicio",
+        "endTimeLabel": "Hora de Finalización",
+        "locationLabel": "Especifica una ubicación",
+        "capacityLabel": "Cual es la máxima capacidad",
+        "priceLabel": "Que precio tiene el evento",
+        "minAgeLabel": "Cual es la edad mínima ",
+        "collaboratorsSearchLabel": "Busca colaboradores",
+        "collaboratorsLabel": "Seleccione colaboradores",
+        "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
+        "tagsLabel": "Seleccione etiquetas",
+        "organizerLabel": "Añade un organizador",
+        "allowCarsLabel": "¿Se permiten carros?",
+        "categoryLabel": "Seleccione una categoría",
+        "hasBarLabel": "¿Hay Barra?",
+        "statusLabel": "Estado",
+        "imageURL": "Añade una URL de la imagen de portada",
+        "addImage": "Añadir imagen para la portada",
+        "submitButton": "Crear Evento",
         "errorPopup": {
           "title": "Error",
-          "text": "Something went wrong. Please try again later."
+          "text": "Algo salió mal. Intenta nuevamente más tarde."
         },
         "successPopup": {
-          "title": "Event Created Successfully",
-          "text": "The event has been created and saved successfully."
+          "title": "Evento Creado Correctamente",
+          "text": "El evento se ha creado y guardado con éxito."
         }
       },
       "fullListEvents": {
-        "title": "Event List",
-        "searchPlaceholder": "Search event...",
-        "addNewButton": "Add",
+        "title": "Listado de Eventos",
+        "searchPlaceholder": "Buscar evento...",
+        "addNewButton": "Añadir",
         "modifyButton": "Modify",
         "deleteButton": "Delete",
-        "loadingText": "Loading events...",
-        "noEvents": "No events available",
-        "noEventsFound": "No events found with that name.",
-        "eventDateTitle": "Event Date",
-        "eventTimeTitle": "Event Time",
-        "eventLocationTitle": "Event Location",
-        "eventStatusTitle": "Event Status"
+        "loadingText": "Cargando eventos...",
+        "noEvents": "No hay eventos disponibles",
+        "noEventsFound": "No se encontraron eventos con ese nombre.",
+        "eventDateTitle": "Fecha del evento",
+        "eventTimeTitle": "Hora del evento",
+        "eventLocationTitle": "Ubicación del evento",
+        "eventStatusTitle": "Estado del evento"
       },
       "modifyEvent": {
-        "title": "Modify Event",
-        "basicInfoTitle": "Basic Information",
-        "dateInfoTitle": "Dates and Times",
-        "detailsInfoTitle": "Event Details",
-        "galleryInfoTitle": "Cover Images",
-        "collaboratorsInfoTitle": "Collaborators",
-        "tagsInfoTitle": "Tags",
-        "addImage": "Add image for the cover",
-        "imageURL": "Add a URL for the cover image",
-        "nameLabel": "Event Name",
-        "descriptionLabel": "Add a description",
-        "initDateLabel": "Start Date",
-        "endDateLabel": "End Date",
-        "startTimeLabel": "Start Time",
-        "endTimeLabel": "End Time",
-        "locationLabel": "Specify a location",
-        "capacityLabel": "What is the maximum capacity",
-        "priceLabel": "What price is the event",
-        "minAgeLabel": "What is the minimum age",
-        "collaboratorsSearchLabel": "Search collaborators",
-        "collaboratorsLabel": "Select collaborators",
-        "collaboratorsSelectedLabel": "Selected Collaborators",
-        "tagsLabel": "Select tags",
-        "organizerLabel": "Add an organizer",
-        "allowCarsLabel": "Are cars allowed?",
-        "categoryLabel": "Select a category",
-        "hasBarLabel": "Is there a bar?",
-        "statusLabel": "<p>Status</p> <p>Upcoming</p> <p>Completed</p> <p>Cancelled</p> <p>Postponed</p> <p>In Progress</p> <p>Upcoming</p> <p>Completed</p> <p>Cancelled</p> <p>Postponed</p> <p>In Progress</p> <p>Closed</p><",
-        "submitButton": "Save",
+        "title": "Modificar Evento",
+        "basicInfoTitle": "Información Básica",
+        "dateInfoTitle": "Fechas y Horarios",
+        "detailsInfoTitle": "Detalles del evento",
+        "galleryInfoTitle": "Imágenes de portada",
+        "collaboratorsInfoTitle": "Colaboradores",
+        "tagsInfoTitle": "Etiquetas",
+        "addImage": "Añadir imagen para la portada",
+        "imageURL": "Añade una URL de la imagen de portada",
+        "nameLabel": "Nombre del Evento",
+        "descriptionLabel": "Añade una descripción",
+        "initDateLabel": "Fecha de Inicio",
+        "endDateLabel": "Fecha de Finalización",
+        "startTimeLabel": "Hora de Inicio",
+        "endTimeLabel": "Hora de Finalización",
+        "locationLabel": "Especifica una ubicación",
+        "capacityLabel": "Cual es la máxima capacidad",
+        "priceLabel": "Que precio tiene el evento",
+        "minAgeLabel": "Cual es la edad mínima ",
+        "collaboratorsSearchLabel": "Busca colaboradores",
+        "collaboratorsLabel": "Seleccione colaboradores",
+        "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
+        "tagsLabel": "Seleccione etiquetas",
+        "organizerLabel": "Añade un organizador",
+        "allowCarsLabel": "¿Se permiten carros?",
+        "categoryLabel": "Seleccione una categoría",
+        "hasBarLabel": "¿Hay Barra?",
+        "statusLabel": "<p>Estado</p> <p>Próximo</p> <p>Finalizado</p> <p>Cancelado</p> <p>Pospuesto</p> <p>En curso</p> <p>Próximo</p> <p>Finalizado</p> <p>Cancelado</p> <p>Pospuesto</p> <p>En curso</p> <p>Cerrado</p><",
+        "submitButton": "Guardar",
         "successPopup": {
-          "title": "Success!",
-          "text": "The event has been modified successfully."
+          "title": "¡Éxito!",
+          "text": "El evento se modificó correctamente."
         },
         "errorPopup": {
-          "title": "Error!",
-          "text": "There was a problem modifying the event. Please try again."
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el evento. Inténtalo nuevamente."
         }
       }
     },
     "files": {
       "uploadFiles": {
-        "title": "Upload Files",
-        "fileLabel": "Select a file",
-        "uploadButton": "Upload image",
-        "nameLabel": "File Name",
-        "descriptionLabel": "File Description",
-        "categoryLabel": "File Category",
-        "tagsLabel": "File Tags",
-        "tagsDescription": "*You can add more than one tag by separating them with commas",
-        "visibilityLabel": "File Visibility",
-        "visibliityDescription": "*If no option is selected, the file will be private",
-        "visibilityPrivate": "Private",
-        "visibilityPublic": "Public",
-        "optimizingText": "Optimizing image...",
-        "optimizationSuccessText": "Image optimized successfully.",
-        "optimizationErrorText": "Error optimizing image.",
-        "fileRequired": "Please select a file.",
+        "title": "Subir archivos",
+        "fileLabel": "Selecciona una archivo",
+        "uploadButton": "Subir imagen",
+        "nameLabel": "Nombre del archivo",
+        "descriptionLabel": "Descripción del archivo",
+        "categoryLabel": "Categoría del archivo",
+        "tagsLabel": "Etiquetas del archivo",
+        "tagsDescription": "*Puedes añadir más de una etiqueta separándolas con comas",
+        "visibilityLabel": "Visibilidad del archivo",
+        "visibliityDescription": "*En caso de no seleccionar nada, el archivo será privado",
+        "visibilityPrivate": "Privado",
+        "visibilityPublic": "Público",
+        "optimizingText": "Optimizando imagen...",
+        "optimizationSuccessText": "Imagen optimizada correctamente.",
+        "optimizationErrorText": "Error al optimizar la imagen.",
+        "fileRequired": "Por favor selecciona un archivo.",
         "popups": {
-          "successTitle": "Success!",
-          "successText": "The file has been uploaded successfully.",
-          "successButtonText": "Save",
-          "errorTitle": "Error!",
-          "errorText": "There was a problem uploading the file. Please try again."
+          "successTitle": "¡Éxito!",
+          "successText": "El archivo se subió correctamente.",
+          "successButtonText": "Guardar",
+          "errorTitle": "¡Error!",
+          "errorText": "Hubo un problema al subir el archivo. Inténtalo nuevamente."
         }
       },
       "listUploads": {
-        "title": "File List",
-        "fileLabel": "Select a file",
-        "searchPlaceholder": "Search file...",
-        "loadingText": "Loading files..."
+        "title": "Lista de archivos",
+        "fileLabel": "Selecciona una archivo",
+        "searchPlaceholder": "Buscar archivo...",
+        "loadingText": "Cargando archivos..."
       }
     },
     "gallery": {
-      "title": "Gallery",
-      "searchLabel": "Search images in the gallery",
-      "searchGallery": "Search images...",
-      "orderBy": "Order by:",
-      "orderByDateAsc": "Upload date (oldest)",
-      "orderByDateDesc": "Upload date (newest)",
-      "orderByNameAsc": "File name (A-Z)",
-      "orderByNameDesc": "File name (Z-A)",
-      "noImagesFound": "No images found."
+      "title": "Galería",
+      "searchLabel": "Buscar imágenes en la galería",
+      "searchGallery": "Buscar imágenes...",
+      "orderBy": "Ordenar por:",
+      "orderByDateAsc": "Fecha de subida (más antigua)",
+      "orderByDateDesc": "Fecha de subida (más reciente)",
+      "orderByNameAsc": "Nombre del archivo (A-Z)",
+      "orderByNameDesc": "Nombre del archivo (Z-A)",
+      "noImagesFound": "No se encontraron imágenes."
     },
     "home": {
       "heroSection": {
-        "title": "Festivals Board <br /> of",
+        "title": "Patronat <br /> de festes de",
         "roquetesTitle": "Roquetes",
-        "description": "Everything you need to know about festivals in Roquetes is just a click away."
+        "description": "Todo lo que necesitas saber sobre las festividades en Roquetes está a solo un clic de distancia."
       },
       "aboutSection": {
-        "title": "Who are we?",
-        "description": "The Roquetes Festival Board is an independent, apolitical, non-profit organization responsible for organizing festivals and events for the town of Roquetes in Tarragona. Here you can find all the information about upcoming events and much more."
+        "title": "¿Quiénes somos?",
+        "description": "El Patronat de Festes de Roquetes es una organización independiente y apolítica sin ánimo de lucro encargada de organizar festivales y eventos para la localidad de Roquetes en Tarragona. Aquí puedes encontrar toda la información sobre los próximos eventos y mucho más."
       },
       "galerySection": {
-        "title": "Gallery",
-        "noImages": "No images available"
+        "title": "Galería",
+        "noImages": "No hay imágenes disponibles"
       },
       "eventSection": {
-        "title": "Upcoming Events",
-        "noEvents": "No events coming soon"
+        "title": "Próximos eventos",
+        "noEvents": "No hay eventos próximamente"
       },
       "wantToParticipateSection": {
-        "title": "Want to participate?",
-        "firstPar": "There are many ways to help and participate in organizing the festivals and events that take place throughout the year.",
-        "secondPar": "You can participate by becoming a member of the association and enjoy all the events of the year, which also includes entry to the town’s major festivals each year.",
-        "thirdPar": "If you have a group of friends, you can also participate by signing up as a crew in the annual crew competition.",
-        "linksPar": "<2>Click here</2> to view the requirements for participating in the crew competition or <1>here</1> to register as a member."
+        "title": "¿Quieres participar?",
+        "firstPar": "Hay muchas maneras de ayudar y participar en el montaje de fiestas y eventos que tienen lugar a lo largo del año.",
+        "secondPar": "Puedes participar haciéndote miembro de la asociación y disfrutar de todos los eventos del año, lo que también incluye la entrada a las fiestas mayores del pueblo cada año.",
+        "thirdPar": "Si tienes un grupo de amigos, también puedes participar inscribiéndote como peña en el concurso de peñas que se celebra cada año.",
+        "linksPar": "<2>Haz clic aquí</2> para ver los requisitos para participar en el concurso de peñas o <1>aquí</1> para registrarte como miembro."
       }
     },
     "underConstruction": {
-      "title": "Page not found",
-      "weAreWorking": "This page doesn't exist or is not available yet. Please check back later.",
-      "askUs": "If you have any questions, feel free to contact us."
+      "title": "Página no encontrada",
+      "weAreWorking": "Esta página no existe o aún no está disponible. Vuelve más tarde.",
+      "askUs": "Si tienes alguna pregunta, no dudes en contactarnos."
     },
-    "userRegister": {
-      "title": "User Registration",
-      "description": "Please fill out the fields to complete your registration",
-      "name": "First Name",
-      "surname": "Last Name",
-      "user": "Enter a username",
-      "email": "Enter an email address",
-      "password": "Enter your password",
-      "phone": "Phone",
-      "dni": "DNI",
-      "birthDate": "Date of Birth"
-    },
-    "login": {
-      "title": "Login",
-      "description": "Welcome back, please log in to continue",
-      "mailInput": "Enter your email",
-      "passwordInput": "Enter your password",
-      "forgotPassword": "Forgot your password?",
-      "noAccount": "Don't have an account?",
-      "register": "Register"
-    },
-    "recoverPage": {
-      "title": "Recover Password",
-      "description": "Enter your email to recover your password",
-      "email": "Email"
-    },
-    "resetPassword": {
-      "title": "Reset Password",
-      "description": "Please fill out the fields to complete your password change",
-      "newPassword": "Enter your new password",
-      "confirmPassword": "Confirm your password"
+    "users": {
+      "userHistoryView": {
+        "title": "Historial de usuario",
+        "userInfoTitle": "Información del usuario",
+        "searchHistory": "Buscar en el historial...",
+        "searchNoCoincidence": "No se encontraron resultados que coincidan con tu búsqueda.",
+        "searchNoRegistration": "No hay registro de cambios disponibles",
+        "searchQuantityResults": "Mostrando {{paginated}} de {{total}} resultados registrados",
+        "chargeHistoryFailure": "Error al cargar el historial de usuarios",
+        "chargingHistory": "Cargando historial...",
+        "createLabel": "Creación",
+        "modifyLabel": "Modificación",
+        "deleteLabel": "Eliminación",
+        "changeLabel": "Cambio",
+        "modifiedByLabel": "Modificado por: ",
+        "unknownUserLabel": "Desconocido",
+        "changesRealizedLabel": "Cambios realizados",
+        "idReferenceLabel": "ID de referencia: "
+      },
+      "listUsers": {
+        "title": "Lista de Usuarios",
+        "searchPlaceholder": "Buscar por nombre, apellido...",
+        "loadingText": "Cargando usuarios...",
+        "trackingChanges": "Registrando cambios...",
+        "noUsers": "No hay usuarios registrados.",
+        "noResultsFound": "No se encontraron usuarios que coincidan con la búsqueda.",
+        "confirmDelete": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.",
+        "deleteSuccess": "Usuario eliminado",
+        "userDeleted": "El usuario ha sido eliminado correctamente",
+        "userDeletedNoLog": "El usuario ha sido eliminado, pero hubo un error al registrar la acción",
+        "deleteError": "Hubo un error al eliminar el usuario",
+        "protectedData": "Datos protegidos",
+        "noValue": "Sin valor",
+        "emptyString": "Cadena vacía",
+        "addUser": "Añadir usuario",
+        "editUser": "Editar usuario",
+        "viewProfile": "Ver perfil",
+        "userInfo": {
+          "name": "Nombre",
+          "email": "Correo electrónico",
+          "dni": "DNI",
+          "phone": "Teléfono"
+        }
+      },
+      "userModify": {
+        "title": "Actualizar datos de ",
+        "editUserTitle": "Editar usuario",
+        "descriptionTitle": "Modifica tus datos personales",
+        "editUserDescription": "Modificando datos de {{firstName}} {{lastName}}",
+        "isStaff": "Es miembro del staff",
+        "position": "Posición",
+        "description": "Descripción",
+        "startDate": "Fecha de incorporación",
+        "endDate": "Fecha de finalización",
+        "document": "Documento",
+        "oldDocTitle": "Documento actual",
+        "newDocTitle": "Nuevo documento",
+        "viewCurrent": "Ver documento actual",
+        "trackingChanges": "Registrando cambios...",
+        "loadingUser": "Cargando datos del usuario...",
+        "receiveEmails": "Recibir correos electrónicos",
+        "selectLanguage": "Idioma por defecto",
+        "successPopup": {
+          "title": "Actualización exitosa",
+          "text": "Los datos han sido actualizados correctamente"
+        },
+        "noChangesPopup": {
+          "title": "Sin cambios",
+          "text": "No se detectaron cambios en los datos"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Hubo un error al actualizar los datos. Por favor, intenta de nuevo."
+        },
+        "staffSection": {
+          "title": "Información de Staff",
+          "visibilityLabel": "Mostrar u ocultar información de staff",
+          "visibilityDescription": "La información de staff solo será visible para administradores"
+        },
+        "documentUpload": {
+          "uploadProgress": "{{progress}}% completado",
+          "errorText": "Hubo un error al subir el documento. Se guardarán el resto de datos.",
+          "pdfPreview": "Vista previa del PDF",
+          "documentPreview": "Vista previa del documento"
+        }
+      },
+      "userProfile": {
+        "title": "Perfil de Usuario",
+        "loading": "Cargando perfil de usuario...",
+        "notFound": "Usuario no encontrado",
+        "errorLoading": "No se pudieron cargar los datos del usuario",
+        "personalInformation": {
+          "title": "Información Personal",
+          "name": "Nombre:",
+          "email": "Correo Electrónico:",
+          "dni": "DNI:",
+          "phone": "Teléfono:",
+          "birthDate": "Fecha de Nacimiento:",
+          "age": "Edad:",
+          "ageValue": "{{age}} años"
+        },
+        "staffInformation": {
+          "title": "Información de Staff",
+          "position": "Posición:",
+          "startDate": "Fecha de Incorporación:",
+          "endDate": "Fecha de Finalización:",
+          "description": "Descripción:",
+          "document": "Documento:",
+          "viewDocument": "Ver Documento"
+        },
+        "preferences": {
+          "title": "Preferencias de Usuario",
+          "language": "Idioma preferido:",
+          "notifications": "Notificaciones por correo:",
+          "enabled": "Activadas",
+          "disabled": "Desactivadas"
+        },
+        "accountInformation": {
+          "title": "Información de la Cuenta",
+          "registrationDate": "Fecha de Registro:",
+          "lastUpdate": "Última actualización:"
+        },
+        "actions": {
+          "editProfile": "Editar Perfil",
+          "viewHistory": "Ver Historial",
+          "backToList": "Volver a la lista"
+        }
+      }
     },
     "collaborators": {
-      "title": "New Collaborator",
-      "noCollaborators": "No collaborators available",
+      "title": "Nuevo colaborador",
+      "noCollaborators": "No hay colaboradores disponibles",
       "registerCollaborators": {
-        "title": "Create New Collaborator",
-        "fileLabel": "Add collaborator logo",
-        "nameLabel": "Collaborator Name",
-        "uploadButton": "Create Collaborator",
-        "uploadingText": "Creating...",
+        "title": "Crear nuevo colaborador",
+        "fileLabel": "Añadir logo del colaborador",
+        "nameLabel": "Nombre del colaborador",
+        "uploadButton": "Crear colaborador",
+        "uploadingText": "Creando...",
         "successPopup": {
-          "title": "Success!",
-          "text": "The collaborator was created successfully."
+          "title": "¡Éxito!",
+          "text": "El colaborador se creó correctamente."
         },
         "errorPopup": {
-          "title": "Error!",
-          "text": "There was a problem creating the collaborator. Please try again."
+          "title": "¡Error!",
+          "text": "Hubo un problema al crear el colaborador. Inténtalo nuevamente."
         },
-        "authError": "You must be logged in to create collaborators.",
-        "fileRequired": "Please select a logo."
+        "authError": "Debes estar autenticado para crear colaboradores.",
+        "fileRequired": "Por favor selecciona un logo."
       },
       "modifyCollaborators": {
-        "title": "Modify Collaborator",
-        "fileLabel": "Modify the name and image of the collaborator",
-        "nameLabel": "New collaborator name",
-        "imageLabel": "New collaborator image",
-        "oldImageTitle": "Current logo",
-        "newImageTitle": "New logo",
-        "uploadButton": "Save changes",
-        "uploadingText": "Modifying...",
+        "title": "Modificar un colaborador",
+        "fileLabel": "Modifica el nombre y la imagen del colaborador",
+        "nameLabel": "Nuevo nombre del colaborador",
+        "imageLabel": "Nueva imagen del colaborador",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nuevo logo",
+        "uploadButton": "Guardar cambios",
+        "uploadingText": "Modificando...",
         "successPopup": {
-          "title": "Success!",
-          "text": "The collaborator was modified successfully."
+          "title": "¡Éxito!",
+          "text": "El colaborador se modifico correctamente."
         },
         "errorPopup": {
-          "title": "Error!",
-          "text": "There was a problem modifying the collaborator. Please try again."
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el colaborador. Inténtalo nuevamente."
         },
-        "authError": "You must be logged in to modify collaborators.",
-        "fileRequired": "Please select a logo."
+        "authError": "Debes estar autenticado para modificar colaboradores.",
+        "fileRequired": "Por favor selecciona un logo."
       },
       "listCollaborators": {
-        "title": "Collaborator List",
-        "searchPlaceholder": "Search collaborator...",
-        "addNewButton": "Add",
+        "title": "Listado de colaboradores",
+        "searchPlaceholder": "Buscar colaborador...",
+        "addNewButton": "Añadir",
         "modifyButton": "Modify",
         "deleteButton": "Delete",
-        "loadingText": "Loading collaborators..."
+        "loadingText": "Cargando colaboradores..."
       }
     },
-
     "participants": {
-      "title": "New Participant",
-      "noParticipants": "No participants available",
+      "title": "Nuevo participante",
+      "noParticipants": "No hay participantes disponibles",
       "registerParticipants": {
-        "title": "Create New Participant",
-        "fileLabel": "Add participant logo",
-        "nameLabel": "Participant Name",
-        "descriptionLabel": "Add a description about the participant",
-        "uploadButton": "Create Participant",
-        "uploadingText": "Creating...",
-        "socialMediaTitle": "Participant Social Media",
+        "title": "Crear nuevo participante",
+        "fileLabel": "Añadir logo del participante",
+        "nameLabel": "Nombre del participante",
+        "descriptionLabel": "Añade una descripción sobre el participante",
+        "uploadButton": "Crear participante",
+        "uploadingText": "Creando...",
+        "socialMediaTitle": "Redes sociales del participante",
         "facebookLabel": "Facebook",
         "instagramLabel": "Instagram",
         "twitterLabel": "Twitter",
-        "previewImageTitle": "Logo preview",
+        "previewImageTitle": "Vista previa del logo",
         "successPopup": {
-          "title": "Success!",
-          "text": "The participant was created successfully."
+          "title": "¡Éxito!",
+          "text": "El participante se creó correctamente."
         },
         "errorPopup": {
-          "title": "Error!",
-          "text": "There was a problem creating the participant. Please try again."
+          "title": "¡Error!",
+          "text": "Hubo un problema al crear el participante. Inténtalo nuevamente."
         },
-        "authError": "You must be logged in to create participants.",
-        "fileRequired": "Please select a logo."
+        "authError": "Debes estar autenticado para crear participantes.",
+        "fileRequired": "Por favor selecciona un logo."
       },
       "modifyParticipants": {
-        "title": "Modify Participant",
-        "fileLabel": "Modify the name and image of the participant",
-        "nameLabel": "New participant name",
-        "descriptionLabel": "Modify the description of the participant",
-        "imageLabel": "New participant image",
-        "oldImageTitle": "Current logo",
-        "newImageTitle": "New logo",
-        "uploadButton": "Save changes",
-        "uploadingText": "Modifying...",
-        "socialMediaTitle": "Modify participant's social media",
+        "title": "Modificar un participante",
+        "fileLabel": "Modifica el nombre y la imagen del participante",
+        "nameLabel": "Nuevo nombre del participante",
+        "descriptionLabel": "Modifica la descripción del participante",
+        "imageLabel": "Nueva imagen del participante",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nuevo logo",
+        "uploadButton": "Guardar cambios",
+        "uploadingText": "Modificando...",
+        "socialMediaTitle": "Modificar las redes sociales del participante",
         "facebookLabel": "Facebook",
         "instagramLabel": "Instagram",
         "twitterLabel": "Twitter",
         "successPopup": {
-          "title": "Success!",
-          "text": "The participant was modified successfully."
+          "title": "¡Éxito!",
+          "text": "El participante se modifico correctamente."
         },
         "errorPopup": {
-          "title": "Error!",
-          "text": "There was a problem modifying the participant. Please try again."
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el participante. Inténtalo nuevamente."
         },
-        "authError": "You must be logged in to modify participants.",
-        "fileRequired": "Please select a logo."
+        "authError": "Debes estar autenticado para modificar participantes.",
+        "fileRequired": "Por favor selecciona un logo."
       },
       "listParticipants": {
-        "title": "Participant List",
-        "searchPlaceholder": "Search participant...",
-        "addNewButton": "Add",
+        "title": "Listado de participantes",
+        "searchPlaceholder": "Buscar participante...",
+        "addNewButton": "Añadir",
         "modifyButton": "Modify",
         "deleteButton": "Delete",
-        "loadingText": "Loading participants..."
+        "loadingText": "Cargando participantes..."
       }
+    },
+    "userRegister": {
+      "title": "Registro de usuario",
+      "description": "Por favor, rellena los campos para completar tu registro",
+      "name": "Nombre",
+      "surname": "Apellidos",
+      "user": "Introduce un usuario",
+      "email": "Introduce un correo electrónico",
+      "password": "Introduce tu contraseña",
+      "phone": "Teléfono",
+      "dni": "DNI",
+      "birthDate": "Fecha de nacimiento"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
+      "mailInput": "Introduce tu correo electrónico",
+      "passwordInput": "Introduce tu contraseña",
+      "forgotPassword": "¿Has olvidado tu contraseña?",
+      "noAccount": "¿No tienes una cuenta? ",
+      "register": "Regístrate"
+    },
+    "recoverPage": {
+      "title": "Recuperar contraseña",
+      "description": "Introduce tu correo electrónico para recuperar tu contraseña",
+      "email": "Correo electrónico"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
+      "newPassword": "Introduce tu nueva contraseña",
+      "confirmPassword": "Repite la contraseña"
     }
   },
   "components": {
     "navbar": {
-      "eventTitle": "Events",
-      "galeryTitle": "Gallery",
-      "crewTitle": "Crews",
-      "whoWeAreTitle": "Who We Are",
-      "dashboardTitle": "Dashboard",
-      "profileTitle": "Profile",
-      "shopTitle": "Shop",
-      "settingsTitle": "Settings",
-      "signOutTitle": "Sign Out",
-      "loginTitle": "Login",
-      "partnersTitle": "Partners"
+      "eventTitle": "Eventos",
+      "galeryTitle": "Galería",
+      "crewTitle": "Peñas",
+      "whoWeAreTitle": "Nosotros",
+      "dashboardTitle": "Panel de control",
+      "profileTitle": "Perfil",
+      "shopTitle": "Tienda",
+      "settingsTitle": "Configuración",
+      "signOutTitle": "Cerrar Sesión",
+      "loginTitle": "Iniciar Sesión",
+      "partnersTitle": "Socios"
     },
     "popup": {
-      "confirmButtonText": "Confirm",
-      "cancelButtonText": "Cancel",
-      "closeButtonText": "Close",
-      "tryAgainButtonText": "Try Again",
-      "successTitle": "CONFIRMED",
-      "successDescription": "Request completed successfully",
+      "confirmButtonText": "Aceptar",
+      "cancelButtonText": "Cancelar",
+      "closeButtonText": "Cerrar",
+      "tryAgainButtonText": "Reintentar",
+      "successTitle": "CONFIRMADO",
+      "successDescription": "Petición realizada correctamente",
       "failTitle": "ERROR",
-      "failDecription": "Something went wrong. \n Please try again.",
+      "failDecription": "Algo ha salido mal. \n Por favor vuelve a intentarlo.",
       "infoTitle": "INFO",
-      "warningTitle": "WARNING",
-      "goToEventButton": "Go to Event",
-      "recoverSuccess": "Email sent successfully"
+      "warningTitle": "CUIDADO",
+      "goToEventButton": "Ir al evento",
+      "recoverSuccess": "Correo enviado correctamente"
     },
     "buttons": {
-      "accept": "Accept",
-      "cancel": "Cancel",
-      "close": "Close",
-      "save": "Save",
+      "accept": "Aceptar",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "save": "Guardar",
       "delete": "Delete",
-      "edit": "Edit",
-      "add": "Add",
-      "search": "Search",
-      "back": "Back",
-      "next": "Next",
-      "finish": "Finish",
+      "edit": "Editar",
+      "add": "Añadir",
+      "search": "Buscar",
+      "back": "Volver",
+      "next": "Siguiente",
+      "finish": "Finalizar",
       "register": "Register",
-      "login": "Login",
-      "processing": "Processing",
-      "recover": "Recover"
+      "login": "Iniciar Sesión",
+      "processing": "Procesando",
+      "recover": "Recuperar"
     },
     "inputs": {
-      "addDocument": "Click to add a document",
-      "enterPassword": "Enter password"
+      "addDocument": "Pulsa para añadir un documento",
+      "enterPassword": "Introduce la contraseña"
     },
     "cards": {
-      "eventDateTitle": "Event Date"
+      "eventDateTitle": "Fecha del evento"
     },
     "calendar": {
-      "title": "Event Calendar",
-      "today": "Today",
-      "month": "Month",
-      "week": "Week",
-      "day": "Day"
+      "title": "Calendario de eventos",
+      "today": "Hoy",
+      "month": "Mes",
+      "week": "Semana",
+      "day": "Día"
     }
   },
   "utils": {
-    "fileRelated": "You must select a file",
-    "fileSize": "The file size cannot exceed 5MB",
-    "fileType": "The file must be an image (png, jpg, jpeg)",
-    "yes": "Yes",
+    "fileRelated": "Es necesario seleccionar un archivo",
+    "fileSize": "El tamaño del archivo no puede superar los 5MB",
+    "fileType": "El archivo debe ser de tipo imagen (png, jpg, jpeg)",
+    "yes": "Sí",
     "no": "No"
   }
 }
