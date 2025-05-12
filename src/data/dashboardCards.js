@@ -37,12 +37,6 @@ export const cards = [
         route: '/users-history',
         type: 'view',
       },
-      {
-        id: 'staff-control',
-        title: 'Staff control',
-        route: '/staff-control',
-        type: 'edit',
-      },
     ],
   },
   {
