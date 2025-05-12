@@ -71,7 +71,7 @@ const DropdownMenu = ({ items, onClose }) => (
               item.onClick()
               onClose()
             }}
-            className="t12s flex w-full px-4 py-2 text-sm text-left transition duration-300 ease-in-out rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className="t12s flex px-4 py-2 w-full text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
           >
             {item.label}
           </button>
@@ -82,7 +82,7 @@ const DropdownMenu = ({ items, onClose }) => (
               item.onClick()
               onClose()
             }}
-            className="t12s flex w-full px-4 py-2 text-sm text-left transition duration-300 ease-in-out rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className="t12s flex px-4 py-2 w-full text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
           >
             {item.label}
           </button>
