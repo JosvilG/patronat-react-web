@@ -26,7 +26,7 @@ function Settings() {
   )
   const [emailNotifications, setEmailNotifications] = useState(false)
   const [saving, setSaving] = useState(false)
-  const [setLoading] = useState(true)
+  const [loading, setLoading] = useState(true)
   const [confirmPassword, setConfirmPassword] = useState('')
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false)
   const viewDictionary = 'pages.settings'
@@ -275,12 +275,7 @@ function Settings() {
         {t(`${viewDictionary}.title`, 'Configuración de cuenta')}
       </h1>
 
-      <p className="mb-6 t16r">
-        {t(
-          `${viewDictionary}.description`,
-          'Personaliza tu experiencia en la plataforma'
-        )}
-      </p>
+      <p className="mb-6 t16r">{t(`${viewDictionary}.description`)}</p>
 
       <form className="flex flex-col items-center space-y-4">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 min-w-max">
