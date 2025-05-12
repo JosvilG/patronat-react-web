@@ -5,6 +5,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
 import Loader from '../components/Loader'
+import { useTranslation } from 'react-i18next'
 
 function ProfilePage() {
   const { userData: authUserData, loading: authLoading } =
@@ -15,6 +16,8 @@ function ProfilePage() {
   const { slug } = useParams()
   const location = useLocation()
   const userId = location.state?.userId
+  const { t } = useTranslation()
+  const viewDictionary = 'pages.users.userProfile'
 
   const generateUserSlug = (firstName, lastName) => {
     const fullName = `${firstName || ''} ${lastName || ''}`.trim()
@@ -80,80 +83,152 @@ function ProfilePage() {
   }, [slug, userId, authUserData, authLoading])
 
   if (loading || authLoading) {
-    return <Loader loading={true} text="Cargando perfil de usuario..." />
+    return (
+      <Loader
+        loading={true}
+        text={t(`${viewDictionary}.loading`, 'Cargando perfil de usuario...')}
+      />
+    )
   }
 
   if (error) {
-    return <div className="p-4 text-center text-red-600">{error}</div>
+    return (
+      <div className="p-4 text-center text-red-600">
+        {t(`${viewDictionary}.${error}`, error)}
+      </div>
+    )
   }
 
   const userData = profileData || authUserData
 
   return (
     <div className="container p-6 mx-auto">
-      <h1 className="mb-4 text-center t64b">Perfil de Usuario</h1>
+      <h1 className="mb-4 text-center t64b">
+        {t(`${viewDictionary}.title`, 'Perfil de Usuario')}
+      </h1>
 
       {userData ? (
         <div className="p-6 bg-white rounded-lg shadow-md">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
-              <h2 className="mb-4 t24b">Información Personal</h2>
+              <h2 className="mb-4 t24b">
+                {t(
+                  `${viewDictionary}.personalInformation.title`,
+                  'Información Personal'
+                )}
+              </h2>
               <p className="mb-2 t16r">
-                <span className="font-bold">Nombre:</span> {userData.firstName}{' '}
-                {userData.lastName}
+                <span className="font-bold">
+                  {t(`${viewDictionary}.personalInformation.name`, 'Nombre:')}
+                </span>{' '}
+                {userData.firstName} {userData.lastName}
               </p>
               <p className="mb-2 t16r">
-                <span className="font-bold">Correo Electrónico:</span>{' '}
+                <span className="font-bold">
+                  {t(
+                    `${viewDictionary}.personalInformation.email`,
+                    'Correo Electrónico:'
+                  )}
+                </span>{' '}
                 {userData.email}
               </p>
               <p className="mb-2 t16r">
-                <span className="font-bold">DNI:</span> {userData.dni}
+                <span className="font-bold">
+                  {t(`${viewDictionary}.personalInformation.dni`, 'DNI:')}
+                </span>{' '}
+                {userData.dni}
               </p>
               <p className="mb-2 t16r">
-                <span className="font-bold">Teléfono:</span>{' '}
+                <span className="font-bold">
+                  {t(
+                    `${viewDictionary}.personalInformation.phoneNumber`,
+                    'Teléfono:'
+                  )}
+                </span>{' '}
                 {userData.phoneNumber}
               </p>
               <p className="mb-2 t16r">
-                <span className="font-bold">Fecha de Nacimiento:</span>{' '}
+                <span className="font-bold">
+                  {t(
+                    `${viewDictionary}.personalInformation.birthDate`,
+                    'Fecha de Nacimiento:'
+                  )}
+                </span>{' '}
                 {userData.birthDate}
               </p>
               <p className="mb-2 t16r">
-                <span className="font-bold">Edad:</span> {userData.age} años
+                <span className="font-bold">
+                  {t(`${viewDictionary}.personalInformation.age`, 'Edad:')}
+                </span>{' '}
+                {userData.age} años
               </p>
             </div>
 
             {userData.isStaff && (
               <div>
-                <h2 className="mb-4 t24b">Información de Staff</h2>
+                <h2 className="mb-4 t24b">
+                  {t(
+                    `${viewDictionary}.staffInformation.title`,
+                    'Información de Staff'
+                  )}
+                </h2>
                 <p className="mb-2 t16r">
-                  <span className="font-bold">Posición:</span>{' '}
+                  <span className="font-bold">
+                    {t(
+                      `${viewDictionary}.staffInformation.position`,
+                      'Posición:'
+                    )}
+                  </span>{' '}
                   {userData.position}
                 </p>
                 <p className="mb-2 t16r">
-                  <span className="font-bold">Fecha de Incorporación:</span>{' '}
+                  <span className="font-bold">
+                    {t(
+                      `${viewDictionary}.staffInformation.startDate`,
+                      'Fecha de Incorporación:'
+                    )}
+                  </span>{' '}
                   {userData.startDate}
                 </p>
                 {userData.endDate && (
                   <p className="mb-2 t16r">
-                    <span className="font-bold">Fecha de Finalización:</span>{' '}
+                    <span className="font-bold">
+                      {t(
+                        `${viewDictionary}.staffInformation.endDate`,
+                        'Fecha de Finalización:'
+                      )}
+                    </span>{' '}
                     {userData.endDate}
                   </p>
                 )}
                 <p className="mb-2 t16r">
-                  <span className="font-bold">Descripción:</span>{' '}
+                  <span className="font-bold">
+                    {t(
+                      `${viewDictionary}.staffInformation.description`,
+                      'Descripción:'
+                    )}
+                  </span>{' '}
                   {userData.description}
                 </p>
 
                 {userData.documentUrl && (
                   <div className="mt-4">
-                    <p className="mb-2 font-bold t16r">Documento:</p>
+                    <p className="mb-2 font-bold t16r">
+                      {t(
+                        `${viewDictionary}.staffInformation.document`,
+                        'Documento:'
+                      )}
+                    </p>
                     <a
                       href={userData.documentUrl}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
                     >
-                      Ver Documento
+                      {t(
+                        `${viewDictionary}.staffInformation.viewDocument`,
+                        'Ver Documento'
+                      )}
                     </a>
                   </div>
                 )}
@@ -161,15 +236,60 @@ function ProfilePage() {
             )}
           </div>
 
+          {userData.preferredLanguage && (
+            <div className="mt-6">
+              <h2 className="mb-4 t24b">
+                {t(
+                  `${viewDictionary}.preferences.title`,
+                  'Preferencias de Usuario'
+                )}
+              </h2>
+              <p className="mb-2 t16r">
+                <span className="font-bold">
+                  {t(
+                    `${viewDictionary}.preferences.language`,
+                    'Idioma preferido:'
+                  )}
+                </span>{' '}
+                {userData.preferredLanguage === 'es'
+                  ? 'Español'
+                  : userData.preferredLanguage === 'cat'
+                    ? 'Català'
+                    : 'English'}
+              </p>
+              <p className="mb-2 t16r">
+                <span className="font-bold">
+                  {t(
+                    `${viewDictionary}.preferences.notifications`,
+                    'Notificaciones por correo:'
+                  )}
+                </span>{' '}
+                {userData.emailNotifications
+                  ? t(`${viewDictionary}.preferences.enabled`, 'Activadas')
+                  : t(`${viewDictionary}.preferences.disabled`, 'Desactivadas')}
+              </p>
+            </div>
+          )}
+
           {userData.createdAt && (
             <p className="mt-6 text-sm text-gray-500">
-              <span className="font-bold">Fecha de Registro:</span>{' '}
+              <span className="font-bold">
+                {t(
+                  `${viewDictionary}.accountInformation.registrationDate`,
+                  'Fecha de Registro:'
+                )}
+              </span>{' '}
               {new Date(userData.createdAt.seconds * 1000).toLocaleDateString()}
             </p>
           )}
         </div>
       ) : (
-        <p>No se encontraron datos del usuario.</p>
+        <p>
+          {t(
+            `${viewDictionary}.notFound`,
+            'No se encontraron datos del usuario.'
+          )}
+        </p>
       )}
     </div>
   )
