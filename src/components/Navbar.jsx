@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import log from 'loglevel'
 import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../contexts/AuthContext'
@@ -9,6 +9,19 @@ import { useOutsideClick } from '../hooks/useOutSideClickListener'
 import { useResizeListener } from '../hooks/useResizeListener'
 import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
+
+// Función para generar slug a partir de nombre y apellido
+const generateUserSlug = (firstName, lastName) => {
+  const fullName = `${firstName || ''} ${lastName || ''}`.trim()
+  return (
+    fullName
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/\s+/g, '-')
+      .replace(/-+/g, '-')
+      .trim() || 'usuario'
+  )
+}
 
 const navLinksData = [
   { to: '/events-list', label: 'components.navbar.eventTitle' },
@@ -64,7 +77,21 @@ const DropdownMenu = ({ items, onClose }) => (
         item.isButton ? (
           <button
             key={index}
-            onClick={item.onClick}
+            onClick={() => {
+              item.onClick()
+              onClose()
+            }}
+            className="t12s flex w-full px-4 py-2 text-sm text-left transition duration-300 ease-in-out rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+          >
+            {item.label}
+          </button>
+        ) : item.onClick ? (
+          <button
+            key={index}
+            onClick={() => {
+              item.onClick()
+              onClose()
+            }}
             className="t12s flex w-full px-4 py-2 text-sm text-left transition duration-300 ease-in-out rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
           >
             {item.label}
@@ -75,7 +102,6 @@ const DropdownMenu = ({ items, onClose }) => (
             to={item.to}
             className="t12s flex px-4 py-2 text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
             onClick={() => {
-              log.info(`Navegando a ${item.label}`)
               onClose()
             }}
           >
@@ -96,16 +122,27 @@ export function Navbar() {
   const isSmallScreen = useResizeListener()
   const dropdownRef = useRef(null)
   const mobileMenuRef = useRef(null)
+  const navigate = useNavigate()
 
   log.setLevel('info')
 
   useOutsideClick(mobileMenuRef, () => setMobileMenuOpen(false))
   useOutsideClick(dropdownRef, () => !isSmallScreen && setDropdownOpen(false))
 
+  // Función para navegar al perfil del usuario actual
+  const navigateToProfile = () => {
+    if (userData) {
+      const slug = generateUserSlug(userData.firstName, userData.lastName)
+      navigate(`/profile/${slug}`, {
+        state: { userId: userData.id || user.uid },
+      })
+      setDropdownOpen(false)
+    }
+  }
+
   const navLinks = navLinksData.map((link) => ({
     ...link,
     label: t(link.label),
-    onClick: () => log.info(`Navegando a ${t(link.label)}`),
   }))
 
   const renderNavLinks = () =>
@@ -138,9 +175,6 @@ export function Navbar() {
           <Link
             to="/login"
             className="t16s px-6 py-2 t16b text-white bg-[#3A3A3A] rounded-full hover:bg-[#D9D9D9] hover:text-gray-900 transition duration-300 ease-in-out active:bg-[#D9D9D9] shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
-            onClick={() =>
-              log.info('Navegando a la página de inicio de sesión.')
-            }
           >
             {t('components.navbar.loginTitle')}
           </Link>
@@ -162,7 +196,6 @@ export function Navbar() {
               to="/login"
               label={t('components.navbar.loginTitle')}
               onClick={() => {
-                log.info('Navegando a la página de inicio de sesión.')
                 setMobileMenuOpen(false)
               }}
               isSmallScreen={isSmallScreen}
@@ -170,10 +203,10 @@ export function Navbar() {
           ) : (
             <>
               <NavLink
-                to="/profile"
+                to="#"
                 label={t('components.navbar.profileTitle')}
                 onClick={() => {
-                  log.info('Navegando a la página de perfil.')
+                  navigateToProfile()
                   setMobileMenuOpen(false)
                 }}
                 isSmallScreen={isSmallScreen}
@@ -183,7 +216,6 @@ export function Navbar() {
                   to="/dashboard"
                   label={t('components.navbar.dashboardTitle')}
                   onClick={() => {
-                    log.info('Navegando al panel de control.')
                     setMobileMenuOpen(false)
                   }}
                   isSmallScreen={isSmallScreen}
@@ -222,7 +254,10 @@ export function Navbar() {
           {dropdownOpen && userData && (
             <DropdownMenu
               items={[
-                { to: '/profile', label: t('components.navbar.profileTitle') },
+                {
+                  label: t('components.navbar.profileTitle'),
+                  onClick: navigateToProfile,
+                },
                 {
                   to: '/settings',
                   label: t('components.navbar.settingsTitle'),
