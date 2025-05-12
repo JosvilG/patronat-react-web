@@ -43,7 +43,6 @@ const useChangeTracker = ({ tag, entityType }) => {
       onError = () => {}, // Valor por defecto para evitar errores
     }) => {
       if (!entityId || !changes || !modifierId) {
-        console.error('Faltan parámetros requeridos para trackChanges')
         onError(new Error('Faltan parámetros requeridos'))
         return
       }
@@ -101,7 +100,6 @@ const useChangeTracker = ({ tag, entityType }) => {
 
         onSuccess({ success: true })
       } catch (error) {
-        console.error('Error al registrar cambios:', error)
         onError(error)
       } finally {
         setIsTracking(false)

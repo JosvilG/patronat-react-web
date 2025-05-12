@@ -25,7 +25,7 @@ function ParticipantList() {
         setParticipants(participantData)
         setFilteredParticipants(participantData)
       } catch (error) {
-        console.error('Error fetching participants:', error)
+        return
       }
     }
 
@@ -52,7 +52,7 @@ function ParticipantList() {
       setParticipants(updateParticipants)
       setFilteredParticipants(updateParticipants)
     } catch (error) {
-      console.error('Error deleting participant:', error)
+      return
     }
   }
 
@@ -100,12 +100,7 @@ function ParticipantList() {
               <DynamicButton
                 onClick={() => {
                   const slug = generateSlug(part.name)
-                  console.log(
-                    'Navegando a editar participante:',
-                    slug,
-                    'ID:',
-                    part.id
-                  )
+
                   navigate(`/modify-participant/${slug}`, {
                     state: { participantId: part.id },
                   })

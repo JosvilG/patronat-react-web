@@ -8,13 +8,6 @@ const viewDictionary = 'utils'
  */
 export const convertToWebP = async (imageFile) => {
   try {
-    console.log(
-      'Iniciando conversión a WebP para:',
-      imageFile.name,
-      imageFile.type
-    )
-
-    // Primero, comprimir la imagen
     const options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 1920,
@@ -23,7 +16,6 @@ export const convertToWebP = async (imageFile) => {
 
     const compressedFile = await imageCompression(imageFile, options)
 
-    // Luego, convertir explícitamente a WebP usando Canvas
     return new Promise((resolve) => {
       const reader = new FileReader()
       reader.readAsArrayBuffer(compressedFile)
@@ -48,8 +40,7 @@ export const convertToWebP = async (imageFile) => {
               URL.revokeObjectURL(blobURL)
 
               if (!webpBlob) {
-                console.error('Error al generar el blob WebP')
-                resolve(imageFile) // Fallback al archivo original
+                resolve(imageFile)
                 return
               }
 
@@ -61,11 +52,6 @@ export const convertToWebP = async (imageFile) => {
                 type: 'image/webp',
               })
 
-              console.log(
-                'Imagen convertida a WebP exitosamente:',
-                newFile.name,
-                newFile.type
-              )
               resolve(newFile)
             },
             'image/webp',
@@ -74,20 +60,17 @@ export const convertToWebP = async (imageFile) => {
         }
 
         img.onerror = () => {
-          console.error('Error al cargar la imagen para conversión')
           URL.revokeObjectURL(blobURL)
           resolve(imageFile) // Fallback al archivo original
         }
       }
 
       reader.onerror = () => {
-        console.error('Error al leer el archivo comprimido')
         resolve(imageFile) // Fallback al archivo original
       }
     })
   } catch (error) {
-    console.error('Error en el proceso de conversión a WebP:', error)
-    return imageFile // Fallback al archivo original
+    return imageFile
   }
 }
 
@@ -104,7 +87,7 @@ export const validateFile = (file, t) => {
     'image/jpeg',
     'image/jpg',
     'application/jpg',
-    'image/webp', // Añadir WebP como tipo permitido
+    'image/webp',
   ]
   const allowedPdfTypes = ['application/pdf']
   const allowedTypes = [...allowedImageTypes, ...allowedPdfTypes]
@@ -138,14 +121,9 @@ export const processFile = async (file) => {
   const imageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'application/jpg']
 
   if (imageTypes.includes(file.type)) {
-    console.log(
-      'Procesando archivo de imagen para convertir a WebP:',
-      file.name
-    )
     const webpFile = await convertToWebP(file)
     return webpFile
   }
 
-  console.log('Archivo no es imagen, se mantiene sin cambios:', file.name)
   return file
 }

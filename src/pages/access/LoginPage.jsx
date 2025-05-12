@@ -25,9 +25,7 @@ function LoginPage() {
     const auth = getAuth()
 
     try {
-      log.info(`Intentando iniciar sesión con el correo: ${email}`)
       await signInWithEmailAndPassword(auth, email, password)
-      log.info('Inicio de sesión exitoso')
       navigate('/')
     } catch (err) {
       log.error('Error al intentar iniciar sesión:', err.message)

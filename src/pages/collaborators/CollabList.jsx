@@ -27,7 +27,7 @@ function CollabList() {
         setCollaborators(collabData)
         setFilteredCollaborators(collabData)
       } catch (error) {
-        console.error('Error fetching collaborators:', error)
+        return
       } finally {
         setLoading(false)
       }
@@ -58,7 +58,7 @@ function CollabList() {
       setCollaborators(updatedCollaborators)
       setFilteredCollaborators(updatedCollaborators)
     } catch (error) {
-      console.error('Error deleting collaborator:', error)
+      return
     }
   }
 
@@ -116,12 +116,6 @@ function CollabList() {
               <DynamicButton
                 onClick={() => {
                   const slug = generateSlug(collab.name)
-                  console.log(
-                    'Navegando a editar colaborador:',
-                    slug,
-                    'ID:',
-                    collab.id
-                  )
                   navigate(`/modify-collaborator/${slug}`, {
                     state: { collaboratorId: collab.id },
                   })

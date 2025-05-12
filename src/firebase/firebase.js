@@ -14,14 +14,10 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 }
 
-log.info('Inicializando la aplicación de Firebase...')
 const app = initializeApp(firebaseConfig)
-log.info('Firebase ha sido inicializado correctamente.')
 
 const auth = getAuth(app)
 const db = getFirestore(app)
 const storage = getStorage(app)
-
-log.info('Servicios de autenticación, Firestore y Storage inicializados.')
 
 export { auth, db, storage }
