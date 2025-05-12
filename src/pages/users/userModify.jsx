@@ -49,6 +49,8 @@ function UserControl() {
     endDate: '',
     description: '',
     documentUrl: '',
+    // Nuevos campos añadidos
+    emailNotifications: false,
   })
   const [originalData, setOriginalData] = useState({})
   const [error, setError] = useState(null)
@@ -60,7 +62,7 @@ function UserControl() {
   const [documentProgress, setDocumentProgress] = useState(0)
   const [previewDocumentUrl, setPreviewDocumentUrl] = useState(null)
   const { t } = useTranslation()
-  const viewDictionary = 'pages.userControl'
+  const viewDictionary = 'pages.users.userModify'
 
   const { trackChanges, detectChanges, isTracking } = useChangeTracker({
     tag: 'users',
@@ -138,6 +140,11 @@ function UserControl() {
             endDate: userData.endDate || '',
             description: userData.description || '',
             documentUrl: userData.documentUrl || '',
+            // Nuevos campos con valores por defecto si no existen
+            emailNotifications:
+              userData.emailNotifications !== undefined
+                ? userData.emailNotifications
+                : false,
           }
 
           setFormData(userDataToStore)
@@ -249,7 +256,6 @@ function UserControl() {
               try {
                 const oldDocRef = ref(storage, formData.documentUrl)
                 await deleteObject(oldDocRef)
-                log.info('Documento anterior eliminado correctamente')
               } catch (deleteError) {
                 log.error(
                   'Error al eliminar el documento anterior:',
@@ -294,6 +300,9 @@ function UserControl() {
         'startDate',
         'endDate',
         'description',
+        // Añadir los nuevos campos para detectar cambios
+
+        'emailNotifications',
       ]
       const detectedChanges = detectChanges(
         originalData,
@@ -317,11 +326,12 @@ function UserControl() {
         age: formData.age,
         dni: formData.dni,
         isStaff: formData.isStaff,
-        // Mantener los datos de staff incluso cuando isStaff es false
         position: formData.position,
         startDate: formData.startDate,
         endDate: formData.endDate,
         description: formData.description,
+        // Añadir los nuevos campos para actualizarlos
+        emailNotifications: formData.emailNotifications || false,
         modifiedAt: Timestamp.fromDate(new Date()),
       }
 
@@ -396,7 +406,6 @@ function UserControl() {
             },
           })
         } catch (updateError) {
-          console.error('Error al actualizar documento:', updateError)
           throw new Error(
             'No se pudieron guardar los cambios en la base de datos'
           )
@@ -454,11 +463,14 @@ function UserControl() {
 
       <p className="mb-6 t16r">
         {isOwnProfile
-          ? t('pages.userControl.description', 'Modifica tus datos personales')
-          : t(
-              'pages.userControl.editUserDescription',
-              `Modificando datos de ${formData.firstName} ${formData.lastName}`
-            )}
+          ? t(
+              'pages.userControl.descriptionTitle',
+              'Modifica tus datos personales'
+            )
+          : t(`${viewDictionary}.editUserDescription`, {
+              firstName: formData.firstName,
+              lastName: formData.lastName,
+            })}
       </p>
 
       {error && <p className="mb-4 text-center text-red-500">{error}</p>}
@@ -561,19 +573,42 @@ function UserControl() {
             />
           </div>
 
+          {/* Nueva sección para preferencias de usuario */}
+          <div className="flex flex-col items-center col-span-2 mt-8 mb-4">
+            <h2 className="mb-6 t24b">
+              {t(
+                `${viewDictionary}.preferencesSection.title`,
+                'Preferencias de usuario'
+              )}
+            </h2>
+
+            <div className="grid items-center w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
+              {/* Notificaciones por correo */}
+              <div className="flex flex-col items-center">
+                <DynamicInput
+                  name="emailNotifications"
+                  type="checkbox"
+                  textId={`${viewDictionary}.receiveEmails`}
+                  checked={formData.emailNotifications}
+                  onChange={(e) =>
+                    handleChange('emailNotifications', e.target.checked)
+                  }
+                  disabled={submitting}
+                />
+              </div>
+            </div>
+          </div>
+
           <div className="flex flex-col items-center col-span-2 mt-4">
             <div className="flex items-center justify-center mb-4 space-x-2">
-              <input
+              <DynamicInput
                 type="checkbox"
                 id="isStaff"
                 name="isStaff"
+                textId={`${viewDictionary}.isStaff`}
                 checked={formData.isStaff}
                 onChange={(e) => handleChange('isStaff', e.target.checked)}
-                className="w-5 h-5"
               />
-              <label htmlFor="isStaff" className="t16r">
-                {t('pages.userControl.isStaff', 'Es miembro del staff')}
-              </label>
             </div>
           </div>
         </div>
@@ -776,7 +811,7 @@ function UserControl() {
             type="button"
             onClick={(e) => {
               e.preventDefault()
-              navigate(isOwnProfile ? '/profile' : '/users-list')
+              navigate(isOwnProfile ? `/profile/${slug}` : '/users-list')
             }}
             textId={t('components.buttons.cancel', 'Cancelar')}
             disabled={submitting}

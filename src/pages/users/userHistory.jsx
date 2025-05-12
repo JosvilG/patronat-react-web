@@ -3,10 +3,8 @@ import { collection, query, orderBy, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
 import Loader from '../../components/Loader'
-import DynamicButton from '../../components/Buttons'
 import DynamicInput from '../../components/Inputs'
 import PaginationControl from '../../components/Pagination'
-import { useNavigate } from 'react-router-dom'
 import log from 'loglevel'
 import useSearchFilter from '../../hooks/useSearchFilter'
 
@@ -15,13 +13,12 @@ function UserHistory() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const { t } = useTranslation()
-  const navigate = useNavigate()
 
   const [page, setPage] = useState(1)
   const [paginatedChanges, setPaginatedChanges] = useState([])
   const itemsPerPage = 20
 
-  const viewDictionary = 'pages.userHistory'
+  const viewDictionary = 'pages.users.userHistoryView'
 
   const searchOptions = useMemo(
     () => ({
@@ -110,7 +107,7 @@ function UserHistory() {
         setPage(1)
       } catch (err) {
         log.error('Error al cargar el historial de cambios:', err)
-        setError('No se pudo cargar el historial de cambios')
+        setError(t(`${viewDictionary}.chargeHistoryFailure`))
       } finally {
         setLoading(false)
       }
@@ -135,15 +132,32 @@ function UserHistory() {
   }
 
   const formatFieldChange = (field, change) => {
-    if (change.isSensitive) {
-      return <span className="italic text-gray-500">Datos protegidos</span>
+    // Considerar password como dato sensible siempre
+    if (
+      field === 'password' ||
+      field.toLowerCase().includes('password') ||
+      change.isSensitive
+    ) {
+      return (
+        <span className="italic text-gray-500">
+          {t(`${viewDictionary}.protectedData`, 'Datos protegidos')}
+        </span>
+      )
     }
 
     const formatValue = (value) => {
       if (value === null || value === undefined)
-        return <span className="italic text-gray-500">Sin valor</span>
+        return (
+          <span className="italic text-gray-500">
+            {t(`${viewDictionary}.noValue`, 'Sin valor')}
+          </span>
+        )
       if (value === '')
-        return <span className="italic text-gray-500">Cadena vacía</span>
+        return (
+          <span className="italic text-gray-500">
+            {t(`${viewDictionary}.emptyString`, 'Cadena vacía')}
+          </span>
+        )
       if (typeof value === 'object') return JSON.stringify(value)
       return String(value)
     }
@@ -199,7 +213,7 @@ function UserHistory() {
         loading={true}
         size="50px"
         color="rgb(21, 100, 46)"
-        text="Cargando historial de cambios..."
+        text={t(`${viewDictionary}.chargingHistory`)}
       />
     )
   }
@@ -208,18 +222,13 @@ function UserHistory() {
 
   return (
     <div className="h-auto max-w-full min-h-screen p-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">
-        {t(`${viewDictionary}.title`, 'Historial de Cambios')}
-      </h1>
+      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
 
       <div className="mb-6">
         <DynamicInput
           name="search"
           type="text"
-          placeholder={t(
-            `${viewDictionary}.searchPlaceholder`,
-            'Buscar en todos los campos (nombre, tipo, valor, descripción...)'
-          )}
+          placeholder={t(`${viewDictionary}.searchHistory`)}
           value={searchQuery}
           onChange={handleSearchChange}
         />
@@ -233,15 +242,17 @@ function UserHistory() {
         <div className="p-6 text-center bg-gray-100 rounded-lg">
           <p className="t16r">
             {searchQuery.trim() !== ''
-              ? 'No se encontraron registros que coincidan con la búsqueda.'
-              : 'No hay registros de cambios disponibles.'}
+              ? t(`${viewDictionary}.searchNoCoincidence`)
+              : t(`${viewDictionary}.searchNoRegistration`)}
           </p>
         </div>
       ) : (
         <div>
           <div className="mb-4 text-gray-600">
-            Mostrando {paginatedChanges.length} de {filteredChanges.length}{' '}
-            registros
+            {t(`${viewDictionary}.searchQuantityResults`, {
+              paginated: paginatedChanges.length,
+              total: filteredChanges.length,
+            })}
           </div>
 
           <div className="space-y-6">
@@ -259,12 +270,12 @@ function UserHistory() {
                       className={`px-2 py-1 text-xs rounded-full ${getChangeTypeColor(change.changeType)}`}
                     >
                       {change.changeType === 'create'
-                        ? 'Creación'
+                        ? t(`${viewDictionary}.createLabel`)
                         : change.changeType === 'update'
-                          ? 'Modificación'
+                          ? t(`${viewDictionary}.modifyLabel`)
                           : change.changeType === 'delete'
-                            ? 'Eliminación'
-                            : 'Cambio'}
+                            ? t(`${viewDictionary}.deleteLabel`)
+                            : t(`${viewDictionary}.changeLabel`)}
                     </span>
                     <span className="capitalize t16r ">
                       {change.targetEntityType}
@@ -278,15 +289,18 @@ function UserHistory() {
 
                 <div className="mb-3">
                   <span className="t16r">
-                    Modificado por:{' '}
+                    {t(`${viewDictionary}.modifiedByLabel`)}
                     <span className="t16b">
-                      {change.modifiedBy?.name || 'Usuario desconocido'}
+                      {change.modifiedBy?.name ||
+                        t(`${viewDictionary}.unknownUserLabel`)}
                     </span>
                   </span>
                 </div>
 
                 <div className="p-3 mt-3 rounded-md">
-                  <div className="mb-2 font-medium">Cambios realizados:</div>
+                  <div className="mb-2 font-medium">
+                    {t(`${viewDictionary}.changesRealizedLabel`)}
+                  </div>
                   {change.changesDetail &&
                     Object.keys(change.changesDetail).map((field) => (
                       <div key={field}>
@@ -296,14 +310,15 @@ function UserHistory() {
                 </div>
 
                 <div className="mt-4 t12r">
-                  <span className="font-medium">ID de referencia:</span>{' '}
+                  <span className="font-medium">
+                    {t(`${viewDictionary}.idReferenceLabel`)}
+                  </span>{' '}
                   {change.targetEntityId}
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Reemplazo del control de paginación personalizado por PaginationControl */}
           {totalPages > 1 && (
             <PaginationControl
               page={page}

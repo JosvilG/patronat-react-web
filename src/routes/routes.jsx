@@ -35,7 +35,6 @@ import UploadFileForm from '../pages/files/UploadFiles'
 
 // Páginas de administración y configuración
 import Dashboard from '../pages/Dashboard'
-import StaffControl from '../pages/users/staffControl'
 import CrewForm from '../pages/crews/register-crew'
 import ProfilePage from '../pages/ProfilePage'
 import Settings from '../pages/users/userSettings'
@@ -62,7 +61,6 @@ export const publicRoutes = [
 export const protectedRoutes = [
   // Rutas protegidas
   { path: '/dashboard', element: <Dashboard /> },
-  { path: '/staff-control', element: <StaffControl /> },
   { path: '/new-event', element: <EventForm /> },
   { path: '/edit-event/:slug', element: <EventModify /> },
   { path: '/events-control-list', element: <EventList /> },

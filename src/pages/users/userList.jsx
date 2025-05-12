@@ -93,7 +93,7 @@ function UserList() {
         entityData: userData,
         modifierId: auth.currentUser.uid,
         entityName: userName,
-        sensitiveFields: ['email', 'phoneNumber', 'dni'], // Campos sensibles
+        sensitiveFields: ['email', 'phoneNumber', 'dni'],
         onSuccess: () => {
           showPopup({
             title: t(`${viewDictionary}.deleteSuccess`, 'Usuario eliminado'),
@@ -106,7 +106,6 @@ function UserList() {
           setPaginatedUsers(paginatedUsers.filter((user) => user.id !== id))
         },
         onError: (error) => {
-          console.error('Error registrando la eliminación del usuario:', error)
           showPopup({
             title: t(`${viewDictionary}.deleteSuccess`, 'Usuario eliminado'),
             text: t(
@@ -119,7 +118,6 @@ function UserList() {
         },
       })
     } catch (error) {
-      console.error('Error al eliminar usuario:', error)
       showPopup({
         title: t('common.error', 'Error'),
         text: t(
