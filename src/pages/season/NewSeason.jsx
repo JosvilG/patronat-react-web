@@ -1,0 +1,614 @@
+import React, { useState, useEffect, useContext } from 'react'
+import log from 'loglevel'
+import { useNavigate } from 'react-router-dom'
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  query,
+  where,
+  getDocs,
+  updateDoc,
+  doc,
+} from 'firebase/firestore'
+import { db } from '../../firebase/firebase'
+import { AuthContext } from '../../contexts/AuthContext'
+import Loader from '../../components/Loader'
+import DynamicInput from '../../components/Inputs'
+import { showPopup } from '../../services/popupService'
+import { useTranslation } from 'react-i18next'
+import DynamicButton from '../../components/Buttons'
+import { createPaymentForPartner } from '../../hooks/paymentService'
+
+// Una función formatDate mejorada que se puede exportar al service
+export const formatDate = (dateValue) => {
+  if (!dateValue) return ''
+
+  try {
+    // Convertir de timestamp de Firestore si es necesario
+    if (dateValue?.toDate) {
+      dateValue = dateValue.toDate()
+    }
+
+    // Si ya es una fecha, formatear
+    if (dateValue instanceof Date) {
+      // Para mostrar en UI
+      return dateValue.toLocaleDateString()
+
+      // Para inputs de tipo date
+      // const pad = num => String(num).padStart(2, '0');
+      // return `${dateValue.getFullYear()}-${pad(dateValue.getMonth() + 1)}-${pad(dateValue.getDate())}`;
+    }
+
+    // Si es un string que parece una fecha, convertir y formatear
+    if (typeof dateValue === 'string' && dateValue.match(/\d{4}-\d{2}-\d{2}/)) {
+      return new Date(dateValue).toLocaleDateString()
+    }
+  } catch (error) {
+    console.error('Error formateando fecha:', error)
+  }
+
+  return ''
+}
+
+function NewSeason() {
+  const { t } = useTranslation()
+  const { user } = useContext(AuthContext)
+  const navigate = useNavigate()
+  const viewDictionary = 'pages.seasons.newSeason'
+
+  const [formState, setFormState] = useState({
+    seasonYear: new Date().getFullYear() + 1,
+    totalPrice: 0,
+    priceFirstFraction: 0,
+    priceSeconFraction: 0,
+    priceThirdFraction: 0,
+    active: false,
+    submitting: false,
+  })
+
+  const [existingActiveSeason, setExistingActiveSeason] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [creatingPayments, setCreatingPayments] = useState(false)
+  const [yearValidationMessage, setYearValidationMessage] = useState(null)
+  const [checkingYear, setCheckingYear] = useState(false)
+  const [activationMessage, setActivationMessage] = useState(null)
+
+  log.setLevel('info')
+
+  useEffect(() => {
+    const checkExistingSeasons = async () => {
+      try {
+        // Buscar temporada activa
+        const activeSeasonQuery = query(
+          collection(db, 'seasons'),
+          where('active', '==', true)
+        )
+        const activeSnapshot = await getDocs(activeSeasonQuery)
+
+        if (!activeSnapshot.empty) {
+          const activeSeason = {
+            id: activeSnapshot.docs[0].id,
+            ...activeSnapshot.docs[0].data(),
+          }
+          setExistingActiveSeason(activeSeason)
+        }
+      } catch (error) {
+        log.error('Error al comprobar temporadas activas:', error)
+        await showPopup({
+          title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
+          text: t(
+            `${viewDictionary}.errorPopup.checkSeasonError`,
+            'Error al comprobar las temporadas activas.'
+          ),
+          icon: 'error',
+          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        })
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    checkExistingSeasons()
+  }, [t, viewDictionary])
+
+  const checkExistingSeasonYear = async (year) => {
+    try {
+      const seasonYearQuery = query(
+        collection(db, 'seasons'),
+        where('seasonYear', '==', year)
+      )
+      const querySnapshot = await getDocs(seasonYearQuery)
+      return !querySnapshot.empty
+    } catch (error) {
+      log.error('Error al comprobar años de temporada existentes:', error)
+      return false // Si hay error, permitimos continuar pero lo registramos
+    }
+  }
+
+  const resetForm = () => {
+    setFormState({
+      seasonYear: new Date().getFullYear() + 1,
+      totalPrice: 0,
+      priceFirstFraction: 0,
+      priceSeconFraction: 0,
+      priceThirdFraction: 0,
+      active: false,
+      submitting: false,
+    })
+  }
+
+  const handleToggleActivation = (e) => {
+    const isActive = e.target.checked
+
+    setFormState((prev) => ({ ...prev, active: isActive }))
+  }
+
+  const handleInputChange = async (e) => {
+    const { name, value } = e.target
+    let parsedValue = value
+
+    if (
+      [
+        'seasonYear',
+        'totalPrice',
+        'priceFirstFraction',
+        'priceSeconFraction',
+        'priceThirdFraction',
+      ].includes(name)
+    ) {
+      parsedValue = value === '' ? '' : Number(value)
+    }
+
+    setFormState((prev) => ({ ...prev, [name]: parsedValue }))
+
+    // Si cambia el año, verificar duplicación
+    if (name === 'seasonYear' && parsedValue) {
+      setCheckingYear(true)
+      setYearValidationMessage(null)
+
+      try {
+        const exists = await checkExistingSeasonYear(parsedValue)
+        if (exists) {
+          setYearValidationMessage(
+            t(
+              `${viewDictionary}.validation.seasonYearDuplicate`,
+              'Ya existe una temporada para el año {{year}}. No se permiten temporadas duplicadas.',
+              { year: parsedValue }
+            )
+          )
+        }
+      } catch (error) {
+        console.error('Error al verificar año:', error)
+      } finally {
+        setCheckingYear(false)
+      }
+    }
+  }
+
+  const validateForm = async () => {
+    const errors = []
+
+    if (!formState.seasonYear) {
+      errors.push(
+        t(
+          `${viewDictionary}.validation.seasonYearRequired`,
+          'El año de la temporada es obligatorio'
+        )
+      )
+    }
+
+    if (formState.seasonYear < new Date().getFullYear()) {
+      errors.push(
+        t(
+          `${viewDictionary}.validation.seasonYearInvalid`,
+          'El año de la temporada debe ser igual o posterior al año actual'
+        )
+      )
+    }
+
+    // Comprobar duplicación de año
+    const seasonYearExists = await checkExistingSeasonYear(formState.seasonYear)
+    if (seasonYearExists) {
+      errors.push(
+        t(
+          `${viewDictionary}.validation.seasonYearDuplicate`,
+          'Ya existe una temporada para el año {{year}}. No se permiten temporadas duplicadas.',
+          { year: formState.seasonYear }
+        )
+      )
+    }
+
+    if (formState.totalPrice < 0) {
+      errors.push(
+        t(
+          `${viewDictionary}.validation.totalPricePositive`,
+          'El precio total no puede ser negativo'
+        )
+      )
+    }
+
+    const fractionSum =
+      formState.priceFirstFraction +
+      formState.priceSeconFraction +
+      formState.priceThirdFraction
+
+    if (fractionSum !== formState.totalPrice) {
+      errors.push(
+        t(
+          `${viewDictionary}.validation.fractionSumMismatch`,
+          'La suma de los precios de las fracciones debe ser igual al precio total'
+        )
+      )
+    }
+
+    return errors
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    log.info('Iniciando envío del formulario de nueva temporada')
+    setFormState((prev) => ({ ...prev, submitting: true }))
+
+    try {
+      // Verificación de usuario
+      if (!user) {
+        log.warn('Intento de crear temporada sin usuario autenticado')
+        await showPopup({
+          title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
+          text: t(
+            `${viewDictionary}.authError`,
+            'Debe iniciar sesión para realizar esta acción.'
+          ),
+          icon: 'error',
+          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        })
+        return
+      }
+      log.info('Usuario autenticado:', user.uid)
+
+      // Validación del formulario (ahora asíncrona)
+      const errors = await validateForm()
+      if (errors.length > 0) {
+        log.warn('Errores de validación en el formulario:', errors)
+        await showPopup({
+          title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
+          text: errors.join('\n\n'),
+          icon: 'error',
+          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        })
+        setFormState((prev) => ({ ...prev, submitting: false }))
+        return
+      }
+      log.info('Formulario validado correctamente')
+
+      // Paso 1: Si es necesario, desactivar temporada existente
+      if (formState.active && existingActiveSeason) {
+        log.info('Desactivando temporada actual:', existingActiveSeason.id)
+        try {
+          await updateDoc(doc(db, 'seasons', existingActiveSeason.id), {
+            active: false,
+            lastUpdateDate: serverTimestamp(),
+          })
+          log.info('Temporada existente desactivada con éxito')
+        } catch (updateError) {
+          log.error('Error al desactivar temporada existente:', updateError)
+          throw new Error(
+            t(
+              `${viewDictionary}.errorPopup.deactivateSeasonError`,
+              'Error al desactivar la temporada existente.'
+            )
+          )
+        }
+      }
+
+      // Paso 2: Crear nueva temporada
+      log.info('Creando nueva temporada con datos:', { ...formState })
+      let newSeasonDocRef
+      try {
+        newSeasonDocRef = await addDoc(collection(db, 'seasons'), {
+          seasonYear: formState.seasonYear,
+          totalPrice: formState.totalPrice,
+          numberOfFractions: 3,
+          priceFirstFraction: formState.priceFirstFraction,
+          priceSeconFraction: formState.priceSeconFraction,
+          priceThirdFraction: formState.priceThirdFraction,
+          active: formState.active,
+          createdAt: serverTimestamp(),
+          userId: user.uid,
+        })
+        log.info('Nueva temporada creada con ID:', newSeasonDocRef.id)
+      } catch (addError) {
+        log.error('Error al crear nueva temporada:', addError)
+        throw new Error(
+          t(
+            `${viewDictionary}.errorPopup.createSeasonError`,
+            'Error al crear la temporada.'
+          )
+        )
+      }
+
+      // Paso 3: Obtener socios aprobados para crear pagos
+      log.info('Consultando socios aprobados')
+      let approvedPartnersSnapshot
+      try {
+        const approvedPartnersQuery = query(
+          collection(db, 'partners'),
+          where('status', '==', 'approved')
+        )
+        approvedPartnersSnapshot = await getDocs(approvedPartnersQuery)
+        log.info('Socios aprobados encontrados:', approvedPartnersSnapshot.size)
+      } catch (queryError) {
+        log.error('Error al consultar socios aprobados:', queryError)
+        throw new Error(
+          'Error al consultar socios aprobados: ' + queryError.message
+        )
+      }
+
+      // Paso 4: Crear documentos de pagos para socios aprobados
+      if (!approvedPartnersSnapshot.empty) {
+        setCreatingPayments(true)
+
+        try {
+          let createdCount = 0
+          let skippedCount = 0
+
+          for (const partnerDoc of approvedPartnersSnapshot.docs) {
+            const partnerId = partnerDoc.id
+
+            try {
+              // Crear el objeto de datos de pago
+              const paymentData = {
+                seasonYear: formState.seasonYear,
+                firstPayment: false,
+                firstPaymentDone: false,
+                firstPaymentPrice: formState.priceFirstFraction,
+                firstPaymentDate: null,
+                secondPayment: false,
+                secondPaymentDone: false,
+                secondPaymentPrice: formState.priceSeconFraction,
+                secondPaymentDate: null,
+                thirdPayment: false,
+                thirdPaymentDone: false,
+                thirdPaymentPrice: formState.priceThirdFraction,
+                thirdPaymentDate: null,
+              }
+
+              // Usar el servicio para crear el pago
+              const result = await createPaymentForPartner(
+                partnerId,
+                paymentData,
+                user.uid
+              )
+
+              if (result.created) {
+                createdCount++
+              } else if (result.existing) {
+                skippedCount++
+              }
+            } catch (error) {
+              log.error(`Error procesando pago para socio ${partnerId}:`, error)
+              throw error
+            }
+          }
+
+          // Mostrar resumen
+          if (createdCount > 0) {
+            await showPopup({
+              title: t(
+                `${viewDictionary}.paymentsCreatedTitle`,
+                'Documentos de pagos creados'
+              ),
+              text: t(
+                `${viewDictionary}.paymentsCreatedText`,
+                'Se han creado {{createdCount}} documentos de pagos para la nueva temporada. Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.',
+                { createdCount, skippedCount }
+              ),
+              icon: 'success',
+              confirmButtonText: t(
+                'components.popup.confirmButtonText',
+                'Aceptar'
+              ),
+            })
+          }
+        } catch (error) {
+          throw error
+        } finally {
+          setCreatingPayments(false)
+        }
+      }
+
+      // Paso 5: Mostrar mensaje de éxito y redirigir
+      log.info('Proceso completado con éxito, mostrando mensaje final')
+      await showPopup({
+        title: t(`${viewDictionary}.successPopup.title`, 'Éxito'),
+        text: t(
+          `${viewDictionary}.successPopup.text`,
+          'La temporada ha sido registrada correctamente.'
+        ),
+        icon: 'success',
+        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+      })
+
+      log.info('Redirigiendo a dashboard')
+      navigate('/dashboard')
+      resetForm()
+    } catch (error) {
+      log.error('Error general en el proceso:', error)
+
+      // Mostrar mensaje de error con detalles
+      await showPopup({
+        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
+        text:
+          error.message ||
+          t(
+            `${viewDictionary}.errorPopup.text`,
+            'Ha ocurrido un error al registrar la temporada.'
+          ),
+        icon: 'error',
+        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+      })
+    } finally {
+      setFormState((prev) => ({ ...prev, submitting: false }))
+      setCreatingPayments(false)
+      log.info('Proceso de registro finalizado')
+    }
+  }
+
+  if (loading) {
+    return (
+      <Loader
+        loading={true}
+        size="50px"
+        color="rgb(21, 100, 46)"
+        text={t(`${viewDictionary}.loadingText`, 'Cargando...')}
+      />
+    )
+  }
+  return (
+    <div className="flex flex-col items-center h-auto max-w-lg pb-6 mx-auto">
+      <Loader loading={formState.submitting || creatingPayments} />
+      <h1 className="mb-4 text-center t64b">
+        {t(`${viewDictionary}.title`, 'Registrar Nueva Temporada')}
+      </h1>
+
+      {existingActiveSeason && (
+        <div className="p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg">
+          <p>
+            {t(
+              `${viewDictionary}.activeSeasonNotice`,
+              'Ya existe una temporada activa para el año {{seasonYear}}. Si activa esta nueva temporada, la actual se desactivará automáticamente.',
+              { seasonYear: existingActiveSeason.seasonYear }
+            )}
+          </p>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="flex flex-col items-center">
+          <DynamicInput
+            name="seasonYear"
+            textId={`${viewDictionary}.seasonYearLabel`}
+            defaultText="Año de temporada"
+            type="text"
+            value={formState.seasonYear}
+            onChange={handleInputChange}
+            disabled={formState.submitting}
+            required
+          />
+
+          {checkingYear && (
+            <p className="mt-1 text-sm text-gray-500">
+              {t(
+                `${viewDictionary}.checkingYear`,
+                'Verificando disponibilidad del año...'
+              )}
+            </p>
+          )}
+
+          {yearValidationMessage && (
+            <p className="mt-1 text-sm text-red-600">{yearValidationMessage}</p>
+          )}
+        </div>
+        <div className="flex flex-col items-center">
+          <DynamicInput
+            name="totalPrice"
+            textId={`${viewDictionary}.totalPriceLabel`}
+            defaultText="Precio total"
+            type="text"
+            value={formState.totalPrice}
+            onChange={handleInputChange}
+            disabled={formState.submitting}
+            required
+          />
+        </div>
+        <div className="flex flex-col items-center">
+          <DynamicInput
+            name="priceFirstFraction"
+            textId={`${viewDictionary}.priceFirstFractionLabel`}
+            defaultText="Precio primera fracción"
+            type="text"
+            value={formState.priceFirstFraction}
+            onChange={handleInputChange}
+            disabled={formState.submitting}
+            required
+          />
+        </div>
+        <div className="flex flex-col items-center">
+          <DynamicInput
+            name="priceSeconFraction"
+            textId={`${viewDictionary}.priceSeconFractionLabel`}
+            defaultText="Precio segunda fracción"
+            type="text"
+            value={formState.priceSeconFraction}
+            onChange={handleInputChange}
+            disabled={formState.submitting}
+            required
+          />
+        </div>
+        <div className="flex flex-col items-center">
+          <DynamicInput
+            name="priceThirdFraction"
+            textId={`${viewDictionary}.priceThirdFractionLabel`}
+            defaultText="Precio tercera fracción"
+            type="text"
+            value={formState.priceThirdFraction}
+            onChange={handleInputChange}
+            disabled={formState.submitting}
+            required
+          />
+        </div>
+        <div className="flex flex-col items-center space-x-2">
+          <DynamicInput
+            name="active"
+            type="checkbox"
+            textId={`${viewDictionary}.activeLabel`}
+            defaultText="Activar temporada"
+            checked={formState.active}
+            onChange={handleToggleActivation}
+            disabled={formState.submitting}
+          />
+
+          {activationMessage && (
+            <p className="mt-1 text-sm text-amber-600">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="inline w-4 h-4 mr-1"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+                />
+              </svg>
+              {activationMessage}
+            </p>
+          )}
+        </div>
+
+        <div className="flex justify-center">
+          <DynamicButton
+            type="submit"
+            size="large"
+            state={formState.submitting ? 'disabled' : 'normal'}
+            textId={
+              formState.submitting
+                ? `${viewDictionary}.submittingText`
+                : `${viewDictionary}.submitButton`
+            }
+            defaultText={
+              formState.submitting ? 'Guardando...' : 'Guardar temporada'
+            }
+            disabled={formState.submitting}
+          />
+        </div>
+      </form>
+    </div>
+  )
+}
+
+export default NewSeason
