@@ -232,8 +232,21 @@
         "description": "Todo lo que necesitas saber sobre las festividades en Roquetes está a solo un clic de distancia."
       },
       "aboutSection": {
+        "mainTitle": "Sobre nosotros",
         "title": "¿Quiénes somos?",
-        "description": "El Patronat de Festes de Roquetes es una organización independiente y apolítica sin ánimo de lucro encargada de organizar festivales y eventos para la localidad de Roquetes en Tarragona. Aquí puedes encontrar toda la información sobre los próximos eventos y mucho más."
+        "description": "Somos personas de Roquetes, vecinos y vecinas que creemos en el valor de la participación y el trabajo conjunto. Detrás del Patronat hay muchas horas de dedicación, reuniones, ideas, y sobre todo, una gran ilusión compartida. Colaboramos estrechamente con el Ayuntamiento y otras entidades locales para que cada fiesta sea especial, cercana y auténtica. Si quieres saber más, participar o simplemente compartir con nosotros esta pasión por las tradiciones, estás invitado: el Patronat también es tuyo.",
+        "historyTitle": "Nuestra historia",
+        "historyDescription": "El Patronat de Festes de Roquetes nació en 1973 con un objetivo claro: preservar y promover las fiestas populares que dan vida a nuestra ciudad. Desde entonces, hemos sido parte esencial de la identidad de Roquetes, organizando cada año celebraciones que combinan tradición, cultura y participación. A lo largo de los años, más de un centenar de personas han contribuido con su esfuerzo y pasión a consolidar esta entidad como uno de los pilares festivos del municipio. Hoy, con más de cinco décadas de historia, seguimos creciendo con el mismo espíritu con el que empezamos: hacer de cada fiesta un reflejo del alma de Roquetes.",
+        "motivationTitle": "Motivación",
+        "motivationDescription": "Creemos que las fiestas son mucho más que celebraciones: son momentos que fortalecen los vínculos, que nos conectan con nuestras raíces y que nos permiten compartir lo mejor de nosotros mismos. Nos motiva ver a niños, jóvenes y mayores vivir con ilusión cada acto, cada tradición y cada encuentro. Trabajamos con entusiasmo para ofrecer propuestas inclusivas, creativas y con sentido comunitario. Nuestra motivación es clara: seguir construyendo, a través de las fiestas, una Roquetes viva, unida y orgullosa de su cultura.",
+        "staffTitle": "Actual STAFF",
+        "loadingStaff": "Cargando miembros del staff...",
+        "errorStaff": "Error al cargar el staff:",
+        "noStaffMembers": "No se encontraron miembros del staff.",
+        "defaultName": "Nombre",
+        "defaultLastName": "Apellido",
+        "defaultPosition": "Miembro",
+        "defaultDescription": "Este miembro del staff no tiene descripción disponible."
       },
       "galerySection": {
         "title": "Galería",
@@ -301,7 +314,7 @@
         }
       },
       "userModify": {
-        "title": "Actualizar datos de ",
+        "title": "Actualizar datos",
         "editUserTitle": "Editar usuario",
         "descriptionTitle": "Modifica tus datos personales",
         "editUserDescription": "Modificando datos de {{firstName}} {{lastName}}",
@@ -492,6 +505,162 @@
         "modifyButton": "Modificar",
         "deleteButton": "Eliminar",
         "loadingText": "Cargando participantes..."
+      }
+    },
+    "partners": {
+      "registerPartners": {
+        "title": "Registro de Socio",
+        "nameLabel": "Nombre",
+        "namePlaceholder": "Nombre del socio",
+        "lastNameLabel": "Apellidos",
+        "lastNamePlaceholder": "Apellidos del socio",
+        "addressLabel": "Dirección",
+        "addressPlaceholder": "Dirección completa",
+        "emailLabel": "Correo electrónico",
+        "emailPlaceholder": "example@correo.com",
+        "phoneLabel": "Teléfono",
+        "phonePlaceholder": "Número de contacto",
+        "birthDateLabel": "Fecha de nacimiento",
+        "dniLabel": "DNI",
+        "dniPlaceholder": "12345678A",
+        "accountNumberLabel": "Número de cuenta (IBAN)",
+        "accountNumberPlaceholder": "ES1234567890123456789012",
+        "statusLabel": "Estado del socio",
+        "statusOptions": {
+          "review": "En revisión",
+          "active": "Activo",
+          "inactive": "Baja"
+        },
+        "submittingText": "Guardando...",
+        "submitButton": "Registrar Socio",
+        "validation": {
+          "requiredFields": "Por favor, completa todos los campos requeridos.",
+          "invalidEmail": "Por favor, introduce un email válido.",
+          "invalidDni": "Por favor, introduce un DNI válido (8 números y una letra).",
+          "invalidIban": "Por favor, introduce un IBAN válido (formato ES + 22 dígitos).",
+          "invalidDate": "Por favor, introduce una fecha de nacimiento válida."
+        },
+        "successPopup": {
+          "title": "Registro exitoso",
+          "text": "El socio ha sido registrado correctamente y está pendiente de revisión."
+        },
+        "errorPopup": {
+          "title": "Error de validación",
+          "text": "Ha ocurrido un error al registrar el socio. Por favor, inténtalo de nuevo."
+        },
+        "authError": "Debes iniciar sesión para registrar un socio."
+      },
+      "listPartners": {
+        "title": "Listado de Socios",
+        "searchPlaceholder": "Buscar socio...",
+        "addNewButton": "Añadir Socio",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Cargando socios...",
+        "exportToExcel": "Exportar a Excel",
+        "exportSuccessTitle": "Exportación completada",
+        "exportSuccessText": "Los datos del socio se han exportado correctamente.",
+        "errorPopup": {
+          "exportError": "Ha ocurrido un error al exportar los datos del socio."
+        },
+        "modifyPartners": {
+          "title": "Modificar Socio",
+          "nameLabel": "Nombre",
+          "lastNameLabel": "Apellidos",
+          "addressLabel": "Dirección",
+          "emailLabel": "Correo electrónico",
+          "phoneLabel": "Teléfono",
+          "birthDateLabel": "Fecha de nacimiento",
+          "dniLabel": "DNI",
+          "accountNumberLabel": "Número de cuenta (IBAN)",
+          "statusLabel": "Estado del socio",
+          "statusOptions": {
+            "review": "En revisión",
+            "active": "Activo",
+            "inactive": "Baja"
+          },
+          "submittingText": "Actualizando...",
+          "submitButton": "Guardar Cambios",
+          "successPopup": {
+            "title": "Actualización exitosa",
+            "text": "Los datos del socio han sido actualizados correctamente."
+          },
+          "errorPopup": {
+            "title": "Error",
+            "text": "Ha ocurrido un error al actualizar los datos del socio."
+          }
+        }
+      },
+      "partnerInfo": {
+        "exportToExcel": "Exportar datos",
+        "exportSuccessTitle": "Exportación completada",
+        "exportSuccessText": "Los datos del socio se han exportado correctamente.",
+        "errorPopup": {
+          "exportError": "Ha ocurrido un error al exportar los datos del socio."
+        }
+      }
+    },
+    "seasons": {
+      "newSeason": {
+        "title": "Nueva remesa",
+        "seasonYearLabel": "Año de la remesa",
+        "totalPriceLabel": "Precio total",
+        "priceFirstFractionLabel": "Precio primera fracción",
+        "priceSeconFractionLabel": "Precio segunda fracción",
+        "priceThirdFractionLabel": "Precio tercera fracción",
+        "activeLabel": "Activar remesa",
+        "submittingText": "Guardando...",
+        "submitButton": "Guardar remesa",
+        "loadingText": "Cargando...",
+        "checkingYear": "Verificando disponibilidad del año...",
+        "activeSeasonNotice": "El año {{seasonYear}} está como remesa activa. Si selecciona como activa esta nueva remesa, la actual se desactivará automáticamente.",
+        "validation": {
+          "seasonYearRequired": "El año de la remesa es obligatorio",
+          "seasonYearInvalid": "El año de la remesa debe ser igual o posterior al año actual",
+          "seasonYearDuplicate": "Ya existe una remesa para el año {{year}}. No se permiten remesas duplicadas.",
+          "totalPricePositive": "El precio total no puede ser negativo",
+          "totalPriceRequired": "El precio total es obligatorio",
+          "totalPriceNumeric": "El precio total debe ser un número",
+          "fractionSumMismatch": "La suma de los precios de las fracciones debe ser igual al precio total",
+          "fractionPriceRequired": "Los precios de las fracciones son obligatorios",
+          "fractionPriceNumeric": "Los precios de las fracciones deben ser números",
+          "fractionPricePositive": "Los precios de las fracciones no pueden ser negativos"
+        },
+        "successPopup": {
+          "title": "Éxito",
+          "text": "La remesa ha sido registrada correctamente."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Ha ocurrido un error al registrar la remesa.",
+          "checkSeasonError": "Error al comprobar las remesas activas.",
+          "createSeasonError": "Error al crear la remesa.",
+          "deactivateSeasonError": "Error al desactivar la remesa existente.",
+          "createPaymentsError": "Error al crear los pagos para los socios.",
+          "formValidationError": "Por favor, corrige los errores en el formulario antes de continuar.",
+          "serverError": "Error en el servidor. Por favor, inténtalo más tarde.",
+          "networkError": "Error de conexión. Comprueba tu conexión a internet.",
+          "unknownError": "Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo."
+        },
+        "warningPopup": {
+          "title": "Advertencia",
+          "deactivateSeasonWarning": "Al activar esta remesa, se desactivará la remesa activa actual para el año {{year}}.",
+          "confirmContinue": "¿Deseas continuar?"
+        },
+        "confirmationPopup": {
+          "title": "Confirmar acción",
+          "createPaymentsConfirmation": "Se crearán documentos de pago para todos los socios activos. ¿Deseas continuar?",
+          "confirmButton": "Sí, continuar",
+          "cancelButton": "No, cancelar"
+        },
+        "authError": "Debe iniciar sesión para realizar esta acción.",
+        "permissionError": "No tiene permisos para realizar esta acción.",
+        "paymentsCreatedTitle": "Documentos de pagos creados",
+        "paymentsCreatedText": "Se han creado {{createdCount}} documentos de pagos para la nueva temporada. Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.",
+        "noPartnersFound": "No se encontraron socios activos para crear pagos.",
+        "activeSeasonExistsError": "Ya existe una temporada activa para este año.",
+        "databaseConnectionError": "Error de conexión a la base de datos.",
+        "sessionExpiredError": "Tu sesión ha caducado. Por favor, inicia sesión de nuevo."
       }
     },
     "userRegister": {
