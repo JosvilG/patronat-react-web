@@ -1,13 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import {
   collection,
   getDocs,
-  getDoc,
   deleteDoc,
   updateDoc,
   doc,
-  query,
-  where,
 } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
@@ -18,10 +15,12 @@ import Loader from '../../components/Loader'
 import { showPopup } from '../../services/popupService'
 import useSlug from '../../hooks/useSlug'
 import {
-  getPartnerPaymentsForSeason,
-  getPartnerPaymentHistory,
+  listenPartnerPaymentForSeason,
+  listenPartnerPaymentHistory,
   getActiveSeason,
   createPaymentForPartner,
+  getPartnerPaymentHistory,
+  getPartnerPaymentsForSeason,
 } from '../../hooks/paymentService'
 import { getAuth } from 'firebase/auth'
 import {
@@ -54,6 +53,12 @@ function PartnerList() {
   const [exportingToExcel, setExportingToExcel] = useState(false)
   const [exportingAllToExcel, setExportingAllToExcel] = useState(false)
 
+  // Referencias para los unsubscribe de listeners
+  const paymentListenerRef = useRef(null)
+  const historyListenerRef = useRef(null)
+
+  // Utilidad para retrasos
+
   useEffect(() => {
     const fetchPartners = async () => {
       try {
@@ -81,7 +86,76 @@ function PartnerList() {
     }
 
     fetchPartners()
+
+    // Limpieza de las suscripciones al desmontar el componente
+    return () => {
+      if (paymentListenerRef.current) {
+        paymentListenerRef.current()
+      }
+      if (historyListenerRef.current) {
+        historyListenerRef.current()
+      }
+    }
   }, [t, viewDictionary])
+
+  // Efecto para configurar listeners cuando cambia la temporada activa o el socio seleccionado
+  useEffect(() => {
+    if (!sidebarOpen || !selectedPartner || !activeSeason) return
+
+    // Limpiar listeners previos si existen
+    if (paymentListenerRef.current) {
+      paymentListenerRef.current()
+    }
+    if (historyListenerRef.current) {
+      historyListenerRef.current()
+    }
+
+    // Solo configurar listeners si el socio está aprobado
+    if (selectedPartner.status === 'approved') {
+      // Configurar listener para pagos actuales
+      setLoadingPayments(true)
+      paymentListenerRef.current = listenPartnerPaymentForSeason(
+        selectedPartner.id,
+        activeSeason.seasonYear,
+        (payment) => {
+          // Si no hay pagos, crear un objeto de pago predeterminado
+          if (!payment) {
+            payment = {
+              id: 'pending-creation',
+              seasonYear: activeSeason.seasonYear,
+              firstPayment: false,
+              firstPaymentPrice: activeSeason.priceFirstFraction || 0,
+              secondPaymentDone: false,
+              secondPaymentPrice: activeSeason.priceSeconFraction || 0,
+              thirdPaymentDone: false,
+              thirdPaymentPrice: activeSeason.priceThirdFraction || 0,
+            }
+          }
+          setPartnerPayments(payment)
+          setLoadingPayments(false)
+        },
+        (error) => {
+          console.error('Error en listener de pagos:', error)
+          setLoadingPayments(false)
+        }
+      )
+
+      // Configurar listener para historial de pagos
+      setLoadingHistory(true)
+      historyListenerRef.current = listenPartnerPaymentHistory(
+        selectedPartner.id,
+        activeSeason.seasonYear,
+        (history) => {
+          setPaymentHistory(history || [])
+          setLoadingHistory(false)
+        },
+        (error) => {
+          console.error('Error en listener de historial:', error)
+          setLoadingHistory(false)
+        }
+      )
+    }
+  }, [selectedPartner, activeSeason, sidebarOpen])
 
   const handleSearchChange = (event) => {
     const query = event.target.value.toLowerCase()
@@ -96,50 +170,6 @@ function PartnerList() {
     )
 
     setFilteredPartners(filtered)
-  }
-
-  const handleDelete = async (id) => {
-    try {
-      const result = await showPopup({
-        title: t(`${viewDictionary}.deletePopup.title`, '¿Eliminar socio?'),
-        text: t(
-          `${viewDictionary}.deletePopup.text`,
-          '¿Estás seguro de que quieres eliminar este socio? Esta acción no se puede deshacer.'
-        ),
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: t('components.popup.confirmButtonText', 'Eliminar'),
-        cancelButtonText: t('components.popup.cancelButtonText', 'Cancelar'),
-      })
-
-      if (result && result.isConfirmed) {
-        await deleteDoc(doc(db, 'partners', id))
-        const updatedPartners = partners.filter((partner) => partner.id !== id)
-        setPartners(updatedPartners)
-        setFilteredPartners(updatedPartners)
-
-        await showPopup({
-          title: t(`${viewDictionary}.successPopup.title`, 'Éxito'),
-          text: t(
-            `${viewDictionary}.successPopup.deleteText`,
-            'El socio ha sido eliminado correctamente.'
-          ),
-          icon: 'success',
-          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
-        })
-      }
-    } catch (error) {
-      console.error('Error al eliminar el socio:', error)
-      await showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-        text: t(
-          `${viewDictionary}.errorPopup.deleteError`,
-          'Ha ocurrido un error al eliminar el socio.'
-        ),
-        icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
-      })
-    }
   }
 
   const getStatusBadgeClass = (status) => {
@@ -391,22 +421,42 @@ function PartnerList() {
         currentActiveSeason = await getActiveSeason()
 
         if (currentActiveSeason) {
-          // Obtener pagos de temporada actual
-          payments = await getPartnerPaymentsForSeason(
-            partnerId,
-            currentActiveSeason.seasonYear
-          )
+          try {
+            // Si estamos viendo este socio actualmente, usar los datos ya cargados
+            if (selectedPartner && selectedPartner.id === partnerId) {
+              payments = partnerPayments
+              history = paymentHistory
+            } else {
+              // Si no es el socio actualmente seleccionado, obtener los datos
+              payments = await getPartnerPaymentsForSeason(
+                partnerId,
+                currentActiveSeason.seasonYear
+              )
 
-          // Obtener historial de pagos explícitamente para la exportación
-          history =
-            (await getPartnerPaymentHistory(
-              partnerId,
-              currentActiveSeason.seasonYear
-            )) || []
-
-          console.log('Historial recuperado para exportación:', history)
+              const historyData = await getPartnerPaymentHistory(
+                partnerId,
+                currentActiveSeason.seasonYear
+              )
+              history = historyData || []
+            }
+            console.log('Datos para exportación:', {
+              partner,
+              payments,
+              history,
+            })
+          } catch (error) {
+            console.error('Error obteniendo datos de pago:', error)
+          }
         }
       }
+
+      // Añadir un log para verificar los datos antes de exportar
+      console.log('Iniciando exportación con:', {
+        partner,
+        season: currentActiveSeason,
+        payments,
+        history,
+      })
 
       // Llamar a la función de utilidad para exportar
       await exportPartnerToExcel(
@@ -418,20 +468,6 @@ function PartnerList() {
         t,
         viewDictionary
       )
-
-      // Mostrar mensaje de éxito
-      await showPopup({
-        title: t(
-          `${viewDictionary}.exportSuccessTitle`,
-          'Exportación completada'
-        ),
-        text: t(
-          `${viewDictionary}.exportSuccessText`,
-          'Los datos del socio se han exportado correctamente.'
-        ),
-        icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
-      })
     } catch (error) {
       console.error('Error al exportar datos del socio:', error)
       await showPopup({
@@ -461,6 +497,7 @@ function PartnerList() {
       }
 
       // Llamar a la función de utilidad para exportar todos los socios
+      // Añadimos los parámetros faltantes: getPartnerPaymentsForSeason y getPartnerPaymentHistory
       await exportAllPartnersToExcel(
         partners,
         currentActiveSeason,
@@ -487,10 +524,7 @@ function PartnerList() {
     }
   }
 
-  // Función de utilidad para esperar un tiempo específico (ms)
-  const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
-
-  // Actualiza la función openSidebar para añadir retrasos
+  // Función actualizada para abrir el panel lateral
   const openSidebar = async (partner) => {
     setSelectedPartner(partner)
     setSidebarOpen(true)
@@ -503,24 +537,24 @@ function PartnerList() {
       // Primero cargar la temporada activa
       await fetchActiveSeason()
 
-      // Si el socio está aprobado, cargar los pagos y el historial en paralelo
-      if (partner.status === 'approved') {
-        // Usar Promise.all para cargar ambos en paralelo después de un pequeño retraso
-        await delay(800)
-
-        Promise.all([
-          fetchPartnerPayments(partner.id),
-          fetchPaymentHistory(partner.id),
-        ]).catch((error) => {
-          console.error('Error al cargar datos de pago:', error)
-        })
-      }
+      // Los listeners se configurarán automáticamente gracias al efecto
+      // que está observando cambios en selectedPartner, activeSeason y sidebarOpen
     } catch (error) {
       console.error('Error al abrir el panel lateral:', error)
     }
   }
 
   const closeSidebar = () => {
+    // Limpiar los listeners al cerrar el sidebar
+    if (paymentListenerRef.current) {
+      paymentListenerRef.current()
+      paymentListenerRef.current = null
+    }
+    if (historyListenerRef.current) {
+      historyListenerRef.current()
+      historyListenerRef.current = null
+    }
+
     setSidebarOpen(false)
     setSelectedPartner(null)
   }
@@ -528,113 +562,15 @@ function PartnerList() {
   const fetchActiveSeason = async () => {
     setLoadingSeason(true)
     try {
-      const seasonsQuery = query(
-        collection(db, 'seasons'),
-        where('active', '==', true)
-      )
-
-      const querySnapshot = await getDocs(seasonsQuery)
-
-      if (!querySnapshot.empty) {
-        const seasonDoc = querySnapshot.docs[0]
-        setActiveSeason({ id: seasonDoc.id, ...seasonDoc.data() })
-      } else {
-        setActiveSeason(null)
-      }
+      const season = await getActiveSeason()
+      setActiveSeason(season)
+      return season
     } catch (error) {
       console.error('Error al obtener la temporada activa:', error)
       setActiveSeason(null)
+      return null
     } finally {
       setLoadingSeason(false)
-    }
-  }
-
-  // Modificar la función fetchPartnerPayments para añadir reintento automático
-  const fetchPartnerPayments = async (partnerId) => {
-    if (!partnerId) return
-
-    setLoadingPayments(true)
-    try {
-      if (!activeSeason) {
-        await fetchActiveSeason()
-        await delay(500)
-      }
-
-      if (!activeSeason) {
-        setPartnerPayments(null)
-        return
-      }
-
-      // Intentar obtener pagos
-      let payments = await getPartnerPaymentsForSeason(
-        partnerId,
-        activeSeason.seasonYear
-      )
-
-      if (!payments) {
-        // Si no se encuentran pagos, esperar un momento y reintentar
-        await delay(1500)
-        console.log('Reintentando obtener pagos después de espera...')
-
-        payments = await getPartnerPaymentsForSeason(
-          partnerId,
-          activeSeason.seasonYear
-        )
-
-        // Si después del reintento sigue sin haber datos, inicializar un objeto de pago vacío
-        // para que la interfaz no muestre el mensaje "no se encontró información"
-        if (!payments) {
-          payments = {
-            id: 'pending-creation',
-            seasonYear: activeSeason.seasonYear,
-            firstPayment: false,
-            firstPaymentPrice: activeSeason.priceFirstFraction || 0,
-            secondPaymentDone: false,
-            secondPaymentPrice: activeSeason.priceSeconFraction || 0,
-            thirdPaymentDone: false,
-            thirdPaymentPrice: activeSeason.priceThirdFraction || 0,
-          }
-        }
-      }
-
-      setPartnerPayments(payments)
-    } catch (error) {
-      console.error('Error al cargar pagos:', error)
-      setPartnerPayments(null)
-    } finally {
-      setLoadingPayments(false)
-    }
-  }
-
-  // Modificar la función fetchPaymentHistory para añadir reintento
-  const fetchPaymentHistory = async (partnerId) => {
-    if (!partnerId) return
-
-    setLoadingHistory(true)
-    try {
-      const activeYear = activeSeason ? activeSeason.seasonYear : null
-
-      // Intentar obtener historial
-      const history = await getPartnerPaymentHistory(partnerId, activeYear)
-
-      if (!history || history.length === 0) {
-        // Si no se encuentra historial, esperar un momento y reintentar una vez
-        await delay(1500)
-        console.log('Reintentando obtener historial después de espera...')
-
-        const retryHistory = await getPartnerPaymentHistory(
-          partnerId,
-          activeYear
-        )
-        setPaymentHistory(retryHistory || [])
-      } else {
-        setPaymentHistory(history)
-      }
-    } catch (error) {
-      console.error('Error al cargar historial de pagos:', error)
-      setPaymentHistory([])
-    } finally {
-      setLoadingHistory(false)
     }
   }
 
@@ -843,38 +779,12 @@ function PartnerList() {
 
             {selectedPartner.status === 'approved' && (
               <div className="pt-4 mb-4 border-t border-gray-200">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="font-medium">
-                    {t(
-                      `${viewDictionary}.payments.paymentStatus`,
-                      'Estado de Pagos'
-                    )}
-                  </h3>
-                  <button
-                    onClick={() => fetchPartnerPayments(selectedPartner.id)}
-                    className="flex items-center justify-center p-1 text-sm text-gray-600 rounded-md hover:bg-gray-100"
-                    disabled={loadingPayments}
-                    title={t(
-                      `${viewDictionary}.payments.refreshPayments`,
-                      'Actualizar pagos'
-                    )}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      className={`w-5 h-5 ${loadingPayments ? 'animate-spin' : ''}`}
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                      />
-                    </svg>
-                  </button>
-                </div>
+                <h3 className="mb-2 font-medium">
+                  {t(
+                    `${viewDictionary}.payments.paymentStatus`,
+                    'Estado de Pagos'
+                  )}
+                </h3>
 
                 {loadingPayments ? (
                   <p className="text-sm text-gray-500">
@@ -1062,67 +972,15 @@ function PartnerList() {
                         'No se encontró información de pagos para este socio.'
                       )}
                     </p>
-                    <button
-                      onClick={() => fetchPartnerPayments(selectedPartner.id)}
-                      className="flex items-center px-3 py-1 text-sm bg-gray-200 rounded hover:bg-gray-300"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        className="w-4 h-4 mr-1"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                        />
-                      </svg>
-                      {t(
-                        `${viewDictionary}.payments.retryLoad`,
-                        'Intentar cargar de nuevo'
-                      )}
-                    </button>
                   </div>
                 )}
               </div>
             )}
 
             <div className="pt-4 border-t border-gray-200">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="font-medium">
-                  {t(
-                    `${viewDictionary}.payments.history`,
-                    'Historial de pagos'
-                  )}
-                </h3>
-                <button
-                  onClick={() => fetchPaymentHistory(selectedPartner.id)}
-                  className="flex items-center justify-center p-1 text-sm text-gray-600 rounded-md hover:bg-gray-100"
-                  disabled={loadingHistory}
-                  title={t(
-                    `${viewDictionary}.payments.refreshHistory`,
-                    'Actualizar historial'
-                  )}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className={`w-5 h-5 ${loadingHistory ? 'animate-spin' : ''}`}
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
-                  </svg>
-                </button>
-              </div>
+              <h3 className="mb-2 font-medium">
+                {t(`${viewDictionary}.payments.history`, 'Historial de pagos')}
+              </h3>
 
               {loadingHistory ? (
                 <p className="text-sm text-gray-500">

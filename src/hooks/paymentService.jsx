@@ -10,6 +10,7 @@ import {
   limit,
   orderBy,
   getDoc,
+  onSnapshot,
 } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
 
@@ -46,6 +47,83 @@ const withRetry = async (
   }
 
   throw lastError
+}
+
+/**
+ * Escucha en tiempo real los datos de pago de un socio para una temporada
+ * @param {string} partnerId
+ * @param {number} seasonYear
+ * @param {(payment: Object|null) => void} onNext
+ * @param {(error: Error) => void} [onError]
+ * @returns {() => void} unsubscribe
+ **/
+export const listenPartnerPaymentForSeason = (
+  partnerId,
+  seasonYear,
+  onNext,
+  onError = console.error
+) => {
+  if (!partnerId || !seasonYear) {
+    console.warn(
+      'listenPartnerPaymentForSeason: partnerId y seasonYear obligatorios'
+    )
+    return () => {}
+  }
+
+  const paymentsRef = collection(db, 'partners', partnerId, 'payments')
+  const q = query(paymentsRef, where('seasonYear', '==', seasonYear))
+
+  const unsubscribe = onSnapshot(
+    q,
+    (snap) => {
+      if (snap.empty) {
+        onNext(null)
+      } else {
+        const doc = snap.docs[0]
+        onNext({ id: doc.id, ...doc.data() })
+      }
+    },
+    (err) => onError(err)
+  )
+
+  return unsubscribe
+}
+
+/**
+ * Escucha en tiempo real el historial de pagos de un socio (excluye la temporada activa)
+ * @param {string} partnerId
+ * @param {number} activeSeasonYear
+ * @param {(history: Object[]) => void} onNext
+ * @param {(error: Error) => void} [onError]
+ * @returns {() => void} unsubscribe
+ */
+export const listenPartnerPaymentHistory = (
+  partnerId,
+  activeSeasonYear,
+  onNext,
+  onError = console.error
+) => {
+  if (!partnerId) {
+    console.warn('listenPartnerPaymentHistory: partnerId obligatorio')
+    return () => {}
+  }
+
+  const paymentsRef = collection(db, 'partners', partnerId, 'payments')
+  const q = query(paymentsRef, where('seasonYear', '!=', activeSeasonYear))
+
+  const unsubscribe = onSnapshot(
+    q,
+    (snap) => {
+      const history = snap.docs
+        .map((d) => ({ id: d.id, ...d.data() }))
+        .filter((p) => typeof p.seasonYear === 'number')
+        .sort((a, b) => b.seasonYear - a.seasonYear)
+      onNext(history)
+    },
+    (err) => onError(err)
+  )
+
+  return unsubscribe
 }
 
 /**

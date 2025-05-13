@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
 import log from 'loglevel'
-import {
-  doc,
-  getDoc,
-  collection,
-  getDocs,
-  query,
-  where,
-} from 'firebase/firestore'
+import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
 import useSlug from '../../hooks/useSlug'
 import { showPopup } from '../../services/popupService'
 import {
-  getPartnerPaymentsForSeason,
-  getPartnerPaymentHistory,
+  listenPartnerPaymentForSeason,
+  listenPartnerPaymentHistory,
   getActiveSeason,
 } from '../../hooks/paymentService'
 import { exportPartnerToExcel } from '../../utils/createExcel'
@@ -33,7 +26,6 @@ function PartnerInfo() {
   const viewDictionary = 'pages.partners.partnerInfo'
   const { generateSlug } = useSlug()
 
-  // Estados adicionales para pagos
   const [activeSeason, setActiveSeason] = useState(null)
   const [loadingSeason, setLoadingSeason] = useState(false)
   const [partnerPayments, setPartnerPayments] = useState(null)
@@ -41,60 +33,34 @@ function PartnerInfo() {
   const [paymentHistory, setPaymentHistory] = useState([])
   const [loadingHistory, setLoadingHistory] = useState(false)
 
+  const paymentListenerRef = useRef(null)
+  const historyListenerRef = useRef(null)
+
   useEffect(() => {
     const fetchPartnerData = async () => {
       setLoading(true)
       try {
-        // Si tenemos el partnerId del state, lo usamos directamente
+        let docSnap = null
         if (partnerId) {
-          const partnerDoc = await getDoc(doc(db, 'partners', partnerId))
-          if (partnerDoc.exists()) {
-            setPartnerData({ id: partnerDoc.id, ...partnerDoc.data() })
-
-            // Si el socio está aprobado, cargar los datos de pagos
-            if (partnerDoc.data().status === 'approved') {
-              await fetchActiveSeason()
-              await fetchPartnerPayments(partnerDoc.id)
-              await fetchPaymentHistory(partnerDoc.id)
-            }
-          } else {
-            setError('Socio no encontrado')
-          }
+          docSnap = await getDoc(doc(db, 'partners', partnerId))
+        } else if (slug) {
+          const partsSnap = await getDoc(doc(db, 'partners', slug))
+          docSnap = partsSnap.exists() ? partsSnap : null
         }
-        // Si no tenemos partnerId pero sí un slug, buscamos por slug
-        else if (slug) {
-          const partnersSnapshot = await getDocs(collection(db, 'partners'))
-          let found = false
 
-          for (const partnerDoc of partnersSnapshot.docs) {
-            const partnerData = partnerDoc.data()
-            const fullName =
-              `${partnerData.name || ''} ${partnerData.lastName || ''}`.trim()
-            const currentSlug = generateSlug(fullName)
-
-            if (currentSlug === slug) {
-              setPartnerData({ id: partnerDoc.id, ...partnerData })
-
-              // Si el socio está aprobado, cargar los datos de pagos
-              if (partnerData.status === 'approved') {
-                await fetchActiveSeason()
-                await fetchPartnerPayments(partnerDoc.id)
-                await fetchPaymentHistory(partnerDoc.id)
-              }
-
-              found = true
-              break
-            }
-          }
-
-          if (!found) {
-            setError('Socio no encontrado')
-          }
+        if (!docSnap || !docSnap.exists()) {
+          setError('Socio no encontrado')
         } else {
-          setError('No se proporcionó información del socio')
+          const data = { id: docSnap.id, ...docSnap.data() }
+          setPartnerData(data)
+
+          // Si el socio está aprobado, cargar la temporada activa
+          if (data.status === 'approved') {
+            fetchActiveSeason()
+          }
         }
       } catch (err) {
-        log.error('Error al cargar datos del socio:', err)
+        log.error(err)
         setError('No se pudieron cargar los datos del socio')
         await showPopup({
           title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
@@ -111,76 +77,84 @@ function PartnerInfo() {
     }
 
     fetchPartnerData()
+
+    // Limpieza de suscripciones al desmontar
+    return () => {
+      if (paymentListenerRef.current) {
+        paymentListenerRef.current()
+      }
+      if (historyListenerRef.current) {
+        historyListenerRef.current()
+      }
+    }
   }, [slug, partnerId, t, generateSlug, viewDictionary])
+
+  // Efecto para configurar listeners cuando cambia la temporada activa o el socio
+  useEffect(() => {
+    if (!partnerData || !activeSeason) return
+
+    // Limpia listeners previos si existen
+    if (paymentListenerRef.current) {
+      paymentListenerRef.current()
+    }
+    if (historyListenerRef.current) {
+      historyListenerRef.current()
+    }
+
+    // Configurar listener para pagos actuales
+    setLoadingPayments(true)
+    paymentListenerRef.current = listenPartnerPaymentForSeason(
+      partnerData.id,
+      activeSeason.seasonYear,
+      (payment) => {
+        // Si no hay pagos, crear un objeto de pago predeterminado
+        if (!payment) {
+          payment = {
+            id: 'pending-creation',
+            seasonYear: activeSeason.seasonYear,
+            firstPayment: false,
+            firstPaymentPrice: activeSeason.priceFirstFraction || 0,
+            secondPaymentDone: false,
+            secondPaymentPrice: activeSeason.priceSeconFraction || 0,
+            thirdPaymentDone: false,
+            thirdPaymentPrice: activeSeason.priceThirdFraction || 0,
+          }
+        }
+        setPartnerPayments(payment)
+        setLoadingPayments(false)
+      },
+      (error) => {
+        console.error('Error en listener de pagos:', error)
+        setLoadingPayments(false)
+      }
+    )
+
+    // Configurar listener para historial de pagos
+    setLoadingHistory(true)
+    historyListenerRef.current = listenPartnerPaymentHistory(
+      partnerData.id,
+      activeSeason.seasonYear,
+      (history) => {
+        setPaymentHistory(history || [])
+        setLoadingHistory(false)
+      },
+      (error) => {
+        console.error('Error en listener de historial:', error)
+        setLoadingHistory(false)
+      }
+    )
+  }, [partnerData, activeSeason])
 
   const fetchActiveSeason = async () => {
     setLoadingSeason(true)
     try {
-      const seasonsQuery = query(
-        collection(db, 'seasons'),
-        where('active', '==', true)
-      )
-
-      const querySnapshot = await getDocs(seasonsQuery)
-
-      if (!querySnapshot.empty) {
-        const seasonDoc = querySnapshot.docs[0]
-        setActiveSeason({ id: seasonDoc.id, ...seasonDoc.data() })
-      } else {
-        setActiveSeason(null)
-      }
+      const season = await getActiveSeason()
+      setActiveSeason(season)
     } catch (error) {
       console.error('Error al obtener la temporada activa:', error)
       setActiveSeason(null)
     } finally {
       setLoadingSeason(false)
-    }
-  }
-
-  // Función para obtener pagos de la temporada actual
-  const fetchPartnerPayments = async (partnerId) => {
-    if (!partnerId) return
-
-    setLoadingPayments(true)
-    try {
-      if (!activeSeason) {
-        await fetchActiveSeason()
-      }
-
-      if (!activeSeason) {
-        setPartnerPayments(null)
-        return
-      }
-
-      // Intentar obtener pagos
-      const payments = await getPartnerPaymentsForSeason(
-        partnerId,
-        activeSeason.seasonYear
-      )
-
-      setPartnerPayments(payments)
-    } catch (error) {
-      console.error('Error al cargar pagos:', error)
-      setPartnerPayments(null)
-    } finally {
-      setLoadingPayments(false)
-    }
-  }
-
-  // Función para obtener historial de pagos
-  const fetchPaymentHistory = async (partnerId) => {
-    if (!partnerId) return
-
-    setLoadingHistory(true)
-    try {
-      const activeYear = activeSeason ? activeSeason.seasonYear : null
-      const history = await getPartnerPaymentHistory(partnerId, activeYear)
-      setPaymentHistory(history || [])
-    } catch (error) {
-      console.error('Error al cargar historial de pagos:', error)
-      setPaymentHistory([])
-    } finally {
-      setLoadingHistory(false)
     }
   }
 
@@ -278,8 +252,8 @@ function PartnerInfo() {
       </h1>
 
       {partnerData ? (
-        <div className="p-6 bg-white rounded-lg shadow-md">
-          {/* Añadir un botón de exportar en la parte superior */}
+        <div className="p-6 ">
+          {/* Botón de exportar */}
           <div className="flex justify-end mb-4">
             <DynamicButton
               onClick={handleExportToExcel}
@@ -291,8 +265,10 @@ function PartnerInfo() {
             />
           </div>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div>
+          {/* Información personal y adicional (se mantiene igual) */}
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+            {/* ... (código de información personal y adicional sin cambios) */}
+            <div className="py-4 pl-4">
               <h2 className="mb-4 t24b">
                 {t(
                   `${viewDictionary}.personalInformation.title`,
@@ -343,7 +319,7 @@ function PartnerInfo() {
               </p>
             </div>
 
-            <div>
+            <div className="py-4 pl-4">
               <h2 className="mb-4 t24b">
                 {t(
                   `${viewDictionary}.additionalInformation.title`,
@@ -382,8 +358,9 @@ function PartnerInfo() {
             </div>
           </div>
 
+          {/* Información de registro */}
           {partnerData.createdAt && (
-            <div className="pt-4 mt-6 border-t border-gray-200">
+            <div className="py-4 pl-4 mt-6 border-t backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
               <p className="text-sm text-gray-500">
                 <span className="font-bold">
                   {t(
@@ -393,28 +370,17 @@ function PartnerInfo() {
                 </span>{' '}
                 {formatDate(partnerData.createdAt)}
               </p>
-              {partnerData.createdBy && (
-                <p className="text-sm text-gray-500">
-                  <span className="font-bold">
-                    {t(
-                      `${viewDictionary}.registrationInformation.createdBy`,
-                      'Registrado por:'
-                    )}
-                  </span>{' '}
-                  {partnerData.createdBy}
-                </p>
-              )}
             </div>
           )}
 
           {/* Sección de información de pagos */}
           {partnerData.status === 'approved' && (
-            <div className="pt-4 mt-6 border-t border-gray-200">
+            <div className="pt-4 mt-6 pb-4 px-4 border-t backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
               <h2 className="mb-4 t24b">
                 {t(`${viewDictionary}.payments.title`, 'Información de Pagos')}
               </h2>
 
-              {/* Temporada activa */}
+              {/* Temporada activa - modificado sin botón de refresh */}
               <div className="mb-6">
                 <h3 className="mb-3 font-medium t18b">
                   {t(
@@ -431,7 +397,7 @@ function PartnerInfo() {
                     )}
                   </p>
                 ) : activeSeason ? (
-                  <div className="p-4 rounded-lg bg-gray-50">
+                  <div className="p-4">
                     <div className="flex justify-between mb-2">
                       <span className="font-medium">
                         {t(`${viewDictionary}.payments.seasonYear`, 'Año:')}
@@ -458,6 +424,42 @@ function PartnerInfo() {
                       </span>
                       <span>{activeSeason.numberOfFractions}</span>
                     </div>
+
+                    {activeSeason.priceFirstFraction > 0 && (
+                      <div className="flex justify-between mb-2">
+                        <span className="font-medium">
+                          {t(
+                            `${viewDictionary}.payments.priceFirstFraction`,
+                            'Primera fracción:'
+                          )}
+                        </span>
+                        <span>{activeSeason.priceFirstFraction}€</span>
+                      </div>
+                    )}
+
+                    {activeSeason.priceSeconFraction > 0 && (
+                      <div className="flex justify-between mb-2">
+                        <span className="font-medium">
+                          {t(
+                            `${viewDictionary}.payments.priceSecondFraction`,
+                            'Segunda fracción:'
+                          )}
+                        </span>
+                        <span>{activeSeason.priceSeconFraction}€</span>
+                      </div>
+                    )}
+
+                    {activeSeason.priceThirdFraction > 0 && (
+                      <div className="flex justify-between mb-2">
+                        <span className="font-medium">
+                          {t(
+                            `${viewDictionary}.payments.priceThirdFraction`,
+                            'Tercera fracción:'
+                          )}
+                        </span>
+                        <span>{activeSeason.priceThirdFraction}€</span>
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <p className="text-sm text-gray-500">
@@ -469,7 +471,7 @@ function PartnerInfo() {
                 )}
               </div>
 
-              {/* Estado de pagos de la temporada actual */}
+              {/* Estado de pagos - modificado sin botón de refresh */}
               <div className="mb-6">
                 <h3 className="mb-3 font-medium t18b">
                   {t(
@@ -486,7 +488,7 @@ function PartnerInfo() {
                     )}
                   </p>
                 ) : partnerPayments ? (
-                  <div className="p-4 rounded-lg bg-gray-50">
+                  <div className="p-4">
                     <h4 className="mb-3 text-sm font-medium">
                       {t(
                         `${viewDictionary}.payments.fractionsStatus`,
@@ -494,6 +496,7 @@ function PartnerInfo() {
                       )}
                     </h4>
 
+                    {/* Primera fracción */}
                     <div className="pb-2 mb-4 border-b border-gray-200">
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-medium">
@@ -544,6 +547,7 @@ function PartnerInfo() {
                         )}
                     </div>
 
+                    {/* Segunda fracción */}
                     {activeSeason && activeSeason.numberOfFractions >= 2 && (
                       <div className="pb-2 mb-4 border-b border-gray-200">
                         <div className="flex items-center justify-between mb-2">
@@ -600,6 +604,7 @@ function PartnerInfo() {
                       </div>
                     )}
 
+                    {/* Tercera fracción */}
                     {activeSeason && activeSeason.numberOfFractions >= 3 && (
                       <div className="mb-2">
                         <div className="flex items-center justify-between mb-2">
@@ -666,7 +671,7 @@ function PartnerInfo() {
                 )}
               </div>
 
-              {/* Historial de pagos */}
+              {/* Historial de pagos - modificado sin botón de refresh */}
               <div className="mb-4">
                 <h3 className="mb-3 font-medium t18b">
                   {t(
@@ -685,16 +690,14 @@ function PartnerInfo() {
                 ) : paymentHistory.length > 0 ? (
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
                     {paymentHistory.map((payment) => (
-                      <div
-                        key={payment.id}
-                        className="p-3 rounded-lg bg-gray-50"
-                      >
+                      <div key={payment.id} className="p-3 rounded-lg">
                         <div className="flex items-center justify-between mb-2">
                           <span className="font-medium">
                             Temporada {payment.seasonYear}
                           </span>
                         </div>
 
+                        {/* Primera fracción histórica */}
                         {(payment.firstPayment ||
                           payment.firstPaymentPrice > 0) && (
                           <div className="pb-1 mb-2 border-b border-gray-200">
@@ -736,6 +739,7 @@ function PartnerInfo() {
                           </div>
                         )}
 
+                        {/* Segunda fracción histórica */}
                         {(payment.secondPaymentDone ||
                           payment.secondPaymentPrice > 0) && (
                           <div className="pb-1 mb-2 border-b border-gray-200">
@@ -777,6 +781,7 @@ function PartnerInfo() {
                           </div>
                         )}
 
+                        {/* Tercera fracción histórica */}
                         {(payment.thirdPaymentDone ||
                           payment.thirdPaymentPrice > 0) && (
                           <div className="mb-1">
