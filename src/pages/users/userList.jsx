@@ -159,7 +159,7 @@ function UserList() {
     )
 
   return (
-    <div className="h-auto max-w-full min-h-screen p-6 mx-auto md:max-w-fit">
+    <div className="h-auto max-w-full pb-6 mx-auto min-h-dvh md:max-w-fit">
       <h1 className="mb-4 text-center t64b">
         {t(`${viewDictionary}.title`, 'Lista de Usuarios')}
       </h1>

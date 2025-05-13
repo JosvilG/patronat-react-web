@@ -156,7 +156,7 @@ const DynamicCard = ({
                     : imageUrl
                 }
                 alt={title}
-                className="max-w-full max-h-[90vh] rounded-lg object-contain"
+                className="max-w-full max-h-[90dvh] rounded-lg object-contain"
               />
               {title && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-black bg-opacity-50 rounded-b-lg">

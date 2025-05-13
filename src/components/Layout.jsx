@@ -7,7 +7,7 @@ function Layout() {
   return (
     <div>
       <Navbar />
-      <div className="mt-16 justify-self-center max-w-[1200px] min-h-screen w-full">
+      <div className=" justify-self-center max-w-[1200px] min-h-dvh w-full">
         <Outlet />
       </div>
       <Footer />

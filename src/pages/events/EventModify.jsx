@@ -551,7 +551,7 @@ function EventModify() {
   }
 
   return (
-    <div className="container px-4 py-8 mx-auto">
+    <div className="container px-4 pb-6 mx-auto">
       <Loader loading={submitting} />
 
       <form onSubmit={handleSubmit} className="p-6 mx-auto space-y-6 max-w-7xl">

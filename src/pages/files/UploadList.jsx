@@ -140,7 +140,7 @@ function UploadList() {
     )
 
   return (
-    <div className="max-w-full min-h-screen p-6 mx-auto h-fit md:max-w-fit">
+    <div className="max-w-full pb-6 mx-auto min-h-dvh h-fit md:max-w-fit">
       <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
       {/* Search input area */}
       <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">

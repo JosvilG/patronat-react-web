@@ -45,10 +45,8 @@ const FullEventsPage = () => {
   }
 
   return (
-    <div className="container min-h-screen p-4 mx-auto">
-      <h1 className="mb-4 text-2xl font-bold text-center">
-        {t(`${viewDictionary}.title`)}
-      </h1>
+    <div className="container pb-6 mx-auto min-h-dvh">
+      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
 
       <div className="max-w-md mx-auto mb-8">
         <DynamicInput

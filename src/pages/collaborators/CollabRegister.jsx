@@ -152,7 +152,7 @@ function CollaboratorRegisterForm() {
   )
 
   return (
-    <div className="flex flex-col items-center h-auto max-w-lg p-6 mx-auto">
+    <div className="flex flex-col items-center h-auto max-w-lg pb-6 mx-auto">
       <Loader loading={formState.submitting} />
       <h1 className="mb-4 text-center t64b">
         {t('pages.collaborators.title')}

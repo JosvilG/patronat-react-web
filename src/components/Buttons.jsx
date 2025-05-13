@@ -10,6 +10,10 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import LoopIcon from '@mui/icons-material/Loop'
 import SendIcon from '@mui/icons-material/Send'
+import DownloadIcon from '@mui/icons-material/Download'
+import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import NoAccountsIcon from '@mui/icons-material/NoAccounts'
+import EuroIcon from '@mui/icons-material/Euro';
 
 const DynamicButton = ({ size, state, type, textId, children, ...props }) => {
   const { t } = useTranslation()
@@ -81,6 +85,24 @@ const DynamicButton = ({ size, state, type, textId, children, ...props }) => {
       case 'submit':
         return {
           icon: <SendIcon />,
+        }
+      case 'download':
+        return {
+          icon: <DownloadIcon />,
+        }
+      case 'personAdd':
+        return {
+          icon: <PersonAddIcon />,
+        }
+
+      case 'personDown':
+        return {
+          icon: <NoAccountsIcon />,
+        }
+
+         case 'payment':
+        return {
+          icon: <EuroIcon />,
         }
       default:
         return { icon: null, classes: '' }

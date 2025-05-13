@@ -347,9 +347,9 @@ function ParticipantModifyForm() {
   }
 
   return (
-    <div className="h-auto max-w-lg p-6 mx-auto text-center">
+    <div className="h-auto max-w-lg pb-6 mx-auto text-center">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 t40b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center space-y-4"

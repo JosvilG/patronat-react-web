@@ -231,7 +231,7 @@ function UploadFileForm() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-auto max-w-xl p-6 mx-auto">
+    <div className="flex flex-col items-center justify-center h-auto max-w-xl pb-6 mx-auto">
       {/* Loading indicator for upload process */}
       <Loader loading={uploading} />
       <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>

@@ -43,7 +43,7 @@ function HomePage() {
     .slice(0, 3)
 
   return (
-    <div className="flex flex-col items-center min-h-screen px-4 bg-transparent">
+    <div className="flex flex-col items-center px-4 bg-transparent min-h-dvh">
       <HeroSection t={t} logoSrc={patronatLogo} />
       <AboutSection t={t} />
       <GallerySection
@@ -78,12 +78,12 @@ const HeroSection = ({ t, logoSrc }) => (
     <div className="absolute inset-0 bg-transparent" />
     <div className="relative flex flex-col justify-between h-full">
       <p
-        className="w-auto font-bold text-black t36r text-9xl"
+        className="w-auto pt-20 font-bold text-black t36r text-9xl"
         dangerouslySetInnerHTML={{
           __html: t('pages.home.heroSection.description'),
         }}
       ></p>
-      <div className="">
+      <div className="pb-20">
         <p
           className="font-bold text-black t64xl text-9xl text-end"
           dangerouslySetInnerHTML={{
@@ -137,7 +137,7 @@ const GallerySection = ({
   }, [galleryImages])
 
   return (
-    <section className="py-16 bg-transparent max-w-[156vh] min-w-full">
+    <section className="py-16 bg-transparent max-w-[156dvh] pt-8 min-w-full">
       <h2 className="mb-6 text-right t64s">
         <a href="/gallery">{t('pages.home.galerySection.title')}</a>
       </h2>

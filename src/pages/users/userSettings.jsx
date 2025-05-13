@@ -269,9 +269,9 @@ function Settings() {
   // Resto del código sin cambios...
 
   return (
-    <div className="h-auto p-6 mx-auto text-center max-w-fit">
+    <div className="h-auto pb-6 mx-auto text-center max-w-fit">
       <Loader loading={saving || isTracking} />
-      <h1 className="mb-4 t40b">
+      <h1 className="mb-4 t64b">
         {t(`${viewDictionary}.title`, 'Configuración de cuenta')}
       </h1>
       <form className="flex flex-col items-center space-y-4">

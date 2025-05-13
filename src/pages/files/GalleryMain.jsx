@@ -114,7 +114,7 @@ const GalleryPage = () => {
   }
 
   return (
-    <div className="container min-h-screen p-4 mx-auto">
+    <div className="container pb-6 mx-auto min-h-dvh">
       <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
 
       {/* Search and sort controls */}

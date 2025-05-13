@@ -296,11 +296,11 @@ function EventForm() {
   }
 
   return (
-    <div className="container px-4 py-8 mx-auto">
+    <div className="container px-4 pb-6 mx-auto">
       <Loader loading={submitting} />
 
-      <form onSubmit={handleSubmit} className="p-6 mx-auto space-y-6 max-w-7xl">
-        <h1 className="mb-6 text-center text-gray-800 t64b">
+      <form onSubmit={handleSubmit} className="mx-auto space-y-6 max-w-7xl">
+        <h1 className="mb-6 text-center t64b">
           {t(`${viewDictionary}.title`)}
         </h1>
 

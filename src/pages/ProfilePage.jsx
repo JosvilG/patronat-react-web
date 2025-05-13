@@ -93,7 +93,7 @@ function ProfilePage() {
   const userData = profileData || authUserData
 
   return (
-    <div className="container p-6 mx-auto">
+    <div className="container pb-6 mx-auto">
       <h1 className="mb-4 text-center t64b">
         {t(`${viewDictionary}.title`, 'Perfil de Usuario')}
       </h1>
