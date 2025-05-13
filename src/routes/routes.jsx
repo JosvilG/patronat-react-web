@@ -9,7 +9,13 @@ import ResetPassword from '../pages/access/ResetPassword'
 // Páginas de inicio y generales
 import HomePage from '../pages/HomePage'
 import AboutPage from '../pages/AboutPage'
+
+// Páginas de socios
+
 import PartnersForm from '../pages/partners/partnersForm'
+import PartnerList from '../pages/partners/partnerList'
+import PartnerInfo from '../pages/partners/partnerInfo'
+import PartnerModifyForm from '../pages/partners/partnerModify'
 
 // Páginas de eventos
 import FullEventsPage from '../pages/events/FullEventsPage'
@@ -17,6 +23,7 @@ import EventPage from '../pages/events/EventPage'
 import EventForm from '../pages/events/EventRegister'
 import EventModify from '../pages/events/EventModify'
 import EventList from '../pages/events/EventList'
+import NewSeason from '../pages/season/NewSeason'
 
 // Páginas de colaboradores
 import CollaboratorRegisterForm from '../pages/collaborators/CollabRegister'
@@ -79,4 +86,8 @@ export const protectedRoutes = [
   { path: '/edit-user/:slug', element: <UserControl /> },
   { path: '/users-list', element: <UserList /> },
   { path: '/users-history/', element: <UserHistory /> },
+  { path: '/partners-list/', element: <PartnerList /> },
+  { path: '/partners-info/:slug', element: <PartnerInfo /> },
+  { path: '/partners-modify/:slug', element: <PartnerModifyForm /> },
+  { path: '/new-season', element: <NewSeason /> },
 ]

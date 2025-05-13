@@ -49,7 +49,21 @@ export const cards = [
       {
         id: 'manage-socios',
         title: 'Gestión de Socios',
-        route: '/socios',
+        route: '/partners-list',
+        type: 'edit',
+      },
+    ],
+  },
+  {
+    id: 'payments',
+    title: 'Pagos',
+    description: 'Crea y gestiona los pagos de los boletos y socios.',
+    icon: '💳',
+    actions: [
+      {
+        id: 'create-new-payment',
+        title: 'Nuevas remesas',
+        route: '/new-season',
         type: 'edit',
       },
     ],
