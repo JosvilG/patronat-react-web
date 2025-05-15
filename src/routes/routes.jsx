@@ -25,6 +25,7 @@ import EventForm from '../pages/events/EventRegister'
 import EventModify from '../pages/events/EventModify'
 import EventList from '../pages/events/EventList'
 import NewSeason from '../pages/season/NewSeason'
+import SeasonsList from '../pages/season/SeasonsList'
 
 // Páginas de colaboradores
 import CollaboratorRegisterForm from '../pages/collaborators/CollabRegister'
@@ -92,4 +93,5 @@ export const protectedRoutes = [
   { path: '/partners-modify/:slug', element: <PartnerModifyForm /> },
   { path: '/new-season', element: <NewSeason /> },
   { path: '/admin-partner-form', element: <AdminPartnersForm /> },
+  { path: '/seasons-list', element: <SeasonsList /> },
 ]

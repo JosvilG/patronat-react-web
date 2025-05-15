@@ -2,22 +2,22 @@
   "pages": {
     "crew": {
       "registerCrew": {
-        "title": "Crear Colla",
+        "title": "Crear Penya",
         "groupNameLabel": "Nom del Grup",
         "responsibleLabel": "Responsable",
         "searchPlaceholder": "Ex: Nom Un, Nom Dos, Nom Tres",
-        "userListTitle": "Llistat d'Usuaris",
-        "addMemberButton": "Afegir",
+        "userListTitle": "Llista d'Usuaris",
+        "addMemberButton": "Afegeix",
         "selectedMembersTitle": "Membres Seleccionats",
-        "removeMemberButton": "Eliminar",
-        "submitButton": "Crear Colla",
+        "removeMemberButton": "Elimina",
+        "submitButton": "Crear Penya",
         "errorPopup": {
           "title": "Error",
-          "text": "Alguna cosa ha anat malament. Intenta-ho de nou més tard."
+          "text": "Alguna cosa ha anat malament. Torna-ho a intentar més tard."
         },
         "successPopup": {
-          "title": "Colla Creada Correctament",
-          "text": "La colla s'ha creat i guardat amb èxit."
+          "title": "Penya creada correctament",
+          "text": "La penya s'ha creat i s'ha guardat amb èxit."
         }
       }
     },
@@ -34,29 +34,29 @@
         "emailToggle": "Rebre notificacions per correu electrònic"
       },
       "deleteSection": {
-        "title": "Eliminar compte",
+        "title": "Elimina el compte",
         "description": "Aquesta acció eliminarà permanentment el teu compte i totes les teves dades associades. Aquesta acció no es pot desfer.",
-        "showConfirmButton": "Eliminar el meu compte",
-        "confirmationText": "Si us plau, introdueix la teva contrasenya per confirmar l'eliminació del teu compte. Aquesta acció és permanent i no podrà revertir-se.",
-        "passwordLabel": "Confirmar contrasenya",
-        "cancelButton": "Cancel·lar",
-        "confirmButton": "Eliminar"
+        "showConfirmButton": "Elimina el meu compte",
+        "confirmationText": "Si us plau, introdueix la teva contrasenya per confirmar l'eliminació del teu compte. Aquesta acció és permanent i no es podrà revertir.",
+        "passwordLabel": "Confirma la contrasenya",
+        "cancelButton": "Cancel·la",
+        "confirmButton": "Elimina"
       },
-      "saveButton": "Desar configuracions",
+      "saveButton": "Desa configuracions",
       "successPopup": {
         "title": "Configuracions desades",
         "text": "Les teves configuracions s'han desat correctament."
       },
       "errorPopup": {
         "title": "Error",
-        "text": "Hi ha hagut un problema en desar les teves configuracions. Torna-ho a intentar."
+        "text": "S'ha produït un problema en desar les teves configuracions. Torna-ho a intentar."
       },
       "deleteSuccess": {
         "title": "Compte eliminat",
         "text": "El teu compte ha estat eliminat correctament."
       },
       "deleteError": {
-        "title": "Error en eliminar",
+        "title": "Error en l'eliminació",
         "defaultText": "No s'ha pogut eliminar el teu compte. Si us plau, torna-ho a intentar.",
         "wrongPassword": "La contrasenya introduïda és incorrecta.",
         "recentLogin": "Per motius de seguretat, has d'iniciar sessió de nou abans d'eliminar el teu compte."
@@ -72,7 +72,7 @@
         "endDate": "Data de finalització:",
         "startTime": "Hora d'inici:",
         "endTime": "Hora de finalització:",
-        "dateInfoTitle": "Dates i Hores",
+        "dateInfoTitle": "Dates i hores",
         "locationInfoTitle": "Lloc i accés",
         "pricesInfoTitle": "Preus i serveis",
         "location": "Ubicació:",
@@ -81,59 +81,59 @@
         "minAge": "Edat mínima:",
         "collaborators": "Amb la col·laboració de:",
         "tags": "Etiquetes:",
-        "organizer": "Organitzat per:",
+        "organizer": "Organitzat per",
         "allowCars": "Permetre carros",
         "hasBar": "Hi ha barra?:",
         "status": "Estat:",
-        "downloadPermission": "Descarregar autorització",
-        "freeLabel": "Gratuït",
+        "downloadPermission": "Autorització de descàrrega",
+        "freeLabel": "Gratis",
         "withParticipation": "Amb la participació de:"
       },
       "registerEvent": {
         "title": "Crear Esdeveniment",
-        "basicInfoTitle": "Informació Bàsica",
-        "dateInfoTitle": "Dates i Horaris",
+        "basicInfoTitle": "Informació bàsica",
+        "dateInfoTitle": "Dates i horaris",
         "detailsInfoTitle": "Detalls de l'esdeveniment",
         "galleryInfoTitle": "Imatges de portada",
         "collaboratorsInfoTitle": "Col·laboradors",
         "tagsInfoTitle": "Etiquetes",
-        "nameLabel": "Nom de l'Esdeveniment",
+        "nameLabel": "Nom de l'esdeveniment",
         "descriptionLabel": "Afegeix una descripció",
-        "initDateLabel": "Data d'Inici",
-        "endDateLabel": "Data de Finalització",
-        "startTimeLabel": "Hora d'Inici",
-        "endTimeLabel": "Hora de Finalització",
+        "initDateLabel": "Data d'inici",
+        "endDateLabel": "Data de finalització",
+        "startTimeLabel": "Hora d'inici",
+        "endTimeLabel": "Hora de finalització",
         "locationLabel": "Especifica una ubicació",
         "capacityLabel": "Quina és la capacitat màxima",
         "priceLabel": "Quin preu té l'esdeveniment",
         "minAgeLabel": "Quina és l'edat mínima",
         "collaboratorsSearchLabel": "Cerca col·laboradors",
         "collaboratorsLabel": "Selecciona col·laboradors",
-        "collaboratorsSelectedLabel": "Col·laboradors Seleccionats",
+        "collaboratorsSelectedLabel": "Col·laboradors seleccionats",
         "tagsLabel": "Selecciona etiquetes",
         "organizerLabel": "Afegeix un organitzador",
         "allowCarsLabel": "Es permeten carros?",
         "categoryLabel": "Selecciona una categoria",
-        "hasBarLabel": "Hi ha Barra?",
+        "hasBarLabel": "Hi ha barra?",
         "statusLabel": "Estat",
         "imageURL": "Afegeix una URL de la imatge de portada",
-        "addImage": "Afegir imatge per a la portada",
+        "addImage": "Afegeix imatge per a la portada",
         "submitButton": "Crear Esdeveniment",
         "errorPopup": {
           "title": "Error",
-          "text": "Alguna cosa ha anat malament. Intenta-ho de nou més tard."
+          "text": "Alguna cosa ha anat malament. Torna-ho a intentar més tard."
         },
         "successPopup": {
-          "title": "Esdeveniment Creat Correctament",
-          "text": "L'esdeveniment s'ha creat i desat amb èxit."
+          "title": "Esdeveniment creat correctament",
+          "text": "L'esdeveniment s'ha creat i s'ha guardat amb èxit."
         }
       },
       "fullListEvents": {
-        "title": "Llistat d'Esdeveniments",
-        "searchPlaceholder": "Cercar esdeveniment...",
-        "addNewButton": "Afegir",
-        "modifyButton": "Modificar",
-        "deleteButton": "Eliminar",
+        "title": "Llista d'esdeveniments",
+        "searchPlaceholder": "Cerca esdeveniment...",
+        "addNewButton": "Afegeix",
+        "modifyButton": "Modifica",
+        "deleteButton": "Elimina",
         "loadingText": "Carregant esdeveniments...",
         "noEvents": "No hi ha esdeveniments disponibles",
         "noEventsFound": "No s'han trobat esdeveniments amb aquest nom.",
@@ -143,126 +143,126 @@
         "eventStatusTitle": "Estat de l'esdeveniment"
       },
       "modifyEvent": {
-        "title": "Modificar Esdeveniment",
-        "basicInfoTitle": "Informació Bàsica",
-        "dateInfoTitle": "Dates i Horaris",
+        "title": "Modifica Esdeveniment",
+        "basicInfoTitle": "Informació bàsica",
+        "dateInfoTitle": "Dates i horaris",
         "detailsInfoTitle": "Detalls de l'esdeveniment",
         "galleryInfoTitle": "Imatges de portada",
         "collaboratorsInfoTitle": "Col·laboradors",
         "tagsInfoTitle": "Etiquetes",
-        "addImage": "Afegir imatge per a la portada",
+        "addImage": "Afegeix imatge per a la portada",
         "imageURL": "Afegeix una URL de la imatge de portada",
-        "nameLabel": "Nom de l'Esdeveniment",
+        "nameLabel": "Nom de l'esdeveniment",
         "descriptionLabel": "Afegeix una descripció",
-        "initDateLabel": "Data d'Inici",
-        "endDateLabel": "Data de Finalització",
-        "startTimeLabel": "Hora d'Inici",
-        "endTimeLabel": "Hora de Finalització",
+        "initDateLabel": "Data d'inici",
+        "endDateLabel": "Data de finalització",
+        "startTimeLabel": "Hora d'inici",
+        "endTimeLabel": "Hora de finalització",
         "locationLabel": "Especifica una ubicació",
         "capacityLabel": "Quina és la capacitat màxima",
         "priceLabel": "Quin preu té l'esdeveniment",
         "minAgeLabel": "Quina és l'edat mínima",
         "collaboratorsSearchLabel": "Cerca col·laboradors",
         "collaboratorsLabel": "Selecciona col·laboradors",
-        "collaboratorsSelectedLabel": "Col·laboradors Seleccionats",
+        "collaboratorsSelectedLabel": "Col·laboradors seleccionats",
         "tagsLabel": "Selecciona etiquetes",
         "organizerLabel": "Afegeix un organitzador",
         "allowCarsLabel": "Es permeten carros?",
         "categoryLabel": "Selecciona una categoria",
-        "hasBarLabel": "Hi ha Barra?",
-        "statusLabel": "<p>Estat</p> <p>Proper</p> <p>Finalitzat</p> <p>Cancel·lat</p> <p>Ajornat</p> <p>En curs</p> <p>Proper</p> <p>Finalitzat</p> <p>Cancel·lat</p> <p>Ajornat</p> <p>En curs</p> <p>Tancat</p><",
-        "submitButton": "Desar",
+        "hasBarLabel": "Hi ha barra?",
+        "statusLabel": "<p>Estat</p> <p>Proper</p> <p>Finalitzat</p> <p>Cancel·lat</p> <p>Posposat</p> <p>En curs</p> <p>Proper</p> <p>Finalitzat</p> <p>Cancel·lat</p> <p>Posposat</p> <p>En curs</p> <p>Tancat</p><",
+        "submitButton": "Desa",
         "successPopup": {
           "title": "Èxit!",
           "text": "L'esdeveniment s'ha modificat correctament."
         },
         "errorPopup": {
           "title": "Error!",
-          "text": "Hi ha hagut un problema en modificar l'esdeveniment. Torna-ho a provar."
+          "text": "S'ha produït un problema en modificar l'esdeveniment. Torna-ho a intentar."
         }
       }
     },
     "files": {
       "uploadFiles": {
-        "title": "Pujar arxius",
-        "fileLabel": "Selecciona un arxiu",
-        "uploadButton": "Pujar imatge",
-        "nameLabel": "Nom de l'arxiu",
-        "descriptionLabel": "Descripció de l'arxiu",
-        "categoryLabel": "Categoria de l'arxiu",
-        "tagsLabel": "Etiquetes de l'arxiu",
+        "title": "Pujar fitxers",
+        "fileLabel": "Selecciona un fitxer",
+        "uploadButton": "Puja imatge",
+        "nameLabel": "Nom del fitxer",
+        "descriptionLabel": "Descripció del fitxer",
+        "categoryLabel": "Categoria del fitxer",
+        "tagsLabel": "Etiquetes del fitxer",
         "tagsDescription": "*Pots afegir més d'una etiqueta separant-les amb comes",
-        "visibilityLabel": "Visibilitat de l'arxiu",
-        "visibliityDescription": "*En cas de no seleccionar res, l'arxiu serà privat",
+        "visibilityLabel": "Visibilitat del fitxer",
+        "visibliityDescription": "*Si no selecciones res, el fitxer serà privat",
         "visibilityPrivate": "Privat",
         "visibilityPublic": "Públic",
         "optimizingText": "Optimitzant imatge...",
         "optimizationSuccessText": "Imatge optimitzada correctament.",
         "optimizationErrorText": "Error en optimitzar la imatge.",
-        "fileRequired": "Si us plau selecciona un arxiu.",
+        "fileRequired": "Si us plau, selecciona un fitxer.",
         "popups": {
           "successTitle": "Èxit!",
-          "successText": "L'arxiu s'ha pujat correctament.",
-          "successButtonText": "Desar",
+          "successText": "El fitxer s'ha pujat correctament.",
+          "successButtonText": "Desa",
           "errorTitle": "Error!",
-          "errorText": "Hi ha hagut un problema al pujar l'arxiu. Torna-ho a provar."
+          "errorText": "S'ha produït un problema en pujar el fitxer. Torna-ho a intentar."
         }
       },
       "listUploads": {
-        "title": "Llista d'arxius",
-        "fileLabel": "Selecciona un arxiu",
-        "searchPlaceholder": "Cercar arxiu...",
-        "loadingText": "Carregant arxius..."
+        "title": "Llista de fitxers",
+        "fileLabel": "Selecciona un fitxer",
+        "searchPlaceholder": "Cerca fitxer...",
+        "loadingText": "Carregant fitxers..."
       }
     },
     "gallery": {
       "title": "Galeria",
-      "searchLabel": "Cercar imatges a la galeria",
-      "searchGallery": "Cercar imatges...",
-      "orderBy": "Ordenar per:",
+      "searchLabel": "Cerca imatges a la galeria",
+      "searchGallery": "Cerca imatges...",
+      "orderBy": "Ordena per:",
       "orderByDateAsc": "Data de pujada (més antiga)",
       "orderByDateDesc": "Data de pujada (més recent)",
-      "orderByNameAsc": "Nom de l'arxiu (A-Z)",
-      "orderByNameDesc": "Nom de l'arxiu (Z-A)",
+      "orderByNameAsc": "Nom del fitxer (A-Z)",
+      "orderByNameDesc": "Nom del fitxer (Z-A)",
       "noImagesFound": "No s'han trobat imatges."
     },
     "home": {
       "heroSection": {
         "title": "Patronat <br /> de festes de",
         "roquetesTitle": "Roquetes",
-        "description": "Tot el que necessites saber sobre les festivitats a Roquetes està a només un clic de distància."
+        "description": "Tot el que necessites saber sobre les festivitats a Roquetes està a un sol clic de distància."
       },
       "aboutSection": {
         "mainTitle": "Sobre nosaltres",
         "title": "Qui som?",
-        "description": "Som persones de Roquetes, veïns i veïnes que creiem en el valor de la participació i el treball conjunt. Darrere del Patronat hi ha moltes hores de dedicació, reunions, idees, i sobretot, una gran il·lusió compartida. Col·laborem estretament amb l'Ajuntament i altres entitats locals perquè cada festa sigui especial, propera i autèntica. Si vols saber més, participar o simplement compartir amb nosaltres aquesta passió per les tradicions, estàs convidat: el Patronat també és teu.",
+        "description": "Som persones de Roquetes, veïns i veïnes que creiem en el valor de la participació i el treball conjunt. Darrere del Patronat hi ha moltes hores de dedicació, reunions, idees, i sobretot, una gran il·lusió compartida. Col·laborem estretament amb l'Ajuntament i altres entitats locals perquè cada festa sigui especial, propera i autèntica. Si vols saber-ne més, participar o simplement compartir amb nosaltres aquesta passió per les tradicions, estàs convidat: el Patronat també és teu.",
         "historyTitle": "La nostra història",
-        "historyDescription": "El Patronat de Festes de Roquetes va néixer el 1973 amb un objectiu clar: preservar i promoure les festes populars que donen vida a la nostra ciutat. Des de llavors, hem estat part essencial de la identitat de Roquetes, organitzant cada any celebracions que combinen tradició, cultura i participació. Al llarg dels anys, més d'un centenar de persones han contribuït amb el seu esforç i passió a consolidar aquesta entitat com un dels pilars festius del municipi. Avui, amb més de cinc dècades d'història, seguim creixent amb el mateix esperit amb què vam començar: fer de cada festa un reflex de l'ànima de Roquetes.",
+        "historyDescription": "El Patronat de Festes de Roquetes va néixer el 1973 amb un objectiu clar: preservar i promoure les festes populars que donen vida al nostre municipi. Des de llavors, hem estat part essencial de la identitat de Roquetes, organitzant cada any celebracions que combinen tradició, cultura i participació. Al llarg dels anys, més d'un centenar de persones han contribuït amb el seu esforç i passió a consolidar aquesta entitat com un dels pilars festius del municipi. Avui, amb més de cinc dècades d'història, continuem creixent amb el mateix esperit amb què vam començar: fer de cada festa un reflex de l'ànima de Roquetes.",
         "motivationTitle": "Motivació",
-        "motivationDescription": "Creiem que les festes són molt més que celebracions: són moments que enforteixen els vincles, que ens connecten amb les nostres arrels i que ens permeten compartir el millor de nosaltres mateixos. Ens motiva veure nens, joves i grans viure amb il·lusió cada acte, cada tradició i cada trobada. Treballem amb entusiasme per oferir propostes inclusives, creatives i amb sentit comunitari. La nostra motivació és clara: seguir construint, a través de les festes, una Roquetes viva, unida i orgullosa de la seva cultura.",
+        "motivationDescription": "Creiem que les festes són molt més que celebracions: són moments que reforcen els vincles, que ens connecten amb les nostres arrels i que ens permeten compartir el millor de nosaltres mateixos. Ens motiva veure nens, joves i grans viure amb il·lusió cada acte, cada tradició i cada trobada. Treballem amb entusiasme per oferir propostes inclusives, creatives i amb sentit comunitari. La nostra motivació és clara: seguir construint, a través de les festes, una Roquetes viva, unida i orgullosa de la seva cultura.",
         "staffTitle": "Membres de la junta",
-        "loadingStaff": "Carregant membres del staff...",
-        "errorStaff": "Error al carregar el staff:",
-        "noStaffMembers": "No s'han trobat membres del staff.",
+        "loadingStaff": "Carregant membres de l'equip...",
+        "errorStaff": "Error en carregar l'equip:",
+        "noStaffMembers": "No s'han trobat membres de l'equip.",
         "defaultName": "Nom",
         "defaultLastName": "Cognom",
         "defaultPosition": "Membre",
-        "defaultDescription": "Aquest membre del staff no té descripció disponible."
+        "defaultDescription": "Aquest membre de l'equip no té descripció disponible."
       },
       "galerySection": {
         "title": "Galeria",
         "noImages": "No hi ha imatges disponibles"
       },
       "eventSection": {
-        "title": "Propers esdeveniments",
-        "noEvents": "No hi ha esdeveniments properament"
+        "title": "Properes activitats",
+        "noEvents": "No hi ha esdeveniments pròximament"
       },
       "wantToParticipateSection": {
         "title": "Vols participar?",
         "firstPar": "Hi ha moltes maneres d'ajudar i participar en el muntatge de festes i esdeveniments que tenen lloc al llarg de l'any.",
-        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, el que també inclou l'entrada a les festes majors del poble cada any.",
-        "thirdPar": "Si tens un grup d'amics, també pots participar inscrivint-te com a colla en el concurs de colles que se celebra cada any.",
-        "linksPar": "<2>Fes clic aquí</2> per veure els requisits per participar en el concurs de colles o <1>aquí</1> per registrar-te com a membre."
+        "secondPar": "Pots participar fent-te membre de l'associació i gaudir de tots els esdeveniments de l'any, cosa que també inclou l'entrada a les festes majors del poble cada any.",
+        "thirdPar": "Si tens un grup d'amics, també pots participar inscrivint-te com a penya al concurs de penyes que se celebra cada any.",
+        "linksPar": "<2>Fes clic aquí</2> per veure els requisits per participar al concurs de penyes o <1>aquí</1> per registrar-te com a membre."
       }
     },
     "underConstruction": {
@@ -274,11 +274,11 @@
       "userHistoryView": {
         "title": "Historial d'usuari",
         "userInfoTitle": "Informació de l'usuari",
-        "searchHistory": "Cercar a l'historial...",
+        "searchHistory": "Cerca a l'historial...",
         "searchNoCoincidence": "No s'han trobat resultats que coincideixin amb la teva cerca.",
-        "searchNoRegistration": "No hi ha registre de canvis disponibles",
+        "searchNoRegistration": "No hi ha registre de canvis disponible",
         "searchQuantityResults": "Mostrant {{paginated}} de {{total}} resultats registrats",
-        "chargeHistoryFailure": "Error al carregar l'historial d'usuaris",
+        "chargeHistoryFailure": "Error en carregar l'historial d'usuaris",
         "chargingHistory": "Carregant historial...",
         "createLabel": "Creació",
         "modifyLabel": "Modificació",
@@ -290,8 +290,8 @@
         "idReferenceLabel": "ID de referència: "
       },
       "listUsers": {
-        "title": "Llista d'Usuaris",
-        "searchPlaceholder": "Cercar per nom, cognom...",
+        "title": "Llista d'usuaris",
+        "searchPlaceholder": "Cerca per nom, cognom...",
         "loadingText": "Carregant usuaris...",
         "trackingChanges": "Registrant canvis...",
         "noUsers": "No hi ha usuaris registrats.",
@@ -300,13 +300,13 @@
         "deleteSuccess": "Usuari eliminat",
         "userDeleted": "L'usuari ha estat eliminat correctament",
         "userDeletedNoLog": "L'usuari ha estat eliminat, però hi ha hagut un error en registrar l'acció",
-        "deleteError": "Hi ha hagut un error en eliminar l'usuari",
+        "deleteError": "S'ha produït un error en eliminar l'usuari",
         "protectedData": "Dades protegides",
         "noValue": "Sense valor",
         "emptyString": "Cadena buida",
-        "addUser": "Afegir usuari",
-        "editUser": "Editar usuari",
-        "viewProfile": "Veure perfil",
+        "addUser": "Afegeix usuari",
+        "editUser": "Edita usuari",
+        "viewProfile": "Mostra perfil",
         "userInfo": {
           "name": "Nom",
           "email": "Correu electrònic",
@@ -315,11 +315,11 @@
         }
       },
       "userModify": {
-        "title": "Actualitzar dades",
-        "editUserTitle": "Editar usuari",
+        "title": "Actualitza dades",
+        "editUserTitle": "Edita usuari",
         "descriptionTitle": "Modifica les teves dades personals",
         "editUserDescription": "Modificant dades de {{firstName}} {{lastName}}",
-        "isStaff": "És membre del staff",
+        "isStaff": "És membre de l'equip",
         "position": "Posició",
         "description": "Descripció",
         "startDate": "Data d'incorporació",
@@ -327,14 +327,14 @@
         "document": "Document",
         "oldDocTitle": "Document actual",
         "newDocTitle": "Nou document",
-        "viewCurrent": "Veure document actual",
+        "viewCurrent": "Mostra document actual",
         "trackingChanges": "Registrant canvis...",
         "loadingUser": "Carregant dades de l'usuari...",
         "receiveEmails": "Rebre correus electrònics",
         "selectLanguage": "Idioma per defecte",
         "successPopup": {
-          "title": "Actualització exitosa",
-          "text": "Les dades han estat actualitzades correctament"
+          "title": "Actualització amb èxit",
+          "text": "Les dades s'han actualitzat correctament"
         },
         "noChangesPopup": {
           "title": "Sense canvis",
@@ -342,60 +342,60 @@
         },
         "errorPopup": {
           "title": "Error",
-          "text": "Hi ha hagut un error en actualitzar les dades. Si us plau, torna-ho a provar."
+          "text": "S'ha produït un error en actualitzar les dades. Si us plau, torna-ho a intentar."
         },
         "staffSection": {
-          "title": "Informació del Staff",
-          "visibilityLabel": "Mostrar o ocultar informació del staff",
-          "visibilityDescription": "La informació del staff només serà visible per a administradors"
+          "title": "Informació de l'equip",
+          "visibilityLabel": "Mostra o amaga informació de l'equip",
+          "visibilityDescription": "La informació de l'equip només serà visible per a administradors"
         },
         "documentUpload": {
           "uploadProgress": "{{progress}}% completat",
-          "errorText": "Hi ha hagut un error en pujar el document. Es desaran la resta de dades.",
+          "errorText": "S'ha produït un error en pujar el document. La resta de dades es guardaran.",
           "pdfPreview": "Vista prèvia del PDF",
           "documentPreview": "Vista prèvia del document"
         }
       },
       "userProfile": {
-        "title": "Perfil d'Usuari",
+        "title": "Perfil d'usuari",
         "loading": "Carregant perfil d'usuari...",
         "notFound": "Usuari no trobat",
         "errorLoading": "No s'han pogut carregar les dades de l'usuari",
         "personalInformation": {
-          "title": "Informació Personal",
+          "title": "Informació personal",
           "name": "Nom:",
-          "email": "Correu Electrònic:",
+          "email": "Correu electrònic:",
           "dni": "DNI:",
           "phone": "Telèfon:",
-          "birthDate": "Data de Naixement:",
+          "birthDate": "Data de naixement:",
           "age": "Edat:",
           "ageValue": "{{age}} anys"
         },
         "staffInformation": {
-          "title": "Informació del Staff",
+          "title": "Informació de l'equip",
           "position": "Posició:",
-          "startDate": "Data d'Incorporació:",
-          "endDate": "Data de Finalització:",
+          "startDate": "Data d'incorporació:",
+          "endDate": "Data de finalització:",
           "description": "Descripció:",
           "document": "Document:",
-          "viewDocument": "Veure Document"
+          "viewDocument": "Mostra document"
         },
         "preferences": {
-          "title": "Preferències d'Usuari",
+          "title": "Preferències d'usuari",
           "language": "Idioma preferit:",
           "notifications": "Notificacions per correu:",
           "enabled": "Activades",
           "disabled": "Desactivades"
         },
         "accountInformation": {
-          "title": "Informació del Compte",
-          "registrationDate": "Data de Registre:",
+          "title": "Informació del compte",
+          "registrationDate": "Data de registre:",
           "lastUpdate": "Última actualització:"
         },
         "actions": {
-          "editProfile": "Editar Perfil",
-          "viewHistory": "Veure Historial",
-          "backToList": "Tornar a la llista"
+          "editProfile": "Edita perfil",
+          "viewHistory": "Mostra historial",
+          "backToList": "Torna a la llista"
         }
       }
     },
@@ -404,7 +404,7 @@
       "noCollaborators": "No hi ha col·laboradors disponibles",
       "registerCollaborators": {
         "title": "Crear nou col·laborador",
-        "fileLabel": "Afegir logo del col·laborador",
+        "fileLabel": "Afegeix logo del col·laborador",
         "nameLabel": "Nom del col·laborador",
         "uploadButton": "Crear col·laborador",
         "uploadingText": "Creant...",
@@ -414,19 +414,19 @@
         },
         "errorPopup": {
           "title": "Error!",
-          "text": "Hi ha hagut un problema al crear el col·laborador. Torna-ho a provar."
+          "text": "S'ha produït un problema en crear el col·laborador. Torna-ho a intentar."
         },
         "authError": "Has d'estar autenticat per crear col·laboradors.",
-        "fileRequired": "Si us plau selecciona un logo."
+        "fileRequired": "Si us plau, selecciona un logo."
       },
       "modifyCollaborators": {
-        "title": "Modificar un col·laborador",
+        "title": "Modifica un col·laborador",
         "fileLabel": "Modifica el nom i la imatge del col·laborador",
         "nameLabel": "Nou nom del col·laborador",
         "imageLabel": "Nova imatge del col·laborador",
         "oldImageTitle": "Logo actual",
         "newImageTitle": "Nou logo",
-        "uploadButton": "Desar canvis",
+        "uploadButton": "Desa canvis",
         "uploadingText": "Modificant...",
         "successPopup": {
           "title": "Èxit!",
@@ -434,17 +434,17 @@
         },
         "errorPopup": {
           "title": "Error!",
-          "text": "Hi ha hagut un problema al modificar el col·laborador. Torna-ho a provar."
+          "text": "S'ha produït un problema en modificar el col·laborador. Torna-ho a intentar."
         },
         "authError": "Has d'estar autenticat per modificar col·laboradors.",
-        "fileRequired": "Si us plau selecciona un logo."
+        "fileRequired": "Si us plau, selecciona un logo."
       },
       "listCollaborators": {
-        "title": "Llistat de col·laboradors",
-        "searchPlaceholder": "Cercar col·laborador...",
-        "addNewButton": "Afegir",
-        "modifyButton": "Modificar",
-        "deleteButton": "Eliminar",
+        "title": "Llista de col·laboradors",
+        "searchPlaceholder": "Cerca col·laborador...",
+        "addNewButton": "Afegeix",
+        "modifyButton": "Modifica",
+        "deleteButton": "Elimina",
         "loadingText": "Carregant col·laboradors..."
       }
     },
@@ -453,7 +453,7 @@
       "noParticipants": "No hi ha participants disponibles",
       "registerParticipants": {
         "title": "Crear nou participant",
-        "fileLabel": "Afegir logo del participant",
+        "fileLabel": "Afegeix logo del participant",
         "nameLabel": "Nom del participant",
         "descriptionLabel": "Afegeix una descripció sobre el participant",
         "uploadButton": "Crear participant",
@@ -469,22 +469,22 @@
         },
         "errorPopup": {
           "title": "Error!",
-          "text": "Hi ha hagut un problema al crear el participant. Torna-ho a provar."
+          "text": "S'ha produït un problema en crear el participant. Torna-ho a intentar."
         },
         "authError": "Has d'estar autenticat per crear participants.",
-        "fileRequired": "Si us plau selecciona un logo."
+        "fileRequired": "Si us plau, selecciona un logo."
       },
       "modifyParticipants": {
-        "title": "Modificar un participant",
+        "title": "Modifica un participant",
         "fileLabel": "Modifica el nom i la imatge del participant",
         "nameLabel": "Nou nom del participant",
         "descriptionLabel": "Modifica la descripció del participant",
         "imageLabel": "Nova imatge del participant",
         "oldImageTitle": "Logo actual",
         "newImageTitle": "Nou logo",
-        "uploadButton": "Desar canvis",
+        "uploadButton": "Desa canvis",
         "uploadingText": "Modificant...",
-        "socialMediaTitle": "Modificar les xarxes socials del participant",
+        "socialMediaTitle": "Modifica les xarxes socials del participant",
         "facebookLabel": "Facebook",
         "instagramLabel": "Instagram",
         "twitterLabel": "Twitter",
@@ -494,23 +494,23 @@
         },
         "errorPopup": {
           "title": "Error!",
-          "text": "Hi ha hagut un problema al modificar el participant. Torna-ho a provar."
+          "text": "S'ha produït un problema en modificar el participant. Torna-ho a intentar."
         },
         "authError": "Has d'estar autenticat per modificar participants.",
-        "fileRequired": "Si us plau selecciona un logo."
+        "fileRequired": "Si us plau, selecciona un logo."
       },
       "listParticipants": {
-        "title": "Llistat de participants",
-        "searchPlaceholder": "Cercar participant...",
-        "addNewButton": "Afegir",
-        "modifyButton": "Modificar",
-        "deleteButton": "Eliminar",
+        "title": "Llista de participants",
+        "searchPlaceholder": "Cerca participant...",
+        "addNewButton": "Afegeix",
+        "modifyButton": "Modifica",
+        "deleteButton": "Elimina",
         "loadingText": "Carregant participants..."
       }
     },
     "partners": {
       "registerPartners": {
-        "title": "Registre de Soci",
+        "title": "Registre de soci",
         "nameLabel": "Nom",
         "namePlaceholder": "Nom del soci",
         "lastNameLabel": "Cognoms",
@@ -518,7 +518,7 @@
         "addressLabel": "Adreça",
         "addressPlaceholder": "Adreça completa",
         "emailLabel": "Correu electrònic",
-        "emailPlaceholder": "exemple@correu.com",
+        "emailPlaceholder": "example@correu.com",
         "phoneLabel": "Telèfon",
         "phonePlaceholder": "Número de contacte",
         "birthDateLabel": "Data de naixement",
@@ -527,93 +527,104 @@
         "accountNumberLabel": "Número de compte (IBAN)",
         "accountNumberPlaceholder": "ES1234567890123456789012",
         "statusLabel": "Estat del soci",
-        "descriptionLabel": "Donar suport al Patronat és molt fàcil: només t’has de fer soci. En unir-te, no només estaràs col·laborant amb una causa que impulsa les nostres tradicions i activitats, sinó que també gaudiràs de nombrosos avantatges exclusius.<br /><br/> Com a soci, tindràs accés a descomptes especials en tots els esdeveniments organitzats pel Patronat. Un dels més destacats és el<strong> tiquet per a les Festes Majors</strong>, que podràs aconseguir a un preu reduït i amb la possibilitat de pagar-lo en tres còmodes terminis al llarg de l’any. Així podràs gaudir més, pagant menys i sense preocupacions!<br /><br /> Si vols unir-te i començar a gaudir de tots aquests avantatges, només cal que omplis el següent formulari. Ens posarem en contacte amb tu a través del correu electrònic que ens indiquis per completar el procés d’inscripció.",
+        "descriptionLabel": "Donar suport al Patronat és molt fàcil: només has de fer-te soci. En unir-te, no només col·laboraràs amb una causa que impulsa les nostres tradicions i activitats, sinó que també gaudiràs de nombrosos avantatges exclusius.<br /><br/> Com a soci, accediràs a descomptes especials a tots els esdeveniments organitzats pel Patronat. Un dels més destacats és el<strong> bitllet per a les Festes Majors</strong>, que podràs aconseguir a un preu reduït i amb la possibilitat de pagar-lo en tres còmodes quotes al llarg de l'any. Així gaudiràs més, pagant menys i sense agobiar-te!<br /><br /> Si vols unir-te i començar a gaudir de totes aquestes avantatges, només has d'omplir el següent formulari. Ens posarem en contacte amb tu a través del correu electrònic que ens indiquis per finalitzar el procés d'inscripció.",
         "statusOptions": {
           "review": "En revisió",
           "active": "Actiu",
           "inactive": "Baixa"
         },
-        "submittingText": "Desant...",
-        "submitButton": "Registrar Soci",
+        "submittingText": "Guardant...",
+        "submitButton": "Registra soci",
         "validation": {
           "requiredFields": "Si us plau, completa tots els camps requerits.",
-          "invalidEmail": "Si us plau, introdueix un email vàlid.",
+          "invalidEmail": "Si us plau, introdueix un correu electrònic vàlid.",
           "invalidDni": "Si us plau, introdueix un DNI vàlid (8 números i una lletra).",
           "invalidIban": "Si us plau, introdueix un IBAN vàlid (format ES + 22 dígits).",
           "invalidDate": "Si us plau, introdueix una data de naixement vàlida."
         },
         "successPopup": {
-          "title": "Registre exitós",
-          "text": "El soci ha estat registrat correctament i està pendent de revisió."
+          "title": "Registre amb èxit",
+          "text": "El soci s'ha registrat correctament i està pendent de revisió."
         },
         "errorPopup": {
           "title": "Error de validació",
-          "text": "Ha succeït un error al registrar el soci. Si us plau, torna-ho a provar."
+          "text": "S'ha produït un error al registrar el soci. Torna-ho a intentar."
         },
         "authError": "Has d'iniciar sessió per registrar un soci."
       },
       "listPartners": {
-        "title": "Llistat de Socis",
-        "searchPlaceholder": "Cercar soci...",
-        "addNewButton": "Afegir Soci",
-        "modifyButton": "Modificar",
-        "deleteButton": "Eliminar",
+        "title": "Llista de socis",
+        "searchPlaceholder": "Cerca soci...",
+        "addNewButton": "Afegeix soci",
+        "modifyButton": "Modifica",
+        "deleteButton": "Elimina",
         "loadingText": "Carregant socis...",
-        "exportToExcel": "Exportar a Excel",
+        "exportToExcel": "Exporta a Excel",
         "exportSuccessTitle": "Exportació completada",
         "exportSuccessText": "Les dades del soci s'han exportat correctament.",
         "errorPopup": {
-          "exportError": "Ha succeït un error a l'exportar les dades del soci."
+          "exportError": "S'ha produït un error en exportar les dades del soci."
+        }
+      },
+      "modifyPartners": {
+        "title": "Modifica soci",
+        "nameLabel": "Nom",
+        "lastNameLabel": "Cognoms",
+        "addressLabel": "Adreça",
+        "emailLabel": "Correu electrònic",
+        "phoneLabel": "Telèfon",
+        "birthDateLabel": "Data de naixement",
+        "dniLabel": "DNI",
+        "accountNumberLabel": "Número de compte (IBAN)",
+        "statusLabel": "Estat del soci",
+        "submitButton": "Desa canvis",
+        "priceCategoryLabel": "Categoria de preu",
+        "priceCategoryAdult": "Adult",
+        "priceCategoryJunior": "Infantil",
+        "statusOptions": {
+          "review": "En revisió",
+          "active": "Actiu",
+          "inactive": "Baixa"
         },
-        "modifyPartners": {
-          "title": "Modificar Soci",
-          "nameLabel": "Nom",
-          "lastNameLabel": "Cognoms",
-          "addressLabel": "Adreça",
-          "emailLabel": "Correu electrònic",
-          "phoneLabel": "Telèfon",
-          "birthDateLabel": "Data de naixement",
-          "dniLabel": "DNI",
-          "accountNumberLabel": "Número de compte (IBAN)",
-          "statusLabel": "Estat del soci",
-          "statusOptions": {
-            "review": "En revisió",
-            "active": "Actiu",
-            "inactive": "Baixa"
-          },
-          "submittingText": "Actualitzant...",
-          "submitButton": "Desar Canvis",
-          "successPopup": {
-            "title": "Actualització exitosa",
-            "text": "Les dades del soci han estat actualitzades correctament."
-          },
-          "errorPopup": {
-            "title": "Error",
-            "text": "Ha succeït un error en actualitzar les dades del soci."
-          }
+        "validation": {
+          "requiredFields": "Si us plau, completa tots els camps requerits.",
+          "invalidEmail": "Si us plau, introdueix un correu electrònic vàlid.",
+          "invalidDni": "Si us plau, introdueix un DNI vàlid (8 números i una lletra).",
+          "invalidIban": "Si us plau, introdueix un IBAN vàlid (format ES + 22 dígits).",
+          "invalidDate": "Si us plau, introdueix una data de naixement vàlida."
+        },
+        "submittingText": "Actualitzant...",
+        "successPopup": {
+          "title": "Actualització amb èxit",
+          "text": "Les dades del soci s'han actualitzat correctament."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "S'ha produït un error en actualitzar les dades del soci.",
+          "updateError": "S'ha produït un error en actualitzar les dades del soci."
         }
       },
       "partnerInfo": {
-        "title": "Informació del Soci",
+        "title": "Informació del soci",
         "loading": "Carregant informació del soci...",
         "notFound": "No s'ha trobat informació del soci.",
-        "exportToExcel": "Exportar dades",
+        "exportToExcel": "Exporta dades",
         "personalInformation": {
-          "title": "Informació Personal",
+          "title": "Informació personal",
           "name": "Nom complet:",
-          "email": "Correu Electrònic:",
+          "email": "Correu electrònic:",
           "dni": "DNI:",
           "phone": "Telèfon:",
-          "birthDate": "Data de Naixement:"
+          "birthDate": "Data de naixement:"
         },
         "additionalInformation": {
-          "title": "Informació Addicional",
+          "title": "Informació addicional",
           "address": "Adreça:",
           "accountNumber": "IBAN:",
           "status": "Estat:"
         },
         "registrationInformation": {
-          "createdAt": "Data de Registre:",
+          "createdAt": "Data de registre:",
           "createdBy": "Registrat per:"
         },
         "status": {
@@ -622,181 +633,185 @@
           "pending": "Pendent"
         },
         "payments": {
-          "title": "Informació de Pagaments",
-          "activeSeason": "Temporada Activa",
-          "seasonYear": "Any:",
-          "totalPrice": "Preu total:",
-          "numberOfFractions": "Nombre de fraccions:",
-          "priceFirstFraction": "Primera fracció:",
-          "priceSecondFraction": "Segona fracció:",
-          "priceThirdFraction": "Tercera fracció:",
-          "refreshSeason": "Actualitzar temporada",
+          "title": "Informació de pagaments",
+          "activeSeason": "Temporada activa",
+          "seasonYear": "Any: ",
+          "totalPrice": "Preu total: ",
+          "numberOfFractions": "Nombre de quotes: ",
+          "priceFirstFraction": "Primera quota: ",
+          "priceSecondFraction": "Segona quota: ",
+          "priceThirdFraction": "Tercera quota: ",
+          "refreshSeason": "Actualitza temporada",
           "loadingSeason": "Carregant informació de la temporada...",
           "noActiveSeason": "No hi ha temporada activa configurada.",
-          "paymentStatus": "Estat de Pagaments",
-          "refreshPayments": "Actualitzar pagaments",
+          "paymentStatus": "Estat dels pagaments",
+          "refreshPayments": "Actualitza pagaments",
           "loadingPayments": "Carregant informació de pagaments...",
-          "fractionsStatus": "Estat de les fraccions",
-          "firstFraction": "Primera fracció",
-          "secondFraction": "Segona fracció",
-          "thirdFraction": "Tercera fracció",
+          "fractionsStatus": "Estat de les quotes",
+          "firstFraction": "Primera quota: ",
+          "secondFraction": "Segona quota: ",
+          "thirdFraction": "Tercera quota: ",
           "paid": "Pagat",
           "pending": "Pendent",
           "amount": "Import",
-          "paymentDate": "Data de pagament",
+          "paymentDate": "Data de pagament: ",
           "noPaymentsFound": "No s'ha trobat informació de pagaments per a aquest soci.",
           "history": "Historial de pagaments",
-          "refreshHistory": "Actualitzar historial",
+          "refreshHistory": "Actualitza historial",
           "loadingHistory": "Carregant historial de pagaments...",
-          "noPaymentHistory": "No hi ha pagaments de temporades anteriors."
+          "noPaymentHistory": "No hi ha pagaments de temporades anteriors.",
+          "adultPrices": "Preus adults (> 16 anys)",
+          "juniorPrices": "Preus menors (< 16 anys)"
         },
         "errorPopup": {
           "title": "Error",
-          "text": "No s'han pogut carregar les dades del soci",
-          "exportError": "Ha succeït un error a l'exportar les dades del soci."
+          "text": "No s'ha pogut carregar la informació del soci",
+          "exportError": "S'ha produït un error en exportar les dades del soci."
         }
       }
-    },
-    "seasons": {
-      "newSeason": {
-        "title": "Nova remesa",
-        "seasonYearLabel": "Any de la remesa",
-        "totalPriceLabel": "Preu total",
-        "priceFirstFractionLabel": "Preu primera fracció",
-        "priceSeconFractionLabel": "Preu segona fracció",
-        "priceThirdFractionLabel": "Preu tercera fracció",
-        "activeLabel": "Activar remesa",
-        "submittingText": "Desant...",
-        "submitButton": "Desar remesa",
-        "loadingText": "Carregant...",
-        "checkingYear": "Verificant disponibilitat de l'any...",
-        "activeSeasonNotice": "L'any {{seasonYear}} està com a remesa activa. Si selecciones com a activa aquesta nova remesa, l'actual es desactivarà automàticament.",
-        "validation": {
-          "seasonYearRequired": "L'any de la remesa és obligatori",
-          "seasonYearInvalid": "L'any de la remesa ha de ser igual o posterior a l'any actual",
-          "seasonYearDuplicate": "Ja existeix una remesa per l'any {{year}}. No es permeten remeses duplicades.",
-          "totalPricePositive": "El preu total no pot ser negatiu",
-          "totalPriceRequired": "El preu total és obligatori",
-          "totalPriceNumeric": "El preu total ha de ser un número",
-          "fractionSumMismatch": "La suma dels preus de les fraccions ha de ser igual al preu total",
-          "fractionPriceRequired": "Els preus de les fraccions són obligatoris",
-          "fractionPriceNumeric": "Els preus de les fraccions han de ser números",
-          "fractionPricePositive": "Els preus de les fraccions no poden ser negatius"
-        },
-        "successPopup": {
-          "title": "Èxit",
-          "text": "La remesa ha estat registrada correctament."
-        },
-        "errorPopup": {
-          "title": "Error",
-          "text": "Ha succeït un error al registrar la remesa.",
-          "checkSeasonError": "Error al comprovar les remeses actives.",
-          "createSeasonError": "Error al crear la remesa.",
-          "deactivateSeasonError": "Error al desactivar la remesa existent.",
-          "createPaymentsError": "Error al crear els pagaments pels socis.",
-          "formValidationError": "Si us plau, corregeix els errors al formulari abans de continuar.",
-          "serverError": "Error al servidor. Si us plau, torna-ho a provar més tard.",
-          "networkError": "Error de connexió. Comprova la teva connexió a internet.",
-          "unknownError": "Ha succeït un error desconegut. Si us plau, torna-ho a provar."
-        },
-        "warningPopup": {
-          "title": "Advertència",
-          "deactivateSeasonWarning": "En activar aquesta remesa, es desactivarà la remesa activa actual per l'any {{year}}.",
-          "confirmContinue": "Vols continuar?"
-        },
-        "confirmationPopup": {
-          "title": "Confirmar acció",
-          "createPaymentsConfirmation": "Es crearan documents de pagament per tots els socis actius. Vols continuar?",
-          "confirmButton": "Sí, continuar",
-          "cancelButton": "No, cancel·lar"
-        },
-        "authError": "Has d'iniciar sessió per realitzar aquesta acció.",
-        "permissionError": "No tens permisos per realitzar aquesta acció.",
-        "paymentsCreatedTitle": "Documents de pagaments creats",
-        "paymentsCreatedText": "S'han creat {{createdCount}} documents de pagaments per la nova temporada. S'han omès {{skippedCount}} socis que ja tenien pagaments configurats.",
-        "noPartnersFound": "No s'han trobat socis actius per crear pagaments.",
-        "activeSeasonExistsError": "Ja existeix una temporada activa per aquest any.",
-        "databaseConnectionError": "Error de connexió a la base de dades.",
-        "sessionExpiredError": "La teva sessió ha caducat. Si us plau, inicia sessió de nou."
-      }
-    },
-    "userRegister": {
-      "title": "Registre d'usuari",
-      "description": "Si us plau, omple els camps per completar el teu registre",
-      "name": "Nom",
-      "surname": "Cognoms",
-      "user": "Introdueix un usuari",
-      "email": "Introdueix un correu electrònic",
-      "password": "Introdueix la teva contrasenya",
-      "phone": "Telèfon",
-      "dni": "DNI",
-      "birthDate": "Data de naixement"
-    },
-    "login": {
-      "title": "Iniciar sessió",
-      "description": "Benvingut de nou, si us plau inicia sessió per continuar",
-      "mailInput": "Introdueix el teu correu electrònic",
-      "passwordInput": "Introdueix la teva contrasenya",
-      "forgotPassword": "Has oblidat la teva contrasenya?",
-      "noAccount": "No tens un compte? ",
-      "register": "Registra't"
-    },
-    "recoverPage": {
-      "title": "Recuperar contrasenya",
-      "description": "Introdueix el teu correu electrònic per recuperar la teva contrasenya",
-      "email": "Correu electrònic"
-    },
-    "resetPassword": {
-      "title": "Restablir contrasenya",
-      "description": "Si us plau, omple els camps per completar el teu canvi de contrasenya",
-      "newPassword": "Introdueix la teva nova contrasenya",
-      "confirmPassword": "Repeteix la contrasenya"
     }
+  },
+  "seasons": {
+    "newSeason": {
+      "title": "Nova remesa",
+      "seasonYearLabel": "Any de la remesa",
+      "totalPriceLabel": "Preu total",
+      "priceFirstFractionLabel": "Preu primera quota",
+      "priceSeconFractionLabel": "Preu segona quota",
+      "priceThirdFractionLabel": "Preu tercera quota",
+      "activeLabel": "Activa remesa",
+      "submittingText": "Guardant...",
+      "submitButton": "Desa remesa",
+      "loadingText": "Carregant...",
+      "adultPrices": "Majors de 16 anys",
+      "childPrices": "Menors de 16 anys",
+      "checkingYear": "Verificant disponibilitat de l'any...",
+      "activeSeasonNotice": "L'any {{seasonYear}} està com a remesa activa. Si selecciones aquesta nova remesa com a activa, l'actual s'inactivarà automàticament.",
+      "validation": {
+        "seasonYearRequired": "L'any de la remesa és obligatori",
+        "seasonYearInvalid": "L'any de la remesa ha de ser igual o posterior a l'any actual",
+        "seasonYearDuplicate": "Ja existeix una remesa per a l'any {{year}}. No es permeten remeses duplicades.",
+        "totalPricePositive": "El preu total no pot ser negatiu",
+        "totalPriceRequired": "El preu total és obligatori",
+        "totalPriceNumeric": "El preu total ha de ser un nombre",
+        "fractionSumMismatch": "La suma dels preus de les quotes ha de ser igual al preu total",
+        "fractionPriceRequired": "Els preus de les quotes són obligatoris",
+        "fractionPriceNumeric": "Els preus de les quotes han de ser nombres",
+        "fractionPricePositive": "Els preus de les quotes no poden ser negatius"
+      },
+      "successPopup": {
+        "title": "Èxit",
+        "text": "La remesa s'ha registrat correctament."
+      },
+      "errorPopup": {
+        "title": "Error",
+        "text": "S'ha produït un error en registrar la remesa.",
+        "checkSeasonError": "Error en comprovar les remeses actives.",
+        "createSeasonError": "Error en crear la remesa.",
+        "deactivateSeasonError": "Error en desactivar la remesa existent.",
+        "createPaymentsError": "Error en crear els pagaments per als socis.",
+        "formValidationError": "Si us plau, corregeix els errors del formulari abans de continuar.",
+        "serverError": "Error al servidor. Si us plau, torna-ho a intentar més tard.",
+        "networkError": "Error de connexió. Comprova la teva connexió a internet.",
+        "unknownError": "S'ha produït un error desconegut. Si us plau, torna-ho a intentar."
+      },
+      "warningPopup": {
+        "title": "Advertència",
+        "deactivateSeasonWarning": "En activar aquesta remesa, s'inactivarà la remesa activa actual per a l'any {{year}}.",
+        "confirmContinue": "Vols continuar?"
+      },
+      "confirmationPopup": {
+        "title": "Confirma acció",
+        "createPaymentsConfirmation": "Es crearan documents de pagament per a tots els socis actius. Vols continuar?",
+        "confirmButton": "Sí, continua",
+        "cancelButton": "No, cancel·la"
+      },
+      "authError": "Has d'iniciar sessió per realitzar aquesta acció.",
+      "permissionError": "No tens permisos per realitzar aquesta acció.",
+      "paymentsCreatedTitle": "Documents de pagaments creats",
+      "paymentsCreatedText": "S'han creat {{createdCount}} documents de pagaments per a la nova temporada. S'han omès {{skippedCount}} socis que ja tenien pagaments configurats.",
+      "noPartnersFound": "No s'han trobat socis actius per crear pagaments.",
+      "activeSeasonExistsError": "Ja existeix una temporada activa per a aquest any.",
+      "databaseConnectionError": "Error de connexió a la base de dades.",
+      "sessionExpiredError": "La teva sessió ha expirat. Si us plau, inicia sessió de nou."
+    }
+  },
+  "userRegister": {
+    "title": "Registre d'usuari",
+    "description": "Si us plau, omple els camps per completar el teu registre",
+    "name": "Nom",
+    "surname": "Cognoms",
+    "user": "Introdueix un usuari",
+    "email": "Introdueix un correu electrònic",
+    "password": "Introdueix la teva contrasenya",
+    "phone": "Telèfon",
+    "dni": "DNI",
+    "birthDate": "Data de naixement"
+  },
+  "login": {
+    "title": "Inicia sessió",
+    "description": "Benvingut de nou, si us plau inicia sessió per continuar",
+    "mailInput": "Introdueix el teu correu electrònic",
+    "passwordInput": "Introdueix la teva contrasenya",
+    "forgotPassword": "Has oblidat la contrasenya?",
+    "noAccount": "No tens un compte? ",
+    "register": "Registra't"
+  },
+  "recoverPage": {
+    "title": "Recupera la contrasenya",
+    "description": "Introdueix el teu correu electrònic per recuperar la contrasenya",
+    "email": "Correu electrònic"
+  },
+  "resetPassword": {
+    "title": "Restableix la contrasenya",
+    "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
+    "newPassword": "Introdueix la teva nova contrasenya",
+    "confirmPassword": "Repeteix la contrasenya"
   },
   "components": {
     "navbar": {
       "eventTitle": "Esdeveniments",
       "galeryTitle": "Galeria",
-      "crewTitle": "Colles",
+      "crewTitle": "Penyes",
       "whoWeAreTitle": "Nosaltres",
       "dashboardTitle": "Tauler de control",
       "profileTitle": "Perfil",
       "shopTitle": "Botiga",
       "settingsTitle": "Configuració",
-      "signOutTitle": "Tancar Sessió",
-      "loginTitle": "Iniciar Sessió",
-      "partnersTitle": "Socis"
+      "signOutTitle": "Tanca sessió",
+      "loginTitle": "Inicia sessió",
+      "partnersTitle": "Soci"
     },
     "popup": {
-      "confirmButtonText": "Acceptar",
-      "cancelButtonText": "Cancel·lar",
-      "closeButtonText": "Tancar",
-      "tryAgainButtonText": "Tornar a intentar",
+      "confirmButtonText": "Accepta",
+      "cancelButtonText": "Cancel·la",
+      "closeButtonText": "Tanca",
+      "tryAgainButtonText": "Torna-ho a intentar",
       "successTitle": "CONFIRMAT",
-      "successDescription": "Petició realitzada correctament",
+      "successDescription": "Sol·licitud realitzada correctament",
       "failTitle": "ERROR",
-      "failDecription": "Alguna cosa ha anat malament. \n Si us plau torna a intentar-ho.",
+      "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
       "infoTitle": "INFO",
-      "warningTitle": "COMPTE",
-      "goToEventButton": "Anar a l'esdeveniment",
+      "warningTitle": "CUIDAT",
+      "goToEventButton": "Ves a l'esdeveniment",
       "recoverSuccess": "Correu enviat correctament"
     },
     "buttons": {
-      "accept": "Acceptar",
-      "cancel": "Cancel·lar",
-      "close": "Tancar",
-      "save": "Desar",
-      "delete": "Eliminar",
-      "edit": "Editar",
-      "add": "Afegir",
-      "search": "Cercar",
-      "back": "Tornar",
+      "accept": "Accepta",
+      "cancel": "Cancel·la",
+      "close": "Tanca",
+      "save": "Desa",
+      "delete": "Elimina",
+      "edit": "Edita",
+      "add": "Afegeix",
+      "search": "Cerca",
+      "back": "Torna",
       "next": "Següent",
-      "finish": "Finalitzar",
-      "register": "Registrar",
-      "login": "Iniciar Sessió",
+      "finish": "Finalitza",
+      "register": "Registra",
+      "login": "Inicia sessió",
       "processing": "Processant",
-      "recover": "Recuperar"
+      "recover": "Recupera"
     },
     "inputs": {
       "addDocument": "Prem per afegir un document",
@@ -814,9 +829,9 @@
     }
   },
   "utils": {
-    "fileRelated": "Cal seleccionar un arxiu",
-    "fileSize": "La mida de l'arxiu no pot superar els 5MB",
-    "fileType": "L'arxiu ha de ser de tipus imatge (png, jpg, jpeg)",
+    "fileRelated": "Cal seleccionar un fitxer",
+    "fileSize": "La mida del fitxer no pot superar els 5MB",
+    "fileType": "El fitxer ha de ser de tipus imatge (png, jpg, jpeg)",
     "yes": "Sí",
     "no": "No"
   }

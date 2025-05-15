@@ -47,7 +47,13 @@ export const cards = [
     icon: '🤝',
     actions: [
       {
-        id: 'manage-socios',
+        id: 'create-partner',
+        title: 'Crear nuevo socio',
+        route: '/admin-partner-form',
+        type: 'edit',
+      },
+      {
+        id: 'manage-partner',
         title: 'Gestión de Socios',
         route: '/partners-list',
         type: 'edit',
@@ -64,6 +70,12 @@ export const cards = [
         id: 'create-new-payment',
         title: 'Nuevas remesas',
         route: '/new-season',
+        type: 'edit',
+      },
+      {
+        id: 'seasons-list',
+        title: 'Lista de remesas',
+        route: '/seasons-list',
         type: 'edit',
       },
     ],

@@ -4,7 +4,7 @@
       "registerCrew": {
         "title": "Create Crew",
         "groupNameLabel": "Group Name",
-        "responsibleLabel": "Person in charge",
+        "responsibleLabel": "Responsible",
         "searchPlaceholder": "Ex: Name One, Name Two, Name Three",
         "userListTitle": "User List",
         "addMemberButton": "Add",
@@ -16,35 +16,35 @@
           "text": "Something went wrong. Please try again later."
         },
         "successPopup": {
-          "title": "Crew Successfully Created",
+          "title": "Crew Created Successfully",
           "text": "The crew has been created and saved successfully."
         }
       }
     },
     "settings": {
-      "title": "Account settings",
+      "title": "Account Settings",
       "loadingSettings": "Loading settings...",
       "languageSection": {
         "title": "Language",
         "description": "Select the language in which you want to view the application."
       },
       "notificationsSection": {
-        "title": "Email notifications",
+        "title": "Email Notifications",
         "description": "Configure when you want to receive email notifications.",
         "emailToggle": "Receive email notifications"
       },
       "deleteSection": {
-        "title": "Delete account",
-        "description": "This action will permanently delete your account and all your associated data. This action cannot be undone.",
-        "showConfirmButton": "Delete my account",
-        "confirmationText": "Please enter your password to confirm the deletion of your account. This action is permanent and cannot be reversed.",
-        "passwordLabel": "Confirm password",
+        "title": "Delete Account",
+        "description": "This action will permanently delete your account and all associated data. This action cannot be undone.",
+        "showConfirmButton": "Delete My Account",
+        "confirmationText": "Please enter your password to confirm account deletion. This action is permanent and cannot be undone.",
+        "passwordLabel": "Confirm Password",
         "cancelButton": "Cancel",
         "confirmButton": "Delete"
       },
-      "saveButton": "Save settings",
+      "saveButton": "Save Settings",
       "successPopup": {
-        "title": "Settings saved",
+        "title": "Settings Saved",
         "text": "Your settings have been saved successfully."
       },
       "errorPopup": {
@@ -52,129 +52,129 @@
         "text": "There was a problem saving your settings. Please try again."
       },
       "deleteSuccess": {
-        "title": "Account deleted",
-        "text": "Your account has been successfully deleted."
+        "title": "Account Deleted",
+        "text": "Your account has been deleted successfully."
       },
       "deleteError": {
-        "title": "Error deleting",
-        "defaultText": "Your account could not be deleted. Please try again.",
+        "title": "Deletion Error",
+        "defaultText": "Could not delete your account. Please try again.",
         "wrongPassword": "The password entered is incorrect.",
         "recentLogin": "For security reasons, you must log in again before deleting your account."
       }
     },
     "events": {
       "details": {
-        "popupTitle": "Event details: ",
+        "popupTitle": "Event Details: ",
         "popupText": "Description:",
-        "popupInitDate": "Start date:",
-        "popupEndDate": "End date:",
-        "startDate": "Start date:",
-        "endDate": "End date:",
-        "startTime": "Start time:",
-        "endTime": "End time:",
-        "dateInfoTitle": "Dates and Times",
-        "locationInfoTitle": "Location and access",
-        "pricesInfoTitle": "Prices and services",
+        "popupInitDate": "Start Date:",
+        "popupEndDate": "End Date:",
+        "startDate": "Start Date:",
+        "endDate": "End Date:",
+        "startTime": "Start Time:",
+        "endTime": "End Time:",
+        "dateInfoTitle": "Dates & Times",
+        "locationInfoTitle": "Location & Access",
+        "pricesInfoTitle": "Prices & Services",
         "location": "Location:",
         "capacity": "Capacity:",
         "price": "Price:",
-        "minAge": "Minimum age:",
-        "collaborators": "With the collaboration of:",
+        "minAge": "Minimum Age:",
+        "collaborators": "In Collaboration With:",
         "tags": "Tags:",
-        "organizer": "Organized by",
-        "allowCars": "Allow cars",
-        "hasBar": "Is there a bar?:",
+        "organizer": "Organized By",
+        "allowCars": "Allow Cars",
+        "hasBar": "Bar Available?:",
         "status": "Status:",
-        "downloadPermission": "Download authorization",
+        "downloadPermission": "Download Permission",
         "freeLabel": "Free",
-        "withParticipation": "With the participation of:"
+        "withParticipation": "With Participation:"
       },
       "registerEvent": {
         "title": "Create Event",
         "basicInfoTitle": "Basic Information",
-        "dateInfoTitle": "Dates and Schedule",
-        "detailsInfoTitle": "Event details",
-        "galleryInfoTitle": "Cover images",
+        "dateInfoTitle": "Dates & Times",
+        "detailsInfoTitle": "Event Details",
+        "galleryInfoTitle": "Cover Images",
         "collaboratorsInfoTitle": "Collaborators",
         "tagsInfoTitle": "Tags",
         "nameLabel": "Event Name",
-        "descriptionLabel": "Add a description",
+        "descriptionLabel": "Add a Description",
         "initDateLabel": "Start Date",
         "endDateLabel": "End Date",
         "startTimeLabel": "Start Time",
         "endTimeLabel": "End Time",
-        "locationLabel": "Specify a location",
-        "capacityLabel": "What is the maximum capacity",
-        "priceLabel": "What is the price of the event",
-        "minAgeLabel": "What is the minimum age",
-        "collaboratorsSearchLabel": "Search collaborators",
-        "collaboratorsLabel": "Select collaborators",
+        "locationLabel": "Specify a Location",
+        "capacityLabel": "What is the Maximum Capacity",
+        "priceLabel": "What is the Event Price",
+        "minAgeLabel": "What is the Minimum Age",
+        "collaboratorsSearchLabel": "Search Collaborators",
+        "collaboratorsLabel": "Select Collaborators",
         "collaboratorsSelectedLabel": "Selected Collaborators",
-        "tagsLabel": "Select tags",
-        "organizerLabel": "Add an organizer",
-        "allowCarsLabel": "Are cars allowed?",
-        "categoryLabel": "Select a category",
-        "hasBarLabel": "Is there a bar?",
+        "tagsLabel": "Select Tags",
+        "organizerLabel": "Add an Organizer",
+        "allowCarsLabel": "Allow Cars?",
+        "categoryLabel": "Select a Category",
+        "hasBarLabel": "Bar Available?",
         "statusLabel": "Status",
-        "imageURL": "Add a URL for the cover image",
-        "addImage": "Add image for cover",
+        "imageURL": "Add Cover Image URL",
+        "addImage": "Add Cover Image",
         "submitButton": "Create Event",
         "errorPopup": {
           "title": "Error",
           "text": "Something went wrong. Please try again later."
         },
         "successPopup": {
-          "title": "Event Successfully Created",
+          "title": "Event Created Successfully",
           "text": "The event has been created and saved successfully."
         }
       },
       "fullListEvents": {
-        "title": "List of Events",
+        "title": "Event List",
         "searchPlaceholder": "Search event...",
         "addNewButton": "Add",
         "modifyButton": "Modify",
         "deleteButton": "Delete",
         "loadingText": "Loading events...",
         "noEvents": "No events available",
-        "noEventsFound": "No events found with this name.",
-        "eventDateTitle": "Event date",
-        "eventTimeTitle": "Event time",
-        "eventLocationTitle": "Event location",
-        "eventStatusTitle": "Event status"
+        "noEventsFound": "No events found with that name.",
+        "eventDateTitle": "Event Date",
+        "eventTimeTitle": "Event Time",
+        "eventLocationTitle": "Event Location",
+        "eventStatusTitle": "Event Status"
       },
       "modifyEvent": {
         "title": "Modify Event",
         "basicInfoTitle": "Basic Information",
-        "dateInfoTitle": "Dates and Schedule",
-        "detailsInfoTitle": "Event details",
-        "galleryInfoTitle": "Cover images",
+        "dateInfoTitle": "Dates & Times",
+        "detailsInfoTitle": "Event Details",
+        "galleryInfoTitle": "Cover Images",
         "collaboratorsInfoTitle": "Collaborators",
         "tagsInfoTitle": "Tags",
-        "addImage": "Add image for cover",
-        "imageURL": "Add a URL for the cover image",
+        "addImage": "Add Cover Image",
+        "imageURL": "Cover Image URL",
         "nameLabel": "Event Name",
-        "descriptionLabel": "Add a description",
+        "descriptionLabel": "Add a Description",
         "initDateLabel": "Start Date",
         "endDateLabel": "End Date",
         "startTimeLabel": "Start Time",
         "endTimeLabel": "End Time",
-        "locationLabel": "Specify a location",
-        "capacityLabel": "What is the maximum capacity",
-        "priceLabel": "What is the price of the event",
-        "minAgeLabel": "What is the minimum age",
-        "collaboratorsSearchLabel": "Search collaborators",
-        "collaboratorsLabel": "Select collaborators",
+        "locationLabel": "Specify a Location",
+        "capacityLabel": "What is the Maximum Capacity",
+        "priceLabel": "What is the Event Price",
+        "minAgeLabel": "What is the Minimum Age",
+        "collaboratorsSearchLabel": "Search Collaborators",
+        "collaboratorsLabel": "Select Collaborators",
         "collaboratorsSelectedLabel": "Selected Collaborators",
-        "tagsLabel": "Select tags",
-        "organizerLabel": "Add an organizer",
-        "allowCarsLabel": "Are cars allowed?",
-        "categoryLabel": "Select a category",
-        "hasBarLabel": "Is there a bar?",
-        "statusLabel": "<p>Status</p> <p>Upcoming</p> <p>Finished</p> <p>Cancelled</p> <p>Postponed</p> <p>In progress</p> <p>Upcoming</p> <p>Finished</p> <p>Cancelled</p> <p>Postponed</p> <p>In progress</p> <p>Closed</p><",
+        "tagsLabel": "Select Tags",
+        "organizerLabel": "Add an Organizer",
+        "allowCarsLabel": "Allow Cars?",
+        "categoryLabel": "Select a Category",
+        "hasBarLabel": "Bar Available?",
+        "statusLabel": "<p>Status</p> <p>Upcoming</p> <p>Finished</p> <p>Cancelled</p> <p>Postponed</p> <p>Ongoing</p> <p>Upcoming</p> <p>Finished</p> <p>Cancelled</p> <p>Postponed</p> <p>Ongoing</p> <p>Closed</p><",
         "submitButton": "Save",
         "successPopup": {
           "title": "Success!",
-          "text": "The event has been modified successfully."
+          "text": "The event was modified successfully."
         },
         "errorPopup": {
           "title": "Error!",
@@ -184,16 +184,16 @@
     },
     "files": {
       "uploadFiles": {
-        "title": "Upload files",
-        "fileLabel": "Select a file",
-        "uploadButton": "Upload image",
-        "nameLabel": "File name",
-        "descriptionLabel": "File description",
-        "categoryLabel": "File category",
-        "tagsLabel": "File tags",
+        "title": "Upload Files",
+        "fileLabel": "Select a File",
+        "uploadButton": "Upload Image",
+        "nameLabel": "File Name",
+        "descriptionLabel": "File Description",
+        "categoryLabel": "File Category",
+        "tagsLabel": "File Tags",
         "tagsDescription": "*You can add more than one tag by separating them with commas",
-        "visibilityLabel": "File visibility",
-        "visibliityDescription": "*If you don't select anything, the file will be private",
+        "visibilityLabel": "File Visibility",
+        "visibliityDescription": "*If nothing is selected, the file will be private",
         "visibilityPrivate": "Private",
         "visibilityPublic": "Public",
         "optimizingText": "Optimizing image...",
@@ -202,82 +202,82 @@
         "fileRequired": "Please select a file.",
         "popups": {
           "successTitle": "Success!",
-          "successText": "The file has been uploaded successfully.",
+          "successText": "The file was uploaded successfully.",
           "successButtonText": "Save",
           "errorTitle": "Error!",
           "errorText": "There was a problem uploading the file. Please try again."
         }
       },
       "listUploads": {
-        "title": "File list",
-        "fileLabel": "Select a file",
+        "title": "File List",
+        "fileLabel": "Select a File",
         "searchPlaceholder": "Search file...",
         "loadingText": "Loading files..."
       }
     },
     "gallery": {
       "title": "Gallery",
-      "searchLabel": "Search images in gallery",
+      "searchLabel": "Search images in the gallery",
       "searchGallery": "Search images...",
       "orderBy": "Order by:",
-      "orderByDateAsc": "Upload date (oldest)",
-      "orderByDateDesc": "Upload date (newest)",
-      "orderByNameAsc": "File name (A-Z)",
-      "orderByNameDesc": "File name (Z-A)",
+      "orderByDateAsc": "Upload Date (oldest)",
+      "orderByDateDesc": "Upload Date (newest)",
+      "orderByNameAsc": "File Name (A-Z)",
+      "orderByNameDesc": "File Name (Z-A)",
       "noImagesFound": "No images found."
     },
     "home": {
       "heroSection": {
-        "title": "Festival <br /> committee of",
+        "title": "Patronat <br /> de festes de",
         "roquetesTitle": "Roquetes",
-        "description": "Everything you need to know about festivities in Roquetes is just a click away."
+        "description": "Everything you need to know about the festivities in Roquetes is just one click away."
       },
       "aboutSection": {
-        "mainTitle": "About us",
-        "title": "Who are we?",
-        "description": "We are people from Roquetes, neighbors who believe in the value of participation and working together. Behind the committee there are many hours of dedication, meetings, ideas, and above all, a great shared excitement. We collaborate closely with the City Council and other local entities to make each festival special, close to the community, and authentic. If you want to know more, participate, or simply share with us this passion for traditions, you are invited: the committee is also yours.",
-        "historyTitle": "Our history",
-        "historyDescription": "The Roquetes Festival Committee was born in 1973 with a clear objective: to preserve and promote the popular festivities that give life to our city. Since then, we have been an essential part of the identity of Roquetes, organizing annual celebrations that combine tradition, culture, and participation. Over the years, more than a hundred people have contributed with their effort and passion to consolidate this entity as one of the festive pillars of the municipality. Today, with more than five decades of history, we continue to grow with the same spirit with which we began: making each festival a reflection of the soul of Roquetes.",
+        "mainTitle": "About Us",
+        "title": "Who Are We?",
+        "description": "We are people from Roquetes—neighbors who believe in the value of participation and teamwork. Behind the Patronat are many hours of dedication, meetings, ideas, and above all, a shared great enthusiasm. We collaborate closely with the City Council and other local entities to make each festival special, welcoming, and authentic. If you want to learn more, participate, or simply share this passion for traditions with us, you're invited: the Patronat is yours too.",
+        "historyTitle": "Our History",
+        "historyDescription": "The Patronat de Festes de Roquetes was founded in 1973 with a clear objective: to preserve and promote the popular festivals that bring life to our city. Since then, we have been an essential part of Roquetes’ identity, organizing each year celebrations that combine tradition, culture, and community participation. Over the years, more than a hundred people have contributed with their effort and passion to establish this entity as one of the municipality’s festival pillars. Today, after more than five decades of history, we continue to grow with the same spirit we began with: making every festival a reflection of Roquetes' soul.",
         "motivationTitle": "Motivation",
-        "motivationDescription": "We believe that festivals are much more than celebrations: they are moments that strengthen bonds, that connect us with our roots, and that allow us to share the best of ourselves. We are motivated by seeing children, young people, and adults experience with excitement each event, each tradition, and each gathering. We work with enthusiasm to offer inclusive, creative proposals with a sense of community. Our motivation is clear: continue building, through festivals, a lively, united Roquetes that is proud of its culture.",
-        "staffTitle": "Board members",
+        "motivationDescription": "We believe festivals are much more than celebrations: they are moments that strengthen bonds, connect us with our roots, and allow us to share the best of ourselves. We are motivated by seeing children, youth, and adults experience each act, each tradition, and each gathering with excitement. We work enthusiastically to offer inclusive, creative, and community-driven proposals. Our motivation is clear: to continue building a vibrant, united, and proud Roquetes through its festivals.",
+        "staffTitle": "Board Members",
         "loadingStaff": "Loading staff members...",
         "errorStaff": "Error loading staff:",
         "noStaffMembers": "No staff members found.",
-        "defaultName": "Name",
-        "defaultLastName": "Surname",
+        "defaultName": "First Name",
+        "defaultLastName": "Last Name",
         "defaultPosition": "Member",
-        "defaultDescription": "This staff member has no available description."
+        "defaultDescription": "This staff member has no description available."
       },
       "galerySection": {
         "title": "Gallery",
         "noImages": "No images available"
       },
       "eventSection": {
-        "title": "Upcoming events",
+        "title": "Upcoming Events",
         "noEvents": "No upcoming events"
       },
       "wantToParticipateSection": {
-        "title": "Want to participate?",
-        "firstPar": "There are many ways to help and participate in setting up festivals and events that take place throughout the year.",
-        "secondPar": "You can participate by becoming a member of the association and enjoy all the events of the year, which also includes entry to the town's main festivals every year.",
-        "thirdPar": "If you have a group of friends, you can also participate by registering as a crew in the crew competition held every year.",
-        "linksPar": "<2>Click here</2> to see the requirements for participating in the crew competition or <1>here</1> to register as a member."
+        "title": "Want to Participate?",
+        "firstPar": "There are many ways to help and participate in setting up festivals and events throughout the year.",
+        "secondPar": "You can participate by becoming a member of the association and enjoy all the events of the year, which also includes entry to the town's main festivals each year.",
+        "thirdPar": "If you have a group of friends, you can also participate by registering as a crew in the annual crew contest.",
+        "linksPar": "<2>Click here</2> to see the requirements to participate in the crew contest or <1>here</1> to register as a member."
       }
     },
     "underConstruction": {
-      "title": "Page not found",
-      "weAreWorking": "This page doesn't exist or is not yet available. Please come back later.",
-      "askUs": "If you have any questions, don't hesitate to contact us."
+      "title": "Page Not Found",
+      "weAreWorking": "This page does not exist or is not yet available. Please come back later.",
+      "askUs": "If you have any questions, feel free to contact us."
     },
     "users": {
       "userHistoryView": {
-        "title": "User history",
-        "userInfoTitle": "User information",
+        "title": "User History",
+        "userInfoTitle": "User Information",
         "searchHistory": "Search history...",
-        "searchNoCoincidence": "No results found matching your search.",
-        "searchNoRegistration": "No change log available",
-        "searchQuantityResults": "Showing {{paginated}} of {{total}} recorded results",
+        "searchNoCoincidence": "No matching results found.",
+        "searchNoRegistration": "No change records available",
+        "searchQuantityResults": "Showing {{paginated}} of {{total}} registered results",
         "chargeHistoryFailure": "Error loading user history",
         "chargingHistory": "Loading history...",
         "createLabel": "Creation",
@@ -291,53 +291,53 @@
       },
       "listUsers": {
         "title": "User List",
-        "searchPlaceholder": "Search by name, surname...",
+        "searchPlaceholder": "Search by first name, last name...",
         "loadingText": "Loading users...",
         "trackingChanges": "Recording changes...",
-        "noUsers": "No registered users.",
-        "noResultsFound": "No users found matching the search.",
+        "noUsers": "No users registered.",
+        "noResultsFound": "No users match your search.",
         "confirmDelete": "Are you sure you want to delete this user? This action cannot be undone.",
-        "deleteSuccess": "User deleted",
+        "deleteSuccess": "User Deleted",
         "userDeleted": "The user has been deleted successfully",
-        "userDeletedNoLog": "The user has been deleted, but there was an error recording the action",
+        "userDeletedNoLog": "The user has been deleted, but there was an error logging the action",
         "deleteError": "There was an error deleting the user",
-        "protectedData": "Protected data",
+        "protectedData": "Protected Data",
         "noValue": "No value",
         "emptyString": "Empty string",
-        "addUser": "Add user",
-        "editUser": "Edit user",
-        "viewProfile": "View profile",
+        "addUser": "Add User",
+        "editUser": "Edit User",
+        "viewProfile": "View Profile",
         "userInfo": {
-          "name": "Name",
+          "name": "First Name",
           "email": "Email",
-          "dni": "ID",
+          "dni": "DNI",
           "phone": "Phone"
         }
       },
       "userModify": {
-        "title": "Update data",
-        "editUserTitle": "Edit user",
-        "descriptionTitle": "Modify your personal data",
-        "editUserDescription": "Modifying data of {{firstName}} {{lastName}}",
-        "isStaff": "Is staff member",
+        "title": "Update Information",
+        "editUserTitle": "Edit User",
+        "descriptionTitle": "Modify Your Personal Information",
+        "editUserDescription": "Modifying data for {{firstName}} {{lastName}}",
+        "isStaff": "Is Staff Member",
         "position": "Position",
         "description": "Description",
-        "startDate": "Start date",
-        "endDate": "End date",
+        "startDate": "Start Date",
+        "endDate": "End Date",
         "document": "Document",
-        "oldDocTitle": "Current document",
-        "newDocTitle": "New document",
-        "viewCurrent": "View current document",
+        "oldDocTitle": "Current Document",
+        "newDocTitle": "New Document",
+        "viewCurrent": "View Current Document",
         "trackingChanges": "Recording changes...",
         "loadingUser": "Loading user data...",
-        "receiveEmails": "Receive emails",
-        "selectLanguage": "Default language",
+        "receiveEmails": "Receive Emails",
+        "selectLanguage": "Default Language",
         "successPopup": {
-          "title": "Successful update",
+          "title": "Update Successful",
           "text": "Data has been updated successfully"
         },
         "noChangesPopup": {
-          "title": "No changes",
+          "title": "No Changes",
           "text": "No changes detected in the data"
         },
         "errorPopup": {
@@ -351,21 +351,21 @@
         },
         "documentUpload": {
           "uploadProgress": "{{progress}}% completed",
-          "errorText": "There was an error uploading the document. The rest of the data will be saved.",
-          "pdfPreview": "PDF preview",
-          "documentPreview": "Document preview"
+          "errorText": "There was an error uploading the document. Other data will be saved.",
+          "pdfPreview": "PDF Preview",
+          "documentPreview": "Document Preview"
         }
       },
       "userProfile": {
         "title": "User Profile",
         "loading": "Loading user profile...",
         "notFound": "User not found",
-        "errorLoading": "Could not load user data",
+        "errorLoading": "Unable to load user data",
         "personalInformation": {
           "title": "Personal Information",
           "name": "Name:",
           "email": "Email:",
-          "dni": "ID:",
+          "dni": "DNI:",
           "phone": "Phone:",
           "birthDate": "Birth Date:",
           "age": "Age:",
@@ -382,35 +382,35 @@
         },
         "preferences": {
           "title": "User Preferences",
-          "language": "Preferred language:",
-          "notifications": "Email notifications:",
+          "language": "Preferred Language:",
+          "notifications": "Email Notifications:",
           "enabled": "Enabled",
           "disabled": "Disabled"
         },
         "accountInformation": {
           "title": "Account Information",
           "registrationDate": "Registration Date:",
-          "lastUpdate": "Last update:"
+          "lastUpdate": "Last Update:"
         },
         "actions": {
           "editProfile": "Edit Profile",
           "viewHistory": "View History",
-          "backToList": "Back to list"
+          "backToList": "Back to List"
         }
       }
     },
     "collaborators": {
-      "title": "New collaborator",
+      "title": "New Collaborator",
       "noCollaborators": "No collaborators available",
       "registerCollaborators": {
-        "title": "Create new collaborator",
-        "fileLabel": "Add collaborator logo",
-        "nameLabel": "Collaborator name",
-        "uploadButton": "Create collaborator",
+        "title": "Create New Collaborator",
+        "fileLabel": "Add Collaborator Logo",
+        "nameLabel": "Collaborator Name",
+        "uploadButton": "Create Collaborator",
         "uploadingText": "Creating...",
         "successPopup": {
           "title": "Success!",
-          "text": "The collaborator has been created successfully."
+          "text": "The collaborator was created successfully."
         },
         "errorPopup": {
           "title": "Error!",
@@ -420,17 +420,17 @@
         "fileRequired": "Please select a logo."
       },
       "modifyCollaborators": {
-        "title": "Modify a collaborator",
-        "fileLabel": "Modify the name and image of the collaborator",
-        "nameLabel": "New collaborator name",
-        "imageLabel": "New collaborator image",
-        "oldImageTitle": "Current logo",
-        "newImageTitle": "New logo",
-        "uploadButton": "Save changes",
+        "title": "Modify Collaborator",
+        "fileLabel": "Modify collaborator name and image",
+        "nameLabel": "New Collaborator Name",
+        "imageLabel": "New Collaborator Image",
+        "oldImageTitle": "Current Logo",
+        "newImageTitle": "New Logo",
+        "uploadButton": "Save Changes",
         "uploadingText": "Modifying...",
         "successPopup": {
           "title": "Success!",
-          "text": "The collaborator has been modified successfully."
+          "text": "The collaborator was modified successfully."
         },
         "errorPopup": {
           "title": "Error!",
@@ -440,7 +440,7 @@
         "fileRequired": "Please select a logo."
       },
       "listCollaborators": {
-        "title": "List of collaborators",
+        "title": "Collaborators List",
         "searchPlaceholder": "Search collaborator...",
         "addNewButton": "Add",
         "modifyButton": "Modify",
@@ -449,23 +449,23 @@
       }
     },
     "participants": {
-      "title": "New participant",
+      "title": "New Participant",
       "noParticipants": "No participants available",
       "registerParticipants": {
-        "title": "Create new participant",
-        "fileLabel": "Add participant logo",
-        "nameLabel": "Participant name",
+        "title": "Create New Participant",
+        "fileLabel": "Add Participant Logo",
+        "nameLabel": "Participant Name",
         "descriptionLabel": "Add a description about the participant",
-        "uploadButton": "Create participant",
+        "uploadButton": "Create Participant",
         "uploadingText": "Creating...",
-        "socialMediaTitle": "Participant's social media",
+        "socialMediaTitle": "Participant Social Media",
         "facebookLabel": "Facebook",
         "instagramLabel": "Instagram",
         "twitterLabel": "Twitter",
-        "previewImageTitle": "Logo preview",
+        "previewImageTitle": "Logo Preview",
         "successPopup": {
           "title": "Success!",
-          "text": "The participant has been created successfully."
+          "text": "The participant was created successfully."
         },
         "errorPopup": {
           "title": "Error!",
@@ -475,22 +475,22 @@
         "fileRequired": "Please select a logo."
       },
       "modifyParticipants": {
-        "title": "Modify a participant",
-        "fileLabel": "Modify the name and image of the participant",
-        "nameLabel": "New participant name",
-        "descriptionLabel": "Modify the participant's description",
-        "imageLabel": "New participant image",
-        "oldImageTitle": "Current logo",
-        "newImageTitle": "New logo",
-        "uploadButton": "Save changes",
+        "title": "Modify Participant",
+        "fileLabel": "Modify participant name and image",
+        "nameLabel": "New Participant Name",
+        "descriptionLabel": "Modify participant description",
+        "imageLabel": "New Participant Image",
+        "oldImageTitle": "Current Logo",
+        "newImageTitle": "New Logo",
+        "uploadButton": "Save Changes",
         "uploadingText": "Modifying...",
-        "socialMediaTitle": "Modify participant's social media",
+        "socialMediaTitle": "Modify Participant Social Media",
         "facebookLabel": "Facebook",
         "instagramLabel": "Instagram",
         "twitterLabel": "Twitter",
         "successPopup": {
           "title": "Success!",
-          "text": "The participant has been modified successfully."
+          "text": "The participant was modified successfully."
         },
         "errorPopup": {
           "title": "Error!",
@@ -500,7 +500,7 @@
         "fileRequired": "Please select a logo."
       },
       "listParticipants": {
-        "title": "List of participants",
+        "title": "Participants List",
         "searchPlaceholder": "Search participant...",
         "addNewButton": "Add",
         "modifyButton": "Modify",
@@ -510,99 +510,110 @@
     },
     "partners": {
       "registerPartners": {
-        "title": "Member Registration",
-        "nameLabel": "Name",
-        "namePlaceholder": "Member's name",
-        "lastNameLabel": "Surnames",
-        "lastNamePlaceholder": "Member's surnames",
+        "title": "Partner Registration",
+        "nameLabel": "First Name",
+        "namePlaceholder": "Partner's First Name",
+        "lastNameLabel": "Last Name",
+        "lastNamePlaceholder": "Partner's Last Name",
         "addressLabel": "Address",
-        "addressPlaceholder": "Complete address",
+        "addressPlaceholder": "Full Address",
         "emailLabel": "Email",
-        "emailPlaceholder": "example@email.com",
+        "emailPlaceholder": "example@domain.com",
         "phoneLabel": "Phone",
-        "phonePlaceholder": "Contact number",
-        "birthDateLabel": "Birth date",
-        "dniLabel": "ID",
+        "phonePlaceholder": "Contact Number",
+        "birthDateLabel": "Birth Date",
+        "dniLabel": "DNI",
         "dniPlaceholder": "12345678A",
-        "accountNumberLabel": "Account number (IBAN)",
+        "accountNumberLabel": "Account Number (IBAN)",
         "accountNumberPlaceholder": "ES1234567890123456789012",
-        "statusLabel": "Member status",
-        "descriptionLabel": "Supporting the Patronat is easy – all you have to do is become a member. By joining, you'll not only be contributing to a cause that promotes our traditions and activities, but you'll also enjoy numerous exclusive benefits.<br /><br/> As a member, you'll gain access to special discounts for all events organized by the Patronat. One of the most popular is the<strong> ticket for the Festes Majors (Main Festival)</strong>, which you can get at a reduced price and with the option to pay in three convenient installments throughout the year. This way, you can enjoy more, pay less, and avoid any stress!<br /><br /> If you'd like to join and start enjoying all these benefits, simply fill out the following form. We'll get in touch with you via the email address you provide to complete the registration process.",
+        "statusLabel": "Partner Status",
+        "descriptionLabel": "Supporting the Patronat is very easy: just become a partner. By joining, you not only collaborate with a cause that drives our traditions and activities, but you also enjoy numerous exclusive benefits.<br /><br/> As a partner, you get special discounts on all events organized by the Patronat. One of the highlights is the <strong>ticket for the Main Festivals</strong>, which you can get at a reduced price and pay in three convenient installments throughout the year. So you enjoy more, pay less, and without stress!<br /><br /> If you want to join and start enjoying all these benefits, just complete the following form. We will contact you via the email you provide to finalize the registration process.",
         "statusOptions": {
-          "review": "In review",
+          "review": "Under Review",
           "active": "Active",
           "inactive": "Inactive"
         },
         "submittingText": "Saving...",
-        "submitButton": "Register Member",
+        "submitButton": "Register Partner",
         "validation": {
           "requiredFields": "Please complete all required fields.",
           "invalidEmail": "Please enter a valid email.",
-          "invalidDni": "Please enter a valid ID (8 numbers and a letter).",
+          "invalidDni": "Please enter a valid DNI (8 numbers and one letter).",
           "invalidIban": "Please enter a valid IBAN (format ES + 22 digits).",
           "invalidDate": "Please enter a valid birth date."
         },
         "successPopup": {
-          "title": "Successful registration",
-          "text": "The member has been registered successfully and is pending review."
+          "title": "Registration Successful",
+          "text": "The partner has been registered successfully and is pending review."
         },
         "errorPopup": {
-          "title": "Validation error",
-          "text": "An error occurred while registering the member. Please try again."
+          "title": "Validation Error",
+          "text": "There was an error registering the partner. Please try again."
         },
-        "authError": "You must log in to register a member."
+        "authError": "You must be logged in to register a partner."
       },
       "listPartners": {
-        "title": "List of Members",
-        "searchPlaceholder": "Search member...",
-        "addNewButton": "Add Member",
+        "title": "Partners List",
+        "searchPlaceholder": "Search partner...",
+        "addNewButton": "Add Partner",
         "modifyButton": "Modify",
         "deleteButton": "Delete",
-        "loadingText": "Loading members...",
+        "loadingText": "Loading partners...",
         "exportToExcel": "Export to Excel",
-        "exportSuccessTitle": "Export completed",
-        "exportSuccessText": "Member data has been exported successfully.",
+        "exportSuccessTitle": "Export Completed",
+        "exportSuccessText": "Partner data exported successfully.",
         "errorPopup": {
-          "exportError": "An error occurred while exporting the member data."
+          "exportError": "There was an error exporting partner data."
+        }
+      },
+      "modifyPartners": {
+        "title": "Modify Partner",
+        "nameLabel": "First Name",
+        "lastNameLabel": "Last Name",
+        "addressLabel": "Address",
+        "emailLabel": "Email",
+        "phoneLabel": "Phone",
+        "birthDateLabel": "Birth Date",
+        "dniLabel": "DNI",
+        "accountNumberLabel": "Account Number (IBAN)",
+        "statusLabel": "Partner Status",
+        "submitButton": "Save Changes",
+        "priceCategoryLabel": "Price Category",
+        "priceCategoryAdult": "Adult",
+        "priceCategoryJunior": "Junior",
+        "statusOptions": {
+          "review": "Under Review",
+          "active": "Active",
+          "inactive": "Inactive"
         },
-        "modifyPartners": {
-          "title": "Modify Member",
-          "nameLabel": "Name",
-          "lastNameLabel": "Surnames",
-          "addressLabel": "Address",
-          "emailLabel": "Email",
-          "phoneLabel": "Phone",
-          "birthDateLabel": "Birth date",
-          "dniLabel": "ID",
-          "accountNumberLabel": "Account number (IBAN)",
-          "statusLabel": "Member status",
-          "statusOptions": {
-            "review": "In review",
-            "active": "Active",
-            "inactive": "Inactive"
-          },
-          "submittingText": "Updating...",
-          "submitButton": "Save Changes",
-          "successPopup": {
-            "title": "Successful update",
-            "text": "The member's data has been updated successfully."
-          },
-          "errorPopup": {
-            "title": "Error",
-            "text": "An error occurred while updating the member's data."
-          }
+        "validation": {
+          "requiredFields": "Please complete all required fields.",
+          "invalidEmail": "Please enter a valid email.",
+          "invalidDni": "Please enter a valid DNI (8 numbers and one letter).",
+          "invalidIban": "Please enter a valid IBAN (format ES + 22 digits).",
+          "invalidDate": "Please enter a valid birth date."
+        },
+        "submittingText": "Updating...",
+        "successPopup": {
+          "title": "Update Successful",
+          "text": "Partner data updated successfully."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "There was an error updating partner data.",
+          "updateError": "There was an error updating partner data."
         }
       },
       "partnerInfo": {
-        "title": "Member Information",
-        "loading": "Loading member information...",
-        "notFound": "Member information not found.",
-        "exportToExcel": "Export data",
+        "title": "Partner Information",
+        "loading": "Loading partner information...",
+        "notFound": "Partner information not found.",
+        "exportToExcel": "Export Data",
         "personalInformation": {
           "title": "Personal Information",
-          "name": "Full name:",
+          "name": "Full Name:",
           "email": "Email:",
-          "dni": "ID:",
+          "dni": "DNI:",
           "phone": "Phone:",
           "birthDate": "Birth Date:"
         },
@@ -614,7 +625,7 @@
         },
         "registrationInformation": {
           "createdAt": "Registration Date:",
-          "createdBy": "Registered by:"
+          "createdBy": "Registered By:"
         },
         "status": {
           "approved": "Active",
@@ -624,161 +635,165 @@
         "payments": {
           "title": "Payment Information",
           "activeSeason": "Active Season",
-          "seasonYear": "Year:",
-          "totalPrice": "Total price:",
-          "numberOfFractions": "Number of installments:",
-          "priceFirstFraction": "First installment:",
-          "priceSecondFraction": "Second installment:",
-          "priceThirdFraction": "Third installment:",
-          "refreshSeason": "Refresh season",
+          "seasonYear": "Year: ",
+          "totalPrice": "Total Price: ",
+          "numberOfFractions": "Number of Installments: ",
+          "priceFirstFraction": "First Installment: ",
+          "priceSecondFraction": "Second Installment: ",
+          "priceThirdFraction": "Third Installment: ",
+          "refreshSeason": "Refresh Season",
           "loadingSeason": "Loading season information...",
           "noActiveSeason": "No active season configured.",
           "paymentStatus": "Payment Status",
-          "refreshPayments": "Refresh payments",
+          "refreshPayments": "Refresh Payments",
           "loadingPayments": "Loading payment information...",
-          "fractionsStatus": "Installments status",
-          "firstFraction": "First installment",
-          "secondFraction": "Second installment",
-          "thirdFraction": "Third installment",
+          "fractionsStatus": "Installments Status",
+          "firstFraction": "First Installment: ",
+          "secondFraction": "Second Installment: ",
+          "thirdFraction": "Third Installment: ",
           "paid": "Paid",
           "pending": "Pending",
           "amount": "Amount",
-          "paymentDate": "Payment date",
-          "noPaymentsFound": "No payment information found for this member.",
-          "history": "Payment history",
-          "refreshHistory": "Refresh history",
+          "paymentDate": "Payment Date: ",
+          "noPaymentsFound": "No payment information found for this partner.",
+          "history": "Payment History",
+          "refreshHistory": "Refresh History",
           "loadingHistory": "Loading payment history...",
-          "noPaymentHistory": "No payments from previous seasons."
+          "noPaymentHistory": "No previous season payments.",
+          "adultPrices": "Adult Prices (> 16 years)",
+          "juniorPrices": "Junior Prices (< 16 years)"
         },
         "errorPopup": {
           "title": "Error",
-          "text": "Could not load member data",
-          "exportError": "An error occurred while exporting the member data."
+          "text": "Could not load partner data",
+          "exportError": "There was an error exporting partner data."
         }
       }
-    },
-    "seasons": {
-      "newSeason": {
-        "title": "New season",
-        "seasonYearLabel": "Season year",
-        "totalPriceLabel": "Total price",
-        "priceFirstFractionLabel": "First installment price",
-        "priceSeconFractionLabel": "Second installment price",
-        "priceThirdFractionLabel": "Third installment price",
-        "activeLabel": "Activate season",
-        "submittingText": "Saving...",
-        "submitButton": "Save season",
-        "loadingText": "Loading...",
-        "checkingYear": "Verifying year availability...",
-        "activeSeasonNotice": "The year {{seasonYear}} is set as an active season. If you select this new season as active, the current one will be deactivated automatically.",
-        "validation": {
-          "seasonYearRequired": "Season year is required",
-          "seasonYearInvalid": "Season year must be equal to or after the current year",
-          "seasonYearDuplicate": "A season for the year {{year}} already exists. Duplicate seasons are not allowed.",
-          "totalPricePositive": "Total price cannot be negative",
-          "totalPriceRequired": "Total price is required",
-          "totalPriceNumeric": "Total price must be a number",
-          "fractionSumMismatch": "The sum of installment prices must equal the total price",
-          "fractionPriceRequired": "Installment prices are required",
-          "fractionPriceNumeric": "Installment prices must be numbers",
-          "fractionPricePositive": "Installment prices cannot be negative"
-        },
-        "successPopup": {
-          "title": "Success",
-          "text": "The season has been registered successfully."
-        },
-        "errorPopup": {
-          "title": "Error",
-          "text": "An error occurred while registering the season.",
-          "checkSeasonError": "Error checking active seasons.",
-          "createSeasonError": "Error creating the season.",
-          "deactivateSeasonError": "Error deactivating existing season.",
-          "createPaymentsError": "Error creating payments for members.",
-          "formValidationError": "Please correct the errors in the form before continuing.",
-          "serverError": "Server error. Please try again later.",
-          "networkError": "Connection error. Check your internet connection.",
-          "unknownError": "An unknown error has occurred. Please try again."
-        },
-        "warningPopup": {
-          "title": "Warning",
-          "deactivateSeasonWarning": "By activating this season, the current active season for the year {{year}} will be deactivated.",
-          "confirmContinue": "Do you want to continue?"
-        },
-        "confirmationPopup": {
-          "title": "Confirm action",
-          "createPaymentsConfirmation": "Payment documents will be created for all active members. Do you want to continue?",
-          "confirmButton": "Yes, continue",
-          "cancelButton": "No, cancel"
-        },
-        "authError": "You must be logged in to perform this action.",
-        "permissionError": "You don't have permissions to perform this action.",
-        "paymentsCreatedTitle": "Payment documents created",
-        "paymentsCreatedText": "{{createdCount}} payment documents have been created for the new season. {{skippedCount}} members who already had payments configured have been skipped.",
-        "noPartnersFound": "No active members found to create payments.",
-        "activeSeasonExistsError": "An active season already exists for this year.",
-        "databaseConnectionError": "Database connection error.",
-        "sessionExpiredError": "Your session has expired. Please log in again."
-      }
-    },
-    "userRegister": {
-      "title": "User registration",
-      "description": "Please fill in the fields to complete your registration",
-      "name": "Name",
-      "surname": "Surnames",
-      "user": "Enter a username",
-      "email": "Enter an email",
-      "password": "Enter your password",
-      "phone": "Phone",
-      "dni": "ID",
-      "birthDate": "Birth date"
-    },
-    "login": {
-      "title": "Log in",
-      "description": "Welcome back, please log in to continue",
-      "mailInput": "Enter your email",
-      "passwordInput": "Enter your password",
-      "forgotPassword": "Forgot your password?",
-      "noAccount": "Don't have an account? ",
-      "register": "Register"
-    },
-    "recoverPage": {
-      "title": "Recover password",
-      "description": "Enter your email to recover your password",
-      "email": "Email"
-    },
-    "resetPassword": {
-      "title": "Reset password",
-      "description": "Please fill in the fields to complete your password change",
-      "newPassword": "Enter your new password",
-      "confirmPassword": "Repeat password"
     }
+  },
+  "seasons": {
+    "newSeason": {
+      "title": "New Season",
+      "seasonYearLabel": "Season Year",
+      "totalPriceLabel": "Total Price",
+      "priceFirstFractionLabel": "First Installment Price",
+      "priceSeconFractionLabel": "Second Installment Price",
+      "priceThirdFractionLabel": "Third Installment Price",
+      "activeLabel": "Activate Season",
+      "submittingText": "Saving...",
+      "submitButton": "Save Season",
+      "loadingText": "Loading...",
+      "adultPrices": "Adults (16+ years)",
+      "childPrices": "Children (<16 years)",
+      "checkingYear": "Checking year availability...",
+      "activeSeasonNotice": "Year {{seasonYear}} is set as the active season. If you activate this new season, the current one will deactivate automatically.",
+      "validation": {
+        "seasonYearRequired": "Season year is required",
+        "seasonYearInvalid": "Season year must be the current year or later",
+        "seasonYearDuplicate": "A season for year {{year}} already exists. Duplicate seasons not allowed.",
+        "totalPricePositive": "Total price cannot be negative",
+        "totalPriceRequired": "Total price is required",
+        "totalPriceNumeric": "Total price must be a number",
+        "fractionSumMismatch": "Sum of installment prices must equal total price",
+        "fractionPriceRequired": "Installment prices are required",
+        "fractionPriceNumeric": "Installment prices must be numbers",
+        "fractionPricePositive": "Installment prices cannot be negative"
+      },
+      "successPopup": {
+        "title": "Success",
+        "text": "The season has been registered successfully."
+      },
+      "errorPopup": {
+        "title": "Error",
+        "text": "There was an error registering the season.",
+        "checkSeasonError": "Error checking active seasons.",
+        "createSeasonError": "Error creating season.",
+        "deactivateSeasonError": "Error deactivating existing season.",
+        "createPaymentsError": "Error creating payments for partners.",
+        "formValidationError": "Please correct form errors before proceeding.",
+        "serverError": "Server error. Please try again later.",
+        "networkError": "Connection error. Check your internet connection.",
+        "unknownError": "An unknown error occurred. Please try again."
+      },
+      "warningPopup": {
+        "title": "Warning",
+        "deactivateSeasonWarning": "Activating this season will deactivate the current active season for year {{year}}.",
+        "confirmContinue": "Do you want to continue?"
+      },
+      "confirmationPopup": {
+        "title": "Confirm Action",
+        "createPaymentsConfirmation": "Payment documents will be created for all active partners. Do you want to continue?",
+        "confirmButton": "Yes, continue",
+        "cancelButton": "No, cancel"
+      },
+      "authError": "You must be logged in to perform this action.",
+      "permissionError": "You do not have permission to perform this action.",
+      "paymentsCreatedTitle": "Payment Documents Created",
+      "paymentsCreatedText": "{{createdCount}} payment documents created for the new season. {{skippedCount}} partners were skipped because they already had payments configured.",
+      "noPartnersFound": "No active partners found to create payments.",
+      "activeSeasonExistsError": "An active season for this year already exists.",
+      "databaseConnectionError": "Database connection error.",
+      "sessionExpiredError": "Your session has expired. Please log in again."
+    }
+  },
+  "userRegister": {
+    "title": "User Registration",
+    "description": "Please fill out the fields to complete your registration",
+    "name": "First Name",
+    "surname": "Last Name",
+    "user": "Choose a Username",
+    "email": "Enter an Email",
+    "password": "Enter Your Password",
+    "phone": "Phone",
+    "dni": "DNI",
+    "birthDate": "Birth Date"
+  },
+  "login": {
+    "title": "Log In",
+    "description": "Welcome back, please log in to continue",
+    "mailInput": "Enter your email",
+    "passwordInput": "Enter your password",
+    "forgotPassword": "Forgot your password?",
+    "noAccount": "Don't have an account? ",
+    "register": "Sign Up"
+  },
+  "recoverPage": {
+    "title": "Recover Password",
+    "description": "Enter your email to recover your password",
+    "email": "Email"
+  },
+  "resetPassword": {
+    "title": "Reset Password",
+    "description": "Please fill out the fields to complete your password change",
+    "newPassword": "Enter your new password",
+    "confirmPassword": "Repeat password"
   },
   "components": {
     "navbar": {
       "eventTitle": "Events",
       "galeryTitle": "Gallery",
       "crewTitle": "Crews",
-      "whoWeAreTitle": "About us",
+      "whoWeAreTitle": "About Us",
       "dashboardTitle": "Dashboard",
       "profileTitle": "Profile",
       "shopTitle": "Shop",
       "settingsTitle": "Settings",
       "signOutTitle": "Sign Out",
       "loginTitle": "Log In",
-      "partnersTitle": "Members"
+      "partnersTitle": "Partners"
     },
     "popup": {
       "confirmButtonText": "Accept",
       "cancelButtonText": "Cancel",
       "closeButtonText": "Close",
-      "tryAgainButtonText": "Try again",
+      "tryAgainButtonText": "Try Again",
       "successTitle": "CONFIRMED",
       "successDescription": "Request completed successfully",
       "failTitle": "ERROR",
-      "failDecription": "Something went wrong. \n Please try again.",
+      "failDecription": "Something went wrong.\nPlease try again.",
       "infoTitle": "INFO",
       "warningTitle": "WARNING",
-      "goToEventButton": "Go to event",
+      "goToEventButton": "Go to Event",
       "recoverSuccess": "Email sent successfully"
     },
     "buttons": {
@@ -803,10 +818,10 @@
       "enterPassword": "Enter password"
     },
     "cards": {
-      "eventDateTitle": "Event date"
+      "eventDateTitle": "Event Date"
     },
     "calendar": {
-      "title": "Event calendar",
+      "title": "Event Calendar",
       "today": "Today",
       "month": "Month",
       "week": "Week",
@@ -814,9 +829,9 @@
     }
   },
   "utils": {
-    "fileRelated": "You must select a file",
+    "fileRelated": "A file must be selected",
     "fileSize": "File size cannot exceed 5MB",
-    "fileType": "The file must be an image type (png, jpg, jpeg)",
+    "fileType": "File must be an image (png, jpg, jpeg)",
     "yes": "Yes",
     "no": "No"
   }
