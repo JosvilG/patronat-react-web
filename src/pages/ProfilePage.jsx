@@ -7,6 +7,7 @@ import { db } from '../firebase/firebase'
 import Loader from '../components/Loader'
 import { useTranslation } from 'react-i18next'
 import useSlug from '../hooks/useSlug'
+import DynamicButton from '../components/Buttons'
 
 function ProfilePage() {
   const { userData: authUserData, loading: authLoading } =
@@ -99,7 +100,7 @@ function ProfilePage() {
       </h1>
 
       {userData ? (
-        <div className="p-6 bg-white rounded-lg shadow-md">
+        <div className="p-6 space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit  mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div>
               <h2 className="mb-4 t24b">
@@ -201,7 +202,6 @@ function ProfilePage() {
                   </span>{' '}
                   {userData.description}
                 </p>
-
                 {userData.documentUrl && (
                   <div className="mt-4">
                     <p className="mb-2 font-bold t16r">
@@ -210,17 +210,15 @@ function ProfilePage() {
                         'Documento:'
                       )}
                     </p>
-                    <a
-                      href={userData.documentUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-block px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700"
-                    >
-                      {t(
-                        `${viewDictionary}.staffInformation.viewDocument`,
-                        'Ver Documento'
-                      )}
-                    </a>
+                    <DynamicButton
+                      size="medium"
+                      state="normal"
+                      type="download"
+                      textId={`${viewDictionary}.staffInformation.viewDocument`}
+                      onClick={() =>
+                        window.open(userData.documentUrl, '_blank')
+                      }
+                    />
                   </div>
                 )}
               </div>
