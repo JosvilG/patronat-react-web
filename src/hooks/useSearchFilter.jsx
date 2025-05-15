@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 
 /**
  * Custom hook to filter a collection by search terms
@@ -9,39 +9,52 @@ import { useState, useEffect, useCallback } from 'react'
 const useSearchFilter = (initialItems = [], options = {}) => {
   const [items, setItems] = useState(initialItems)
   const [searchQuery, setSearchQuery] = useState('')
+  const [inputValue, setInputValue] = useState('')
   const [filteredItems, setFilteredItems] = useState(initialItems)
-  const [timer, setTimer] = useState(null)
+  
+  // Usar useRef para el timer para evitar problemas de cierre (closure)
+  const timerRef = useRef(null)
 
   // Default configuration
   const {
-    searchFields = ['name', 'description'], // Text fields to search in
-    arrayFields = [], // Array type fields to search in
-    debounceTime = 300, // Debounce time in ms
-    caseSensitive = false, // Case sensitivity
+    searchFields = ['name', 'description'],
+    arrayFields = [],
+    debounceTime = 300,
+    caseSensitive = false,
   } = options
+
+  // Limpiar el timer cuando el componente se desmonte
+  useEffect(() => {
+    return () => {
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+        timerRef.current = null
+      }
+    }
+  }, [])
 
   /**
    * Apply search filter to elements
    */
   const applySearchFilter = useCallback(() => {
+    // Evitar operaciones innecesarias si el componente se está desmontando
     if (!searchQuery.trim()) {
       setFilteredItems(items)
       return
     }
 
-    // Prepare the search term for comparison
+    // Resto de código existente...
     const searchTerm = caseSensitive
       ? searchQuery.trim()
       : searchQuery.trim().toLowerCase()
 
-    // Filter elements that match the search term
     const filtered = items.filter((item) => {
       // Search in text fields
       const matchesText = searchFields.some((field) => {
         if (!item[field]) return false
         const fieldValue = caseSensitive
-          ? item[field]
-          : item[field].toLowerCase()
+          ? String(item[field])
+          : String(item[field]).toLowerCase()
         return fieldValue.includes(searchTerm)
       })
 
@@ -51,7 +64,8 @@ const useSearchFilter = (initialItems = [], options = {}) => {
       const matchesArray = arrayFields.some((field) => {
         if (!item[field] || !Array.isArray(item[field])) return false
         return item[field].some((value) => {
-          const arrayValue = caseSensitive ? value : value.toLowerCase()
+          if (value === null || value === undefined) return false
+          const arrayValue = caseSensitive ? String(value) : String(value).toLowerCase()
           return arrayValue.includes(searchTerm)
         })
       })
@@ -65,7 +79,7 @@ const useSearchFilter = (initialItems = [], options = {}) => {
   // Apply filter when query or items change
   useEffect(() => {
     applySearchFilter()
-  }, [applySearchFilter])
+  }, [searchQuery, items]) // Quitar applySearchFilter de las dependencias para evitar ciclos
 
   /**
    * Handles search field changes with debounce
@@ -73,44 +87,40 @@ const useSearchFilter = (initialItems = [], options = {}) => {
   const handleSearchChange = useCallback(
     (event) => {
       const query = event?.target?.value || ''
-
-      if (timer) {
-        clearTimeout(timer)
+      
+      // Actualizar inmediatamente el valor del input
+      setInputValue(query)
+      
+      // Limpiar el timer anterior si existe
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
       }
 
-      setSearchQuery(query)
-
-      // Apply debounce
-      const newTimer = setTimeout(() => {
+      // Crear un nuevo timer con referencia guardada
+      timerRef.current = setTimeout(() => {
         setSearchQuery(query)
+        // Asegurar que la referencia se borra después de usarla
+        timerRef.current = null
       }, debounceTime)
-
-      setTimer(newTimer)
     },
-    [debounceTime, timer]
+    [debounceTime] // Quitar timer de las dependencias y usar timerRef
   )
 
   /**
    * Updates the collection of items
    */
   const updateItems = useCallback((newItems) => {
-    setItems(newItems)
+    setItems(Array.isArray(newItems) ? newItems : [])
   }, [])
 
-  // Clean up the timer when unmounting
-  useEffect(() => {
-    return () => {
-      if (timer) {
-        clearTimeout(timer)
-      }
-    }
-  }, [timer])
-
   return {
-    searchQuery,
+    searchQuery: inputValue,
     filteredItems,
     handleSearchChange,
-    setSearchQuery,
+    setSearchQuery: (query) => {
+      setInputValue(query);
+      setSearchQuery(query);
+    },
     updateItems,
   }
 }
