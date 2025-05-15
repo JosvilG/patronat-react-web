@@ -51,6 +51,38 @@ export const formatDate = (dateValue) => {
   return ''
 }
 
+// Función para calcular edad basada en fecha de nacimiento
+const calculateAge = (birthDate) => {
+  if (!birthDate) return null
+
+  try {
+    // Convertir de timestamp de Firestore si es necesario
+    let birthDateObj = birthDate
+    if (birthDate?.toDate) {
+      birthDateObj = birthDate.toDate()
+    } else if (typeof birthDate === 'string') {
+      birthDateObj = new Date(birthDate)
+    }
+
+    const today = new Date()
+    let age = today.getFullYear() - birthDateObj.getFullYear()
+    const monthDiff = today.getMonth() - birthDateObj.getMonth()
+
+    // Si aún no ha cumplido años este año
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
+    ) {
+      age--
+    }
+
+    return age
+  } catch (error) {
+    console.error('Error calculando edad:', error)
+    return null
+  }
+}
+
 function NewSeason() {
   const { t } = useTranslation()
   const { user } = useContext(AuthContext)
@@ -63,6 +95,10 @@ function NewSeason() {
     priceFirstFraction: 0,
     priceSeconFraction: 0,
     priceThirdFraction: 0,
+    totalPriceJunior: 0,
+    priceFirstFractionJunior: 0,
+    priceSeconFractionJunior: 0,
+    priceThirdFractionJunior: 0,
     active: false,
     submitting: false,
   })
@@ -129,10 +165,16 @@ function NewSeason() {
   const resetForm = () => {
     setFormState({
       seasonYear: new Date().getFullYear() + 1,
+      // Precios para mayores de 16 años
       totalPrice: 0,
       priceFirstFraction: 0,
       priceSeconFraction: 0,
       priceThirdFraction: 0,
+      // Precios para 14-16 años
+      totalPriceJunior: 0,
+      priceFirstFractionJunior: 0,
+      priceSeconFractionJunior: 0,
+      priceThirdFractionJunior: 0,
       active: false,
       submitting: false,
     })
@@ -155,6 +197,10 @@ function NewSeason() {
         'priceFirstFraction',
         'priceSeconFraction',
         'priceThirdFraction',
+        'totalPriceJunior',
+        'priceFirstFractionJunior',
+        'priceSeconFractionJunior',
+        'priceThirdFractionJunior',
       ].includes(name)
     ) {
       parsedValue = value === '' ? '' : Number(value)
@@ -219,11 +265,12 @@ function NewSeason() {
       )
     }
 
+    // Validación para precios mayores de 16
     if (formState.totalPrice < 0) {
       errors.push(
         t(
           `${viewDictionary}.validation.totalPricePositive`,
-          'El precio total no puede ser negativo'
+          'El precio total para mayores de 16 años no puede ser negativo'
         )
       )
     }
@@ -237,7 +284,31 @@ function NewSeason() {
       errors.push(
         t(
           `${viewDictionary}.validation.fractionSumMismatch`,
-          'La suma de los precios de las fracciones debe ser igual al precio total'
+          'La suma de los precios de las fracciones para mayores de 16 años debe ser igual al precio total'
+        )
+      )
+    }
+
+    // Validación para precios 14-16 años
+    if (formState.totalPriceJunior < 0) {
+      errors.push(
+        t(
+          `${viewDictionary}.validation.totalPriceJuniorPositive`,
+          'El precio total para 14-16 años no puede ser negativo'
+        )
+      )
+    }
+
+    const fractionSumJunior =
+      formState.priceFirstFractionJunior +
+      formState.priceSeconFractionJunior +
+      formState.priceThirdFractionJunior
+
+    if (fractionSumJunior !== formState.totalPriceJunior) {
+      errors.push(
+        t(
+          `${viewDictionary}.validation.fractionSumJuniorMismatch`,
+          'La suma de los precios de las fracciones para 14-16 años debe ser igual al precio total'
         )
       )
     }
@@ -308,11 +379,17 @@ function NewSeason() {
       try {
         newSeasonDocRef = await addDoc(collection(db, 'seasons'), {
           seasonYear: formState.seasonYear,
+          // Precios para mayores de 16 años
           totalPrice: formState.totalPrice,
           numberOfFractions: 3,
           priceFirstFraction: formState.priceFirstFraction,
           priceSeconFraction: formState.priceSeconFraction,
           priceThirdFraction: formState.priceThirdFraction,
+          // Precios para 14-16 años
+          totalPriceJunior: formState.totalPriceJunior,
+          priceFirstFractionJunior: formState.priceFirstFractionJunior,
+          priceSeconFractionJunior: formState.priceSeconFractionJunior,
+          priceThirdFractionJunior: formState.priceThirdFractionJunior,
           active: formState.active,
           createdAt: serverTimestamp(),
           userId: user.uid,
@@ -352,26 +429,60 @@ function NewSeason() {
         try {
           let createdCount = 0
           let skippedCount = 0
+          let juniorPricesCount = 0
+          let adultPricesCount = 0
 
           for (const partnerDoc of approvedPartnersSnapshot.docs) {
             const partnerId = partnerDoc.id
+            const partnerData = partnerDoc.data()
 
             try {
+              // Calcular la edad del socio
+              const age = calculateAge(partnerData.birthDate)
+              log.info(`Socio ${partnerId}: edad calculada ${age} años`)
+
+              // Determinar precios según la edad
+              let firstPaymentPrice, secondPaymentPrice, thirdPaymentPrice
+
+              // Si el socio tiene entre 14 y 16 años (ambos inclusive), usar precios junior
+              if (age !== null && age >= 14 && age <= 16) {
+                firstPaymentPrice = formState.priceFirstFractionJunior
+                secondPaymentPrice = formState.priceSeconFractionJunior
+                thirdPaymentPrice = formState.priceThirdFractionJunior
+                juniorPricesCount++
+                log.info(
+                  `Aplicando tarifa junior para socio ${partnerId} (${age} años)`
+                )
+              } else {
+                // Para mayores de 16 años o si no se pudo calcular la edad, usar precios estándar
+                firstPaymentPrice = formState.priceFirstFraction
+                secondPaymentPrice = formState.priceSeconFraction
+                thirdPaymentPrice = formState.priceThirdFraction
+                adultPricesCount++
+                log.info(
+                  `Aplicando tarifa estándar para socio ${partnerId} (${age} años)`
+                )
+              }
+
               // Crear el objeto de datos de pago
               const paymentData = {
                 seasonYear: formState.seasonYear,
                 firstPayment: false,
                 firstPaymentDone: false,
-                firstPaymentPrice: formState.priceFirstFraction,
+                firstPaymentPrice: firstPaymentPrice,
                 firstPaymentDate: null,
                 secondPayment: false,
                 secondPaymentDone: false,
-                secondPaymentPrice: formState.priceSeconFraction,
+                secondPaymentPrice: secondPaymentPrice,
                 secondPaymentDate: null,
                 thirdPayment: false,
                 thirdPaymentDone: false,
-                thirdPaymentPrice: formState.priceThirdFraction,
+                thirdPaymentPrice: thirdPaymentPrice,
                 thirdPaymentDate: null,
+                // Guardar información sobre el tipo de tarifa aplicada
+                priceCategory:
+                  age !== null && age >= 14 && age <= 16 ? 'junior' : 'adult',
+                partnerAge: age || 'unknown',
               }
 
               // Usar el servicio para crear el pago
@@ -400,9 +511,14 @@ function NewSeason() {
                 'Documentos de pagos creados'
               ),
               text: t(
-                `${viewDictionary}.paymentsCreatedText`,
-                'Se han creado {{createdCount}} documentos de pagos para la nueva temporada. Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.',
-                { createdCount, skippedCount }
+                `${viewDictionary}.paymentsCreatedDetailedText`,
+                'Se han creado {{createdCount}} documentos de pagos para la nueva temporada ({{adultCount}} adultos, {{juniorCount}} junior). Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.',
+                {
+                  createdCount,
+                  skippedCount,
+                  adultCount: adultPricesCount,
+                  juniorCount: juniorPricesCount,
+                }
               ),
               icon: 'success',
               confirmButtonText: t(
@@ -465,8 +581,9 @@ function NewSeason() {
       />
     )
   }
+
   return (
-    <div className="flex flex-col items-center h-auto max-w-lg pb-6 mx-auto">
+    <div className="flex flex-col items-center h-auto max-w-4xl pb-6 mx-auto">
       <Loader loading={formState.submitting || creatingPayments} />
       <h1 className="mb-4 text-center t64b">
         {t(`${viewDictionary}.title`, 'Registrar Nueva Temporada')}
@@ -484,8 +601,9 @@ function NewSeason() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col items-center">
+      <form onSubmit={handleSubmit} className="w-full">
+        {/* Año de temporada - común para ambas columnas */}
+        <div className="flex flex-col items-center mb-6">
           <DynamicInput
             name="seasonYear"
             textId={`${viewDictionary}.seasonYearLabel`}
@@ -510,55 +628,121 @@ function NewSeason() {
             <p className="mt-1 text-sm text-red-600">{yearValidationMessage}</p>
           )}
         </div>
-        <div className="flex flex-col items-center">
-          <DynamicInput
-            name="totalPrice"
-            textId={`${viewDictionary}.totalPriceLabel`}
-            defaultText="Precio total"
-            type="text"
-            value={formState.totalPrice}
-            onChange={handleInputChange}
-            disabled={formState.submitting}
-            required
-          />
+
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Columna para mayores de 16 años */}
+          <div className="p-6 space-y-4 bg-[#D9D9D9] rounded-[30px] h-fit mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <h2 className="mb-4 text-center t24b">
+              {t(`${viewDictionary}.adultPrices`, 'Mayores de 16 años')}
+            </h2>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="totalPrice"
+                textId={`${viewDictionary}.totalPriceLabel`}
+                defaultText="Precio total"
+                type="text"
+                value={formState.totalPrice}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="priceFirstFraction"
+                textId={`${viewDictionary}.priceFirstFractionLabel`}
+                defaultText="Precio primera fracción"
+                type="text"
+                value={formState.priceFirstFraction}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="priceSeconFraction"
+                textId={`${viewDictionary}.priceSeconFractionLabel`}
+                defaultText="Precio segunda fracción"
+                type="text"
+                value={formState.priceSeconFraction}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="priceThirdFraction"
+                textId={`${viewDictionary}.priceThirdFractionLabel`}
+                defaultText="Precio tercera fracción"
+                type="text"
+                value={formState.priceThirdFraction}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+          </div>
+
+          {/* Columna para 14-16 años */}
+          <div className="p-6 space-y-4 bg-[#D9D9D9] rounded-[30px] h-fit mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <h2 className="mb-4 text-center t24b">
+              {t(`${viewDictionary}.juniorPrices`, 'Precios para 14-16 años')}
+            </h2>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="totalPriceJunior"
+                textId={`${viewDictionary}.totalPriceLabel`}
+                defaultText="Precio total"
+                type="text"
+                value={formState.totalPriceJunior}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="priceFirstFractionJunior"
+                textId={`${viewDictionary}.priceFirstFractionLabel`}
+                defaultText="Precio primera fracción"
+                type="text"
+                value={formState.priceFirstFractionJunior}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="priceSeconFractionJunior"
+                textId={`${viewDictionary}.priceSeconFractionLabel`}
+                defaultText="Precio segunda fracción"
+                type="text"
+                value={formState.priceSeconFractionJunior}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+            <div className="flex flex-col items-center">
+              <DynamicInput
+                name="priceThirdFractionJunior"
+                textId={`${viewDictionary}.priceThirdFractionLabel`}
+                defaultText="Precio tercera fracción"
+                type="text"
+                value={formState.priceThirdFractionJunior}
+                onChange={handleInputChange}
+                disabled={formState.submitting}
+                required
+              />
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col items-center">
-          <DynamicInput
-            name="priceFirstFraction"
-            textId={`${viewDictionary}.priceFirstFractionLabel`}
-            defaultText="Precio primera fracción"
-            type="text"
-            value={formState.priceFirstFraction}
-            onChange={handleInputChange}
-            disabled={formState.submitting}
-            required
-          />
-        </div>
-        <div className="flex flex-col items-center">
-          <DynamicInput
-            name="priceSeconFraction"
-            textId={`${viewDictionary}.priceSeconFractionLabel`}
-            defaultText="Precio segunda fracción"
-            type="text"
-            value={formState.priceSeconFraction}
-            onChange={handleInputChange}
-            disabled={formState.submitting}
-            required
-          />
-        </div>
-        <div className="flex flex-col items-center">
-          <DynamicInput
-            name="priceThirdFraction"
-            textId={`${viewDictionary}.priceThirdFractionLabel`}
-            defaultText="Precio tercera fracción"
-            type="text"
-            value={formState.priceThirdFraction}
-            onChange={handleInputChange}
-            disabled={formState.submitting}
-            required
-          />
-        </div>
-        <div className="flex flex-col items-center space-x-2">
+
+        {/* Checkbox para activar temporada */}
+        <div className="flex flex-col items-center mt-4 space-x-2">
           <DynamicInput
             name="active"
             type="checkbox"
@@ -590,7 +774,8 @@ function NewSeason() {
           )}
         </div>
 
-        <div className="flex justify-center">
+        {/* Botón de guardar */}
+        <div className="flex justify-center mt-6">
           <DynamicButton
             type="submit"
             size="large"

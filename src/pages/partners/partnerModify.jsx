@@ -11,7 +11,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
-import { AuthContext } from '../../contexts/AuthContext' // Importamos el contexto de autenticación
+import { AuthContext } from '../../contexts/AuthContext'
 import Loader from '../../components/Loader'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
@@ -23,13 +23,44 @@ import {
   normalizePaymentDates,
 } from '../../hooks/paymentService'
 
+const calculateAge = (birthDate) => {
+  if (!birthDate) return null
+
+  try {
+    // Convertir de timestamp de Firestore si es necesario
+    let birthDateObj = birthDate
+    if (birthDate?.toDate) {
+      birthDateObj = birthDate.toDate()
+    } else if (typeof birthDate === 'string') {
+      birthDateObj = new Date(birthDate)
+    }
+
+    const today = new Date()
+    let age = today.getFullYear() - birthDateObj.getFullYear()
+    const monthDiff = today.getMonth() - birthDateObj.getMonth()
+
+    // Si aún no ha cumplido años este año
+    if (
+      monthDiff < 0 ||
+      (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
+    ) {
+      age--
+    }
+
+    return age
+  } catch (error) {
+    console.error('Error calculando edad:', error)
+    return null
+  }
+}
+
 function PartnerModifyForm() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const location = useLocation()
-  const { user } = useContext(AuthContext) // Obtenemos el usuario autenticado
+  const { user } = useContext(AuthContext)
   const partnerId = location.state?.partnerId
-  const viewDictionary = 'pages.partners.modifyPartner'
+  const viewDictionary = 'pages.partners.modifyPartners'
 
   const [formData, setFormData] = useState({
     name: '',
@@ -41,12 +72,12 @@ function PartnerModifyForm() {
     birthDate: '',
     accountNumber: '',
     status: 'pending',
+    priceCategory: 'adult',
     createdAt: null,
     lastUpdateDate: null,
     submitting: false,
   })
 
-  // Estados para manejar la temporada activa y los pagos
   const [activeSeason, setActiveSeason] = useState(null)
   const [loadingSeason, setLoadingSeason] = useState(false)
   const [paymentData, setPaymentData] = useState(null)
@@ -56,7 +87,6 @@ function PartnerModifyForm() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
-  // Función para formatear fechas
   const formatDate = (dateObj) => {
     if (!dateObj) return ''
 
@@ -65,7 +95,6 @@ function PartnerModifyForm() {
     }
 
     if (dateObj instanceof Date) {
-      // Convertir a formato YYYY-MM-DD para campos de tipo date
       const year = dateObj.getFullYear()
       const month = String(dateObj.getMonth() + 1).padStart(2, '0')
       const day = String(dateObj.getDate()).padStart(2, '0')
@@ -75,7 +104,6 @@ function PartnerModifyForm() {
     return ''
   }
 
-  // Función para obtener la temporada activa
   const fetchActiveSeason = async () => {
     setLoadingSeason(true)
     try {
@@ -100,7 +128,6 @@ function PartnerModifyForm() {
     }
   }
 
-  // Reemplazar la función fetchPartnerPayments
   const fetchPartnerPayments = async (id) => {
     if (!id) return
 
@@ -108,20 +135,24 @@ function PartnerModifyForm() {
     try {
       console.log(`Cargando pagos para el socio ${id}...`)
 
-      // Usar la nueva función para obtener pagos clasificados
       const paymentInfo = await getPartnerPaymentsByStatus(id)
 
       if (paymentInfo && paymentInfo.current) {
         console.log('Pago de temporada actual encontrado:', paymentInfo.current)
         setPaymentId(paymentInfo.current.id)
-        setPaymentData(paymentInfo.current)
+        setPaymentData({
+          ...paymentInfo.current,
+          priceCategory:
+            paymentInfo.current.priceCategory ||
+            formData.priceCategory ||
+            'adult',
+        })
       } else {
         console.log('No se encontraron pagos para la temporada actual')
         setPaymentData(null)
         setPaymentId(null)
       }
 
-      // Si necesitas la temporada activa y aún no la tienes, obtenerla
       if (!activeSeason) {
         await fetchActiveSeason()
       }
@@ -134,7 +165,36 @@ function PartnerModifyForm() {
     }
   }
 
-  // Función para cargar datos del socio y pagos
+  const updatePricesBasedOnCategory = (category) => {
+    if (!paymentData || !activeSeason) return
+
+    let firstPrice, secondPrice, thirdPrice
+
+    if (category === 'junior') {
+      firstPrice = activeSeason.priceFirstFractionJunior || 0
+      secondPrice = activeSeason.priceSeconFractionJunior || 0
+      thirdPrice = activeSeason.priceThirdFractionJunior || 0
+    } else {
+      firstPrice = activeSeason.priceFirstFraction || 0
+      secondPrice = activeSeason.priceSeconFraction || 0
+      thirdPrice = activeSeason.priceThirdFraction || 0
+    }
+
+    setPaymentData((prev) => ({
+      ...prev,
+      firstPaymentPrice: prev.firstPaymentDone
+        ? prev.firstPaymentPrice
+        : firstPrice,
+      secondPaymentPrice: prev.secondPaymentDone
+        ? prev.secondPaymentPrice
+        : secondPrice,
+      thirdPaymentPrice: prev.thirdPaymentDone
+        ? prev.thirdPaymentPrice
+        : thirdPrice,
+      priceCategory: category,
+    }))
+  }
+
   useEffect(() => {
     const fetchPartner = async () => {
       if (!partnerId) {
@@ -149,6 +209,11 @@ function PartnerModifyForm() {
 
         if (docSnap.exists()) {
           const partnerData = docSnap.data()
+
+          const age = calculateAge(partnerData.birthDate)
+          const suggestedCategory =
+            age !== null && age >= 14 && age <= 16 ? 'junior' : 'adult'
+
           setFormData({
             id: docSnap.id,
             name: partnerData.name || '',
@@ -160,12 +225,12 @@ function PartnerModifyForm() {
             birthDate: formatDate(partnerData.birthDate) || '',
             accountNumber: partnerData.accountNumber || '',
             status: partnerData.status || 'pending',
+            priceCategory: partnerData.priceCategory || suggestedCategory,
             createdAt: partnerData.createdAt || null,
             lastUpdateDate: partnerData.lastUpdateDate || null,
             submitting: false,
           })
 
-          // Si el socio está aprobado, cargamos los datos de pago
           if (partnerData.status === 'approved') {
             await fetchActiveSeason()
             await fetchPartnerPayments(docSnap.id)
@@ -239,7 +304,6 @@ function PartnerModifyForm() {
     }
 
     try {
-      // Actualizar datos básicos del socio
       const updatedFields = {
         name: formData.name,
         lastName: formData.lastName,
@@ -250,15 +314,17 @@ function PartnerModifyForm() {
         birthDate: formData.birthDate,
         accountNumber: formData.accountNumber,
         status: formData.status,
+        priceCategory: formData.priceCategory,
         lastUpdateDate: serverTimestamp(),
       }
 
       await updateDoc(doc(db, 'partners', partnerId), updatedFields)
 
-      // Si hay datos de pago y el socio está aprobado, actualizar pagos
       if (paymentId && paymentData && formData.status === 'approved') {
-        // Normalizar fechas antes de guardar
-        const normalizedPaymentData = normalizePaymentDates(paymentData)
+        const normalizedPaymentData = normalizePaymentDates({
+          ...paymentData,
+          priceCategory: formData.priceCategory,
+        })
 
         await updatePartnerPayment(
           partnerId,
@@ -307,14 +373,21 @@ function PartnerModifyForm() {
     setFormData((prev) => ({ ...prev, status: e.target.value }))
   }
 
-  // Función para manejar cambios en los datos de pago
+  const handleCategoryChange = (e) => {
+    const newCategory = e.target.value
+    setFormData((prev) => ({ ...prev, priceCategory: newCategory }))
+
+    // Si hay datos de pago, actualizar precios
+    if (paymentData && activeSeason) {
+      updatePricesBasedOnCategory(newCategory)
+    }
+  }
+
   const handlePaymentChange = (e) => {
     const { name, value, type, checked } = e.target
 
-    // Para campos checkbox, usamos el valor checked
     const newValue = type === 'checkbox' ? checked : value
 
-    // Para campos numéricos, convertimos a número
     const parsedValue = [
       'firstPaymentPrice',
       'secondPaymentPrice',
@@ -331,11 +404,9 @@ function PartnerModifyForm() {
     }))
   }
 
-  // Función para manejar cambios en las fechas
   const handleDateChange = (e) => {
     const { name, value } = e.target
 
-    // Convertir string de fecha a objeto Date
     let dateValue = value ? new Date(value) : null
 
     setPaymentData((prev) => ({
@@ -344,7 +415,6 @@ function PartnerModifyForm() {
     }))
   }
 
-  // Agregar un botón para refrescar los datos de pago
   const refreshPaymentData = async () => {
     if (!partnerId) return
 
@@ -372,7 +442,6 @@ function PartnerModifyForm() {
       </h1>
 
       <form onSubmit={handleSubmit} className="p-6 space-y-6">
-        {/* Sección de datos personales */}
         <h2 className="mb-4 text-xl font-bold text-left">
           {t(`${viewDictionary}.personalInfoSection`, 'Datos Personales')}
         </h2>
@@ -513,40 +582,35 @@ function PartnerModifyForm() {
           </div>
         </div>
 
-        {/* Sección de gestión de pagos - solo visible si el socio está aprobado */}
         {formData.status === 'approved' && (
           <div className="pt-8 mt-8 border-t border-gray-200">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-bold text-left">
                 {t(`${viewDictionary}.paymentsSection`, 'Gestión de Pagos')}
               </h2>
-              <button
-                onClick={refreshPaymentData}
-                className="flex items-center justify-center p-1 text-sm text-gray-600 rounded-md hover:bg-gray-100"
-                disabled={loadingPayments}
-                title={t(
-                  `${viewDictionary}.payments.refreshPayments`,
-                  'Actualizar pagos'
-                )}
-                type="button"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className={`w-5 h-5 ${loadingPayments ? 'animate-spin' : ''}`}
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                  />
-                </svg>
-              </button>
             </div>
 
+            <div className="flex flex-col items-start">
+              <DynamicInput
+                name="priceCategory"
+                type="select"
+                textId={`${viewDictionary}.priceCategoryLabel`}
+                defaultText="Categoría de precios"
+                value={formData.priceCategory}
+                onChange={handleCategoryChange}
+                disabled={formData.submitting}
+                options={[
+                  {
+                    value: 'adult',
+                    label: `${viewDictionary}.priceCategoryAdult`,
+                  },
+                  {
+                    value: 'junior',
+                    label: `${viewDictionary}.priceCategoryJunior`,
+                  },
+                ]}
+              />
+            </div>
             {loadingSeason ? (
               <p className="mb-4 text-sm text-gray-500">
                 {t(
@@ -560,10 +624,34 @@ function PartnerModifyForm() {
                   {t(`${viewDictionary}.activeSeason`, 'Temporada Activa:')}{' '}
                   {activeSeason.seasonYear}
                 </h3>
-                <p className="text-sm text-gray-600">
-                  {t(`${viewDictionary}.totalPrice`, 'Precio total:')}{' '}
-                  {activeSeason.totalPrice}€
-                </p>
+                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div>
+                    <p className="text-sm font-medium text-gray-700">
+                      {t(
+                        `${viewDictionary}.adultPrices`,
+                        'Precios Adultos (>16 años)'
+                      )}
+                      :
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {t(`${viewDictionary}.totalPrice`, 'Precio total:')}{' '}
+                      {activeSeason.totalPrice}€
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-gray-700">
+                      {t(
+                        `${viewDictionary}.juniorPrices`,
+                        'Precios Junior (14-16 años)'
+                      )}
+                      :
+                    </p>
+                    <p className="text-sm text-gray-600">
+                      {t(`${viewDictionary}.totalPrice`, 'Precio total:')}{' '}
+                      {activeSeason.totalPriceJunior || 0}€
+                    </p>
+                  </div>
+                </div>
               </div>
             ) : (
               <div className="p-4 mb-6 bg-gray-100 rounded-lg">
@@ -587,7 +675,6 @@ function PartnerModifyForm() {
               </div>
             ) : paymentData && activeSeason ? (
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                {/* Primera fracción */}
                 <div className="p-4 border rounded-lg">
                   <h4 className="mb-3 font-medium">
                     {t(`${viewDictionary}.firstFraction`, 'Primera fracción')}
@@ -639,7 +726,6 @@ function PartnerModifyForm() {
                   </div>
                 </div>
 
-                {/* Segunda fracción */}
                 <div className="p-4 border rounded-lg">
                   <h4 className="mb-3 font-medium">
                     {t(`${viewDictionary}.secondFraction`, 'Segunda fracción')}
@@ -691,7 +777,6 @@ function PartnerModifyForm() {
                   </div>
                 </div>
 
-                {/* Tercera fracción */}
                 <div className="p-4 border rounded-lg">
                   <h4 className="mb-3 font-medium">
                     {t(`${viewDictionary}.thirdFraction`, 'Tercera fracción')}
@@ -780,7 +865,6 @@ function PartnerModifyForm() {
           </div>
         )}
 
-        {/* Botón de envío */}
         <div className="flex justify-center pt-4 mt-6">
           <DynamicButton
             type="submit"
