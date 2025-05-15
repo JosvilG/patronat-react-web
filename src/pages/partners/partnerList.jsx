@@ -613,7 +613,7 @@ function PartnerList() {
       <h1 className="mb-4 text-center t64b">
         {t(`${viewDictionary}.title`, 'Listado de Socios')}
       </h1>
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
+      <div className="grid items-center justify-start grid-cols-1 gap-4 mb-4 md:justify-items-start sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
@@ -630,7 +630,7 @@ function PartnerList() {
             size="small"
             state="normal"
             type="download"
-            textId={t(`${viewDictionary}.exportAllToExcel`, 'Exportar Todos')}
+            textId={t(`${viewDictionary}.exportAllToExcel`, 'Exportar')}
           />
 
           <DynamicButton
@@ -1128,12 +1128,14 @@ function PartnerList() {
       )}
 
       {filteredPartners.length === 0 ? (
-        <p className="text-center text-gray-500">
-          {t(
-            `${viewDictionary}.noPartnersFound`,
-            'No se encontraron socios que coincidan con la búsqueda.'
-          )}
-        </p>
+        <div className="p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg">
+          <p className="text-center text-gray-500">
+            {t(
+              `${viewDictionary}.noPartnersFound`,
+              'No se encontraron socios que coincidan con la búsqueda.'
+            )}
+          </p>
+        </div>
       ) : (
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">

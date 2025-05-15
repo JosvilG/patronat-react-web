@@ -60,7 +60,7 @@ function EventList() {
   return (
     <div className="max-w-full pb-6 mx-auto md:max-w-fit">
       <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
+      <div className="grid items-center justify-start grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
