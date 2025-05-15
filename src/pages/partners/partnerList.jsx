@@ -5,6 +5,9 @@ import {
   deleteDoc,
   updateDoc,
   doc,
+  query,
+  where,
+  writeBatch,
 } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
@@ -53,11 +56,8 @@ function PartnerList() {
   const [exportingToExcel, setExportingToExcel] = useState(false)
   const [exportingAllToExcel, setExportingAllToExcel] = useState(false)
 
-  // Referencias para los unsubscribe de listeners
   const paymentListenerRef = useRef(null)
   const historyListenerRef = useRef(null)
-
-  // Utilidad para retrasos
 
   useEffect(() => {
     const fetchPartners = async () => {
@@ -87,7 +87,6 @@ function PartnerList() {
 
     fetchPartners()
 
-    // Limpieza de las suscripciones al desmontar el componente
     return () => {
       if (paymentListenerRef.current) {
         paymentListenerRef.current()
@@ -98,11 +97,9 @@ function PartnerList() {
     }
   }, [t, viewDictionary])
 
-  // Efecto para configurar listeners cuando cambia la temporada activa o el socio seleccionado
   useEffect(() => {
     if (!sidebarOpen || !selectedPartner || !activeSeason) return
 
-    // Limpiar listeners previos si existen
     if (paymentListenerRef.current) {
       paymentListenerRef.current()
     }
@@ -110,15 +107,12 @@ function PartnerList() {
       historyListenerRef.current()
     }
 
-    // Solo configurar listeners si el socio está aprobado
     if (selectedPartner.status === 'approved') {
-      // Configurar listener para pagos actuales
       setLoadingPayments(true)
       paymentListenerRef.current = listenPartnerPaymentForSeason(
         selectedPartner.id,
         activeSeason.seasonYear,
         (payment) => {
-          // Si no hay pagos, crear un objeto de pago predeterminado
           if (!payment) {
             payment = {
               id: 'pending-creation',
@@ -140,7 +134,6 @@ function PartnerList() {
         }
       )
 
-      // Configurar listener para historial de pagos
       setLoadingHistory(true)
       historyListenerRef.current = listenPartnerPaymentHistory(
         selectedPartner.id,
@@ -212,7 +205,6 @@ function PartnerList() {
 
   const approvePartner = async (id) => {
     try {
-      // Verificar que hay una temporada activa
       setLoadingSeason(true)
       const currentActiveSeason = await getActiveSeason()
       setLoadingSeason(false)
@@ -229,7 +221,6 @@ function PartnerList() {
         })
       }
 
-      // Obtener información del usuario actual (para userId)
       let userId = 'sistema'
       try {
         const auth = getAuth()
@@ -241,16 +232,13 @@ function PartnerList() {
         console.log('No se pudo obtener el usuario actual:', authError)
       }
 
-      // Actualizar el socio a estado aprobado
       const partnerRef = doc(db, 'partners', id)
       await updateDoc(partnerRef, {
         status: 'approved',
         lastUpdateDate: new Date(),
       })
 
-      // Si hay temporada activa, crear documento de pago
       if (currentActiveSeason) {
-        // Crear estructura completa de pago basada en la temporada activa
         const now = new Date()
         const newPaymentData = {
           createdAt: now,
@@ -258,26 +246,22 @@ function PartnerList() {
           seasonYear: currentActiveSeason.seasonYear,
           userId: userId,
 
-          // Primera fracción
           firstPayment: false,
           firstPaymentDate: null,
           firstPaymentDone: false,
           firstPaymentPrice: currentActiveSeason.priceFirstFraction || 0,
 
-          // Segunda fracción
           secondPayment: false,
           secondPaymentDate: null,
           secondPaymentDone: false,
           secondPaymentPrice: currentActiveSeason.priceSeconFraction || 0,
 
-          // Tercera fracción
           thirdPayment: false,
           thirdPaymentDate: null,
           thirdPaymentDone: false,
           thirdPaymentPrice: currentActiveSeason.priceThirdFraction || 0,
         }
 
-        // Intentar crear el registro de pago
         try {
           console.log(
             `Creando registro de pago para socio ${id} en temporada ${currentActiveSeason.seasonYear}`
@@ -286,11 +270,9 @@ function PartnerList() {
           console.log('Registro de pago creado con éxito')
         } catch (paymentError) {
           console.error('Error al crear registro de pago:', paymentError)
-          // No interrumpir el flujo si falla la creación del pago
         }
       }
 
-      // Actualizar la UI
       const updatedPartners = partners.map((partner) =>
         partner.id === id ? { ...partner, status: 'approved' } : partner
       )
@@ -372,62 +354,99 @@ function PartnerList() {
 
   const deletePartner = async (id) => {
     try {
+      const confirmResult = await showPopup({
+        title: t(
+          `${viewDictionary}.confirmPopup.title`,
+          'Confirmar eliminación'
+        ),
+        text: t(
+          `${viewDictionary}.confirmPopup.text`,
+          '¿Está seguro de que desea eliminar este socio? Esta acción eliminará todos sus datos, incluyendo pagos e historial de pagos.'
+        ),
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: t('components.popup.deleteButton', 'Eliminar'),
+        cancelButtonText: t('components.popup.cancelButton', 'Cancelar'),
+      })
+
+      if (!confirmResult.isConfirmed) {
+        return
+      }
+
+      setLoading(true)
+
+      const paymentsQuery = query(
+        collection(db, 'payments'),
+        where('partnerId', '==', id)
+      )
+
+      const paymentsSnapshot = await getDocs(paymentsQuery)
+
+      if (!paymentsSnapshot.empty) {
+        const batch = writeBatch(db)
+        paymentsSnapshot.docs.forEach((paymentDoc) => {
+          batch.delete(doc(db, 'payments', paymentDoc.id))
+        })
+        await batch.commit()
+
+        console.log(
+          `Eliminados ${paymentsSnapshot.size} documentos de pagos del socio ${id}`
+        )
+      }
+
       await deleteDoc(doc(db, 'partners', id))
+
       const updatedPartners = partners.filter((partner) => partner.id !== id)
       setPartners(updatedPartners)
       setFilteredPartners(updatedPartners)
 
-      showPopup({
+      await showPopup({
         title: t(`${viewDictionary}.successPopup.title`, 'Éxito'),
         text: t(
           `${viewDictionary}.successPopup.deleteText`,
-          'El socio ha sido eliminado correctamente.'
+          'El socio y todos sus datos asociados han sido eliminados correctamente.'
         ),
         icon: 'success',
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
     } catch (error) {
-      console.error('Error al eliminar el socio:', error)
-      showPopup({
+      console.error('Error al eliminar el socio y sus datos:', error)
+      await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text: t(
           `${viewDictionary}.errorPopup.deleteError`,
-          'Ha ocurrido un error al eliminar el socio.'
+          'Ha ocurrido un error al eliminar el socio y sus datos.'
         ),
         icon: 'error',
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
+    } finally {
+      setLoading(false)
     }
   }
 
   const handleExportToExcel = async (partnerId) => {
     try {
-      // Encuentra el socio en la lista
       const partner = partners.find((p) => p.id === partnerId)
       if (!partner) {
         throw new Error('Socio no encontrado')
       }
 
-      // Activar el estado de carga
       setExportingToExcel(true)
 
-      // Si el socio está aprobado, obtenemos su información de pagos
       let payments = null
       let history = []
       let currentActiveSeason = null
 
       if (partner.status === 'approved') {
-        // Cargar temporada activa
         currentActiveSeason = await getActiveSeason()
 
         if (currentActiveSeason) {
           try {
-            // Si estamos viendo este socio actualmente, usar los datos ya cargados
             if (selectedPartner && selectedPartner.id === partnerId) {
               payments = partnerPayments
               history = paymentHistory
             } else {
-              // Si no es el socio actualmente seleccionado, obtener los datos
               payments = await getPartnerPaymentsForSeason(
                 partnerId,
                 currentActiveSeason.seasonYear
@@ -450,7 +469,6 @@ function PartnerList() {
         }
       }
 
-      // Añadir un log para verificar los datos antes de exportar
       console.log('Iniciando exportación con:', {
         partner,
         season: currentActiveSeason,
@@ -458,7 +476,6 @@ function PartnerList() {
         history,
       })
 
-      // Llamar a la función de utilidad para exportar
       await exportPartnerToExcel(
         partner,
         currentActiveSeason,
@@ -480,24 +497,19 @@ function PartnerList() {
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
     } finally {
-      // Desactivar el estado de carga al finalizar
       setExportingToExcel(false)
     }
   }
 
   const handleExportAllToExcel = async () => {
     try {
-      // Activar el estado de carga
       setExportingAllToExcel(true)
 
-      // Cargar temporada activa si no está cargada
       let currentActiveSeason = activeSeason
       if (!currentActiveSeason) {
         currentActiveSeason = await getActiveSeason()
       }
 
-      // Llamar a la función de utilidad para exportar todos los socios
-      // Añadimos los parámetros faltantes: getPartnerPaymentsForSeason y getPartnerPaymentHistory
       await exportAllPartnersToExcel(
         partners,
         currentActiveSeason,
@@ -519,33 +531,25 @@ function PartnerList() {
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
     } finally {
-      // Desactivar el estado de carga al finalizar
       setExportingAllToExcel(false)
     }
   }
 
-  // Función actualizada para abrir el panel lateral
   const openSidebar = async (partner) => {
     setSelectedPartner(partner)
     setSidebarOpen(true)
 
-    // Restablecer los estados para evitar ver datos de otro socio
     setPartnerPayments(null)
     setPaymentHistory([])
 
     try {
-      // Primero cargar la temporada activa
       await fetchActiveSeason()
-
-      // Los listeners se configurarán automáticamente gracias al efecto
-      // que está observando cambios en selectedPartner, activeSeason y sidebarOpen
     } catch (error) {
       console.error('Error al abrir el panel lateral:', error)
     }
   }
 
   const closeSidebar = () => {
-    // Limpiar los listeners al cerrar el sidebar
     if (paymentListenerRef.current) {
       paymentListenerRef.current()
       paymentListenerRef.current = null
@@ -586,7 +590,6 @@ function PartnerList() {
 
   return (
     <div className="h-screen max-h-[75dvh] pb-6 mx-auto max-w-full overflow-y-auto relative">
-      {/* Loader para exportación de todos los socios a Excel */}
       <Loader
         loading={exportingAllToExcel}
         size="50px"
@@ -597,7 +600,6 @@ function PartnerList() {
         )}
       />
 
-      {/* Loader para exportación de un solo socio */}
       <Loader
         loading={exportingToExcel}
         size="50px"
@@ -623,7 +625,6 @@ function PartnerList() {
           onChange={handleSearchChange}
         />
         <div className="flex pl-0 space-x-2 sm:pl-32">
-          {/* Nuevo botón para exportar todos los socios */}
           <DynamicButton
             onClick={handleExportAllToExcel}
             size="small"
@@ -632,7 +633,6 @@ function PartnerList() {
             textId={t(`${viewDictionary}.exportAllToExcel`, 'Exportar Todos')}
           />
 
-          {/* Botón existente para añadir socio */}
           <DynamicButton
             onClick={() => navigate(`/admin-partner-form/`)}
             size="small"
