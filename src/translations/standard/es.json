@@ -527,6 +527,7 @@
         "accountNumberLabel": "Número de cuenta (IBAN)",
         "accountNumberPlaceholder": "ES1234567890123456789012",
         "statusLabel": "Estado del socio",
+        "descriptionLabel": "Apoyar al Patronat es muy fácil: solo tienes que hacerte socio. Al unirte, no solo estarás colaborando con una causa que impulsa nuestras tradiciones y actividades, sino que también disfrutarás de numerosos beneficios exclusivos.<br /><br/> Como socio, accederás a descuentos especiales en todos los eventos organizados por el Patronat. Uno de los más destacados es el<strong> boleto para las Fiestas Mayores</strong>, que podrás conseguir a un precio reducido y con la posibilidad de pagarlo en tres cómodas cuotas a lo largo del año. ¡Así disfrutarás más, pagando menos y sin agobios!<br /><br /> Si quieres unirte y empezar a disfrutar de todas estas ventajas, solo tienes que completar el siguiente formulario. Nos pondremos en contacto contigo a través del correo electrónico que nos indiques para finalizar el proceso de inscripción.",
         "statusOptions": {
           "review": "En revisión",
           "active": "Activo",

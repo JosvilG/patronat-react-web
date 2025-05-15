@@ -527,6 +527,7 @@
         "accountNumberLabel": "Account number (IBAN)",
         "accountNumberPlaceholder": "ES1234567890123456789012",
         "statusLabel": "Member status",
+        "descriptionLabel": "Supporting the Patronat is easy – all you have to do is become a member. By joining, you'll not only be contributing to a cause that promotes our traditions and activities, but you'll also enjoy numerous exclusive benefits.<br /><br/> As a member, you'll gain access to special discounts for all events organized by the Patronat. One of the most popular is the<strong> ticket for the Festes Majors (Main Festival)</strong>, which you can get at a reduced price and with the option to pay in three convenient installments throughout the year. This way, you can enjoy more, pay less, and avoid any stress!<br /><br /> If you'd like to join and start enjoying all these benefits, simply fill out the following form. We'll get in touch with you via the email address you provide to complete the registration process.",
         "statusOptions": {
           "review": "In review",
           "active": "Active",

@@ -527,6 +527,7 @@
         "accountNumberLabel": "Número de compte (IBAN)",
         "accountNumberPlaceholder": "ES1234567890123456789012",
         "statusLabel": "Estat del soci",
+        "descriptionLabel": "Donar suport al Patronat és molt fàcil: només t’has de fer soci. En unir-te, no només estaràs col·laborant amb una causa que impulsa les nostres tradicions i activitats, sinó que també gaudiràs de nombrosos avantatges exclusius.<br /><br/> Com a soci, tindràs accés a descomptes especials en tots els esdeveniments organitzats pel Patronat. Un dels més destacats és el<strong> tiquet per a les Festes Majors</strong>, que podràs aconseguir a un preu reduït i amb la possibilitat de pagar-lo en tres còmodes terminis al llarg de l’any. Així podràs gaudir més, pagant menys i sense preocupacions!<br /><br /> Si vols unir-te i començar a gaudir de tots aquests avantatges, només cal que omplis el següent formulari. Ens posarem en contacte amb tu a través del correu electrònic que ens indiquis per completar el procés d’inscripció.",
         "statusOptions": {
           "review": "En revisió",
           "active": "Actiu",
