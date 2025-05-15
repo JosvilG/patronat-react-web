@@ -7,14 +7,14 @@ import { db } from '../../firebase/firebase'
 import Loader from '../../components/Loader'
 import DynamicInput from '../../components/Inputs'
 import { showPopup } from '../../services/popupService'
-import { useTranslation } from 'react-i18next'
+import { useTranslation, Trans } from 'react-i18next'
 import DynamicButton from '../../components/Buttons'
 
 function PartnersForm() {
   const { t } = useTranslation()
   const { user } = useContext(AuthContext)
   const navigate = useNavigate()
-  const viewDict = 'pages.partners.registerPartners'
+  const viewDictionary = 'pages.partners.registerPartners'
 
   const [formState, setFormState] = useState({
     name: '',
@@ -52,38 +52,30 @@ function PartnersForm() {
       !formState.dni
     ) {
       return t(
-        `${viewDict}.validation.requiredFields`,
+        `${viewDictionary}.validation.requiredFields`,
         'Por favor, completa todos los campos requeridos.'
       )
     }
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRx.test(formState.email)) {
       return t(
-        `${viewDict}.validation.invalidEmail`,
+        `${viewDictionary}.validation.invalidEmail`,
         'Por favor, introduce un email válido.'
       )
     }
     const dniRx = /^[0-9]{8}[A-Za-z]$/
     if (!dniRx.test(formState.dni)) {
       return t(
-        `${viewDict}.validation.invalidDni`,
+        `${viewDictionary}.validation.invalidDni`,
         'Por favor, introduce un DNI válido (8 números y una letra).'
       )
     }
-    if (formState.accountNumber) {
-      const ibanRx = /^ES[0-9]{22}$/
-      if (!ibanRx.test(formState.accountNumber)) {
-        return t(
-          `${viewDict}.validation.invalidIban`,
-          'Por favor, introduce un IBAN válido (formato ES + 22 dígitos).'
-        )
-      }
-    }
+
     if (formState.birthDate) {
       const d = new Date(formState.birthDate)
       if (isNaN(d.getTime())) {
         return t(
-          `${viewDict}.validation.invalidDate`,
+          `${viewDictionary}.validation.invalidDate`,
           'Por favor, introduce una fecha de nacimiento válida.'
         )
       }
@@ -98,7 +90,7 @@ function PartnersForm() {
     const err = validateForm()
     if (err) {
       await showPopup({
-        title: t(`${viewDict}.errorPopup.title`, 'Error de validación'),
+        title: t(`${viewDictionary}.errorPopup.title`, 'Error de validación'),
         text: err,
         icon: 'error',
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
@@ -108,9 +100,9 @@ function PartnersForm() {
     }
     if (!user) {
       await showPopup({
-        title: t(`${viewDict}.errorPopup.title`, 'Error'),
+        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text: t(
-          `${viewDict}.authError`,
+          `${viewDictionary}.authError`,
           'Debes iniciar sesión para registrar un socio.'
         ),
         icon: 'error',
@@ -131,33 +123,31 @@ function PartnersForm() {
         phone: formState.phone || '',
         birthDate: formState.birthDate || '',
         dni: formState.dni,
-        accountNumber: formState.accountNumber || '',
-        status: 'pending', // Estado inicial pendiente de revisión
+        accountNumber: '',
+        status: 'pending',
         createdAt: new Date(),
         createdBy: user.uid,
       }
 
-      const docRef = await addDoc(partnersRef, partnerData)
-
+      await addDoc(partnersRef, partnerData)
       await showPopup({
-        title: t(`${viewDict}.successPopup.title`, 'Registro exitoso'),
+        title: t(`${viewDictionary}.successPopup.title`, 'Registro exitoso'),
         text: t(
-          `${viewDict}.successPopup.text`,
+          `${viewDictionary}.successPopup.text`,
           'El socio ha sido registrado correctamente y está pendiente de revisión.'
         ),
         icon: 'success',
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
 
-      console.log('Socio registrado con ID:', docRef.id)
       navigate('/dashboard')
       resetForm()
     } catch (error) {
       log.error('Error al registrar el socio:', error)
       await showPopup({
-        title: t(`${viewDict}.errorPopup.title`, 'Error'),
+        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text: t(
-          `${viewDict}.errorPopup.text`,
+          `${viewDictionary}.errorPopup.text`,
           'Ha ocurrido un error al registrar el socio. Por favor, inténtalo de nuevo.'
         ),
         icon: 'error',
@@ -174,11 +164,18 @@ function PartnersForm() {
   }
 
   return (
-    <div className="pb-6 bg-transparent min-h-dvh">
+    <div className="pb-6 bg-transparent min-h-dvh ">
       <section className="max-w-full mx-auto">
         <h2 className="mb-8 text-center t64b">
-          {t(`${viewDict}.title`, 'Registro de Socio')}
+          {t(`${viewDictionary}.title`, 'Registro de Socio')}
         </h2>
+        <p className="text-center t16r">
+          <Trans
+            i18nKey={`${viewDictionary}.descriptionLabel`}
+            components={{ strong: <strong />, br: <br /> }}
+            defaults="Por favor, completa el siguiente formulario para registrarte como socio."
+          />
+        </p>
 
         <Loader loading={formState.submitting} />
 
@@ -186,8 +183,8 @@ function PartnersForm() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 justify-items-center">
             <DynamicInput
               name="name"
-              textId={`${viewDict}.nameLabel`}
-              placeholder={t(`${viewDict}.namePlaceholder`, 'Nombre')}
+              textId={`${viewDictionary}.nameLabel`}
+              placeholder={t(`${viewDictionary}.namePlaceholder`, 'Nombre')}
               type="text"
               value={formState.name}
               onChange={handleInputChange}
@@ -196,8 +193,11 @@ function PartnersForm() {
             />
             <DynamicInput
               name="lastName"
-              textId={`${viewDict}.lastNameLabel`}
-              placeholder={t(`${viewDict}.lastNamePlaceholder`, 'Apellidos')}
+              textId={`${viewDictionary}.lastNameLabel`}
+              placeholder={t(
+                `${viewDictionary}.lastNamePlaceholder`,
+                'Apellidos'
+              )}
               type="text"
               value={formState.lastName}
               onChange={handleInputChange}
@@ -206,21 +206,22 @@ function PartnersForm() {
             />
             <DynamicInput
               name="address"
-              textId={`${viewDict}.addressLabel`}
+              textId={`${viewDictionary}.addressLabel`}
               placeholder={t(
-                `${viewDict}.addressPlaceholder`,
+                `${viewDictionary}.addressPlaceholder`,
                 'Dirección completa'
               )}
               type="text"
               value={formState.address}
               onChange={handleInputChange}
               disabled={formState.submitting}
+              required
             />
             <DynamicInput
               name="email"
-              textId={`${viewDict}.emailLabel`}
+              textId={`${viewDictionary}.emailLabel`}
               placeholder={t(
-                `${viewDict}.emailPlaceholder`,
+                `${viewDictionary}.emailPlaceholder`,
                 'Correo electrónico'
               )}
               type="email"
@@ -231,29 +232,31 @@ function PartnersForm() {
             />
             <DynamicInput
               name="phone"
-              textId={`${viewDict}.phoneLabel`}
+              textId={`${viewDictionary}.phoneLabel`}
               placeholder={t(
-                `${viewDict}.phonePlaceholder`,
+                `${viewDictionary}.phonePlaceholder`,
                 'Número de teléfono'
               )}
               type="phone"
               value={formState.phone}
               onChange={handleInputChange}
               disabled={formState.submitting}
+              required
             />
             <DynamicInput
               name="birthDate"
-              textId={`${viewDict}.birthDateLabel`}
+              textId={`${viewDictionary}.birthDateLabel`}
               type="date"
               value={formState.birthDate}
               onChange={handleInputChange}
               disabled={formState.submitting}
+              required
             />
             <DynamicInput
               name="dni"
-              textId={`${viewDict}.dniLabel`}
+              textId={`${viewDictionary}.dniLabel`}
               placeholder={t(
-                `${viewDict}.dniPlaceholder`,
+                `${viewDictionary}.dniPlaceholder`,
                 'DNI (8 dígitos + letra)'
               )}
               type="text"
@@ -261,18 +264,6 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-            />
-            <DynamicInput
-              name="accountNumber"
-              textId={`${viewDict}.accountNumberLabel`}
-              placeholder={t(
-                `${viewDict}.accountNumberPlaceholder`,
-                'IBAN (ES + 22 dígitos)'
-              )}
-              type="text"
-              value={formState.accountNumber}
-              onChange={handleInputChange}
-              disabled={formState.submitting}
             />
           </div>
           <div className="flex justify-center pt-4">
@@ -282,8 +273,8 @@ function PartnersForm() {
               state={formState.submitting ? 'disabled' : 'normal'}
               textId={
                 formState.submitting
-                  ? `${viewDict}.submittingText`
-                  : `${viewDict}.submitButton`
+                  ? `${viewDictionary}.submittingText`
+                  : `${viewDictionary}.submitButton`
               }
               disabled={formState.submitting}
             />

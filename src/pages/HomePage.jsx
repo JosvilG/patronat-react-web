@@ -66,7 +66,7 @@ function HomePage() {
   )
 }
 
-const HeroSection = ({ t, logoSrc }) => (
+const HeroSection = ({ logoSrc }) => (
   <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-transparent">
     <div className="absolute inset-0 flex items-center justify-center">
       <img
@@ -77,25 +77,19 @@ const HeroSection = ({ t, logoSrc }) => (
     </div>
     <div className="absolute inset-0 bg-transparent" />
     <div className="relative flex flex-col justify-between h-full">
-      <p
-        className="w-auto pt-20 font-bold text-black t36r text-9xl"
-        dangerouslySetInnerHTML={{
-          __html: t('pages.home.heroSection.description'),
-        }}
-      ></p>
+      <p className="w-auto pt-20 font-bold text-black t36r text-9xl">
+        <Trans i18nKey="pages.home.heroSection.description" />
+      </p>
       <div className="pb-20">
-        <p
-          className="font-bold text-black t64xl text-9xl text-end"
-          dangerouslySetInnerHTML={{
-            __html: t('pages.home.heroSection.title'),
-          }}
-        ></p>
-        <p
-          className="font-bold t96b text-9xl text-end text-[#15642E]"
-          dangerouslySetInnerHTML={{
-            __html: t('pages.home.heroSection.roquetesTitle'),
-          }}
-        ></p>
+        <p className="font-bold text-black t64xl text-9xl text-end">
+          <Trans
+            i18nKey="pages.home.heroSection.title"
+            components={{ br: <br /> }}
+          />
+        </p>
+        <p className="font-bold t96b text-9xl text-end text-[#15642E]">
+          <Trans i18nKey="pages.home.heroSection.roquetesTitle" />
+        </p>
       </div>
     </div>
   </section>
