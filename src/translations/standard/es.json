@@ -65,29 +65,29 @@
     "events": {
       "details": {
         "popupTitle": "Detalles del evento: ",
-        "popupText": "Descripción:",
-        "popupInitDate": "Fecha de inicio:",
-        "popupEndDate": "Fecha de finalización:",
-        "startDate": "Fecha de inicio:",
-        "endDate": "Fecha de finalización:",
-        "startTime": "Hora de inicio:",
-        "endTime": "Hora de finalización:",
+        "popupText": "Descripción: ",
+        "popupInitDate": "Fecha de inicio: ",
+        "popupEndDate": "Fecha de finalización: ",
+        "startDate": "Fecha de inicio: ",
+        "endDate": "Fecha de finalización: ",
+        "startTime": "Hora de inicio: ",
+        "endTime": "Hora de finalización: ",
         "dateInfoTitle": "Fechas y Horas",
         "locationInfoTitle": "Lugar y acceso",
         "pricesInfoTitle": "Precios y servicios",
-        "location": "Ubicación:",
-        "capacity": "Capacidad:",
-        "price": "Precio:",
-        "minAge": "Edad mínima:",
-        "collaborators": "Con la colaboración de:",
-        "tags": "Etiquetas:",
+        "location": "Ubicación: ",
+        "capacity": "Capacidad: ",
+        "price": "Precio: ",
+        "minAge": "Edad mínima: ",
+        "collaborators": "Con la colaboración de: ",
+        "tags": "Etiquetas: ",
         "organizer": "Organizado por",
         "allowCars": "Permitir carros",
-        "hasBar": "¿Hay barra?:",
-        "status": "Estado:",
+        "hasBar": "¿Hay barra?: ",
+        "status": "Estado: ",
         "downloadPermission": "Descargar autorización",
         "freeLabel": "Gratis",
-        "withParticipation": "Con la participación de:"
+        "withParticipation": "Con la participación de: "
       },
       "registerEvent": {
         "title": "Crear Evento",
@@ -219,7 +219,7 @@
       "title": "Galería",
       "searchLabel": "Buscar imágenes en la galería",
       "searchGallery": "Buscar imágenes...",
-      "orderBy": "Ordenar por:",
+      "orderBy": "Ordenar por: ",
       "orderByDateAsc": "Fecha de subida (más antigua)",
       "orderByDateDesc": "Fecha de subida (más reciente)",
       "orderByNameAsc": "Nombre del archivo (A-Z)",
@@ -242,7 +242,7 @@
         "motivationDescription": "Creemos que las fiestas son mucho más que celebraciones: son momentos que fortalecen los vínculos, que nos conectan con nuestras raíces y que nos permiten compartir lo mejor de nosotros mismos. Nos motiva ver a niños, jóvenes y mayores vivir con ilusión cada acto, cada tradición y cada encuentro. Trabajamos con entusiasmo para ofrecer propuestas inclusivas, creativas y con sentido comunitario. Nuestra motivación es clara: seguir construyendo, a través de las fiestas, una Roquetes viva, unida y orgullosa de su cultura.",
         "staffTitle": "Miembros de la junta",
         "loadingStaff": "Cargando miembros del staff...",
-        "errorStaff": "Error al cargar el staff:",
+        "errorStaff": "Error al cargar el staff: ",
         "noStaffMembers": "No se encontraron miembros del staff.",
         "defaultName": "Nombre",
         "defaultLastName": "Apellido",
@@ -363,34 +363,34 @@
         "errorLoading": "No se pudieron cargar los datos del usuario",
         "personalInformation": {
           "title": "Información Personal",
-          "name": "Nombre:",
-          "email": "Correo Electrónico:",
-          "dni": "DNI:",
-          "phone": "Teléfono:",
-          "birthDate": "Fecha de Nacimiento:",
-          "age": "Edad:",
+          "name": "Nombre: ",
+          "email": "Correo Electrónico: ",
+          "dni": "DNI: ",
+          "phone": "Teléfono: ",
+          "birthDate": "Fecha de Nacimiento: ",
+          "age": "Edad: ",
           "ageValue": "{{age}} años"
         },
         "staffInformation": {
           "title": "Información de Staff",
-          "position": "Posición:",
-          "startDate": "Fecha de Incorporación:",
-          "endDate": "Fecha de Finalización:",
-          "description": "Descripción:",
-          "document": "Documento:",
+          "position": "Posición: ",
+          "startDate": "Fecha de Incorporación: ",
+          "endDate": "Fecha de Finalización: ",
+          "description": "Descripción: ",
+          "document": "Documento: ",
           "viewDocument": "Ver Documento"
         },
         "preferences": {
           "title": "Preferencias de Usuario",
-          "language": "Idioma preferido:",
-          "notifications": "Notificaciones por correo:",
+          "language": "Idioma preferido: ",
+          "notifications": "Notificaciones por correo: ",
           "enabled": "Activadas",
           "disabled": "Desactivadas"
         },
         "accountInformation": {
           "title": "Información de la Cuenta",
-          "registrationDate": "Fecha de Registro:",
-          "lastUpdate": "Última actualización:"
+          "registrationDate": "Fecha de Registro: ",
+          "lastUpdate": "Última actualización: "
         },
         "actions": {
           "editProfile": "Editar Perfil",
@@ -408,6 +408,7 @@
         "nameLabel": "Nombre del colaborador",
         "uploadButton": "Crear colaborador",
         "uploadingText": "Creando...",
+        "previewImageTitle": "Nueva imagen",
         "successPopup": {
           "title": "¡Éxito!",
           "text": "El colaborador se creó correctamente."
@@ -561,6 +562,8 @@
         "loadingText": "Cargando socios...",
         "exportToExcel": "Exportar a Excel",
         "exportSuccessTitle": "Exportación completada",
+        "exportAllToExcel": "Exportar",
+        "noPartnersFound": "No se encontraron socios con ese nombre.",
         "exportSuccessText": "Los datos del socio se han exportado correctamente.",
         "errorPopup": {
           "exportError": "Ha ocurrido un error al exportar los datos del socio."
@@ -611,21 +614,21 @@
         "exportToExcel": "Exportar datos",
         "personalInformation": {
           "title": "Información Personal",
-          "name": "Nombre completo:",
-          "email": "Correo Electrónico:",
-          "dni": "DNI:",
-          "phone": "Teléfono:",
-          "birthDate": "Fecha de Nacimiento:"
+          "name": "Nombre completo: ",
+          "email": "Correo Electrónico: ",
+          "dni": "DNI: ",
+          "phone": "Teléfono: ",
+          "birthDate": "Fecha de Nacimiento: "
         },
         "additionalInformation": {
           "title": "Información Adicional",
-          "address": "Dirección:",
-          "accountNumber": "IBAN:",
-          "status": "Estado:"
+          "address": "Dirección: ",
+          "accountNumber": "IBAN: ",
+          "status": "Estado: "
         },
         "registrationInformation": {
-          "createdAt": "Fecha de Registro:",
-          "createdBy": "Registrado por:"
+          "createdAt": "Fecha de Registro: ",
+          "createdBy": "Registrado por: "
         },
         "status": {
           "approved": "Alta",
