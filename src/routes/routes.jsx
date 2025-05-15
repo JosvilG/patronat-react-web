@@ -16,6 +16,7 @@ import PartnersForm from '../pages/partners/partnersForm'
 import PartnerList from '../pages/partners/partnerList'
 import PartnerInfo from '../pages/partners/partnerInfo'
 import PartnerModifyForm from '../pages/partners/partnerModify'
+import AdminPartnersForm from '../pages/partners/partnersFormAdmin'
 
 // Páginas de eventos
 import FullEventsPage from '../pages/events/FullEventsPage'
@@ -90,4 +91,5 @@ export const protectedRoutes = [
   { path: '/partners-info/:slug', element: <PartnerInfo /> },
   { path: '/partners-modify/:slug', element: <PartnerModifyForm /> },
   { path: '/new-season', element: <NewSeason /> },
+  { path: '/admin-partner-form', element: <AdminPartnersForm /> },
 ]

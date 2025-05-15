@@ -634,7 +634,7 @@ function PartnerList() {
 
           {/* Botón existente para añadir socio */}
           <DynamicButton
-            onClick={() => navigate(`/partner-form/`)}
+            onClick={() => navigate(`/admin-partner-form/`)}
             size="small"
             state="normal"
             type="add"
