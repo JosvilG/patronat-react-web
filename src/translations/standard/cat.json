@@ -83,9 +83,10 @@
         "tags": "Etiquetes:",
         "organizer": "Organitzat per:",
         "allowCars": "Permetre carros",
-        "hasBar": "Hi ha bar?:",
+        "hasBar": "Hi ha barra?:",
         "status": "Estat:",
         "downloadPermission": "Descarregar autorització",
+        "freeLabel": "Gratuït",
         "withParticipation": "Amb la participació de:"
       },
       "registerEvent": {

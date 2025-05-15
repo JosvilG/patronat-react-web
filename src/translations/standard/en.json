@@ -86,6 +86,7 @@
         "hasBar": "Is there a bar?:",
         "status": "Status:",
         "downloadPermission": "Download authorization",
+        "freeLabel": "Free",
         "withParticipation": "With the participation of:"
       },
       "registerEvent": {
