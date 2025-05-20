@@ -9,15 +9,18 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import FacebookIcon from '@mui/icons-material/Facebook'
 import XIcon from '@mui/icons-material/X'
 import DynamicButton from '../../components/Buttons'
+import useSlug from '../../hooks/useSlug'
 
 const EventPage = () => {
   const { eventName } = useParams()
   const [event, setEvent] = useState(null)
+  const [eventId, setEventId] = useState(null)
   const [collaborators, setCollaborators] = useState({})
   const [participants, setParticipants] = useState({})
   const [organizer, setOrganizer] = useState(null)
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { generateSlug } = useSlug()
   const viewDictionary = 'pages.events.details'
 
   useEffect(() => {
@@ -25,11 +28,12 @@ const EventPage = () => {
       try {
         const querySnapshot = await getDocs(collection(db, 'events'))
         const eventDoc = querySnapshot.docs.find(
-          (doc) =>
-            doc.data().title.toLowerCase().replace(/ /g, '-') === eventName
+          (doc) => generateSlug(doc.data().title) === eventName
         )
 
         if (eventDoc) {
+          setEventId(eventDoc.id)
+
           const eventData = eventDoc.data()
           setEvent(eventData)
 
@@ -53,7 +57,7 @@ const EventPage = () => {
     }
 
     fetchEvent()
-  }, [eventName, navigate])
+  }, [eventName, navigate, generateSlug])
 
   const fetchOrganizer = async (organizerId) => {
     try {
@@ -123,7 +127,6 @@ const EventPage = () => {
 
   const handleDownloadAuthorization = () => {
     if (event.authDocumentURL) {
-      // Descargar el archivo desde la URL de Storage
       fetch(event.authDocumentURL)
         .then((response) => {
           if (!response.ok) {
@@ -132,11 +135,9 @@ const EventPage = () => {
           return response.blob()
         })
         .then((blob) => {
-          // Crear un enlace temporal para descargar el archivo
           const url = URL.createObjectURL(blob)
           const a = document.createElement('a')
           a.href = url
-          // Obtener el nombre del archivo de la URL o usar uno predeterminado
           const fileName =
             event.authDocumentURL.split('/').pop().split('?')[0] ||
             `autorizacion_menores_${event.title.toLowerCase().replace(/\s+/g, '_')}.pdf`
@@ -144,7 +145,6 @@ const EventPage = () => {
           document.body.appendChild(a)
           a.click()
 
-          // Limpieza
           setTimeout(() => {
             document.body.removeChild(a)
             URL.revokeObjectURL(url)
@@ -153,6 +153,14 @@ const EventPage = () => {
         .catch((error) => {
           alert('No se pudo descargar el documento de autorización.')
         })
+    }
+  }
+
+  const handleRegistration = () => {
+    if (eventId) {
+      navigate(`/event-participation-form/${generateSlug(event.title)}`, {
+        state: { eventId },
+      })
     }
   }
 
@@ -222,38 +230,34 @@ const EventPage = () => {
           : `${event.price} €`,
       type: 'eventData',
     },
-    typeof event.allowCars !== 'undefined' && {
+    event.allowCars === true && {
       title: t('pages.events.details.allowCars'),
-      description: event.allowCars ? 'Sí' : 'No',
+      description: 'Sí',
       type: 'eventData',
     },
-    typeof event.hasBar !== 'undefined' && {
+    event.hasBar === true && {
       title: t('pages.events.details.hasBar'),
-      description: event.hasBar ? 'Sí' : 'No',
+      description: 'Sí',
       type: 'eventData',
     },
   ].filter(Boolean)
 
-  // Verificar si hay colaboradores disponibles
   const hasCollaborators =
     event.collaborators?.length > 0 && Object.keys(collaborators).length > 0
 
-  // Verificar si hay participantes disponibles
   const hasParticipants =
     event.participants?.length > 0 && Object.keys(participants).length > 0
 
-  // Verificar si hay datos de fechas disponibles
   const hasDateInfo = eventDataDetails.length > 0
 
-  // Verificar si hay datos de acceso disponibles
   const hasAccessInfo = eventAccessDetails.length > 0
 
-  // Verificar si hay datos de servicios disponibles
   const hasServicesInfo = eventServicesDetails.length > 0
 
   return (
-    <div className="h-auto px-4">
+    <div className="h-auto px-4 pb-4">
       <h1 className="mb-20 text-center t64b">{event.title}</h1>
+
       <div className="grid gap-6 md:grid-cols-5">
         <div className="mb-6 md:col-span-3">
           <DynamicCard
@@ -292,11 +296,21 @@ const EventPage = () => {
           )}
         </div>
       </div>
-
+      {event.needForm && (
+        <div className="flex justify-center mb-8">
+          <DynamicButton
+            size="large"
+            state="primary"
+            type="button"
+            textId={t(`${viewDictionary}.inscriptionLabel`)}
+            onClick={handleRegistration}
+          />
+        </div>
+      )}
       {event.description && (
         <div className="flex flex-col items-center mb-4 p-4 justify-center rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           <div className="w-full md:w-auto">
-            <p className="t36r">{event.description}</p>
+            <p className="t20r">{event.description}</p>
           </div>
         </div>
       )}

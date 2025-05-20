@@ -87,7 +87,8 @@
         "status": "Estado: ",
         "downloadPermission": "Descargar autorización",
         "freeLabel": "Gratis",
-        "withParticipation": "Con la participación de: "
+        "withParticipation": "Con la participación de: ",
+        "inscriptionLabel": "Inscribirse al evento"
       },
       "registerEvent": {
         "title": "Crear Evento",
@@ -112,6 +113,8 @@
         "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
         "tagsLabel": "Seleccione etiquetas",
         "organizerLabel": "Añade un organizador",
+        "selectedOrganizerLabel": "Organizador Seleccionado",
+        "anyOrganizerLabel": "Ningún organizador seleccionado",
         "allowCarsLabel": "¿Se permiten carros?",
         "categoryLabel": "Seleccione una categoría",
         "hasBarLabel": "¿Hay Barra?",
@@ -119,6 +122,16 @@
         "imageURL": "Añade una URL de la imagen de portada",
         "addImage": "Añadir imagen para la portada",
         "submitButton": "Crear Evento",
+        "needFormLabel": "Requiere formulario",
+        "mandatoryLabel": "Obligatorio",
+        "optionalLabel": "Opcional",
+        "uploadAutDocument": "Subir documento de autorización",
+        "searchParticipantsLabel": "Buscar participantes",
+        "participantList": "Lista de participantes",
+        "selectedParticipantsTitle": "Participantes seleccionados",
+        "participantTitle": "Participantes",
+        "inscriptionCampsForm": "Campos del formulario de inscripción",
+        "authorizationDocumentTitle": "Documento de autorización",
         "errorPopup": {
           "title": "Error",
           "text": "Algo salió mal. Intenta nuevamente más tarde."
@@ -172,6 +185,11 @@
         "hasBarLabel": "¿Hay Barra?",
         "statusLabel": "<p>Estado</p> <p>Próximo</p> <p>Finalizado</p> <p>Cancelado</p> <p>Pospuesto</p> <p>En curso</p> <p>Próximo</p> <p>Finalizado</p> <p>Cancelado</p> <p>Pospuesto</p> <p>En curso</p> <p>Cerrado</p><",
         "submitButton": "Guardar",
+        "needFormLabel": "Requiere formulario",
+        "searchParticipantsLabel": "Buscar participantes",
+        "participantsTitleList": "Lista de participantes",
+        "participantsTitle": "Participantes",
+        "participantsSelectedTitle": "Participantes seleccionados",
         "successPopup": {
           "title": "¡Éxito!",
           "text": "El evento se modificó correctamente."
@@ -180,6 +198,62 @@
           "title": "¡Error!",
           "text": "Hubo un problema al modificar el evento. Inténtalo nuevamente."
         }
+      },
+      "eventParticipationForm": {
+        "title": "Inscripción para {{eventTitle}}",
+        "submitButton": "Inscribirse",
+        "submittingText": "Enviando...",
+        "successTitle": "Inscripción enviada",
+        "successText": "Tu solicitud de participación ha sido enviada correctamente",
+        "errorTitle": "Error",
+        "errorText": "Hubo un problema al enviar tu inscripción. Por favor, intenta nuevamente.",
+        "incompleteFieldsTitle": "Campos incompletos",
+        "incompleteFieldsText": "Por favor, complete los siguientes campos obligatorios:",
+        "confirmButtonText": "Aceptar",
+        "closeButtonText": "Cerrar",
+        "backToEventButton": "Volver al evento",
+        "fieldPlaceholder": "Introduce {{fieldName}}",
+        "notFoundError": "No se encontró el evento",
+        "noFormError": "Este evento no requiere formulario de inscripción",
+        "noFormFieldsError": "No se encontraron campos del formulario",
+        "loadingError": "Error al cargar los datos del formulario",
+        "fields": {
+          "nombre": "Nombre de la calle/carroza*",
+          "tematica": "Temática*",
+          "responsable1": "Nombre del responsable 1*",
+          "responsable2": "Nombre del responsable 2",
+          "dni1": "DNI del responsable 1*",
+          "dni2": "DNI del responsable 2",
+          "telefono1": "Teléfono del responsable 1*",
+          "telefono2": "Teléfono del responsable 2",
+          "ubicacion": "Ubicación*",
+          "default": "Campo"
+        }
+      },
+      "eventParticipants": {
+        "title": "Participantes: {{eventTitle}}",
+        "searchPlaceholder": "Buscar participante...",
+        "noParticipants": "No hay participantes inscritos en este evento.",
+        "dateLabel": "Fecha:",
+        "statusLabel": "Estado:",
+        "statusPending": "pendiente",
+        "statusApproved": "aprobado",
+        "statusRejected": "rechazado",
+        "approveButton": "Aprobar",
+        "rejectButton": "Rechazar",
+        "eventNotFound": "No se encontró el evento",
+        "loadingError": "Error al cargar los participantes",
+        "approvalSuccess": "Estado actualizado correctamente",
+        "approvalError": "Error al actualizar el estado",
+        "confirmApprovalTitle": "¿Aprobar participante?",
+        "confirmApprovalText": "Esta acción cambiará el estado del participante a 'aprobado'.",
+        "confirmRejectionTitle": "¿Rechazar participante?",
+        "confirmRejectionText": "Esta acción cambiará el estado del participante a 'rechazado'.",
+        "yesButton": "Sí",
+        "noButton": "No",
+        "exportButton": "Exportar datos",
+        "exportSuccess": "Datos exportados correctamente",
+        "exportError": "Error al exportar los datos"
       }
     },
     "files": {

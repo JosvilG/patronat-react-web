@@ -18,6 +18,7 @@ export const createEventModel = () => ({
   organizer: '',
   allowCars: false,
   hasBar: false,
+  needForm: false,
   status: 'Activo',
   createdAt: Timestamp.now(),
   eventImage: '',

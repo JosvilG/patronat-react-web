@@ -6,6 +6,8 @@ import {
   getDocs,
   updateDoc,
   Timestamp,
+  addDoc,
+  deleteDoc,
 } from 'firebase/firestore'
 import {
   ref,
@@ -19,6 +21,7 @@ import Swal from 'sweetalert2'
 import log from 'loglevel'
 import { db, storage } from '../../firebase/firebase'
 import { createEventModel } from '../../models/eventData'
+import { createFormFieldsModel } from '../../models/formData'
 import imageCompression from 'browser-image-compression'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
@@ -56,21 +59,21 @@ function EventModify() {
   const [organizerSearch, setOrganizerSearch] = useState('')
   const [filteredOrganizers, setFilteredOrganizers] = useState([])
   const [file, setFile] = useState(null)
-  const [authDocument, setAuthDocument] = useState(null) // Añadir estado para documento de autorización
+  const [authDocument, setAuthDocument] = useState(null)
   const [newImageUrl, setNewImageUrl] = useState(null)
   const [uploading, setUploading] = useState(false)
   const [progress, setProgress] = useState(0)
-  const [authDocProgress, setAuthDocProgress] = useState(0) // Añadir estado para progreso de documento de autorización
+  const [authDocProgress, setAuthDocProgress] = useState(0)
   const [submitting, setSubmitting] = useState(false)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [selectedFormFields, setSelectedFormFields] = useState([])
   const navigate = useNavigate()
   const viewDictionary = 'pages.events.modifyEvent'
 
   const isSubmitting = useRef(false)
 
   log.setLevel('debug')
-  // Utilizamos el hook useSlug en lugar de la función local
 
   const getStoragePathFromUrl = (url) => {
     try {
@@ -163,10 +166,11 @@ function EventModify() {
 
         if (eventDoc.exists()) {
           const data = eventDoc.data()
-          let startDate = ''
-          let startTime = ''
-          let endDate = ''
-          let endTime = ''
+
+          const startDate = data.startDate || ''
+          const startTime = data.startTime || ''
+          const endDate = data.endDate || ''
+          const endTime = data.endTime || ''
 
           setEventData({
             ...data,
@@ -174,11 +178,14 @@ function EventModify() {
             startTime,
             endDate,
             endTime,
+            needForm: data.needForm || false,
+            formFieldsIds: data.formFieldsIds || [],
             participants: data.participants || [],
             collaborators: data.collaborators || [],
             tags: data.tags || [],
             authDocumentURL: data.authDocumentURL || '',
           })
+          setSelectedFormFields(data.formFieldsIds || [])
           setLoading(false)
         } else {
           setError('No se encontró el evento')
@@ -303,7 +310,6 @@ function EventModify() {
     })
   }
 
-  // ...existing code...
   const handleAuthDocChange = (e) => {
     const selectedFile = e.target.files?.[0]
     if (selectedFile) {
@@ -311,14 +317,12 @@ function EventModify() {
     }
   }
 
-  // Modificar la función uploadFile para usar diferentes carpetas según el tipo de archivo
   const uploadFile = async (file, progressSetter, isAuthDoc = false) => {
     setUploading(true)
     try {
       const timestamp = Date.now()
       const safeFileName = `${timestamp}_${(eventData.title || 'event').replace(/[^a-zA-Z0-9]/g, '_')}`
 
-      // Determinar la carpeta de destino según el tipo de archivo
       const folderPath = isAuthDoc ? 'authorizations' : 'uploads'
       const storageRef = ref(storage, `${folderPath}/${safeFileName}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
@@ -373,7 +377,6 @@ function EventModify() {
       setUploading(false)
     }
   }
-  // ...existing code...
 
   const handleTagChange = (tag) => {
     setEventData({ ...eventData, tags: [tag] })
@@ -421,7 +424,6 @@ function EventModify() {
     return null
   }
 
-  // ...existing code...
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -473,22 +475,56 @@ function EventModify() {
         fileUrl = await uploadFile(file, setProgress, false)
       }
 
-      // Manejar el documento de autorización
       let authDocUrl = eventData.authDocumentURL || ''
       if (authDocument) {
         authDocUrl = await uploadFile(authDocument, setAuthDocProgress, true)
       }
 
       const eventRef = doc(db, 'events', eventId)
+      const currentEventDoc = await getDoc(eventRef)
+      const currentEventData = currentEventDoc.data()
+      const needFormChanged = currentEventData.needForm !== eventData.needForm
+      const formFieldsChanged =
+        JSON.stringify(currentEventData.formFieldsIds || []) !==
+        JSON.stringify(selectedFormFields)
+
       await updateDoc(eventRef, {
         ...eventData,
+        formFieldsIds: eventData.needForm ? selectedFormFields : [],
         title: eventData.title.trim(),
         description: eventData.description?.trim(),
         location: eventData.location?.trim(),
         updatedAt: Timestamp.now(),
         eventURL: fileUrl,
-        authDocumentURL: authDocUrl, // Añadir URL del documento de autorización
+        authDocumentURL: authDocUrl,
       })
+
+      if (eventData.needForm && (needFormChanged || formFieldsChanged)) {
+        const allFormFields = createFormFieldsModel()
+
+        const formFields = allFormFields
+          .filter((field) => selectedFormFields.includes(field.fieldId))
+          .map((field, index) => ({
+            ...field,
+            order: index + 1,
+            createdAt: Timestamp.now(),
+          }))
+
+        const formCampsRef = collection(db, 'events', eventId, 'formCamps')
+        const formCampsSnapshot = await getDocs(formCampsRef)
+
+        const deletePromises = formCampsSnapshot.docs.map((doc) =>
+          deleteDoc(doc.ref)
+        )
+
+        if (deletePromises.length > 0) {
+          await Promise.all(deletePromises)
+        }
+
+        await Promise.all(
+          formFields.map((field) => addDoc(formCampsRef, field))
+        )
+      }
 
       const MySwal = withReactContent(Swal)
       await MySwal.fire({
@@ -522,7 +558,16 @@ function EventModify() {
       isSubmitting.current = false
     }
   }
-  // ...existing code...
+
+  const handleFormFieldToggle = (fieldId) => {
+    setSelectedFormFields((prev) => {
+      if (prev.includes(fieldId)) {
+        return prev.filter((id) => id !== fieldId)
+      } else {
+        return [...prev, fieldId]
+      }
+    })
+  }
 
   if (loading) {
     return (
@@ -781,8 +826,38 @@ function EventModify() {
                 onChange={handleChange}
               />
             </div>
+            <div className="flex items-center">
+              <DynamicInput
+                name="needForm"
+                textId={t(`${viewDictionary}.needFormLabel`)}
+                type="checkbox"
+                checked={eventData.needForm}
+                onChange={handleChange}
+              />
+            </div>
           </div>
         </div>
+
+        {eventData.needForm && (
+          <div className="p-4 mt-6 border border-gray-200 rounded-lg bg-gray-50">
+            <h4 className="mb-4 font-medium text-gray-700 text-md">
+              {t('pages.events.modifyEvent.selectFormFields')}
+            </h4>
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+              {createFormFieldsModel().map((field) => (
+                <div key={field.fieldId}>
+                  <DynamicInput
+                    name={`field-${field.fieldId}`}
+                    textId={`${t(field.label)} ${field.required ? t('pages.events.modifyEvent.required') : t('pages.events.modifyEvent.optional')}`}
+                    type="checkbox"
+                    checked={selectedFormFields.includes(field.fieldId)}
+                    onChange={() => handleFormFieldToggle(field.fieldId)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Sección de imágenes */}
         <div className="p-4 mb-6 rounded-lg ">
@@ -1001,14 +1076,14 @@ function EventModify() {
         {/* Nueva sección de participantes */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
-            Participantes
+            {t(`${viewDictionary}.participantsTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 gap-6">
             <div>
               <DynamicInput
                 name="searchParticipant"
-                textId="Buscar participante"
+                textId={t(`${viewDictionary}.searchParticipantsLabel`)}
                 type="text"
                 value={participantSearch}
                 onChange={(e) => setParticipantSearch(e.target.value)}
@@ -1018,7 +1093,7 @@ function EventModify() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="">
                 <h4 className="mb-2 text-gray-700 t16r">
-                  Lista de Participantes
+                  {t(`${viewDictionary}.participantsTitleList`)}
                 </h4>
                 <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
@@ -1041,7 +1116,7 @@ function EventModify() {
 
               <div>
                 <h4 className="mb-2 text-gray-700 t16r">
-                  Participantes Seleccionados
+                  {t(`${viewDictionary}.participantsSelectedTitle`)}{' '}
                 </h4>
                 <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
@@ -1082,7 +1157,7 @@ function EventModify() {
             onClick={() => navigate('/events-control-list')}
             size="small"
             state="normal"
-            textId="components.buttons.cancel"
+            textId={t(`components.buttons.cancel`)}
             className="mr-4"
           />
 

@@ -26,6 +26,8 @@ import EventModify from '../pages/events/EventModify'
 import EventList from '../pages/events/EventList'
 import NewSeason from '../pages/season/NewSeason'
 import SeasonsList from '../pages/season/SeasonsList'
+import EventParticipationForm from '../pages/events/EventParticipationForm'
+import EventsParticipants from '../pages/events/EventsParticipants'
 
 // Páginas de colaboradores
 import CollaboratorRegisterForm from '../pages/collaborators/CollabRegister'
@@ -65,10 +67,13 @@ export const publicRoutes = [
   { path: '/recover-password', element: <RecoverPassword /> },
   { path: '/reset-password', element: <ResetPassword /> },
   { path: '/gallery', element: <GalleryPage /> },
+  {
+    path: '/event-participation-form/:eventSlug',
+    element: <EventParticipationForm />,
+  },
 ]
 
 export const protectedRoutes = [
-  // Rutas protegidas
   { path: '/dashboard', element: <Dashboard /> },
   { path: '/new-event', element: <EventForm /> },
   { path: '/edit-event/:slug', element: <EventModify /> },
@@ -94,4 +99,5 @@ export const protectedRoutes = [
   { path: '/new-season', element: <NewSeason /> },
   { path: '/admin-partner-form', element: <AdminPartnersForm /> },
   { path: '/seasons-list', element: <SeasonsList /> },
+  { path: '/event-participants/:slug', element: <EventsParticipants /> },
 ]

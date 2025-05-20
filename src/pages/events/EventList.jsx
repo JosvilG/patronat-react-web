@@ -1,11 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  deleteDoc,
+  doc,
+  query,
+  where,
+} from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router-dom'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import useSlug from '../../hooks/useSlug'
+import Swal from 'sweetalert2'
 
 function EventList() {
   const { t } = useTranslation()
@@ -47,15 +55,54 @@ function EventList() {
 
   const handleDelete = async (id) => {
     try {
+      const confirmResult = await Swal.fire({
+        title: '¿Estás seguro?',
+        text: 'Se eliminarán el evento y todas sus inscripciones. Esta acción no se puede deshacer.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+      })
+
+      if (!confirmResult.isConfirmed) {
+        return
+      }
+
+      const inscriptionsQuery = query(
+        collection(db, 'inscriptions'),
+        where('eventId', '==', id)
+      )
+
+      const inscriptionsSnapshot = await getDocs(inscriptionsQuery)
+
+      const deletePromises = inscriptionsSnapshot.docs.map((inscriptionDoc) =>
+        deleteDoc(doc(db, 'inscriptions', inscriptionDoc.id))
+      )
+
+      await Promise.all(deletePromises)
+
       await deleteDoc(doc(db, 'events', id))
+
       const updatedEvents = events.filter((event) => event.id !== id)
       setEvents(updatedEvents)
       setFilteredEvents(updatedEvents)
+
+      Swal.fire(
+        '¡Eliminado!',
+        'El evento y sus inscripciones han sido eliminados.',
+        'success'
+      )
     } catch (error) {
-      return
+      console.error('Error al eliminar el evento:', error)
+      Swal.fire(
+        'Error',
+        'No se pudo eliminar el evento. Por favor, inténtalo de nuevo.',
+        'error'
+      )
     }
   }
-  // Usando el hook useSlug en lugar de la función local
 
   return (
     <div className="max-w-full pb-6 mx-auto md:max-w-fit">
@@ -97,7 +144,6 @@ function EventList() {
             <div className="flex space-x-2">
               <DynamicButton
                 onClick={() => {
-                  // Usar el slug del título en lugar del ID
                   const slug = generateSlug(event.title)
 
                   navigate(`/edit-event/${slug}`, {
@@ -108,10 +154,27 @@ function EventList() {
                 state="normal"
                 textId={t(`${viewDictionary}.modifyButton`)}
               />
+
+              {/* Mostrar el botón solo si needForm es true */}
+              {event.needForm === true && (
+                <DynamicButton
+                  onClick={() => {
+                    const slug = generateSlug(event.title)
+                    navigate(`/event-participants/${slug}`, {
+                      state: { eventId: event.id, eventTitle: event.title },
+                    })
+                  }}
+                  size="x-small"
+                  type="view"
+                  title="Ver participantes"
+                />
+              )}
+
               <DynamicButton
                 onClick={() => handleDelete(event.id)}
                 size="x-small"
                 type="delete"
+                title="Eliminar evento"
               />
             </div>
           </li>

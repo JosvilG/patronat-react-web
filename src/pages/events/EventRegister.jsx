@@ -7,6 +7,7 @@ import Swal from 'sweetalert2'
 import log from 'loglevel'
 import { db, storage } from '../../firebase/firebase'
 import { createEventModel } from '../../models/eventData'
+import { createFormFieldsModel } from '../../models/formData'
 import imageCompression from 'browser-image-compression'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
@@ -40,6 +41,17 @@ function EventForm() {
   const [progress, setProgress] = useState(0)
   const [authDocProgress, setAuthDocProgress] = useState(0)
   const [submitting, setSubmitting] = useState(false)
+  const [selectedFormFields, setSelectedFormFields] = useState([
+    'nombre',
+    'tematica',
+    'responsable1',
+    'responsable2',
+    'dni1',
+    'dni2',
+    'telefono1',
+    'telefono2',
+    'ubicacion',
+  ])
   const navigate = useNavigate()
   const viewDictionary = 'pages.events.registerEvent'
 
@@ -183,10 +195,8 @@ function EventForm() {
     }
   }
 
-  // Modificar la función uploadFile para usar diferentes carpetas según el tipo de archivo
   const uploadFile = async (file, progressSetter, isAuthDoc = false) => {
     try {
-      // Determinar la carpeta de destino según el tipo de archivo
       const folderPath = isAuthDoc ? 'authorizations' : 'uploads'
       const storageRef = ref(storage, `${folderPath}/${file.name}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
@@ -237,6 +247,16 @@ function EventForm() {
     }
   }
 
+  const handleFormFieldToggle = (fieldId) => {
+    setSelectedFormFields((prev) => {
+      if (prev.includes(fieldId)) {
+        return prev.filter((id) => id !== fieldId)
+      } else {
+        return [...prev, fieldId]
+      }
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
@@ -256,13 +276,36 @@ function EventForm() {
       const eventDataToSave = { ...eventData }
       delete eventDataToSave.imageURL
 
-      await addDoc(collection(db, 'events'), {
+      const eventDocRef = await addDoc(collection(db, 'events'), {
         ...eventDataToSave,
-
         createdAt: Timestamp.now(),
         eventURL: fileUrl,
         authDocumentURL: authDocUrl,
+        formFieldsIds: eventData.needForm ? selectedFormFields : [],
       })
+
+      if (eventData.needForm) {
+        const allFormFields = createFormFieldsModel()
+
+        const formFields = allFormFields.filter((field) =>
+          selectedFormFields.includes(field.fieldId)
+        )
+
+        formFields.forEach((field, index) => {
+          field.order = index + 1
+        })
+
+        const formCampsRef = collection(
+          db,
+          'events',
+          eventDocRef.id,
+          'formCamps'
+        )
+
+        await Promise.all(
+          formFields.map((field) => addDoc(formCampsRef, field))
+        )
+      }
 
       const MySwal = withReactContent(Swal)
       MySwal.fire({
@@ -304,7 +347,6 @@ function EventForm() {
           {t(`${viewDictionary}.title`)}
         </h1>
 
-        {/* Sección de información básica */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
@@ -369,7 +411,8 @@ function EventForm() {
 
                 <div>
                   <h4 className="mb-2 text-gray-700 t16r">
-                    Organizador Seleccionado
+                    Organizador Seleccionado{' '}
+                    {t(`${viewDictionary}.selectedOrganizerLabel`)}
                   </h4>
                   <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                     {eventData.organizer ? (
@@ -399,7 +442,7 @@ function EventForm() {
                       />
                     ) : (
                       <p className="p-2 text-gray-500">
-                        Ningún organizador seleccionado
+                        {t(`${viewDictionary}.anyOrganizerLabel`)}
                       </p>
                     )}
                   </div>
@@ -419,7 +462,6 @@ function EventForm() {
           </div>
         </div>
 
-        {/* Sección de fechas y horarios */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.dateInfoTitle`)}
@@ -470,7 +512,6 @@ function EventForm() {
           </div>
         </div>
 
-        {/* Sección de detalles del evento */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.detailsInfoTitle`)}
@@ -526,10 +567,40 @@ function EventForm() {
                 onChange={handleChange}
               />
             </div>
+
+            <div className="flex items-center">
+              <DynamicInput
+                name="needForm"
+                textId={t(`${viewDictionary}.needFormLabel`)}
+                type="checkbox"
+                checked={eventData.needForm}
+                onChange={handleChange}
+              />
+            </div>
           </div>
         </div>
 
-        {/* Sección de imágenes */}
+        {eventData.needForm && (
+          <div className="p-4 mb-6 rounded-lg">
+            <h3 className="mb-4 text-lg font-semibold text-gray-700">
+              {t(`${viewDictionary}.inscriptionCampsForm`)}
+            </h3>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+              {createFormFieldsModel().map((field) => (
+                <div key={field.fieldId}>
+                  <DynamicInput
+                    name={`field-${field.fieldId}`}
+                    textId={`${t(field.label)} ${field.required ? t(`${viewDictionary}.mandatoryLabel`) : t(`${viewDictionary}.optionalLabel`)}`}
+                    type="checkbox"
+                    checked={selectedFormFields.includes(field.fieldId)}
+                    onChange={() => handleFormFieldToggle(field.fieldId)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.galleryInfoTitle`)}
@@ -555,7 +626,6 @@ function EventForm() {
                 </div>
               )}
 
-              {/* Vista previa de la imagen */}
               {eventData.imageURL && (
                 <div className="mt-4">
                   <img
@@ -569,15 +639,16 @@ function EventForm() {
           </div>
         </div>
 
-        {/* Nueva sección para documento de autorización */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
-            Documento de Autorización
+            {t(`${viewDictionary}.authorizationDocumentTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 gap-6">
             <div>
-              <h4 className="t16r">Subir documento de autorización</h4>
+              <h4 className="t16r">
+                {t(`${viewDictionary}.uploadAutDocument`)}
+              </h4>
               <DynamicInput
                 name="authDocument"
                 type="document"
@@ -602,7 +673,6 @@ function EventForm() {
           </div>
         </div>
 
-        {/* Sección de etiquetas */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.tagsInfoTitle`)}
@@ -627,7 +697,6 @@ function EventForm() {
           </div>
         </div>
 
-        {/* Sección de colaboradores */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.collaboratorsInfoTitle`)}
@@ -705,17 +774,16 @@ function EventForm() {
           </div>
         </div>
 
-        {/* Nueva sección de participantes */}
         <div className="p-4 mb-6 rounded-lg ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
-            Participantes
+            {t(`${viewDictionary}.participantTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 gap-6">
             <div>
               <DynamicInput
                 name="searchParticipant"
-                textId="Buscar participante"
+                textId={t(`${viewDictionary}.searchParticipantsLabel`)}
                 type="text"
                 value={participantSearch}
                 onChange={(e) => setParticipantSearch(e.target.value)}
@@ -725,7 +793,7 @@ function EventForm() {
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               <div className="">
                 <h4 className="mb-2 text-gray-700 t16r">
-                  Lista de Participantes
+                  {t(`${viewDictionary}.participantList`)}
                 </h4>
                 <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
@@ -748,7 +816,7 @@ function EventForm() {
 
               <div>
                 <h4 className="mb-2 text-gray-700 t16r">
-                  Participantes Seleccionados
+                  {t(`${viewDictionary}.selectedParticipantsTitle`)}
                 </h4>
                 <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
