@@ -56,7 +56,6 @@ import UserList from '../pages/users/userList'
 import UserHistory from '../pages/users/userHistory'
 
 export const publicRoutes = [
-  // Rutas públicas
   { path: '/', element: <HomePage /> },
   { path: '/login', element: <Auth /> },
   { path: '/register', element: <RegisterPage /> },
@@ -73,7 +72,12 @@ export const publicRoutes = [
   },
 ]
 
-export const protectedRoutes = [
+export const userProtectedRoutes = [
+  { path: '/profile/:slug', element: <ProfilePage /> },
+  { path: '/settings', element: <Settings /> },
+]
+
+export const adminProtectedRoutes = [
   { path: '/dashboard', element: <Dashboard /> },
   { path: '/new-event', element: <EventForm /> },
   { path: '/edit-event/:slug', element: <EventModify /> },
@@ -87,8 +91,6 @@ export const protectedRoutes = [
   { path: '/upload-file', element: <UploadFileForm /> },
   { path: '/upload-list', element: <UploadList /> },
   { path: '/new-crew', element: <CrewForm /> },
-  { path: '/profile/:slug', element: <ProfilePage /> },
-  { path: '/settings', element: <Settings /> },
   { path: '/user-modify', element: <UserControl /> },
   { path: '/edit-user/:slug', element: <UserControl /> },
   { path: '/users-list', element: <UserList /> },

@@ -14,36 +14,35 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const auth = getAuth()
-
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        const fetchUserData = async () => {
+      const fetchData = async () => {
+        if (firebaseUser) {
+          setLoading(true)
           try {
             const docRef = doc(db, 'users', firebaseUser.uid)
             const docSnap = await getDoc(docRef)
+            const firestoreData = docSnap.exists() ? docSnap.data() : {}
+            const idTokenResult = await firebaseUser.getIdTokenResult(true)
+            const role =
+              idTokenResult.claims.role || firestoreData.role || 'user'
 
-            if (docSnap.exists()) {
-              setUserData(docSnap.data())
-              setUser(firebaseUser)
-            }
+            setUser(firebaseUser)
+            setUserData({ ...firestoreData, role })
           } catch (error) {
-            log.error('Error al obtener los datos del usuario:', error)
+            log.error('Error fetching user data or token:', error)
           } finally {
             setLoading(false)
           }
+        } else {
+          setUser(null)
+          setUserData(null)
+          setLoading(false)
         }
-
-        fetchUserData()
-      } else {
-        setUser(null)
-        setUserData(null)
-        setLoading(false)
       }
+      fetchData()
     })
 
-    return () => {
-      unsubscribe()
-    }
+    return () => unsubscribe()
   }, [])
 
   const value = useMemo(

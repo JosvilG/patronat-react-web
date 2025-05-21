@@ -1,10 +1,17 @@
 import React from 'react'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
-import ProtectedRoute from './components/ProtectedRoute'
+import {
+  ProtectedRoute,
+  AdminProtectedRoute,
+} from './components/ProtectedRoute'
 import UnderConstruction from './pages/UnderConstruction'
 import './translations/index'
-import { publicRoutes, protectedRoutes } from './routes/routes'
+import {
+  publicRoutes,
+  userProtectedRoutes,
+  adminProtectedRoutes,
+} from './routes/routes'
 import ScrollToTop from './utils/scrollToTop'
 
 function App() {
@@ -13,13 +20,11 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
-          {/* Rutas públicas */}
           {publicRoutes.map(({ path, element }) => (
             <Route key={path} path={path} element={element} />
           ))}
 
-          {/* Rutas protegidas */}
-          {protectedRoutes.map(({ path, element }) => (
+          {userProtectedRoutes.map(({ path, element }) => (
             <Route
               key={path}
               path={path}
@@ -27,7 +32,14 @@ function App() {
             />
           ))}
 
-          {/* Página en construcción para rutas no encontradas */}
+          {adminProtectedRoutes.map(({ path, element }) => (
+            <Route
+              key={path}
+              path={path}
+              element={<AdminProtectedRoute>{element}</AdminProtectedRoute>}
+            />
+          ))}
+
           <Route path="*" element={<UnderConstruction />} />
         </Route>
       </Routes>
