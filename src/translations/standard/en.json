@@ -746,104 +746,104 @@
           "exportError": "There was an error exporting partner data."
         }
       }
+    },
+    "seasons": {
+      "newSeason": {
+        "title": "New Batch",
+        "seasonYearLabel": "Batch Year",
+        "totalPriceLabel": "Total Price",
+        "priceFirstFractionLabel": "First Installment Price",
+        "priceSeconFractionLabel": "Second Installment Price",
+        "priceThirdFractionLabel": "Third Installment Price",
+        "activeLabel": "Activate Batch",
+        "submittingText": "Saving...",
+        "submitButton": "Save Batch",
+        "loadingText": "Loading...",
+        "adultPrices": "Adults (16+)",
+        "childPrices": "Children (<16)",
+        "checkingYear": "Checking year availability...",
+        "activeSeasonNotice": "Year {{seasonYear}} is the active batch. Activating this batch will automatically deactivate the current one.",
+        "validation": {
+          "seasonYearRequired": "Batch year is required",
+          "seasonYearInvalid": "Batch year must be the current year or later",
+          "seasonYearDuplicate": "A batch for year {{year}} already exists. Duplicates are not allowed.",
+          "totalPricePositive": "Total price cannot be negative",
+          "totalPriceRequired": "Total price is required",
+          "totalPriceNumeric": "Total price must be a number",
+          "fractionSumMismatch": "The sum of installments must equal the total price",
+          "fractionPriceRequired": "Installment prices are required",
+          "fractionPriceNumeric": "Installment prices must be numbers",
+          "fractionPricePositive": "Installment prices cannot be negative"
+        },
+        "successPopup": {
+          "title": "Success",
+          "text": "The batch has been registered successfully."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "An error occurred registering the batch.",
+          "checkSeasonError": "Error checking active batches.",
+          "createSeasonError": "Error creating batch.",
+          "deactivateSeasonError": "Error deactivating existing batch.",
+          "createPaymentsError": "Error creating payments for partners.",
+          "formValidationError": "Please fix the form errors before continuing.",
+          "serverError": "Server error. Please try again later.",
+          "networkError": "Connection error. Check your internet connection.",
+          "unknownError": "An unknown error occurred. Please try again."
+        },
+        "warningPopup": {
+          "title": "Warning",
+          "deactivateSeasonWarning": "Activating this batch will deactivate the current active batch for year {{year}}.",
+          "confirmContinue": "Do you wish to continue?"
+        },
+        "confirmationPopup": {
+          "title": "Confirm Action",
+          "createPaymentsConfirmation": "Payment documents will be created for all active partners. Continue?",
+          "confirmButton": "Yes, continue",
+          "cancelButton": "No, cancel"
+        },
+        "authError": "You must be logged in to perform this action.",
+        "permissionError": "You do not have permission to perform this action.",
+        "paymentsCreatedTitle": "Payment Documents Created",
+        "paymentsCreatedText": "{{createdCount}} payment documents created for the new batch. {{skippedCount}} partners skipped who already had payments configured.",
+        "noPartnersFound": "No active partners found to create payments.",
+        "activeSeasonExistsError": "An active season for this year already exists.",
+        "databaseConnectionError": "Database connection error.",
+        "sessionExpiredError": "Your session has expired. Please log in again."
+      }
+    },
+    "userRegister": {
+      "title": "User Registration",
+      "description": "Please fill in the fields to complete your registration",
+      "name": "First Name",
+      "surname": "Last Name",
+      "user": "Choose a Username",
+      "email": "Enter an Email",
+      "password": "Enter Your Password",
+      "phone": "Phone",
+      "dni": "ID",
+      "birthDate": "Date of Birth"
+    },
+    "login": {
+      "title": "Log In",
+      "description": "Welcome back, please log in to continue",
+      "mailInput": "Enter your email",
+      "passwordInput": "Enter your password",
+      "forgotPassword": "Forgot your password?",
+      "noAccount": "Don't have an account? ",
+      "register": "Sign Up"
+    },
+    "recoverPage": {
+      "title": "Recover Password",
+      "description": "Enter your email to recover your password",
+      "email": "Email"
+    },
+    "resetPassword": {
+      "title": "Reset Password",
+      "description": "Please fill in the fields to complete your password change",
+      "newPassword": "Enter your new password",
+      "confirmPassword": "Repeat password"
     }
-  },
-  "seasons": {
-    "newSeason": {
-      "title": "New Batch",
-      "seasonYearLabel": "Batch Year",
-      "totalPriceLabel": "Total Price",
-      "priceFirstFractionLabel": "First Installment Price",
-      "priceSeconFractionLabel": "Second Installment Price",
-      "priceThirdFractionLabel": "Third Installment Price",
-      "activeLabel": "Activate Batch",
-      "submittingText": "Saving...",
-      "submitButton": "Save Batch",
-      "loadingText": "Loading...",
-      "adultPrices": "Adults (16+)",
-      "childPrices": "Children (<16)",
-      "checkingYear": "Checking year availability...",
-      "activeSeasonNotice": "Year {{seasonYear}} is the active batch. Activating this batch will automatically deactivate the current one.",
-      "validation": {
-        "seasonYearRequired": "Batch year is required",
-        "seasonYearInvalid": "Batch year must be the current year or later",
-        "seasonYearDuplicate": "A batch for year {{year}} already exists. Duplicates are not allowed.",
-        "totalPricePositive": "Total price cannot be negative",
-        "totalPriceRequired": "Total price is required",
-        "totalPriceNumeric": "Total price must be a number",
-        "fractionSumMismatch": "The sum of installments must equal the total price",
-        "fractionPriceRequired": "Installment prices are required",
-        "fractionPriceNumeric": "Installment prices must be numbers",
-        "fractionPricePositive": "Installment prices cannot be negative"
-      },
-      "successPopup": {
-        "title": "Success",
-        "text": "The batch has been registered successfully."
-      },
-      "errorPopup": {
-        "title": "Error",
-        "text": "An error occurred registering the batch.",
-        "checkSeasonError": "Error checking active batches.",
-        "createSeasonError": "Error creating batch.",
-        "deactivateSeasonError": "Error deactivating existing batch.",
-        "createPaymentsError": "Error creating payments for partners.",
-        "formValidationError": "Please fix the form errors before continuing.",
-        "serverError": "Server error. Please try again later.",
-        "networkError": "Connection error. Check your internet connection.",
-        "unknownError": "An unknown error occurred. Please try again."
-      },
-      "warningPopup": {
-        "title": "Warning",
-        "deactivateSeasonWarning": "Activating this batch will deactivate the current active batch for year {{year}}.",
-        "confirmContinue": "Do you wish to continue?"
-      },
-      "confirmationPopup": {
-        "title": "Confirm Action",
-        "createPaymentsConfirmation": "Payment documents will be created for all active partners. Continue?",
-        "confirmButton": "Yes, continue",
-        "cancelButton": "No, cancel"
-      },
-      "authError": "You must be logged in to perform this action.",
-      "permissionError": "You do not have permission to perform this action.",
-      "paymentsCreatedTitle": "Payment Documents Created",
-      "paymentsCreatedText": "{{createdCount}} payment documents created for the new batch. {{skippedCount}} partners skipped who already had payments configured.",
-      "noPartnersFound": "No active partners found to create payments.",
-      "activeSeasonExistsError": "An active season for this year already exists.",
-      "databaseConnectionError": "Database connection error.",
-      "sessionExpiredError": "Your session has expired. Please log in again."
-    }
-  },
-  "userRegister": {
-    "title": "User Registration",
-    "description": "Please fill in the fields to complete your registration",
-    "name": "First Name",
-    "surname": "Last Name",
-    "user": "Choose a Username",
-    "email": "Enter an Email",
-    "password": "Enter Your Password",
-    "phone": "Phone",
-    "dni": "ID",
-    "birthDate": "Date of Birth"
-  },
-  "login": {
-    "title": "Log In",
-    "description": "Welcome back, please log in to continue",
-    "mailInput": "Enter your email",
-    "passwordInput": "Enter your password",
-    "forgotPassword": "Forgot your password?",
-    "noAccount": "Don't have an account? ",
-    "register": "Sign Up"
-  },
-  "recoverPage": {
-    "title": "Recover Password",
-    "description": "Enter your email to recover your password",
-    "email": "Email"
-  },
-  "resetPassword": {
-    "title": "Reset Password",
-    "description": "Please fill in the fields to complete your password change",
-    "newPassword": "Enter your new password",
-    "confirmPassword": "Repeat password"
   },
   "components": {
     "navbar": {

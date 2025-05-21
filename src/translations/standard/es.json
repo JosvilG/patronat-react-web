@@ -746,104 +746,104 @@
           "exportError": "Ha ocurrido un error al exportar los datos del socio."
         }
       }
+    },
+    "seasons": {
+      "newSeason": {
+        "title": "Nueva remesa",
+        "seasonYearLabel": "Año de la remesa",
+        "totalPriceLabel": "Precio total",
+        "priceFirstFractionLabel": "Precio primera fracción",
+        "priceSeconFractionLabel": "Precio segunda fracción",
+        "priceThirdFractionLabel": "Precio tercera fracción",
+        "activeLabel": "Activar remesa",
+        "submittingText": "Guardando...",
+        "submitButton": "Guardar remesa",
+        "loadingText": "Cargando...",
+        "adultPrices": "Mayores de 16 años",
+        "childPrices": "Menores de 16 años",
+        "checkingYear": "Verificando disponibilidad del año...",
+        "activeSeasonNotice": "El año {{seasonYear}} está como remesa activa. Si selecciona como activa esta nueva remesa, la actual se desactivará automáticamente.",
+        "validation": {
+          "seasonYearRequired": "El año de la remesa es obligatorio",
+          "seasonYearInvalid": "El año de la remesa debe ser igual o posterior al año actual",
+          "seasonYearDuplicate": "Ya existe una remesa para el año {{year}}. No se permiten remesas duplicadas.",
+          "totalPricePositive": "El precio total no puede ser negativo",
+          "totalPriceRequired": "El precio total es obligatorio",
+          "totalPriceNumeric": "El precio total debe ser un número",
+          "fractionSumMismatch": "La suma de los precios de las fracciones debe ser igual al precio total",
+          "fractionPriceRequired": "Los precios de las fracciones son obligatorios",
+          "fractionPriceNumeric": "Los precios de las fracciones deben ser números",
+          "fractionPricePositive": "Los precios de las fracciones no pueden ser negativos"
+        },
+        "successPopup": {
+          "title": "Éxito",
+          "text": "La remesa ha sido registrada correctamente."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Ha ocurrido un error al registrar la remesa.",
+          "checkSeasonError": "Error al comprobar las remesas activas.",
+          "createSeasonError": "Error al crear la remesa.",
+          "deactivateSeasonError": "Error al desactivar la remesa existente.",
+          "createPaymentsError": "Error al crear los pagos para los socios.",
+          "formValidationError": "Por favor, corrige los errores en el formulario antes de continuar.",
+          "serverError": "Error en el servidor. Por favor, inténtalo más tarde.",
+          "networkError": "Error de conexión. Comprueba tu conexión a internet.",
+          "unknownError": "Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo."
+        },
+        "warningPopup": {
+          "title": "Advertencia",
+          "deactivateSeasonWarning": "Al activar esta remesa, se desactivará la remesa activa actual para el año {{year}}.",
+          "confirmContinue": "¿Deseas continuar?"
+        },
+        "confirmationPopup": {
+          "title": "Confirmar acción",
+          "createPaymentsConfirmation": "Se crearán documentos de pago para todos los socios activos. ¿Deseas continuar?",
+          "confirmButton": "Sí, continuar",
+          "cancelButton": "No, cancelar"
+        },
+        "authError": "Debe iniciar sesión para realizar esta acción.",
+        "permissionError": "No tiene permisos para realizar esta acción.",
+        "paymentsCreatedTitle": "Documentos de pagos creados",
+        "paymentsCreatedText": "Se han creado {{createdCount}} documentos de pagos para la nueva temporada. Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.",
+        "noPartnersFound": "No se encontraron socios activos para crear pagos.",
+        "activeSeasonExistsError": "Ya existe una temporada activa para este año.",
+        "databaseConnectionError": "Error de conexión a la base de datos.",
+        "sessionExpiredError": "Tu sesión ha caducado. Por favor, inicia sesión de nuevo."
+      }
+    },
+    "userRegister": {
+      "title": "Registro de usuario",
+      "description": "Por favor, rellena los campos para completar tu registro",
+      "name": "Nombre",
+      "surname": "Apellidos",
+      "user": "Introduce un usuario",
+      "email": "Introduce un correo electrónico",
+      "password": "Introduce tu contraseña",
+      "phone": "Teléfono",
+      "dni": "DNI",
+      "birthDate": "Fecha de nacimiento"
+    },
+    "login": {
+      "title": "Iniciar sesión",
+      "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
+      "mailInput": "Introduce tu correo electrónico",
+      "passwordInput": "Introduce tu contraseña",
+      "forgotPassword": "¿Has olvidado tu contraseña?",
+      "noAccount": "¿No tienes una cuenta? ",
+      "register": "Regístrate"
+    },
+    "recoverPage": {
+      "title": "Recuperar contraseña",
+      "description": "Introduce tu correo electrónico para recuperar tu contraseña",
+      "email": "Correo electrónico"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
+      "newPassword": "Introduce tu nueva contraseña",
+      "confirmPassword": "Repite la contraseña"
     }
-  },
-  "seasons": {
-    "newSeason": {
-      "title": "Nueva remesa",
-      "seasonYearLabel": "Año de la remesa",
-      "totalPriceLabel": "Precio total",
-      "priceFirstFractionLabel": "Precio primera fracción",
-      "priceSeconFractionLabel": "Precio segunda fracción",
-      "priceThirdFractionLabel": "Precio tercera fracción",
-      "activeLabel": "Activar remesa",
-      "submittingText": "Guardando...",
-      "submitButton": "Guardar remesa",
-      "loadingText": "Cargando...",
-      "adultPrices": "Mayores de 16 años",
-      "childPrices": "Menores de 16 años",
-      "checkingYear": "Verificando disponibilidad del año...",
-      "activeSeasonNotice": "El año {{seasonYear}} está como remesa activa. Si selecciona como activa esta nueva remesa, la actual se desactivará automáticamente.",
-      "validation": {
-        "seasonYearRequired": "El año de la remesa es obligatorio",
-        "seasonYearInvalid": "El año de la remesa debe ser igual o posterior al año actual",
-        "seasonYearDuplicate": "Ya existe una remesa para el año {{year}}. No se permiten remesas duplicadas.",
-        "totalPricePositive": "El precio total no puede ser negativo",
-        "totalPriceRequired": "El precio total es obligatorio",
-        "totalPriceNumeric": "El precio total debe ser un número",
-        "fractionSumMismatch": "La suma de los precios de las fracciones debe ser igual al precio total",
-        "fractionPriceRequired": "Los precios de las fracciones son obligatorios",
-        "fractionPriceNumeric": "Los precios de las fracciones deben ser números",
-        "fractionPricePositive": "Los precios de las fracciones no pueden ser negativos"
-      },
-      "successPopup": {
-        "title": "Éxito",
-        "text": "La remesa ha sido registrada correctamente."
-      },
-      "errorPopup": {
-        "title": "Error",
-        "text": "Ha ocurrido un error al registrar la remesa.",
-        "checkSeasonError": "Error al comprobar las remesas activas.",
-        "createSeasonError": "Error al crear la remesa.",
-        "deactivateSeasonError": "Error al desactivar la remesa existente.",
-        "createPaymentsError": "Error al crear los pagos para los socios.",
-        "formValidationError": "Por favor, corrige los errores en el formulario antes de continuar.",
-        "serverError": "Error en el servidor. Por favor, inténtalo más tarde.",
-        "networkError": "Error de conexión. Comprueba tu conexión a internet.",
-        "unknownError": "Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo."
-      },
-      "warningPopup": {
-        "title": "Advertencia",
-        "deactivateSeasonWarning": "Al activar esta remesa, se desactivará la remesa activa actual para el año {{year}}.",
-        "confirmContinue": "¿Deseas continuar?"
-      },
-      "confirmationPopup": {
-        "title": "Confirmar acción",
-        "createPaymentsConfirmation": "Se crearán documentos de pago para todos los socios activos. ¿Deseas continuar?",
-        "confirmButton": "Sí, continuar",
-        "cancelButton": "No, cancelar"
-      },
-      "authError": "Debe iniciar sesión para realizar esta acción.",
-      "permissionError": "No tiene permisos para realizar esta acción.",
-      "paymentsCreatedTitle": "Documentos de pagos creados",
-      "paymentsCreatedText": "Se han creado {{createdCount}} documentos de pagos para la nueva temporada. Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.",
-      "noPartnersFound": "No se encontraron socios activos para crear pagos.",
-      "activeSeasonExistsError": "Ya existe una temporada activa para este año.",
-      "databaseConnectionError": "Error de conexión a la base de datos.",
-      "sessionExpiredError": "Tu sesión ha caducado. Por favor, inicia sesión de nuevo."
-    }
-  },
-  "userRegister": {
-    "title": "Registro de usuario",
-    "description": "Por favor, rellena los campos para completar tu registro",
-    "name": "Nombre",
-    "surname": "Apellidos",
-    "user": "Introduce un usuario",
-    "email": "Introduce un correo electrónico",
-    "password": "Introduce tu contraseña",
-    "phone": "Teléfono",
-    "dni": "DNI",
-    "birthDate": "Fecha de nacimiento"
-  },
-  "login": {
-    "title": "Iniciar sesión",
-    "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
-    "mailInput": "Introduce tu correo electrónico",
-    "passwordInput": "Introduce tu contraseña",
-    "forgotPassword": "¿Has olvidado tu contraseña?",
-    "noAccount": "¿No tienes una cuenta? ",
-    "register": "Regístrate"
-  },
-  "recoverPage": {
-    "title": "Recuperar contraseña",
-    "description": "Introduce tu correo electrónico para recuperar tu contraseña",
-    "email": "Correo electrónico"
-  },
-  "resetPassword": {
-    "title": "Restablecer contraseña",
-    "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
-    "newPassword": "Introduce tu nueva contraseña",
-    "confirmPassword": "Repite la contraseña"
   },
   "components": {
     "navbar": {

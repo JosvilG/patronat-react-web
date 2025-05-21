@@ -746,104 +746,104 @@
           "exportError": "Hi ha hagut un error en exportar les dades del soci."
         }
       }
+    },
+    "seasons": {
+      "newSeason": {
+        "title": "Nova remesa",
+        "seasonYearLabel": "Any de la remesa",
+        "totalPriceLabel": "Preu total",
+        "priceFirstFractionLabel": "Preu primera quota",
+        "priceSeconFractionLabel": "Preu segona quota",
+        "priceThirdFractionLabel": "Preu tercera quota",
+        "activeLabel": "Activa remesa",
+        "submittingText": "Desant...",
+        "submitButton": "Desa remesa",
+        "loadingText": "Carregant...",
+        "adultPrices": "Majors de 16 anys",
+        "childPrices": "Menors de 16 anys",
+        "checkingYear": "Verificant disponibilitat de l'any...",
+        "activeSeasonNotice": "L'any {{seasonYear}} és la remesa activa. Si selecciones aquesta remesa com a activa, l'actual s'inactivarà automàticament.",
+        "validation": {
+          "seasonYearRequired": "L'any de la remesa és obligatori",
+          "seasonYearInvalid": "L'any de la remesa ha de ser igual o posterior a l'any actual",
+          "seasonYearDuplicate": "Ja existeix una remesa per a l'any {{year}}. No es permeten remeses duplicades.",
+          "totalPricePositive": "El preu total no pot ser negatiu",
+          "totalPriceRequired": "El preu total és obligatori",
+          "totalPriceNumeric": "El preu total ha de ser un nombre",
+          "fractionSumMismatch": "La suma de les quotes ha de ser igual al preu total",
+          "fractionPriceRequired": "Les quotes són obligatòries",
+          "fractionPriceNumeric": "Les quotes han de ser nombres",
+          "fractionPricePositive": "Les quotes no poden ser negatives"
+        },
+        "successPopup": {
+          "title": "Èxit",
+          "text": "La remesa s'ha registrat correctament."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Hi ha hagut un error en registrar la remesa.",
+          "checkSeasonError": "Error en comprovar les remeses actives.",
+          "createSeasonError": "Error en crear la remesa.",
+          "deactivateSeasonError": "Error en desactivar la remesa existent.",
+          "createPaymentsError": "Error en crear els pagaments per als socis.",
+          "formValidationError": "Si us plau, corregeix els errors del formulari abans de continuar.",
+          "serverError": "Error al servidor. Torna-ho a intentar més tard.",
+          "networkError": "Error de connexió. Comprova la teva connexió a Internet.",
+          "unknownError": "Ha ocorregut un error desconegut. Torna-ho a intentar."
+        },
+        "warningPopup": {
+          "title": "Advertència",
+          "deactivateSeasonWarning": "En activar aquesta remesa, s'inactivarà la remesa activa actual per a l'any {{year}}.",
+          "confirmContinue": "Vols continuar?"
+        },
+        "confirmationPopup": {
+          "title": "Confirma acció",
+          "createPaymentsConfirmation": "Es crearan documents de pagament per a tots els socis actius. Vols continuar?",
+          "confirmButton": "Sí, continua",
+          "cancelButton": "No, cancel·la"
+        },
+        "authError": "Has d'iniciar sessió per fer aquesta acció.",
+        "permissionError": "No tens permisos per fer aquesta acció.",
+        "paymentsCreatedTitle": "Documents de pagaments creats",
+        "paymentsCreatedText": "S'han creat {{createdCount}} documents de pagament per a la nova temporada. S'han omès {{skippedCount}} socis que ja tenien pagaments configurats.",
+        "noPartnersFound": "No s'han trobat socis actius per crear pagaments.",
+        "activeSeasonExistsError": "Ja existeix una temporada activa per a aquest any.",
+        "databaseConnectionError": "Error de connexió a la base de dades.",
+        "sessionExpiredError": "La teva sessió ha caducat. Si us plau, inicia sessió de nou."
+      }
+    },
+    "userRegister": {
+      "title": "Registre d'usuari",
+      "description": "Si us plau, omple els camps per completar el teu registre",
+      "name": "Nom",
+      "surname": "Cognoms",
+      "user": "Introdueix un usuari",
+      "email": "Introdueix un correu electrònic",
+      "password": "Introdueix la teva contrasenya",
+      "phone": "Telèfon",
+      "dni": "DNI",
+      "birthDate": "Data de naixement"
+    },
+    "login": {
+      "title": "Inicia sessió",
+      "description": "Benvingut de nou, si us plau inicia sessió per continuar",
+      "mailInput": "Introdueix el teu correu electrònic",
+      "passwordInput": "Introdueix la teva contrasenya",
+      "forgotPassword": "Has oblidat la contrasenya?",
+      "noAccount": "No tens compte? ",
+      "register": "Registra't"
+    },
+    "recoverPage": {
+      "title": "Recupera contrasenya",
+      "description": "Introdueix el teu correu electrònic per recuperar la contrasenya",
+      "email": "Correu electrònic"
+    },
+    "resetPassword": {
+      "title": "Restableix contrasenya",
+      "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
+      "newPassword": "Introdueix la nova contrasenya",
+      "confirmPassword": "Repeteix la contrasenya"
     }
-  },
-  "seasons": {
-    "newSeason": {
-      "title": "Nova remesa",
-      "seasonYearLabel": "Any de la remesa",
-      "totalPriceLabel": "Preu total",
-      "priceFirstFractionLabel": "Preu primera quota",
-      "priceSeconFractionLabel": "Preu segona quota",
-      "priceThirdFractionLabel": "Preu tercera quota",
-      "activeLabel": "Activa remesa",
-      "submittingText": "Desant...",
-      "submitButton": "Desa remesa",
-      "loadingText": "Carregant...",
-      "adultPrices": "Majors de 16 anys",
-      "childPrices": "Menors de 16 anys",
-      "checkingYear": "Verificant disponibilitat de l'any...",
-      "activeSeasonNotice": "L'any {{seasonYear}} és la remesa activa. Si selecciones aquesta remesa com a activa, l'actual s'inactivarà automàticament.",
-      "validation": {
-        "seasonYearRequired": "L'any de la remesa és obligatori",
-        "seasonYearInvalid": "L'any de la remesa ha de ser igual o posterior a l'any actual",
-        "seasonYearDuplicate": "Ja existeix una remesa per a l'any {{year}}. No es permeten remeses duplicades.",
-        "totalPricePositive": "El preu total no pot ser negatiu",
-        "totalPriceRequired": "El preu total és obligatori",
-        "totalPriceNumeric": "El preu total ha de ser un nombre",
-        "fractionSumMismatch": "La suma de les quotes ha de ser igual al preu total",
-        "fractionPriceRequired": "Les quotes són obligatòries",
-        "fractionPriceNumeric": "Les quotes han de ser nombres",
-        "fractionPricePositive": "Les quotes no poden ser negatives"
-      },
-      "successPopup": {
-        "title": "Èxit",
-        "text": "La remesa s'ha registrat correctament."
-      },
-      "errorPopup": {
-        "title": "Error",
-        "text": "Hi ha hagut un error en registrar la remesa.",
-        "checkSeasonError": "Error en comprovar les remeses actives.",
-        "createSeasonError": "Error en crear la remesa.",
-        "deactivateSeasonError": "Error en desactivar la remesa existent.",
-        "createPaymentsError": "Error en crear els pagaments per als socis.",
-        "formValidationError": "Si us plau, corregeix els errors del formulari abans de continuar.",
-        "serverError": "Error al servidor. Torna-ho a intentar més tard.",
-        "networkError": "Error de connexió. Comprova la teva connexió a Internet.",
-        "unknownError": "Ha ocorregut un error desconegut. Torna-ho a intentar."
-      },
-      "warningPopup": {
-        "title": "Advertència",
-        "deactivateSeasonWarning": "En activar aquesta remesa, s'inactivarà la remesa activa actual per a l'any {{year}}.",
-        "confirmContinue": "Vols continuar?"
-      },
-      "confirmationPopup": {
-        "title": "Confirma acció",
-        "createPaymentsConfirmation": "Es crearan documents de pagament per a tots els socis actius. Vols continuar?",
-        "confirmButton": "Sí, continua",
-        "cancelButton": "No, cancel·la"
-      },
-      "authError": "Has d'iniciar sessió per fer aquesta acció.",
-      "permissionError": "No tens permisos per fer aquesta acció.",
-      "paymentsCreatedTitle": "Documents de pagaments creats",
-      "paymentsCreatedText": "S'han creat {{createdCount}} documents de pagament per a la nova temporada. S'han omès {{skippedCount}} socis que ja tenien pagaments configurats.",
-      "noPartnersFound": "No s'han trobat socis actius per crear pagaments.",
-      "activeSeasonExistsError": "Ja existeix una temporada activa per a aquest any.",
-      "databaseConnectionError": "Error de connexió a la base de dades.",
-      "sessionExpiredError": "La teva sessió ha caducat. Si us plau, inicia sessió de nou."
-    }
-  },
-  "userRegister": {
-    "title": "Registre d'usuari",
-    "description": "Si us plau, omple els camps per completar el teu registre",
-    "name": "Nom",
-    "surname": "Cognoms",
-    "user": "Introdueix un usuari",
-    "email": "Introdueix un correu electrònic",
-    "password": "Introdueix la teva contrasenya",
-    "phone": "Telèfon",
-    "dni": "DNI",
-    "birthDate": "Data de naixement"
-  },
-  "login": {
-    "title": "Inicia sessió",
-    "description": "Benvingut de nou, si us plau inicia sessió per continuar",
-    "mailInput": "Introdueix el teu correu electrònic",
-    "passwordInput": "Introdueix la teva contrasenya",
-    "forgotPassword": "Has oblidat la contrasenya?",
-    "noAccount": "No tens compte? ",
-    "register": "Registra't"
-  },
-  "recoverPage": {
-    "title": "Recupera contrasenya",
-    "description": "Introdueix el teu correu electrònic per recuperar la contrasenya",
-    "email": "Correu electrònic"
-  },
-  "resetPassword": {
-    "title": "Restableix contrasenya",
-    "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
-    "newPassword": "Introdueix la nova contrasenya",
-    "confirmPassword": "Repeteix la contrasenya"
   },
   "components": {
     "navbar": {
