@@ -13,48 +13,49 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    let isMounted = true
     const auth = getAuth()
-    log.info('Esperando cambios en el estado de autenticación...')
 
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      if (firebaseUser) {
-        log.info('Usuario autenticado, obteniendo datos del usuario...')
+      const fetchData = async () => {
+        if (!isMounted) return
 
-        const fetchUserData = async () => {
+        if (firebaseUser) {
+          setLoading(true)
           try {
             const docRef = doc(db, 'users', firebaseUser.uid)
             const docSnap = await getDoc(docRef)
+            const firestoreData = docSnap.exists() ? docSnap.data() : {}
+            const idTokenResult = await firebaseUser.getIdTokenResult(true)
+            const role =
+              idTokenResult.claims.role || firestoreData.role || 'user'
 
-            if (docSnap.exists()) {
-              setUserData(docSnap.data())
+            if (isMounted) {
               setUser(firebaseUser)
-              log.info('Datos del usuario obtenidos correctamente.')
-            } else {
-              log.info('No se encontró el documento del usuario.')
+              setUserData({ ...firestoreData, role })
             }
           } catch (error) {
-            log.error('Error al obtener los datos del usuario:', error)
+            if (isMounted) {
+              log.error('Error en autenticación')
+            }
           } finally {
-            setLoading(false)
+            if (isMounted) setLoading(false)
           }
+        } else if (isMounted) {
+          setUser(null)
+          setUserData(null)
+          setLoading(false)
         }
-
-        fetchUserData()
-      } else {
-        log.info('No hay usuario autenticado, limpiando estado...')
-        setUser(null)
-        setUserData(null)
-        setLoading(false)
       }
+      fetchData()
     })
 
     return () => {
+      isMounted = false
       unsubscribe()
-      log.info('Desuscrito de cambios en el estado de autenticación.')
     }
   }, [])
 
-  // Memoriza el valor del contexto
   const value = useMemo(
     () => ({ user, userData, loading }),
     [user, userData, loading]

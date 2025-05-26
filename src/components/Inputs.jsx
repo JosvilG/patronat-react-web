@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import DOMPurify from 'dompurify'
 import { Input } from '@mui/base'
 import { useTranslation } from 'react-i18next'
 import TitleIcon from '@mui/icons-material/Title'
@@ -12,53 +13,112 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark'
 
-const DynamicInput = ({ name, textId, type, options, ...props }) => {
+const sanitizeInput = (value) => {
+  const clean = DOMPurify.sanitize(value, {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+  })
+  return clean
+}
+
+const DynamicInput = ({
+  name,
+  textId,
+  type,
+  options,
+  onChange,
+  ...restProps
+}) => {
   const { t } = useTranslation()
   const [selectedOption, setSelectedOption] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const translatedLabel = t(`${textId}`)
-  const translatedPlaceholder = t(`${textId}.placeholder`)
+  const translatedLabel = textId ? t(textId) : ''
+  const translatedPlaceholder = textId ? t(textId) : ''
+  const shouldShowLabel = Boolean(textId && textId.trim())
+
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.type === 'checkbox' || e.target.type === 'radio') {
+        onChange &&
+          onChange({
+            target: {
+              name: e.target.name,
+              value: e.target.checked,
+            },
+          })
+        return
+      }
+
+      let val = e.target.value
+      val = sanitizeInput(val)
+      if (restProps.maxLength && val.length > restProps.maxLength) {
+        val = val.slice(0, restProps.maxLength)
+      }
+      onChange && onChange({ target: { name: e.target.name, value: val } })
+    },
+    [onChange, restProps.maxLength]
+  )
 
   const handleSelectOption = (option) => {
+    const cleanValue = sanitizeInput(option.value)
     setSelectedOption(option)
     setIsOpen(false)
+    onChange && onChange({ target: { name, value: cleanValue } })
+  }
+
+  const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg']
+  const maxSize = 5 * 1024 * 1024
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!allowedTypes.includes(file.type)) {
+      alert(t('components.inputs.fileTypeError'))
+      return
+    }
+    if (file.size > maxSize) {
+      alert(t('components.inputs.fileSizeError', { size: '5MB' }))
+      return
+    }
+    onChange && onChange({ target: { name: e.target.name, value: file } })
   }
 
   const renderCustomSelect = () => (
     <div className="my-4">
-      <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-        {translatedLabel}
-      </label>
+      {shouldShowLabel && (
+        <label htmlFor={name} className="block mb-2 t16r">
+          {translatedLabel}
+        </label>
+      )}
       <div className="relative">
-        {/* Custom Select box */}
         <div
-          className="w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] cursor-pointer flex justify-between items-center"
+          className="w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl cursor-pointer flex justify-between items-center"
+          role="button"
+          tabIndex={0}
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className="text-[#696969]">
             {selectedOption ? t(selectedOption.label) : translatedPlaceholder}
           </span>
           {!isOpen ? (
-            <ExpandMoreIcon fontSize="large"></ExpandMoreIcon>
+            <ExpandMoreIcon fontSize="large" />
           ) : (
-            <ExpandLessIcon fontSize="large"></ExpandLessIcon>
+            <ExpandLessIcon fontSize="large" />
           )}
         </div>
-
-        {/* Dropdown options */}
         {isOpen && (
-          <div className="absolute flex flex-col items-end top-[58px] w-[400px]  left-0 right-0 z-10  rounded-[24px] max-h-60 overflow-y-auto">
-            {options.map((option, index) => (
-              <div
-                key={index}
-                onClick={() => handleSelectOption(option)}
-                className="px-4 py-2 w-[348px] mb-1 text-[#D9D9D9] hover:bg-[#797979] bg-[#545151] rounded-[27px] cursor-pointer"
+          <ul className="absolute flex flex-col items-end top-[58px] w-[400px] left-0 right-0 z-10 rounded-[24px] max-h-60 overflow-y-auto">
+            {options.map((opt, idx) => (
+              <li
+                key={idx}
+                onClick={() => handleSelectOption(opt)}
+                className="px-4 py-2 w-[348px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
+                role="option"
               >
-                {t(option.label)}
-              </div>
+                {t(opt.label)}
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </div>
@@ -67,216 +127,133 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
   const renderInput = () => {
     switch (type) {
       case 'text':
-        return (
-          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2  min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
-            <input
-              name={name}
-              type="text"
-              placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-            <TitleIcon
-              fontSize="large"
-              className="relative left-4 max-sm:left-0 text-[#696969]"
-            />
-          </div>
-        )
-
       case 'users':
-        return (
-          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
-            <input
-              name={name}
-              type="text"
-              placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-            <AccountCircleIcon
-              fontSize="large"
-              className="relative left-4 max-sm:left-0 text-[#696969]"
-            />
-          </div>
-        )
-
       case 'email':
-        return (
-          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
-            <input
-              name={name}
-              type="email"
-              placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-            <EmailIcon
-              fontSize="large"
-              className="relative left-4 max-sm:left-0 text-[#696969]"
-            />
-          </div>
-        )
-
       case 'password':
-        return (
-          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
-            <input
-              name={name}
-              type="password"
-              placeholder={t('components.inputs.enterPassword')}
-              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-            <VisibilityIcon
-              fontSize="large"
-              className="relative left-4 max-sm:left-0 text-[#696969]"
-            ></VisibilityIcon>
-          </div>
-        )
       case 'number':
-        return (
-          <div className="my-4">
-            <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-              {translatedLabel}
-            </label>
-            <input
-              name={name}
-              type="number"
-              placeholder={translatedPlaceholder}
-              className="t16l max-w-[200px] h-[54px] px-4 pr-12 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] focus:ring-2 appearance-none"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-            <NumbersIcon className="relative right-[2.5rem] text-[#696969]"></NumbersIcon>
-          </div>
-        )
-
       case 'dni':
-        return (
-          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
-            <input
-              name={name}
-              type="text"
-              placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-            <BrandingWatermarkIcon
-              fontSize="large"
-              className="relative left-4 max-sm:left-0 text-[#696969]"
-            ></BrandingWatermarkIcon>
-          </div>
-        )
-
       case 'phone':
         return (
-          <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]">
-            <input
-              name={name}
-              type="number"
-              placeholder={translatedPlaceholder}
-              className="t16l w-[312px] overflow-hidden bg-[#D9D9D9] text-[#696969] focus:outline-none"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-            <PhoneIcon
-              fontSize="large"
-              className="relative left-4 max-sm:left-0 text-[#696969]"
-            ></PhoneIcon>
+          <div>
+            {shouldShowLabel && (
+              <label htmlFor={name} className="block mb-2 t16r">
+                {translatedLabel}
+              </label>
+            )}
+            <div
+              className={`my-4 flex ${type === 'number' ? 'w-[200px]' : 'w-[400px]'} h-[54px] items-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl`}
+            >
+              <input
+                autoComplete={'off'}
+                name={name}
+                type={
+                  type === 'password'
+                    ? 'password'
+                    : type === 'users'
+                      ? 'text'
+                      : type
+                }
+                placeholder={
+                  type === 'password'
+                    ? t('components.inputs.enterPassword')
+                    : translatedPlaceholder
+                }
+                onChange={handleChange}
+                {...restProps}
+                className={`t16l ${type === 'number' ? 'w-[200px]' : 'w-[400px]'} px-4 py-2 focus:outline-none bg-transparent`}
+              />
+              {
+                {
+                  text: (
+                    <TitleIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  users: (
+                    <AccountCircleIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  email: (
+                    <EmailIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  password: (
+                    <VisibilityIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  number: (
+                    <NumbersIcon className="relative right-10 text-[#696969]" />
+                  ),
+                  dni: (
+                    <BrandingWatermarkIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  phone: (
+                    <PhoneIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                }[type]
+              }
+            </div>
           </div>
         )
 
       case 'checkbox':
-        return (
-          <div
-            className="w-fit "
-            onClick={() => document.getElementById(name)?.click()}
-          >
-            <div className="flex items-center w-fit h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] cursor-pointer">
-              <input
-                type="checkbox"
-                id={name}
-                name={name}
-                {...props}
-                className="hidden peer"
-              />
-
-              <div className="w-[34px] h-[34px] mr-3 border-4 border-[#696969] rounded-lg flex items-center justify-center transition-colors duration-200 ease-in-out peer-checked:bg-[#696969] peer-checked:border-[#696969]"></div>
-
-              <label
-                htmlFor={name}
-                className="text-[#696969] peer-checked:text-white cursor-pointer select-none"
-                onClick={() => document.getElementById(name)?.click()}
-              >
-                {translatedLabel}
-              </label>
-            </div>
-          </div>
-        )
       case 'radio':
         return (
-          <div
-            className="w-fit "
-            onClick={() => document.getElementById(name)?.click()}
-          >
-            <div className="flex items-center w-fit h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] cursor-pointer">
-              <input
-                type="checkbox"
-                id={name}
-                name={name}
-                {...props}
-                className="hidden peer"
-              />
-
-              <div className="w-[34px] h-[34px] mr-3 border-4 border-[#696969] rounded-full flex items-center justify-center transition-colors duration-200 ease-in-out peer-checked:bg-[#696969] peer-checked:border-[#696969]"></div>
-
-              <label
-                htmlFor={name}
-                className="text-[#696969] peer-checked:text-white cursor-pointer select-none"
-                onClick={() => document.getElementById(name)?.click()}
-              >
+          <div className="w-fit">
+            {shouldShowLabel && (
+              <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
               </label>
+            )}
+            <div
+              className="flex items-center w-fit h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+              onClick={() => document.getElementById(name)?.click()}
+            >
+              <input
+                type={type}
+                id={name}
+                name={name}
+                onChange={handleChange}
+                {...restProps}
+                className="hidden peer"
+              />
+              <div
+                className={`w-[34px] h-[34px] mr-3 border-4 border-[#696969] rounded-${
+                  type === 'checkbox' ? 'lg' : 'full'
+                } transition-colors duration-200 ease-in-out peer-checked:bg-[#696969] peer-checked:border-[#696969]`}
+              />
+              <span className="select-none t16r">{translatedLabel}</span>
             </div>
           </div>
         )
+
       case 'textarea':
         return (
-          <div className="my-4">
-            <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-              {translatedLabel}
-            </label>
+          <div>
+            {shouldShowLabel && (
+              <label htmlFor={name} className="block mb-2 t16r">
+                {translatedLabel}
+              </label>
+            )}
             <textarea
               name={name}
               placeholder={translatedPlaceholder}
-              className="t16l min-w-[400px] min-h-[54px] h-fit px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969]"
-              {...props}
+              onChange={handleChange}
+              {...restProps}
+              className="t16l min-w-[400px] w-full min-h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
             />
           </div>
         )
@@ -285,66 +262,42 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
         return renderCustomSelect()
 
       case 'date':
-        return (
-          <div className="my-4">
-            <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-              {translatedLabel}
-            </label>
-            <input
-              type="date"
-              name={name}
-              className="t16l w-[200px] max-w-[200px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] appearance-none"
-              {...props}
-            />
-          </div>
-        )
-
       case 'time':
         return (
-          <div className="my-4">
-            <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-              {translatedLabel}
-            </label>
+          <div>
+            {shouldShowLabel && (
+              <label htmlFor={name} className="block mb-2 t16r">
+                {translatedLabel}
+              </label>
+            )}
             <input
-              type="time"
+              type={type}
               name={name}
-              className="t16l w-[200px] max-w-[200px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] appearance-none"
-              {...props}
+              onChange={handleChange}
+              {...restProps}
+              className="t16l w-[200px] h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl appearance-none"
             />
           </div>
         )
 
       case 'otp':
         return (
-          <div className="my-4">
-            <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-              {translatedLabel}
-            </label>
+          <div>
+            {shouldShowLabel && (
+              <label htmlFor={name} className="block mb-2 t16r">
+                {translatedLabel}
+              </label>
+            )}
             <div className="flex space-x-2">
-              {Array.from({ length: 6 }).map((_, index) => (
+              {Array.from({ length: 6 }).map((_, idx) => (
                 <input
-                  key={index}
+                  key={idx}
                   type="text"
-                  maxLength="1"
-                  name={`${name}[${index}]`}
-                  className="t24s max-w-[54px] h-[54px] px-4 py-2 border rounded-[24px] bg-[#D9D9D9] text-[#696969] text-center caret-transparent"
-                  placeholder="X"
-                  onInput={(e) => {
-                    const target = e.target
-                    const nextSibling = target.nextElementSibling
-                    if (target.value.length === 1 && nextSibling) {
-                      nextSibling.focus()
-                    }
-                  }}
-                  onKeyDown={(e) => {
-                    const target = e.target
-                    const prevSibling = target.previousElementSibling
-
-                    if (e.key === 'Backspace' && !target.value && prevSibling) {
-                      prevSibling.focus()
-                    }
-                  }}
-                  {...props}
+                  maxLength={1}
+                  name={`${name}[${idx}]`}
+                  onChange={handleChange}
+                  {...restProps}
+                  className="t24s w-[54px] h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl text-center"
                 />
               ))}
             </div>
@@ -353,50 +306,44 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
 
       case 'document':
         return (
-          <div className="my-4">
-            <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-              {translatedLabel}
-            </label>
-            <div className="w-[400px] h-[54px]">
+          <div className="w-[400px]">
+            {shouldShowLabel && (
+              <label htmlFor={name} className="block mb-2 t16r">
+                {translatedLabel}
+              </label>
+            )}
+            <div>
               <label
                 htmlFor={name}
-                className="flex w-[400px] h-[54px] items-center px-4 py-2 text-[#696969] transition duration-200 bg-gray-200 rounded-full cursor-pointer hover:bg-gray-300"
+                className="flex content-center justify-between w-[400px] h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
               >
-                <span
-                  className="mr-2 t16l max-w-[312px] w-[312px] overflow-hidden"
-                  placeholder=""
-                >
+                <span className="flex flex-col justify-center mr-2 overflow-hidden t16r">
                   {t('components.inputs.addDocument')}
                 </span>
-                <div className="relative right-0 flex items-center justify-center">
-                  <NoteAddIcon
-                    fontSize="large"
-                    className="text-[#696969]"
-                  ></NoteAddIcon>
-                </div>
+                <NoteAddIcon fontSize="large" />
               </label>
-              <input id={name} type="file" className="hidden" {...props} />
+              <input
+                id={name}
+                type="file"
+                name={name}
+                accept={restProps.accept}
+                onChange={handleFileChange}
+                className="hidden"
+                {...restProps}
+              />
             </div>
           </div>
         )
 
       default:
         return (
-          <div className="my-4">
-            <label htmlFor={name} className="block mb-2 text-sm font-semibold">
-              {translatedLabel}
-            </label>
-            <Input
-              name={name}
-              placeholder={translatedPlaceholder}
-              className="w-full px-4 py-2 border rounded-lg"
-              inputProps={{
-                className:
-                  'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-              }}
-              {...props}
-            />
-          </div>
+          <Input
+            name={name}
+            placeholder={translatedPlaceholder}
+            onChange={handleChange}
+            {...restProps}
+            className="w-full px-4 py-2 border rounded-lg"
+          />
         )
     }
   }

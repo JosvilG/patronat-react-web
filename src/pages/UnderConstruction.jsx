@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next'
 const UnderConstructionPage = () => {
   const { t } = useTranslation()
   return (
-    <div className="flex items-center justify-center min-h-[67vh]">
+    <div className="flex items-center justify-center min-h-[67dvh]">
       <div className="w-full max-w-lg p-8 text-center bg-white rounded-lg shadow-2xl">
         <h1 className="mb-4 text-[#15642E] t64b">
           {t('pages.underConstruction.title')}

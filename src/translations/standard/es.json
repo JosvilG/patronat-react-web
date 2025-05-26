@@ -5,12 +5,21 @@
         "title": "Crear Peña",
         "groupNameLabel": "Nombre del Grupo",
         "responsibleLabel": "Responsable",
-        "searchPlaceholder": "Ej: Nombre Uno, Nombre Dos, Nombre Tres",
+        "maxResponsables": "Máximo {{max}}",
+        "searchResponsablePlaceholder": "Buscar responsable...",
+        "searchPlaceholder": "Buscar miembro...",
         "userListTitle": "Listado de Usuarios",
         "addMemberButton": "Añadir",
         "selectedMembersTitle": "Miembros Seleccionados",
+        "selectedResponsablesTitle": "Responsables Seleccionados",
         "removeMemberButton": "Eliminar",
         "submitButton": "Crear Peña",
+        "noUsersMessage": "No se encontraron usuarios",
+        "noMembersMessage": "No hay miembros seleccionados",
+        "noResponsablesMessage": "No hay responsables seleccionados",
+        "addCustomMember": "Añadir a {{name}}",
+        "basicInfoTitle": "Información Básica",
+        "responsableDescription": "  Para poder seleccionar un responsable es necesario que el usuario esté registrado/a en la web. Máximo 2 responsables por peña.",
         "errorPopup": {
           "title": "Error",
           "text": "Algo salió mal. Intenta nuevamente más tarde."
@@ -18,34 +27,691 @@
         "successPopup": {
           "title": "Peña Creada Correctamente",
           "text": "La peña se ha creado y guardado con éxito."
+        },
+        "alreadyResponsable": {
+          "title": "Ya eres responsable de una crew",
+          "text": "No puedes registrar más de una crew en la que seas responsable."
+        },
+        "alreadyResponsablePopup": {
+          "title": "Acción no permitida",
+          "text": "Ya eres responsable de una crew existente. No puedes registrar otra crew en la que seas responsable."
+        }
+      },
+      "mainPage": {
+        "title": "Concurso de peñas",
+        "description": "Descubre todas las peñas del Patronat y su clasificación",
+        "rankingSubtitle": "Clasificación",
+        "seasonSelector": "Temporada",
+        "selectSeasonDescription": "Selecciona la temporada para ver la clasificación",
+        "noCrewsForSeason": "No hay peñas con puntuación para esta temporada",
+        "crew": "Peña",
+        "points": "Puntos",
+        "played": "Pruebas",
+        "participation": "Participación",
+        "actions": "Acciones",
+        "viewDetails": "Ver detalles",
+        "yourCrews": "Tus Peñas",
+        "roleMember": "Miembro",
+        "roleResponsable": "Responsable",
+        "responsables": "Responsables",
+        "noResponsables": "No hay responsables asignados",
+        "members": "Miembros",
+        "noMembers": "Esta peña no tiene miembros",
+        "noCrewsTitle": "Aún no perteneces a ninguna peña",
+        "noCrewsMessage": "Puedes crear tu propia peña o pedir a alguien que te añada a una existente.",
+        "editCrew": "Editar peña",
+        "registerCrew": "Registrar Peña",
+        "joinCrew": "Unirse a una Peña",
+        "authPromptTitle": "Únete a la diversión",
+        "authPromptText": "Regístrate o inicia sesión para ver tus peñas o crear una nueva",
+        "upcomingGamesTitle": "Próximas pruebas",
+        "minParticipants": "Min. de participants"
+      },
+      "details": {
+        "title": "Detalles de la Peña",
+        "loading": "Cargando detalles de la peña...",
+        "error": "Error al cargar los detalles de la peña",
+        "backToCrews": "Volver a Peñas",
+        "basicInfo": "Información Básica",
+        "members": "Miembros:",
+        "season": "Temporada:",
+        "creationDate": "Fecha de Creación:",
+        "lastUpdate": "Última Actualización:",
+        "membersSection": "Miembros de la Peña",
+        "noMembers": "No hay miembros registrados",
+        "responsables": "Responsables",
+        "noResponsables": "No hay responsables asignados",
+        "gamesSection": "Pruebas de la Peña",
+        "points": "Puntos",
+        "noGames": "Esta peña no tiene pruebas registradas",
+        "editCrew": "Editar Peña",
+        "viewDetails": "Ver Detalles",
+        "pendingApproval": "Esta peña está pendiente de aprobación",
+        "approveButton": "Aprobar peña",
+        "rejectButton": "Rechazar peña",
+        "processingAction": "Procesando acción...",
+        "logoAlt": "Logo de {name}",
+        "approvalSuccess": "La peña ha sido aprobada correctamente.",
+        "approvalWithGames": "La peña ha sido aprobada y se le han asignado {{count}} juegos activos.",
+        "approvalTitle": "¡Aprobada!",
+        "rejectTitle": "Rechazar peña",
+        "rejectConfirmation": "¿Estás seguro de que quieres rechazar esta peña? Escribe el motivo del rechazo.",
+        "rejectReason": "Motivo de rechazo",
+        "rejectReasonPlaceholder": "Escribe el motivo por el que se rechaza esta peña...",
+        "rejectConfirmButton": "Sí, rechazar",
+        "rejectCancelButton": "Cancelar",
+        "rejectSuccess": "La peña ha sido rechazada y se ha registrado el motivo.",
+        "rejectSuccessTitle": "Rechazada",
+        "errorTitle": "Error",
+        "approvalError": "No se pudo aprobar la peña. Por favor, inténtalo de nuevo.",
+        "rejectError": "No se pudo rechazar la peña. Por favor, inténtalo de nuevo.",
+        "dateNotAvailable": "Fecha no disponible",
+        "gameDate": "Fecha",
+        "gameLocation": "Ubicación",
+        "messagesDeleted": "Se han eliminado {{count}} {{count, plural, one{mensaje} other{mensajes}}} de rechazo anteriores."
+      },
+      "fullListCrews": {
+        "title": "Listado de Peñas",
+        "searchPlaceholder": "Buscar peñas...",
+        "addNewButton": "Nueva peña",
+        "pendingCrewsTitle": "Peñas pendientes de aprobación",
+        "pendingCrewSingular": "Peña pendiente de aprobación",
+        "pendingCrewsPlural": "{{count}} peñas pendientes de aprobación",
+        "pendingStatus": "Pendiente",
+        "activeStatus": "Activo",
+        "inactiveStatus": "Baja",
+        "membersCount": "{{count}} miembros",
+        "noMembers": "Sin miembros",
+        "seasonLabel": "Temporada:",
+        "viewDetailsButton": "Ver detalles",
+        "editCrewButton": "Editar peña",
+        "deleteCrewButton": "Eliminar peña",
+        "approveCrewButton": "Aprobar peña",
+        "approveCrewDescription": "¿Estás seguro de que quieres aprobar esta peña?",
+        "rejectCrewButton": "Rechazar peña",
+        "confirmDelete": "¿Estás seguro?",
+        "confirmDeleteMessage": "Esta acción eliminará la peña. Esta acción no se puede deshacer.",
+        "confirmDeleteButton": "Sí, eliminar",
+        "cancelButton": "Cancelar",
+        "deleteSuccessTitle": "¡Eliminado!",
+        "deleteSuccessMessage": "La peña ha sido eliminada correctamente.",
+        "deleteErrorMessage": "No se pudo eliminar la peña. Por favor, inténtalo de nuevo.",
+        "confirmReject": "Rechazar peña",
+        "confirmRejectMessage": "¿Estás seguro de que quieres rechazar esta peña? Escribe el motivo del rechazo.",
+        "confirmRejectButton": "Sí, rechazar",
+        "rejectSuccessTitle": "Rechazada",
+        "rejectSuccessMessage": "La peña ha sido rechazada.",
+        "rejectErrorMessage": "No se pudo rechazar la peña. Por favor, inténtalo de nuevo.",
+        "approveSuccessTitle": "¡Aprobada!",
+        "approveSuccessMessage": "La peña ha sido aprobada correctamente.",
+        "approveWithGamesMessage": "La peña ha sido aprobada y se le han asignado {{count}} pruebas activos.",
+        "noResponsible": "⚠️ Sin responsables",
+        "toggleStatusTitle": "Cambiar estado",
+        "deactivateConfirmTitle": "Dar de baja la peña",
+        "deactivateConfirmMessage": "¿Estás seguro de que quieres dar de baja esta peña?",
+        "activateConfirmTitle": "Activar peña",
+        "activateConfirmMessage": "¿Estás seguro de que quieres volver a activar esta peña?",
+        "activateRejectedConfirmTitle": "Activar peña rechazada",
+        "activateRejectedConfirmMessage": "¿Estás seguro de que quieres activar esta peña que fue rechazada?",
+        "toggleStatusButton": "Sí, cambiar estado",
+        "toggleStatusSuccessTitle": "¡Estado actualizado!",
+        "toggleStatusSuccessMessage": "La peña ahora está en estado: {{status}}.",
+        "toggleStatusErrorMessage": "No se pudo cambiar el estado de la peña. Por favor, inténtalo de nuevo.",
+        "deactivateButtonTitle": "Dar de baja",
+        "activateButtonTitle": "Activar peña",
+        "deletedMessagesInfo": "Se han eliminado {{count}} {{message}} de rechazo anteriores.",
+        "approveErrorMessage": "No se pudo aprobar la peña. Por favor, inténtalo de nuevo.",
+        "errorTitle": "Error",
+        "pendingCrewStatus": "Pendiente",
+        "activeCrewStatus": "Activo",
+        "inactiveCrewStatus": "Baja",
+        "rejectedStatus": "Rechazado"
+      },
+      "modifyCrew": {
+        "title": "Modificar Peña",
+        "basicInfoTitle": "Información Básica",
+        "nameLabel": "Nombre de la peña",
+        "responsablesTitle": "Responsables de la Peña",
+        "searchResponsableLabel": "Buscar responsables...",
+        "selectedResponsablesLabel": "Responsables seleccionados",
+        "membersTitle": "Miembros de la Peña",
+        "searchMemberLabel": "Buscar miembros...",
+        "selectedMembersLabel": "Miembros seleccionados",
+        "noMembers": "No hay miembros seleccionados",
+        "submitButton": "Guardar cambios",
+        "accessDeniedTitle": "Acceso denegado",
+        "accessDeniedText": "Solo los responsables y administradores pueden editar esta peña",
+        "confirmButton": "Entendido",
+        "idNotFoundTitle": "Error",
+        "idNotFoundText": "No se encontró el ID de la peña",
+        "successPopup": {
+          "title": "¡Cambios guardados!",
+          "text": "La peña ha sido actualizada correctamente"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Hubo un error al actualizar la peña. {{errorMessage}}"
+        },
+        "errorMessages": {
+          "unavailable": "No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.",
+          "permission-denied": "No tienes permisos suficientes para modificar esta peña.",
+          "default": "Hubo un error al actualizar la peña. Por favor, intenta nuevamente."
+        },
+        "loadingText": "Guardando cambios...",
+        "statusOptions": {
+          "active": "Activo",
+          "pending": "Pendiente",
+          "inactive": "Baja"
+        }
+      },
+      "points": {
+        "title": "Puntuación de Peñas",
+        "description": "Asigna puntos a cada peña en los pruebas activos. Puedes expandir cada peña para ver sus pruebas.",
+        "saveAllButton": "Guardar Todos los Puntos",
+        "saveButton": "Guardar",
+        "pointsColumn": "Puntos",
+        "noCrews": "No hay peñas con pruebas activos disponibles",
+        "totalPoints": "{{points}} puntos totales",
+        "gamesCount": "{{count}} pruebas",
+        "statusLabels": {
+          "active": "Activo",
+          "pending": "Pendiente",
+          "inactive": "Baja"
+        },
+        "participationStatus": {
+          "participated": "Participado",
+          "pending": "Pendiente"
+        },
+        "successMessages": {
+          "pointsSaved": "¡Puntos guardados!",
+          "pointsUpdated": "Los puntos se han actualizado correctamente.",
+          "allPointsSaved": "Todos los puntos se han actualizado correctamente."
+        },
+        "errorMessages": {
+          "loadError": "No se pudieron cargar los datos. Por favor, inténtalo de nuevo.",
+          "saveError": "No se pudieron guardar los puntos. Por favor, inténtalo de nuevo.",
+          "saveAllError": "No se pudieron guardar todos los puntos. Por favor, inténtalo de nuevo."
+        }
+      }
+    },
+    "games": {
+      "details": {
+        "title": "Detalles de la Prueba",
+        "loading": "Cargando detalles de la prueba...",
+        "gameNotFound": "No se encontró información de la prueba",
+        "backToList": "Volver a la lista",
+        "descriptionTitle": "Descripción",
+        "dateInfoTitle": "Información de la fecha",
+        "gameInfoTitle": "Detalles de la prueba",
+        "dateLabel": "Fecha",
+        "timeLabel": "Hora",
+        "locationLabel": "Ubicación",
+        "minParticipantsLabel": "Mínimo de participantes",
+        "scoreLabel": "Puntuación",
+        "seasonLabel": "Temporada",
+        "participatingCrewsTitle": "Peñas participantes",
+        "noCrewsTitle": "No hay peñas asociadas a esta prueba",
+        "noCrewsDescription": "Esta prueba aún no tiene peñas asignadas o no se ha encontrado información de participación.",
+        "points": "puntos",
+        "statusLabels": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "editGame": "Editar prueba",
+        "viewGame": "Ver detalles",
+        "participationStatus": {
+          "confirmed": "Confirmado",
+          "pending": "Pendiente",
+          "rejected": "Rechazado"
+        }
+      },
+      "fullListGames": {
+        "title": "Listado de Pruebas",
+        "searchPlaceholder": "Buscar prueba",
+        "addNewButton": "Nueva prueba",
+        "noGamesFound": "No se encontraron pruebas",
+        "confirmDelete": {
+          "title": "¿Estás seguro?",
+          "text": "Se eliminará la prueba y sus registros asociados. Esta acción no se puede deshacer."
+        },
+        "deleteSuccess": {
+          "title": "¡Eliminado!",
+          "text": "La prueba ha sido eliminada correctamente."
+        },
+        "deleteError": {
+          "title": "Error",
+          "text": "No se pudo eliminar la prueba. Por favor, inténtalo de nuevo."
+        },
+        "statusToggle": {
+          "title": "¿Cambiar estado de la prueba?",
+          "text": "¿Estás seguro de que quieres cambiar el estado de la prueba de \"{currentStatus}\" a \"{newStatus}\"?",
+          "confirmButton": "Sí, cambiar",
+          "cancelButton": "Cancelar",
+          "success": {
+            "title": "¡Estado actualizado!",
+            "text": "La prueba ahora está {status}."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo cambiar el estado de la prueba. Por favor, inténtalo de nuevo."
+          }
+        },
+        "markCompleted": {
+          "title": "Marcar como completada",
+          "text": "¿Estás seguro de que quieres marcar la prueba \"{gameName}\" como completada?",
+          "confirmButton": "Sí, completar",
+          "cancelButton": "Cancelar",
+          "alreadyCompleted": {
+            "title": "Información",
+            "text": "Esta prueba ya está marcada como completada."
+          },
+          "success": {
+            "title": "¡Completado!",
+            "text": "La prueba ha sido marcada como completada."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo marcar la prueba como completada. Por favor, inténtalo de nuevo."
+          }
+        },
+        "buttons": {
+          "activate": "Activar prueba",
+          "deactivate": "Desactivar prueba",
+          "complete": "Marcar como completada",
+          "edit": "Editar prueba",
+          "view": "Ver detalles de la prueba",
+          "delete": "Eliminar prueba"
+        },
+        "status": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "labels": {
+          "season": "Temporada:"
+        }
+      },
+      "modifyGame": {
+        "title": "Modificar Prueba",
+        "basicInfoTitle": "Información Básica",
+        "nameLabel": "Nombre de la Prueba",
+        "descriptionLabel": "Descripción",
+        "dateLabel": "Fecha",
+        "timeLabel": "Hora",
+        "locationLabel": "Ubicación",
+        "gameDetailsTitle": "Detalles de la Prueba",
+        "minParticipantsLabel": "Mínimo de Participantes",
+        "scoreLabel": "Puntuación",
+        "seasonLabel": "Temporada",
+        "statusLabel": "Estado",
+        "submitButton": "Guardar Cambios",
+        "confirmSeasonChange": {
+          "title": "Cambio de temporada detectado",
+          "text": "Has cambiado la temporada de \"{oldSeason}\" a \"{newSeason}\". ¿Quieres crear una nueva prueba para la temporada {newSeason} o actualizar la prueba existente?",
+          "createNew": "Crear nueva prueba",
+          "updateExisting": "Actualizar existente"
+        },
+        "successPopup": {
+          "title": "Prueba actualizada con éxito",
+          "text": "La prueba ha sido actualizada correctamente"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Error al actualizar la prueba: {errorMessage}",
+          "loadingFailed": "No se pudo cargar la información de la prueba."
+        },
+        "newGameSuccess": {
+          "title": "Prueba creada con éxito",
+          "text": "Se ha creado una nueva prueba para la temporada \"{season}\""
+        },
+        "newGameError": {
+          "title": "Error",
+          "text": "No se pudo crear la prueba para la temporada {season}: {errorMessage}"
+        },
+        "statusOptions": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "cloneGame": {
+          "title": "Duplicar para nueva temporada",
+          "selectSeason": "Selecciona una temporada",
+          "placeholder": "Selecciona una temporada",
+          "validationError": "Necesitas seleccionar una temporada",
+          "confirmButton": "Duplicar",
+          "cancelButton": "Cancelar"
+        },
+        "errorMessages": {
+          "unavailable": "No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.",
+          "permission-denied": "No tienes permisos suficientes para modificar esta prueba.",
+          "default": "Hubo un error al actualizar la prueba. Por favor, intenta nuevamente."
+        }
+      },
+      "registerGame": {
+        "title": "Registro de Prueba",
+        "basicInfoTitle": "Información Básica",
+        "nameLabel": "Nombre de la Prueba",
+        "descriptionLabel": "Descripción",
+        "dateLabel": "Fecha",
+        "timeLabel": "Hora",
+        "locationLabel": "Ubicación",
+        "gameDetailsTitle": "Detalles de la Prueba",
+        "minParticipantsLabel": "Mínimo de Participantes",
+        "scoreLabel": "Puntuación",
+        "seasonLabel": "Temporada",
+        "statusLabel": "Estado",
+        "submitButton": "Registrar Prueba",
+        "successPopup": {
+          "title": "Prueba registrada con éxito",
+          "text": "La prueba ha sido registrada correctamente"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Error al registrar la prueba: {errorMessage}"
+        },
+        "statusOptions": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "errorMessages": {
+          "unavailable": "No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.",
+          "permission-denied": "No tienes permisos suficientes para crear esta prueba.",
+          "default": "Hubo un error al registrar la prueba. Por favor, intenta nuevamente."
+        },
+        "fieldValidation": {
+          "required": "Este campo es obligatorio",
+          "positiveNumber": "Debe ser un número positivo",
+          "invalidDate": "La fecha no es válida",
+          "seasonRequired": "Debes especificar una temporada"
         }
       }
     },
     "settings": {
-      "defaulLanguageTitle": "Idioma por defecto",
-      "defaulLanguageDescription": "Selecciona el idioma por defecto de la web"
+      "title": "Configuración de cuenta",
+      "loadingSettings": "Cargando configuraciones...",
+      "languageSection": {
+        "title": "Idioma",
+        "description": "Selecciona el idioma en el que quieres ver la aplicación."
+      },
+      "notificationsSection": {
+        "title": "Notificaciones por correo",
+        "description": "Configura cuándo quieres recibir notificaciones por correo electrónico.",
+        "emailToggle": "Recibir notificaciones por correo electrónico"
+      },
+      "deleteSection": {
+        "title": "Eliminar cuenta",
+        "description": "Esta acción eliminará permanentemente tu cuenta y todos tus datos asociados. Esta acción no se puede deshacer.",
+        "showConfirmButton": "Eliminar mi cuenta",
+        "confirmationText": "Por favor, introduce tu contraseña para confirmar la eliminación de tu cuenta. Esta acción es permanente y no podrá revertirse.",
+        "passwordLabel": "Confirmar contraseña",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Eliminar"
+      },
+      "saveButton": "Guardar configuraciones",
+      "successPopup": {
+        "title": "Configuraciones guardadas",
+        "text": "Tus configuraciones se han guardado correctamente."
+      },
+      "errorPopup": {
+        "title": "Error",
+        "text": "Hubo un problema al guardar tus configuraciones. Inténtalo de nuevo."
+      },
+      "deleteSuccess": {
+        "title": "Cuenta eliminada",
+        "text": "Tu cuenta ha sido eliminada correctamente."
+      },
+      "deleteError": {
+        "title": "Error al eliminar",
+        "defaultText": "No se pudo eliminar tu cuenta. Por favor, inténtalo de nuevo.",
+        "wrongPassword": "La contraseña ingresada es incorrecta.",
+        "recentLogin": "Por motivos de seguridad, debes iniciar sesión nuevamente antes de eliminar tu cuenta."
+      }
     },
     "events": {
       "details": {
-        "popupTitle": "<p>Detalles del evento: ",
-        "popupText": "<p><strong>Descripción: </strong>",
-        "popupInitDate": "<p><strong>Fecha de inicio: </strong>",
-        "popupEndDate": "<p><strong>Fecha de finalización: </strong>",
-        "startDate": "Fecha de inicio",
-        "endDate": "Fecha de finalización",
-        "startTime": "Hora de inicio",
-        "endTime": "Hora de finalización",
-        "location": "Ubicación",
-        "capacity": "Capacidad",
-        "price": "Precio",
-        "minAge": "Edad mínima",
-        "collaborators": "Colaboradores",
-        "tags": "Etiquetas",
-        "organizer": "Organizador",
-        "allowCars": "Permitir coches",
-        "hasBar": "¿Hay bar?",
-        "status": "Estado"
+        "popupTitle": "Detalles del evento: ",
+        "popupText": "Descripción: ",
+        "popupInitDate": "Fecha de inicio: ",
+        "popupEndDate": "Fecha de finalización: ",
+        "startDate": "Fecha de inicio: ",
+        "endDate": "Fecha de finalización: ",
+        "startTime": "Hora de inicio: ",
+        "endTime": "Hora de finalización: ",
+        "dateInfoTitle": "Fechas y Horas",
+        "locationInfoTitle": "Lugar y acceso",
+        "pricesInfoTitle": "Precios y servicios",
+        "location": "Ubicación: ",
+        "capacity": "Capacidad: ",
+        "price": "Precio: ",
+        "minAge": "Edad mínima: ",
+        "collaborators": "Con la colaboración de: ",
+        "tags": "Etiquetas: ",
+        "organizer": "Organizado por",
+        "allowCars": "Permitir carros",
+        "hasBar": "¿Hay barra?: ",
+        "status": "Estado: ",
+        "downloadPermission": "Descargar autorización",
+        "freeLabel": "Gratis",
+        "withParticipation": "Con la participación de: ",
+        "inscriptionLabel": "Inscribirse al evento"
+      },
+      "registerEvent": {
+        "title": "Crear Evento",
+        "basicInfoTitle": "Información Básica",
+        "dateInfoTitle": "Fechas y Horarios",
+        "detailsInfoTitle": "Detalles del evento",
+        "galleryInfoTitle": "Imagenes de portada",
+        "collaboratorsInfoTitle": "Colaboradores",
+        "tagsInfoTitle": "Etiquetas",
+        "nameLabel": "Nombre del Evento",
+        "descriptionLabel": "Añade una descripción",
+        "initDateLabel": "Fecha de Inicio",
+        "endDateLabel": "Fecha de Finalización",
+        "startTimeLabel": "Hora de Inicio",
+        "endTimeLabel": "Hora de Finalización",
+        "locationLabel": "Especifica una ubicación",
+        "capacityLabel": "Cual es la máxima capacidad",
+        "priceLabel": "Que precio tiene el evento",
+        "minAgeLabel": "Cual es la edad mínima ",
+        "collaboratorsSearchLabel": "Busca colaboradores",
+        "collaboratorsLabel": "Seleccione colaboradores",
+        "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
+        "tagsLabel": "Seleccione etiquetas",
+        "organizerLabel": "Añade un organizador",
+        "selectedOrganizerLabel": "Organizador Seleccionado",
+        "anyOrganizerLabel": "Ningún organizador seleccionado",
+        "allowCarsLabel": "¿Se permiten carros?",
+        "categoryLabel": "Seleccione una categoría",
+        "hasBarLabel": "¿Hay Barra?",
+        "statusLabel": "Estado",
+        "imageURL": "Añade una URL de la imagen de portada",
+        "addImage": "Añadir imagen para la portada",
+        "submitButton": "Crear Evento",
+        "needFormLabel": "Requiere formulario",
+        "mandatoryLabel": "Obligatorio",
+        "optionalLabel": "Opcional",
+        "uploadAutDocument": "Subir documento de autorización",
+        "searchParticipantsLabel": "Buscar participantes",
+        "participantList": "Lista de participantes",
+        "selectedParticipantsTitle": "Participantes seleccionados",
+        "participantTitle": "Participantes",
+        "inscriptionCampsForm": "Campos del formulario de inscripción",
+        "authorizationDocumentTitle": "Documento de autorización",
+        "errorPopup": {
+          "title": "Error",
+          "text": "Algo salió mal. Intenta nuevamente más tarde."
+        },
+        "successPopup": {
+          "title": "Evento Creado Correctamente",
+          "text": "El evento se ha creado y guardado con éxito."
+        }
+      },
+      "fullListEvents": {
+        "title": "Listado de Eventos",
+        "searchPlaceholder": "Buscar evento...",
+        "addNewButton": "Añadir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Cargando eventos...",
+        "noEvents": "No hay eventos disponibles",
+        "noEventsFound": "No se encontraron eventos con ese nombre.",
+        "eventDateTitle": "Fecha del evento",
+        "eventTimeTitle": "Hora del evento",
+        "eventLocationTitle": "Ubicación del evento",
+        "eventStatusTitle": "Estado del evento"
+      },
+      "modifyEvent": {
+        "title": "Modificar Evento",
+        "basicInfoTitle": "Información Básica",
+        "dateInfoTitle": "Fechas y Horarios",
+        "detailsInfoTitle": "Detalles del evento",
+        "galleryInfoTitle": "Imágenes de portada",
+        "collaboratorsInfoTitle": "Colaboradores",
+        "tagsInfoTitle": "Etiquetas",
+        "addImage": "Añadir imagen para la portada",
+        "imageURL": "Añade una URL de la imagen de portada",
+        "nameLabel": "Nombre del Evento",
+        "descriptionLabel": "Añade una descripción",
+        "initDateLabel": "Fecha de Inicio",
+        "endDateLabel": "Fecha de Finalización",
+        "startTimeLabel": "Hora de Inicio",
+        "endTimeLabel": "Hora de Finalización",
+        "locationLabel": "Especifica una ubicación",
+        "capacityLabel": "Cual es la máxima capacidad",
+        "priceLabel": "Que precio tiene el evento",
+        "minAgeLabel": "Cual es la edad mínima ",
+        "collaboratorsSearchLabel": "Busca colaboradores",
+        "collaboratorsLabel": "Seleccione colaboradores",
+        "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
+        "tagsLabel": "Seleccione etiquetas",
+        "organizerLabel": "Añade un organizador",
+        "allowCarsLabel": "¿Se permiten carros?",
+        "categoryLabel": "Seleccione una categoría",
+        "hasBarLabel": "¿Hay Barra?",
+        "statusLabel": "<p>Estado</p> <p>Próximo</p> <p>Finalizado</p> <p>Cancelado</p> <p>Pospuesto</p> <p>En curso</p> <p>Próximo</p> <p>Finalizado</p> <p>Cancelado</p> <p>Pospuesto</p> <p>En curso</p> <p>Cerrado</p><",
+        "submitButton": "Guardar",
+        "needFormLabel": "Requiere formulario",
+        "searchParticipantsLabel": "Buscar participantes",
+        "participantsTitleList": "Lista de participantes",
+        "participantsTitle": "Participantes",
+        "participantsSelectedTitle": "Participantes seleccionados",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El evento se modificó correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el evento. Inténtalo nuevamente."
+        }
+      },
+      "eventParticipationForm": {
+        "title": "Inscripción para {{eventTitle}}",
+        "submitButton": "Inscribirse",
+        "submittingText": "Enviando...",
+        "successTitle": "Inscripción enviada",
+        "successText": "Tu solicitud de participación ha sido enviada correctamente",
+        "errorTitle": "Error",
+        "errorText": "Hubo un problema al enviar tu inscripción. Por favor, intenta nuevamente.",
+        "incompleteFieldsTitle": "Campos incompletos",
+        "incompleteFieldsText": "Por favor, complete los siguientes campos obligatorios:",
+        "confirmButtonText": "Aceptar",
+        "closeButtonText": "Cerrar",
+        "backToEventButton": "Volver al evento",
+        "fieldPlaceholder": "Introduce {{fieldName}}",
+        "notFoundError": "No se encontró el evento",
+        "noFormError": "Este evento no requiere formulario de inscripción",
+        "noFormFieldsError": "No se encontraron campos del formulario",
+        "loadingError": "Error al cargar los datos del formulario",
+        "fields": {
+          "nombre": "Nombre de la calle/carroza*",
+          "tematica": "Temática*",
+          "responsable1": "Nombre del responsable 1*",
+          "responsable2": "Nombre del responsable 2",
+          "dni1": "DNI del responsable 1*",
+          "dni2": "DNI del responsable 2",
+          "telefono1": "Teléfono del responsable 1*",
+          "telefono2": "Teléfono del responsable 2",
+          "ubicacion": "Ubicación*",
+          "default": "Campo"
+        }
+      },
+      "eventParticipants": {
+        "title": "Participantes: {{eventTitle}}",
+        "searchPlaceholder": "Buscar participante...",
+        "noParticipants": "No hay participantes inscritos en este evento.",
+        "dateLabel": "Fecha:",
+        "statusLabel": "Estado:",
+        "statusPending": "pendiente",
+        "statusApproved": "aprobado",
+        "statusRejected": "rechazado",
+        "approveButton": "Aprobar",
+        "rejectButton": "Rechazar",
+        "eventNotFound": "No se encontró el evento",
+        "loadingError": "Error al cargar los participantes",
+        "approvalSuccess": "Estado actualizado correctamente",
+        "approvalError": "Error al actualizar el estado",
+        "confirmApprovalTitle": "¿Aprobar participante?",
+        "confirmApprovalText": "Esta acción cambiará el estado del participante a 'aprobado'.",
+        "confirmRejectionTitle": "¿Rechazar participante?",
+        "confirmRejectionText": "Esta acción cambiará el estado del participante a 'rechazado'.",
+        "yesButton": "Sí",
+        "noButton": "No",
+        "exportButton": "Exportar datos",
+        "exportSuccess": "Datos exportados correctamente",
+        "exportError": "Error al exportar los datos",
+        "statusAprobado": "Aprobado",
+        "statusRechazado": "Rechazado"
       }
+    },
+    "files": {
+      "uploadFiles": {
+        "title": "Subir archivos",
+        "fileLabel": "Selecciona una archivo",
+        "uploadButton": "Subir imagen",
+        "nameLabel": "Nombre del archivo",
+        "descriptionLabel": "Descripción del archivo",
+        "categoryLabel": "Categoría del archivo",
+        "tagsLabel": "Etiquetas del archivo",
+        "tagsDescription": "*Puedes añadir más de una etiqueta separándolas con comas",
+        "visibilityLabel": "Visibilidad del archivo",
+        "visibliityDescription": "*En caso de no seleccionar nada, el archivo será privado",
+        "visibilityPrivate": "Privado",
+        "visibilityPublic": "Público",
+        "optimizingText": "Optimizando imagen...",
+        "optimizationSuccessText": "Imagen optimizada correctamente.",
+        "optimizationErrorText": "Error al optimizar la imagen.",
+        "fileRequired": "Por favor selecciona un archivo.",
+        "popups": {
+          "successTitle": "¡Éxito!",
+          "successText": "El archivo se subió correctamente.",
+          "successButtonText": "Guardar",
+          "errorTitle": "¡Error!",
+          "errorText": "Hubo un problema al subir el archivo. Inténtalo nuevamente."
+        }
+      },
+      "listUploads": {
+        "title": "Lista de archivos",
+        "fileLabel": "Selecciona una archivo",
+        "searchPlaceholder": "Buscar archivo...",
+        "loadingText": "Cargando archivos..."
+      }
+    },
+    "gallery": {
+      "title": "Galería",
+      "searchLabel": "Buscar imágenes en la galería",
+      "searchGallery": "Buscar imágenes...",
+      "orderBy": "Ordenar por: ",
+      "orderByDateAsc": "Fecha de subida (más antigua)",
+      "orderByDateDesc": "Fecha de subida (más reciente)",
+      "orderByNameAsc": "Nombre del archivo (A-Z)",
+      "orderByNameDesc": "Nombre del archivo (Z-A)",
+      "noImagesFound": "No se encontraron imágenes."
     },
     "home": {
       "heroSection": {
@@ -54,8 +720,21 @@
         "description": "Todo lo que necesitas saber sobre las festividades en Roquetes está a solo un clic de distancia."
       },
       "aboutSection": {
+        "mainTitle": "Sobre nosotros",
         "title": "¿Quiénes somos?",
-        "description": "El Patronat de Festes de Roquetes es una organización independiente y apolítica sin ánimo de lucro encargada de organizar festivales y eventos para la localidad de Roquetes en Tarragona. Aquí puedes encontrar toda la información sobre los próximos eventos y mucho más."
+        "description": "Somos personas de Roquetes, vecinos y vecinas que creemos en el valor de la participación y el trabajo conjunto. Detrás del Patronat hay muchas horas de dedicación, reuniones, ideas, y sobre todo, una gran ilusión compartida. Colaboramos estrechamente con el Ayuntamiento y otras entidades locales para que cada fiesta sea especial, cercana y auténtica. Si quieres saber más, participar o simplemente compartir con nosotros esta pasión por las tradiciones, estás invitado: el Patronat también es tuyo.",
+        "historyTitle": "Nuestra historia",
+        "historyDescription": "El Patronat de Festes de Roquetes nació en 1973 con un objetivo claro: preservar y promover las fiestas populares que dan vida a nuestra ciudad. Desde entonces, hemos sido parte esencial de la identidad de Roquetes, organizando cada año celebraciones que combinan tradición, cultura y participación. A lo largo de los años, más de un centenar de personas han contribuido con su esfuerzo y pasión a consolidar esta entidad como uno de los pilares festivos del municipio. Hoy, con más de cinco décadas de historia, seguimos creciendo con el mismo espíritu con el que empezamos: hacer de cada fiesta un reflejo del alma de Roquetes.",
+        "motivationTitle": "Motivación",
+        "motivationDescription": "Creemos que las fiestas son mucho más que celebraciones: son momentos que fortalecen los vínculos, que nos conectan con nuestras raíces y que nos permiten compartir lo mejor de nosotros mismos. Nos motiva ver a niños, jóvenes y mayores vivir con ilusión cada acto, cada tradición y cada encuentro. Trabajamos con entusiasmo para ofrecer propuestas inclusivas, creativas y con sentido comunitario. Nuestra motivación es clara: seguir construyendo, a través de las fiestas, una Roquetes viva, unida y orgullosa de su cultura.",
+        "staffTitle": "Miembros de la junta",
+        "loadingStaff": "Cargando miembros del staff...",
+        "errorStaff": "Error al cargar el staff: ",
+        "noStaffMembers": "No se encontraron miembros del staff.",
+        "defaultName": "Nombre",
+        "defaultLastName": "Apellido",
+        "defaultPosition": "Miembro",
+        "defaultDescription": "Este miembro del staff no tiene descripción disponible."
       },
       "galerySection": {
         "title": "Galería",
@@ -74,9 +753,478 @@
       }
     },
     "underConstruction": {
-      "title": "Página en construcción",
-      "weAreWorking": "Esta página aún no está disponible. Vuelve más tarde.",
+      "title": "Página no encontrada",
+      "weAreWorking": "Esta página no existe o aún no está disponible. Vuelve más tarde.",
       "askUs": "Si tienes alguna pregunta, no dudes en contactarnos."
+    },
+    "users": {
+      "userHistoryView": {
+        "title": "Historial de usuario",
+        "userInfoTitle": "Información del usuario",
+        "searchHistory": "Buscar en el historial...",
+        "searchNoCoincidence": "No se encontraron resultados que coincidan con tu búsqueda.",
+        "searchNoRegistration": "No hay registro de cambios disponibles",
+        "searchQuantityResults": "Mostrando {{paginated}} de {{total}} resultados registrados",
+        "chargeHistoryFailure": "Error al cargar el historial de usuarios",
+        "chargingHistory": "Cargando historial...",
+        "createLabel": "Creación",
+        "modifyLabel": "Modificación",
+        "deleteLabel": "Eliminación",
+        "changeLabel": "Cambio",
+        "modifiedByLabel": "Modificado por: ",
+        "unknownUserLabel": "Desconocido",
+        "changesRealizedLabel": "Cambios realizados",
+        "idReferenceLabel": "ID de referencia: "
+      },
+      "listUsers": {
+        "title": "Lista de Usuarios",
+        "searchPlaceholder": "Buscar por nombre, apellido...",
+        "loadingText": "Cargando usuarios...",
+        "trackingChanges": "Registrando cambios...",
+        "noUsers": "No hay usuarios registrados.",
+        "noResultsFound": "No se encontraron usuarios que coincidan con la búsqueda.",
+        "confirmDelete": "¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.",
+        "deleteSuccess": "Usuario eliminado",
+        "userDeleted": "El usuario ha sido eliminado correctamente",
+        "userDeletedNoLog": "El usuario ha sido eliminado, pero hubo un error al registrar la acción",
+        "deleteError": "Hubo un error al eliminar el usuario",
+        "protectedData": "Datos protegidos",
+        "noValue": "Sin valor",
+        "emptyString": "Cadena vacía",
+        "addUser": "Añadir usuario",
+        "editUser": "Editar usuario",
+        "viewProfile": "Ver perfil",
+        "userInfo": {
+          "name": "Nombre",
+          "email": "Correo electrónico",
+          "dni": "DNI",
+          "phone": "Teléfono"
+        }
+      },
+      "userModify": {
+        "title": "Actualizar datos",
+        "editUserTitle": "Editar usuario",
+        "descriptionTitle": "Modifica tus datos personales",
+        "editUserDescription": "Modificando datos de {{firstName}} {{lastName}}",
+        "isStaff": "Es miembro del staff",
+        "position": "Posición",
+        "description": "Descripción",
+        "startDate": "Fecha de incorporación",
+        "endDate": "Fecha de finalización",
+        "document": "Documento",
+        "oldDocTitle": "Documento actual",
+        "newDocTitle": "Nuevo documento",
+        "viewCurrent": "Ver documento actual",
+        "trackingChanges": "Registrando cambios...",
+        "loadingUser": "Cargando datos del usuario...",
+        "receiveEmails": "Recibir correos electrónicos",
+        "selectLanguage": "Idioma por defecto",
+        "successPopup": {
+          "title": "Actualización exitosa",
+          "text": "Los datos han sido actualizados correctamente"
+        },
+        "noChangesPopup": {
+          "title": "Sin cambios",
+          "text": "No se detectaron cambios en los datos"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Hubo un error al actualizar los datos. Por favor, intenta de nuevo."
+        },
+        "staffSection": {
+          "title": "Información de Staff",
+          "visibilityLabel": "Mostrar u ocultar información de staff",
+          "visibilityDescription": "La información de staff solo será visible para administradores"
+        },
+        "documentUpload": {
+          "uploadProgress": "{{progress}}% completado",
+          "errorText": "Hubo un error al subir el documento. Se guardarán el resto de datos.",
+          "pdfPreview": "Vista previa del PDF",
+          "documentPreview": "Vista previa del documento"
+        }
+      },
+      "userProfile": {
+        "title": "Perfil de Usuario",
+        "loading": "Cargando perfil de usuario...",
+        "notFound": "Usuario no encontrado",
+        "errorLoading": "No se pudieron cargar los datos del usuario",
+        "personalInformation": {
+          "title": "Información Personal",
+          "name": "Nombre: ",
+          "email": "Correo Electrónico: ",
+          "dni": "DNI: ",
+          "phone": "Teléfono: ",
+          "birthDate": "Fecha de Nacimiento: ",
+          "age": "Edad: ",
+          "ageValue": "{{age}} años"
+        },
+        "staffInformation": {
+          "title": "Información de Staff",
+          "position": "Posición: ",
+          "startDate": "Fecha de Incorporación: ",
+          "endDate": "Fecha de Finalización: ",
+          "description": "Descripción: ",
+          "document": "Documento: ",
+          "viewDocument": "Ver Documento"
+        },
+        "preferences": {
+          "title": "Preferencias de Usuario",
+          "language": "Idioma preferido: ",
+          "notifications": "Notificaciones por correo: ",
+          "enabled": "Activadas",
+          "disabled": "Desactivadas"
+        },
+        "accountInformation": {
+          "title": "Información de la Cuenta",
+          "registrationDate": "Fecha de Registro: ",
+          "lastUpdate": "Última actualización: "
+        },
+        "actions": {
+          "editProfile": "Editar Perfil",
+          "viewHistory": "Ver Historial",
+          "backToList": "Volver a la lista"
+        }
+      }
+    },
+    "collaborators": {
+      "title": "Nuevo colaborador",
+      "noCollaborators": "No hay colaboradores disponibles",
+      "registerCollaborators": {
+        "title": "Crear nuevo colaborador",
+        "fileLabel": "Añadir logo del colaborador",
+        "nameLabel": "Nombre del colaborador",
+        "uploadButton": "Crear colaborador",
+        "uploadingText": "Creando...",
+        "previewImageTitle": "Nueva imagen",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El colaborador se creó correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al crear el colaborador. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para crear colaboradores.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "modifyCollaborators": {
+        "title": "Modificar un colaborador",
+        "fileLabel": "Modifica el nombre y la imagen del colaborador",
+        "nameLabel": "Nuevo nombre del colaborador",
+        "imageLabel": "Nueva imagen del colaborador",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nuevo logo",
+        "uploadButton": "Guardar cambios",
+        "uploadingText": "Modificando...",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El colaborador se modifico correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el colaborador. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para modificar colaboradores.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "listCollaborators": {
+        "title": "Listado de colaboradores",
+        "searchPlaceholder": "Buscar colaborador...",
+        "addNewButton": "Añadir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Cargando colaboradores..."
+      }
+    },
+    "participants": {
+      "title": "Nuevo participante",
+      "noParticipants": "No hay participantes disponibles",
+      "registerParticipants": {
+        "title": "Crear nuevo participante",
+        "fileLabel": "Añadir logo del participante",
+        "nameLabel": "Nombre del participante",
+        "descriptionLabel": "Añade una descripción sobre el participante",
+        "uploadButton": "Crear participante",
+        "uploadingText": "Creando...",
+        "socialMediaTitle": "Redes sociales del participante",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "previewImageTitle": "Vista previa del logo",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El participante se creó correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al crear el participante. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para crear participantes.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "modifyParticipants": {
+        "title": "Modificar un participante",
+        "fileLabel": "Modifica el nombre y la imagen del participante",
+        "nameLabel": "Nuevo nombre del participante",
+        "descriptionLabel": "Modifica la descripción del participante",
+        "imageLabel": "Nueva imagen del participante",
+        "oldImageTitle": "Logo actual",
+        "newImageTitle": "Nuevo logo",
+        "uploadButton": "Guardar cambios",
+        "uploadingText": "Modificando...",
+        "socialMediaTitle": "Modificar las redes sociales del participante",
+        "facebookLabel": "Facebook",
+        "instagramLabel": "Instagram",
+        "twitterLabel": "Twitter",
+        "successPopup": {
+          "title": "¡Éxito!",
+          "text": "El participante se modifico correctamente."
+        },
+        "errorPopup": {
+          "title": "¡Error!",
+          "text": "Hubo un problema al modificar el participante. Inténtalo nuevamente."
+        },
+        "authError": "Debes estar autenticado para modificar participantes.",
+        "fileRequired": "Por favor selecciona un logo."
+      },
+      "listParticipants": {
+        "title": "Listado de participantes",
+        "searchPlaceholder": "Buscar participante...",
+        "addNewButton": "Añadir",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Cargando participantes..."
+      }
+    },
+    "partners": {
+      "registerPartners": {
+        "title": "Registro de Socio",
+        "nameLabel": "Nombre",
+        "namePlaceholder": "Nombre del socio",
+        "lastNameLabel": "Apellidos",
+        "lastNamePlaceholder": "Apellidos del socio",
+        "addressLabel": "Dirección",
+        "addressPlaceholder": "Dirección completa",
+        "emailLabel": "Correo electrónico",
+        "emailPlaceholder": "example@correo.com",
+        "phoneLabel": "Teléfono",
+        "phonePlaceholder": "Número de contacto",
+        "birthDateLabel": "Fecha de nacimiento",
+        "dniLabel": "DNI",
+        "dniPlaceholder": "12345678A",
+        "accountNumberLabel": "Número de cuenta (IBAN)",
+        "accountNumberPlaceholder": "ES1234567890123456789012",
+        "statusLabel": "Estado del socio",
+        "descriptionLabel": "Apoyar al Patronat es muy fácil: solo tienes que hacerte socio. Al unirte, no solo estarás colaborando con una causa que impulsa nuestras tradiciones y actividades, sino que también disfrutarás de numerosos beneficios exclusivos.<br /><br/> Como socio, accederás a descuentos especiales en todos los eventos organizados por el Patronat. Uno de los más destacados es el<strong> boleto para las Fiestas Mayores</strong>, que podrás conseguir a un precio reducido y con la posibilidad de pagarlo en tres cómodas cuotas a lo largo del año. ¡Así disfrutarás más, pagando menos y sin agobios!<br /><br /> Si quieres unirte y empezar a disfrutar de todas estas ventajas, solo tienes que completar el siguiente formulario. Nos pondremos en contacto contigo a través del correo electrónico que nos indiques para finalizar el proceso de inscripción.",
+        "statusOptions": {
+          "review": "En revisión",
+          "active": "Activo",
+          "inactive": "Baja"
+        },
+        "submittingText": "Guardando...",
+        "submitButton": "Registrar Socio",
+        "validation": {
+          "requiredFields": "Por favor, completa todos los campos requeridos.",
+          "invalidEmail": "Por favor, introduce un email válido.",
+          "invalidDni": "Por favor, introduce un DNI válido (8 números y una letra).",
+          "invalidIban": "Por favor, introduce un IBAN válido (formato ES + 22 dígitos).",
+          "invalidDate": "Por favor, introduce una fecha de nacimiento válida."
+        },
+        "successPopup": {
+          "title": "Registro exitoso",
+          "text": "El socio ha sido registrado correctamente y está pendiente de revisión."
+        },
+        "errorPopup": {
+          "title": "Error de validación",
+          "text": "Ha ocurrido un error al registrar el socio. Por favor, inténtalo de nuevo."
+        },
+        "authError": "Debes iniciar sesión para registrar un socio."
+      },
+      "listPartners": {
+        "title": "Listado de Socios",
+        "searchPlaceholder": "Buscar socio...",
+        "addNewButton": "Añadir Socio",
+        "modifyButton": "Modificar",
+        "deleteButton": "Eliminar",
+        "loadingText": "Cargando socios...",
+        "exportToExcel": "Exportar a Excel",
+        "exportSuccessTitle": "Exportación completada",
+        "exportAllToExcel": "Exportar",
+        "noPartnersFound": "No se encontraron socios con ese nombre.",
+        "exportSuccessText": "Los datos del socio se han exportado correctamente.",
+        "errorPopup": {
+          "exportError": "Ha ocurrido un error al exportar los datos del socio."
+        }
+      },
+      "modifyPartners": {
+        "title": "Modificar Socio",
+        "nameLabel": "Nombre",
+        "lastNameLabel": "Apellidos",
+        "addressLabel": "Dirección",
+        "emailLabel": "Correo electrónico",
+        "phoneLabel": "Teléfono",
+        "birthDateLabel": "Fecha de nacimiento",
+        "dniLabel": "DNI",
+        "accountNumberLabel": "Número de cuenta (IBAN)",
+        "statusLabel": "Estado del socio",
+        "submitButton": "Guardar Cambios",
+        "priceCategoryLabel": "Categoría de precio",
+        "priceCategoryAdult": "Adulto",
+        "priceCategoryJunior": "Menor",
+        "paid": "Pagado",
+        "statusOptions": {
+          "review": "En revisión",
+          "active": "Activo",
+          "inactive": "Baja"
+        },
+        "validation": {
+          "requiredFields": "Por favor, completa todos los campos requeridos.",
+          "invalidEmail": "Por favor, introduce un email válido.",
+          "invalidDni": "Por favor, introduce un DNI válido (8 números y una letra).",
+          "invalidIban": "Por favor, introduce un IBAN válido (formato ES + 22 dígitos).",
+          "invalidDate": "Por favor, introduce una fecha de nacimiento válida."
+        },
+        "submittingText": "Actualizando...",
+        "successPopup": {
+          "title": "Actualización exitosa",
+          "text": "Los datos del socio han sido actualizados correctamente."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Ha ocurrido un error al actualizar los datos del socio.",
+          "updateError": "Ha ocurrido un error al actualizar los datos del socio."
+        }
+      },
+      "partnerInfo": {
+        "title": "Información del Socio",
+        "loading": "Cargando información del socio...",
+        "notFound": "No se encontró información del socio.",
+        "exportToExcel": "Exportar datos",
+        "personalInformation": {
+          "title": "Información Personal",
+          "name": "Nombre completo: ",
+          "email": "Correo Electrónico: ",
+          "dni": "DNI: ",
+          "phone": "Teléfono: ",
+          "birthDate": "Fecha de Nacimiento: "
+        },
+        "additionalInformation": {
+          "title": "Información Adicional",
+          "address": "Dirección: ",
+          "accountNumber": "IBAN: ",
+          "status": "Estado: "
+        },
+        "registrationInformation": {
+          "createdAt": "Fecha de Registro: ",
+          "createdBy": "Registrado por: "
+        },
+        "status": {
+          "approved": "Alta",
+          "rejected": "Baja",
+          "pending": "Pendiente"
+        },
+        "payments": {
+          "title": "Información de Pagos",
+          "activeSeason": "Temporada Activa",
+          "seasonYear": "Año: ",
+          "totalPrice": "Precio total: ",
+          "numberOfFractions": "Número de fracciones: ",
+          "priceFirstFraction": "Primera fracción: ",
+          "priceSecondFraction": "Segunda fracción: ",
+          "priceThirdFraction": "Tercera fracción: ",
+          "refreshSeason": "Actualizar temporada",
+          "loadingSeason": "Cargando información de la temporada...",
+          "noActiveSeason": "No hay temporada activa configurada.",
+          "paymentStatus": "Estado de Pagos",
+          "refreshPayments": "Actualizar pagos",
+          "loadingPayments": "Cargando información de pagos...",
+          "fractionsStatus": "Estado de las fracciones",
+          "firstFraction": "Primera fracción: ",
+          "secondFraction": "Segunda fracción: ",
+          "thirdFraction": "Tercera fracción: ",
+          "paid": "Pagado",
+          "pending": "Pendiente",
+          "amount": "Importe",
+          "paymentDate": "Fecha de pago: ",
+          "noPaymentsFound": "No se encontró información de pagos para este socio.",
+          "history": "Historial de pagos",
+          "refreshHistory": "Actualizar historial",
+          "loadingHistory": "Cargando historial de pagos...",
+          "noPaymentHistory": "No hay pagos de temporadas anteriores.",
+          "adultPrices": "Precios Adultos (> 16 años)",
+          "juniorPrices": "Precios Menores (< 16 años)"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "No se pudieron cargar los datos del socio",
+          "exportError": "Ha ocurrido un error al exportar los datos del socio."
+        }
+      }
+    },
+    "seasons": {
+      "newSeason": {
+        "title": "Nueva remesa",
+        "seasonYearLabel": "Año de la remesa",
+        "totalPriceLabel": "Precio total",
+        "priceFirstFractionLabel": "Precio primera fracción",
+        "priceSeconFractionLabel": "Precio segunda fracción",
+        "priceThirdFractionLabel": "Precio tercera fracción",
+        "activeLabel": "Activar remesa",
+        "submittingText": "Guardando...",
+        "submitButton": "Guardar remesa",
+        "loadingText": "Cargando...",
+        "adultPrices": "Mayores de 16 años",
+        "childPrices": "Menores de 16 años",
+        "checkingYear": "Verificando disponibilidad del año...",
+        "activeSeasonNotice": "El año {{seasonYear}} está como remesa activa. Si selecciona como activa esta nueva remesa, la actual se desactivará automáticamente.",
+        "validation": {
+          "seasonYearRequired": "El año de la remesa es obligatorio",
+          "seasonYearInvalid": "El año de la remesa debe ser igual o posterior al año actual",
+          "seasonYearDuplicate": "Ya existe una remesa para el año {{year}}. No se permiten remesas duplicadas.",
+          "totalPricePositive": "El precio total no puede ser negativo",
+          "totalPriceRequired": "El precio total es obligatorio",
+          "totalPriceNumeric": "El precio total debe ser un número",
+          "fractionSumMismatch": "La suma de los precios de las fracciones debe ser igual al precio total",
+          "fractionPriceRequired": "Los precios de las fracciones son obligatorios",
+          "fractionPriceNumeric": "Los precios de las fracciones deben ser números",
+          "fractionPricePositive": "Los precios de las fracciones no pueden ser negativos"
+        },
+        "successPopup": {
+          "title": "Éxito",
+          "text": "La remesa ha sido registrada correctamente."
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Ha ocurrido un error al registrar la remesa.",
+          "checkSeasonError": "Error al comprobar las remesas activas.",
+          "createSeasonError": "Error al crear la remesa.",
+          "deactivateSeasonError": "Error al desactivar la remesa existente.",
+          "createPaymentsError": "Error al crear los pagos para los socios.",
+          "formValidationError": "Por favor, corrige los errores en el formulario antes de continuar.",
+          "serverError": "Error en el servidor. Por favor, inténtalo más tarde.",
+          "networkError": "Error de conexión. Comprueba tu conexión a internet.",
+          "unknownError": "Ha ocurrido un error desconocido. Por favor, inténtalo de nuevo."
+        },
+        "warningPopup": {
+          "title": "Advertencia",
+          "deactivateSeasonWarning": "Al activar esta remesa, se desactivará la remesa activa actual para el año {{year}}.",
+          "confirmContinue": "¿Deseas continuar?"
+        },
+        "confirmationPopup": {
+          "title": "Confirmar acción",
+          "createPaymentsConfirmation": "Se crearán documentos de pago para todos los socios activos. ¿Deseas continuar?",
+          "confirmButton": "Sí, continuar",
+          "cancelButton": "No, cancelar"
+        },
+        "authError": "Debe iniciar sesión para realizar esta acción.",
+        "permissionError": "No tiene permisos para realizar esta acción.",
+        "paymentsCreatedTitle": "Documentos de pagos creados",
+        "paymentsCreatedText": "Se han creado {{createdCount}} documentos de pagos para la nueva temporada. Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.",
+        "noPartnersFound": "No se encontraron socios activos para crear pagos.",
+        "activeSeasonExistsError": "Ya existe una temporada activa para este año.",
+        "databaseConnectionError": "Error de conexión a la base de datos.",
+        "sessionExpiredError": "Tu sesión ha caducado. Por favor, inicia sesión de nuevo."
+      }
     },
     "userRegister": {
       "title": "Registro de usuario",
@@ -90,7 +1238,7 @@
       "dni": "DNI",
       "birthDate": "Fecha de nacimiento"
     },
-    "loagin": {
+    "login": {
       "title": "Iniciar sesión",
       "description": "Bienvenido de nuevo, por favor inicia sesión para continuar",
       "mailInput": "Introduce tu correo electrónico",
@@ -98,8 +1246,31 @@
       "forgotPassword": "¿Has olvidado tu contraseña?",
       "noAccount": "¿No tienes una cuenta? ",
       "register": "Regístrate"
+    },
+    "recoverPage": {
+      "title": "Recuperar contraseña",
+      "description": "Introduce tu correo electrónico para recuperar tu contraseña",
+      "email": "Correo electrónico"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
+      "newPassword": "Introduce tu nueva contraseña",
+      "confirmPassword": "Repite la contraseña"
     }
   },
+  "common": {
+    "authRequired": {
+      "title": "¡Únete a nuestras Peñas!",
+      "text": "Para gestionar tus peñas, necesitas iniciar sesión o registrarte.",
+      "crewViewInfo": "Participa en las fiestas con tu peña y compite por los mejores premios."
+    },
+    "register": "Registrarse",
+    "login": "Iniciar sesión",
+    "registerCrew": "Crear Nueva Peña",
+    "unknownUser": "Usuario desconocido"
+  },
+
   "components": {
     "navbar": {
       "eventTitle": "Eventos",
@@ -125,7 +1296,8 @@
       "failDecription": "Algo ha salido mal. \n Por favor vuelve a intentarlo.",
       "infoTitle": "INFO",
       "warningTitle": "CUIDADO",
-      "goToEventButton": "Ir al evento"
+      "goToEventButton": "Ir al evento",
+      "recoverSuccess": "Correo enviado correctamente"
     },
     "buttons": {
       "accept": "Aceptar",
@@ -140,7 +1312,9 @@
       "next": "Siguiente",
       "finish": "Finalizar",
       "register": "Registrar",
-      "login": "Iniciar Sesión"
+      "login": "Iniciar Sesión",
+      "processing": "Procesando",
+      "recover": "Recuperar"
     },
     "inputs": {
       "addDocument": "Pulsa para añadir un documento",
@@ -154,7 +1328,122 @@
       "today": "Hoy",
       "month": "Mes",
       "week": "Semana",
-      "day": "Día"
+      "day": "Día",
+      "events": "Eventos",
+      "games": "Pruebas",
+      "legend": "Leyenda",
+      "categories": "Categorías",
+      "types": "Tipos de elementos",
+      "noCategory": "Eventos (sin categoría)",
+      "FMRLabel": "FMR",
+      "RabalLabel": "Rabal de Cristo",
+      "OtherLabel": "Otros",
+      "ChristmasLabel": "Navidad",
+      "FestivalLabel": "Festival",
+      "SantosLabel": "Santos",
+      "MeetingLabel": "Reunión",
+      "PruebasLabel": "Pruebas de peñas"
+    }
+  },
+  "utils": {
+    "fileRelated": "Es necesario seleccionar un archivo",
+    "fileSize": "El tamaño del archivo no puede superar los 5MB",
+    "fileType": "El archivo debe ser de tipo imagen (png, jpg, jpeg)",
+    "yes": "Sí",
+    "no": "No"
+  },
+  "dashboard": {
+    "title": "Panel de Administración",
+    "actionsCount": "{{count}} acciones",
+    "accessButton": "Acceder",
+    "pendingCrews": "{{count}}",
+    "cards": {
+      "events": {
+        "title": "Eventos",
+        "description": "Gestiona todos los eventos de la plataforma.",
+        "actions": {
+          "create": "Crear Evento",
+          "list": "Lista de Eventos"
+        }
+      },
+      "users": {
+        "title": "Usuarios",
+        "description": "Gestiona y consulta los usuarios registrados.",
+        "actions": {
+          "manage": "Listado de Usuarios",
+          "history": "Historial de Usuarios"
+        }
+      },
+      "socios": {
+        "title": "Socios",
+        "description": "Gestiona los socios del Patronat de Festes. Modifica las cuotas, datos personales, etc.",
+        "actions": {
+          "create": "Crear nuevo socio",
+          "manage": "Gestión de Socios"
+        }
+      },
+      "payments": {
+        "title": "Pagos",
+        "description": "Crea y gestiona los pagos de los boletos y socios.",
+        "actions": {
+          "create": "Nuevas remesas",
+          "list": "Lista de remesas"
+        }
+      },
+      "colaboradores": {
+        "title": "Colaboradores",
+        "description": "Gestiona los colaborares del Patronat de Festes. Entidades, organizaciones o personas que colaboran.",
+        "actions": {
+          "create": "Crear nuevo colaborador",
+          "list": "Lista de colaboradores"
+        }
+      },
+      "participantes": {
+        "title": "Participantes",
+        "description": "Gestiona los participantes en los eventos del Patronat de Festes. Dj, grupos musicales, etc.",
+        "actions": {
+          "create": "Crear nuevo participante",
+          "list": "Lista de participantes"
+        }
+      },
+      "penas": {
+        "title": "Peñas",
+        "description": "Administra las peñas asociadas a los eventos.",
+        "actions": {
+          "create": "Creación de Peñas",
+          "list": "Listado de peñas",
+          "history": "Historial de Peñas",
+          "points": "Asignar puntos"
+        }
+      },
+      "pruebas": {
+        "title": "Pruebas",
+        "description": "Crear y gestionar las pruebas de las peñas.",
+        "actions": {
+          "create": "Creación de pruebas",
+          "list": "Listado de pruebas"
+        }
+      },
+      "archivos": {
+        "title": "Archivos",
+        "description": "Gestiona los archivos multimedia de la plataforma.",
+        "actions": {
+          "add": "Añadir Nuevos Archivos",
+          "list": "Listado de Archivos"
+        }
+      },
+      "chat": {
+        "title": "Chat",
+        "description": "Gestiona los mensajes y conversaciones.",
+        "actions": {
+          "inbox": "Bandeja de Entrada",
+          "live": "Chat en Vivo"
+        }
+      },
+      "reports": {
+        "title": "Reportes",
+        "description": "Consulta los reportes de los eventos y el sistema."
+      }
     }
   }
 }

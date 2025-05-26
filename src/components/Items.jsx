@@ -1,38 +1,71 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import DynamicButton from './Buttons'
+import DOMPurify from 'dompurify'
 
-const DynamicItems = ({ items }) => {
+const DynamicItems = ({ items, extraClass }) => {
   const [expandedIndex, setExpandedIndex] = useState(null)
 
+  // Añadir esta función para validar URLs
+  const validateUrl = (url) => {
+    if (!url || typeof url !== 'string') return false
+
+    try {
+      const parsed = new URL(url)
+      return ['http:', 'https:'].includes(parsed.protocol)
+    } catch {
+      return false
+    }
+  }
+
   return (
-    <div className="space-y-0">
+    <div className="px-4 pb-[20px]">
       {items.map((item, index) => (
-        <div key={index} className="relative w-fit min-w-[400px] max-w-[100%]">
+        <div
+          key={index}
+          className={`relative w-full min-w-[400px] max-w-[100%] ${extraClass}`}
+        >
           <div
-            className={`flex items-center justify-between px-4 py-2 h-[54px] text-[#252525] hover:text-gray-700 max-w-[100%] ${
-              index !== items.length - 1 ? 'border-b border-[#252525]' : ''
+            className={`flex items-center justify-between px-4 py-2 h-fit text-[#252525] hover:text-gray-700 max-w-[100%] ${
+              index !== items.length - 1 && item.type !== 'eventData'
+                ? 'border-b border-[#252525]'
+                : ''
             }`}
           >
             {item.icon && (
               <div className="t16l flex flex-row justify-center items-center h-[46px] w-[76px] text-[#252525] hover:text-gray-700">
                 {typeof item.icon === 'string' ? (
-                  <img src={item.icon} alt="icon" className="w-6 h-6" />
+                  validateUrl(item.icon) ? (
+                    <img
+                      src={item.icon}
+                      alt="icon"
+                      className="w-6 h-6"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.target.src = '/path/to/default-icon.png'
+                      }}
+                    />
+                  ) : (
+                    <div className="w-6 h-6 bg-gray-200">!</div> // Placeholder para iconos inválidos
+                  )
                 ) : (
                   item.icon
                 )}
               </div>
             )}
 
-            <div className="flex flex-col flex-1 max-w-[90%]">
+            <div
+              className={`flex ${item.type === 'eventData' ? 'flex-row' : 'flex-col'}`}
+            >
               <span
-                className="t16l text-base text-[#252525] truncate overflow-hidden whitespace-nowrap"
-                title={item.title}
+                className="t16b text-base text-[#252525] truncate overflow-hidden whitespace-nowrap mr-4"
+                title={DOMPurify.sanitize(item.title)}
               >
-                {item.title}
+                {DOMPurify.sanitize(item.title)}
               </span>
               {item.description && (
                 <span
-                  className="overflow-hidden text-sm text-gray-500 truncate whitespace-nowrap"
+                  className="overflow-hidden text-sm truncate t16r whitespace-nowrap"
                   title={item.description}
                 >
                   {item.description}
@@ -47,15 +80,17 @@ const DynamicItems = ({ items }) => {
             )}
 
             {item.haveChevron && (
-              <button
+              <DynamicButton
+                type="button"
+                size="small"
+                state="normal"
                 onClick={() => {
-                  if (item.link) {
+                  if (item.link && validateUrl(item.link)) {
                     window.location.href = item.link
-                  } else if (item.action) {
+                  } else if (item.action && typeof item.action === 'function') {
                     item.action()
                   }
                 }}
-                className="flex flex-row justify-center items-center ml-2 h-[46px] w-[76px] text-[#252525] hover:text-gray-700 border-l-2 border-[#252525]"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -71,20 +106,24 @@ const DynamicItems = ({ items }) => {
                     d="M9 5l7 7-7 7"
                   />
                 </svg>
-              </button>
+              </DynamicButton>
             )}
 
             {item.expandable && (
-              <button
+              <DynamicButton
+                type="button"
+                size="small"
+                state="normal"
                 onClick={() =>
                   setExpandedIndex((prev) => (prev === index ? null : index))
                 }
-                className="ml-4 text-sm text-blue-500 hover:underline"
               >
                 {expandedIndex === index ? 'Collapse' : 'Expand'}
-              </button>
+              </DynamicButton>
             )}
           </div>
+
+          {item.extraContent && <div className="px-4">{item.extraContent}</div>}
 
           {item.expandable && expandedIndex === index && (
             <div className="t16l mt-2 px-4 text-[#252525]">
@@ -109,8 +148,11 @@ DynamicItems.propTypes = {
       haveChevron: PropTypes.bool,
       link: PropTypes.string,
       action: PropTypes.func,
+      type: PropTypes.string,
+      extraContent: PropTypes.node,
     })
   ).isRequired,
+  extraClass: PropTypes.string,
 }
 
 export default DynamicItems

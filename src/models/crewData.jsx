@@ -8,6 +8,6 @@ export const createCrewModel = () => ({
   numberOfMembers: 0,
   membersNames: [],
   responsable: '',
-  status: 'Activo',
+  status: 'Pendiente',
   createdAt: Timestamp.now(),
 })

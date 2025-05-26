@@ -1,117 +1,131 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import DynamicCard from '../components/Cards'
+import useStaffMembers from '../hooks/useStaffMembers'
 
 function AboutPage() {
   const { t } = useTranslation()
+  const { staffMembers, loading, error } = useStaffMembers()
+  const viewDictionary = 'pages.home.aboutSection'
 
   return (
-    <div className="min-h-screen px-4 bg-transparent">
+    <div className="px-4 pb-6 bg-transparent min-h-dvh">
       <div>
-        <h1 className="text-center t64s"> About as</h1>
+        <h1 className="text-center t64b">
+          {t(`${viewDictionary}.mainTitle`, 'Sobre nosotros')}
+        </h1>
       </div>
-      <section className="mt-[84px] justify-end flex flex-col items-end">
-        <h2 className="t64s mb-[30px]">Our story</h2>
-        <p className="t24r text-end">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa
-          mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non
-          suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales
-          sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat
-          placerat. In iaculis arcu eros, eget tempus orci facilisis id.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non
-          suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales
-          sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat
-          placerat. In iaculis arcu eros, eget tempus orci facilisis id.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non
-          suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales
-          sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat
-          placerat. In iaculis arcu eros, eget tempus orci facilisis id.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non
-          suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales
-          sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat
-          placerat. In iaculis arcu eros, eget tempus orci facilisis id.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non
-          suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales
-          sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat
-          placerat. In iaculis arcu eros, eget tempus orci facilisis id.
-        </p>
-      </section>
       <section className="mt-[84px] text-left justify-start flex flex-col items-start">
-        <h2 className="t64s mb-[30px]">Motivation</h2>
+        <h2 className="t40s mb-[30px]">
+          {t(`${viewDictionary}.title`, '¿Quiénes somos?')}
+        </h2>
         <p className="t24r text-start">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa
-          mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue. Vestibulum auctor ornare leo, non
-          suscipit magna interdum eu. Curabitur pellentesque nibh nibh, at
-          maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales
-          sodales. Quisque sagittis orci ut diam condimentum, vel euismod erat
-          placerat. In iaculis arcu eros, eget tempus orci facilisis id.Lorem
-          ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi.
-          Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla,
-          mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
-          tellus. Nullam quis imperdiet augue.
+          {t(
+            `${viewDictionary}.description`,
+            'El Patronat de Festes de Roquetes es una organización independiente y apolítica sin ánimo de lucro encargada de organizar festivales y eventos para la localidad de Roquetes en Tarragona. Aquí puedes encontrar toda la información sobre los próximos eventos y mucho más.'
+          )}
         </p>
       </section>
+
+      <section className="mt-[84px] justify-end flex flex-col items-end">
+        <h2 className="t40s mb-[30px]">
+          {t(`${viewDictionary}.historyTitle`, 'Nuestra historia')}
+        </h2>
+        <p className="t24r text-end">
+          {t(
+            `${viewDictionary}.historyDescription`,
+            'El Patronat de Festes de Roquetes nació en 1973 con un objetivo claro: preservar y promover las fiestas populares que dan vida a nuestra ciudad. Desde entonces, hemos sido parte esencial de la identidad de Roquetes, organizando cada año celebraciones que combinan tradición, cultura y participación. A lo largo de los años, más de un centenar de personas han contribuido con su esfuerzo y pasión a consolidar esta entidad como uno de los pilares festivos del municipio. Hoy, con más de cinco décadas de historia, seguimos creciendo con el mismo espíritu con el que empezamos: hacer de cada fiesta un reflejo del alma de Roquetes.'
+          )}
+        </p>
+      </section>
+
+      <section className="mt-[84px] justify-start flex flex-col items-start">
+        <h2 className="t40s mb-[30px]">
+          {t(`${viewDictionary}.motivationTitle`, 'Motivación')}
+        </h2>
+        <p className="t24r text-start">
+          {t(
+            `${viewDictionary}.motivationDescription`,
+            'Creemos que las fiestas son mucho más que celebraciones: son momentos que fortalecen los vínculos, que nos conectan con nuestras raíces y que nos permiten compartir lo mejor de nosotros mismos. Nos motiva ver a niños, jóvenes y mayores vivir con ilusión cada acto, cada tradición y cada encuentro. Trabajamos con entusiasmo para ofrecer propuestas inclusivas, creativas y con sentido comunitario. Nuestra motivación es clara: seguir construyendo, a través de las fiestas, una Roquetes viva, unida y orgullosa de su cultura.'
+          )}
+        </p>
+      </section>
+
       <section className="mt-[84px] flex flex-col">
-        <h2 className="t64s mb-[84px] text-end">Actual STAFF</h2>
-        <div className="flex h-[400px] mb-[84px]">
-          <div className="w-[550px]">
-            <DynamicCard
-              t={t}
-              imageUrl="/assets/Patronat_color_1024x1024.webp"
-            ></DynamicCard>
-          </div>
-          <div className="ml-3 max-w-[794px]">
-            <h3 className="t64s">Juan Carlos</h3>
-            <h4 className="t36r text-[#000000] opacity-50">Sangres Muiña</h4>
-            <p className="t20r">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Accusamus voluptates ad, dolorum ipsa assumenda atque facere
-              accusantium, corrupti ipsum corporis temporibus officia voluptatum
-              sit exercitationem illo fugit saepe. Aperiam, quis.
-            </p>
-          </div>
-        </div>
-        <div className="flex flex-row-reverse h-[400px] mb-[84px]">
-          <div className="w-[550px]">
-            <DynamicCard
-              t={t}
-              imageUrl="/assets/Patronat_color_1024x1024.webp"
-            ></DynamicCard>
-          </div>
-          <div className="mr-3 max-w-[794px]">
-            <h3 className="t64s text-end">Susana</h3>
-            <h4 className="t36r text-[#000000] opacity-50 text-end">
-              Garcia Panisello
-            </h4>
-            <p className="t20r text-end">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              Accusamus voluptates ad, dolorum ipsa assumenda atque facere
-              accusantium, corrupti ipsum corporis temporibus officia voluptatum
-              sit exercitationem illo fugit saepe. Aperiam, quis.
-            </p>
-          </div>
-        </div>
+        <h2 className="t64s mb-[84px] text-end">
+          {t(`${viewDictionary}.staffTitle`, 'Actual STAFF')}
+        </h2>
+
+        {loading && (
+          <p className="text-center t24r">
+            {t(
+              `${viewDictionary}.loadingStaff`,
+              'Cargando miembros del staff...'
+            )}
+          </p>
+        )}
+
+        {error && (
+          <p className="text-center text-red-500 t24r">
+            {t(`${viewDictionary}.errorStaff`, 'Error al cargar el staff:')}{' '}
+            {error}
+          </p>
+        )}
+
+        {!loading && !error && staffMembers.length === 0 && (
+          <p className="text-center t24r">
+            {t(
+              `${viewDictionary}.noStaffMembers`,
+              'No se encontraron miembros del staff.'
+            )}
+          </p>
+        )}
+
+        {!loading &&
+          !error &&
+          staffMembers.map((member, index) => (
+            <div
+              key={member.id}
+              className={`flex ${index % 2 !== 0 ? 'flex-row-reverse' : ''} h-[400px] mb-[84px]`}
+            >
+              <div className="w-[550px]">
+                <DynamicCard
+                  t={t}
+                  imageUrl={
+                    member.documentUrl ||
+                    '/assets/Patronat_color_1024x1024.webp'
+                  }
+                />
+              </div>
+              <div
+                className={`${index % 2 !== 0 ? 'mr-4' : 'ml-4'} max-w-[794px]`}
+              >
+                <h3 className={`t64b ${index % 2 !== 0 ? 'text-end' : ''}`}>
+                  {member.firstName ||
+                    t(`${viewDictionary}.defaultName`, 'Nombre')}
+                </h3>
+                <h4
+                  className={`t36s text-[#000000] opacity-50 ${index % 2 !== 0 ? 'text-end' : ''}`}
+                >
+                  {member.lastName ||
+                    t(`${viewDictionary}.defaultLastName`, 'Apellido')}
+                </h4>
+                <span
+                  className={`t18r italic text-[#000000] opacity-70 ${index % 2 !== 0 ? 'text-end' : ''} block mb-2`}
+                >
+                  {member.position ||
+                    t(`${viewDictionary}.defaultPosition`, 'Miembro')}
+                </span>
+                <p className={`t24r ${index % 2 !== 0 ? 'text-end' : ''}`}>
+                  {member.description ||
+                    t(
+                      `${viewDictionary}.defaultDescription`,
+                      'Este miembro del staff no tiene descripción disponible.'
+                    )}
+                </p>
+              </div>
+            </div>
+          ))}
       </section>
     </div>
   )

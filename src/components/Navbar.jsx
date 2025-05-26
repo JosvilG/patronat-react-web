@@ -1,5 +1,5 @@
 import React, { useContext, useState, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import log from 'loglevel'
 import { useTranslation } from 'react-i18next'
 import { AuthContext } from '../contexts/AuthContext'
@@ -9,11 +9,12 @@ import { useOutsideClick } from '../hooks/useOutSideClickListener'
 import { useResizeListener } from '../hooks/useResizeListener'
 import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
+import useSlug from '../hooks/useSlug'
 
 const navLinksData = [
   { to: '/events-list', label: 'components.navbar.eventTitle' },
   { to: '/gallery', label: 'components.navbar.galeryTitle' },
-  { to: '/penas', label: 'components.navbar.crewTitle' },
+  { to: '/crews', label: 'components.navbar.crewTitle' },
   { to: '/about', label: 'components.navbar.whoWeAreTitle' },
   { to: '/partner-form', label: 'components.navbar.partnersTitle' },
 ]
@@ -64,8 +65,22 @@ const DropdownMenu = ({ items, onClose }) => (
         item.isButton ? (
           <button
             key={index}
-            onClick={item.onClick}
-            className="t12s flex w-full px-4 py-2 text-sm text-left transition duration-300 ease-in-out rounded-[27px] justify-center bg-[#A0A0A0] hover:bg-gray-200 active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            onClick={() => {
+              item.onClick()
+              onClose()
+            }}
+            className="t12s flex px-4 py-2 w-full text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+          >
+            {item.label}
+          </button>
+        ) : item.onClick ? (
+          <button
+            key={index}
+            onClick={() => {
+              item.onClick()
+              onClose()
+            }}
+            className="t12s flex px-4 py-2 w-full text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
           >
             {item.label}
           </button>
@@ -73,9 +88,8 @@ const DropdownMenu = ({ items, onClose }) => (
           <Link
             key={index}
             to={item.to}
-            className="t12s flex px-4 py-2 text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center bg-[#A0A0A0] hover:bg-gray-200 active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className="t12s flex px-4 py-2 text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
             onClick={() => {
-              log.info(`Navegando a ${item.label}`)
               onClose()
             }}
           >
@@ -96,16 +110,32 @@ export function Navbar() {
   const isSmallScreen = useResizeListener()
   const dropdownRef = useRef(null)
   const mobileMenuRef = useRef(null)
+  const navigate = useNavigate()
+  const { generateSlug } = useSlug()
 
   log.setLevel('info')
 
   useOutsideClick(mobileMenuRef, () => setMobileMenuOpen(false))
   useOutsideClick(dropdownRef, () => !isSmallScreen && setDropdownOpen(false))
+  const navigateToProfile = () => {
+    if (userData) {
+      const userId = userData.id || user.uid
+      if (!userId) return
+
+      const fullName =
+        `${userData.firstName || ''} ${userData.lastName || ''}`.trim()
+      const slug = fullName
+        ? `${generateSlug(fullName)}-${userId.slice(0, 8)}`
+        : userId
+
+      navigate(`/profile/${slug}`, { state: { userId } })
+      setDropdownOpen(false)
+    }
+  }
 
   const navLinks = navLinksData.map((link) => ({
     ...link,
     label: t(link.label),
-    onClick: () => log.info(`Navegando a ${t(link.label)}`),
   }))
 
   const renderNavLinks = () =>
@@ -114,7 +144,7 @@ export function Navbar() {
     ))
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-white to-95%">
+    <nav className="sticky top-0 z-10 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-white to-95%">
       <div className="flex items-center ml-8">
         <Link to="/">
           <img
@@ -126,7 +156,7 @@ export function Navbar() {
       </div>
 
       {!isSmallScreen && (
-        <div className="t16r flex h-auto min-h-[41px] items-center max-w-[605px] w-full justify-center px-2 bg-[#A0A0A0] rounded-full shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
+        <div className="t16r flex h-auto min-h-[41px] items-center max-w-[605px] w-full justify-center px-2 text-[#D9D9D9] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-full transition duration-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
           {renderNavLinks()}
         </div>
       )}
@@ -138,9 +168,6 @@ export function Navbar() {
           <Link
             to="/login"
             className="t16s px-6 py-2 t16b text-white bg-[#3A3A3A] rounded-full hover:bg-[#D9D9D9] hover:text-gray-900 transition duration-300 ease-in-out active:bg-[#D9D9D9] shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
-            onClick={() =>
-              log.info('Navegando a la página de inicio de sesión.')
-            }
           >
             {t('components.navbar.loginTitle')}
           </Link>
@@ -162,22 +189,41 @@ export function Navbar() {
               to="/login"
               label={t('components.navbar.loginTitle')}
               onClick={() => {
-                log.info('Navegando a la página de inicio de sesión.')
                 setMobileMenuOpen(false)
               }}
               isSmallScreen={isSmallScreen}
             />
           ) : (
-            <button
-              type="button"
-              onClick={async () => {
-                await handleSignOut()
-                setMobileMenuOpen(false)
-              }}
-              className="t16s h-[39px] min-h-[39px] flex flex-col justify-center items-center w-full mb-1 rounded-[27px] bg-[#A0A0A0] hover:bg-gray-200 text-[#1E1E1E] hover:text-gray-900 focus:text-gray-900 active:text-gray-900 focus:bg-[#D9D9D9] active:bg-[#D9D9D9] transition duration-300 ease-in-out shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
-            >
-              {t('components.navbar.signOutTitle')}
-            </button>
+            <>
+              <NavLink
+                to="#"
+                label={t('components.navbar.profileTitle')}
+                onClick={() => {
+                  navigateToProfile()
+                  setMobileMenuOpen(false)
+                }}
+                isSmallScreen={isSmallScreen}
+              />
+              {userData?.role === 'admin' && (
+                <NavLink
+                  to="/dashboard"
+                  label={t('components.navbar.dashboardTitle')}
+                  onClick={() => {
+                    setMobileMenuOpen(false)
+                  }}
+                  isSmallScreen={isSmallScreen}
+                />
+              )}
+              <NavLink
+                to="/login"
+                label={t('components.navbar.signOutTitle')}
+                onClick={async () => {
+                  await handleSignOut()
+                  setMobileMenuOpen(false)
+                }}
+                isSmallScreen={isSmallScreen}
+              />
+            </>
           )}
         </motion.div>
       )}
@@ -198,15 +244,18 @@ export function Navbar() {
               className="w-10 h-10 rounded-full shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
             />
           </button>
-          {dropdownOpen && (
+          {dropdownOpen && userData && (
             <DropdownMenu
               items={[
-                { to: '/profile', label: t('components.navbar.profileTitle') },
+                {
+                  label: t('components.navbar.profileTitle'),
+                  onClick: navigateToProfile,
+                },
                 {
                   to: '/settings',
                   label: t('components.navbar.settingsTitle'),
                 },
-                userData.role === 'admin' && {
+                userData?.role === 'admin' && {
                   to: '/dashboard',
                   label: t('components.navbar.dashboardTitle'),
                 },
@@ -226,10 +275,10 @@ export function Navbar() {
 }
 
 NavLink.propTypes = {
-  to: PropTypes.string.isRquired,
-  label: PropTypes.string.isRquired,
-  onClick: PropTypes.func.isRquired,
-  isSmallScreen: PropTypes.bool.isRquired,
+  to: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  isSmallScreen: PropTypes.bool.isRequired,
 }
 
 DropdownMenu.propTypes = {
@@ -245,5 +294,5 @@ DropdownMenu.propTypes = {
 }
 
 MobileMenuButton.propTypes = {
-  onClick: PropTypes.func.isRquired,
+  onClick: PropTypes.func.isRequired,
 }

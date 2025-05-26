@@ -1,14 +1,15 @@
-// pages/HomePage.js
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
 import DynamicCard from './../components/Cards'
 import useEvents from '../hooks/useEvents'
-import Loader from '../components/Loader'
 import Calendar from '../components/Calendar'
 import { useTranslation } from 'react-i18next'
 import useGallery from '../hooks/useGallery'
 import { Link } from 'react-router-dom'
 import { Trans } from 'react-i18next'
+import { motion, AnimatePresence } from 'framer-motion'
+
+import patronatLogo from '../assets/logos/Patronat_50_color.png'
 
 function HomePage() {
   const { t } = useTranslation()
@@ -22,13 +23,28 @@ function HomePage() {
   const { events, loading: loadingEvents, handleEventClick } = useEvents()
 
   const upcomingEvents = events
-    .filter((event) => new Date(event.start) >= new Date())
+    .filter((event) => {
+      const eventStartDate = new Date(event.start)
+      const eventEndDate = event.end ? new Date(event.end) : null
+      const now = new Date()
+
+      const isSameDay =
+        eventStartDate.getDate() === now.getDate() &&
+        eventStartDate.getMonth() === now.getMonth() &&
+        eventStartDate.getFullYear() === now.getFullYear()
+
+      const isActive =
+        eventEndDate && now >= eventStartDate && now <= eventEndDate
+      const isFuture = eventStartDate >= now
+
+      return isSameDay || isActive || isFuture
+    })
     .sort((a, b) => new Date(a.start) - new Date(b.start))
     .slice(0, 3)
 
   return (
-    <div className="min-h-screen px-4 bg-transparent">
-      <HeroSection t={t} />
+    <div className="flex flex-col items-center px-4 bg-transparent min-h-dvh">
+      <HeroSection t={t} logoSrc={patronatLogo} />
       <AboutSection t={t} />
       <GallerySection
         t={t}
@@ -50,29 +66,30 @@ function HomePage() {
   )
 }
 
-const HeroSection = ({ t }) => (
-  <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-white">
-    <div className="absolute inset-0 z-0 bg-transparent" />
-    <div className="relative z-10 flex flex-col justify-between h-full">
-      <p
-        className="w-auto font-bold text-black t36r text-9xl"
-        dangerouslySetInnerHTML={{
-          __html: t('pages.home.heroSection.description'),
-        }}
-      ></p>
-      <div className="">
-        <p
-          className="font-bold text-black t64xl text-9xl text-end"
-          dangerouslySetInnerHTML={{
-            __html: t('pages.home.heroSection.title'),
-          }}
-        ></p>
-        <p
-          className="font-bold t96b text-9xl text-end text-[#15642E]"
-          dangerouslySetInnerHTML={{
-            __html: t('pages.home.heroSection.roquetesTitle'),
-          }}
-        ></p>
+const HeroSection = ({ logoSrc }) => (
+  <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-transparent">
+    <div className="absolute inset-0 flex items-center justify-center">
+      <img
+        src={logoSrc}
+        alt="Patronat 50 Aniversari"
+        className="absolute w-full h-auto -z-10 opacity-5 top-4 left-4 "
+      />
+    </div>
+    <div className="absolute inset-0 bg-transparent" />
+    <div className="relative flex flex-col justify-between h-full">
+      <p className="w-auto pt-20 font-bold text-black t36r text-9xl">
+        <Trans i18nKey="pages.home.heroSection.description" />
+      </p>
+      <div className="pb-20">
+        <p className="font-bold text-black t64xl text-9xl text-end">
+          <Trans
+            i18nKey="pages.home.heroSection.title"
+            components={{ br: <br /> }}
+          />
+        </p>
+        <p className="font-bold t96b text-9xl text-end text-[#15642E]">
+          <Trans i18nKey="pages.home.heroSection.roquetesTitle" />
+        </p>
       </div>
     </div>
   </section>
@@ -85,68 +102,140 @@ const GallerySection = ({
   currentGalleryIndex,
   onNext,
   onPrev,
-}) => (
-  <section className="py-16 bg-transparent">
-    <h2 className="mb-6 text-right t64s">
-      <a href="/gallery">{t('pages.home.galerySection.title')}</a>
-    </h2>
-    {loadingGallery ? (
-      <div className="flex items-center justify-center">
-        <Loader loading={loadingGallery} />
-      </div>
-    ) : galleryImages.length >= 3 ? (
-      <div className="relative">
-        <div className="flex justify-center overflow-hidden max-sm:h-[400px]">
-          <GalleryCard
-            galleryImages={galleryImages}
-            index={
-              (currentGalleryIndex - 1 + galleryImages.length) %
-              galleryImages.length
-            }
-            opacity={0.5}
-            scale={0.9}
+}) => {
+  const [isChanging, setIsChanging] = useState(false)
+
+  const handlePrev = () => {
+    if (!isChanging) {
+      setIsChanging(true)
+      onPrev()
+      setTimeout(() => setIsChanging(false), 500)
+    }
+  }
+
+  const handleNext = () => {
+    if (!isChanging) {
+      setIsChanging(true)
+      onNext()
+      setTimeout(() => setIsChanging(false), 500)
+    }
+  }
+
+  useEffect(() => {
+    if (galleryImages.length > 0) {
+      galleryImages.forEach((image) => {
+        const img = new Image()
+        img.src = image.url
+      })
+    }
+  }, [galleryImages])
+
+  return (
+    <section className="py-16 bg-transparent max-w-[156dvh] pt-8 min-w-full">
+      <h2 className="mb-6 text-right t64s">
+        <a href="/gallery">{t('pages.home.galerySection.title')}</a>
+      </h2>
+      {loadingGallery ? (
+        <div className="flex items-center justify-center"></div>
+      ) : galleryImages.length >= 3 ? (
+        <div className="relative">
+          <div className="flex justify-center overflow-hidden max-sm:h-[400px]">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`left-${currentGalleryIndex}`}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 0.5, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="flex-shrink-0"
+              >
+                <GalleryCard
+                  galleryImages={galleryImages}
+                  index={
+                    (currentGalleryIndex - 1 + galleryImages.length) %
+                    galleryImages.length
+                  }
+                  opacity={0.5}
+                  scale={0.9}
+                  clickable={false}
+                />
+              </motion.div>
+              <motion.div
+                key={`center-${currentGalleryIndex}`}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.95 }}
+                transition={{ duration: 0.4 }}
+                className="flex-shrink-0 "
+              >
+                <GalleryCard
+                  galleryImages={galleryImages}
+                  index={currentGalleryIndex}
+                />
+              </motion.div>
+              <motion.div
+                key={`right-${currentGalleryIndex}`}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 0.5, x: 0 }}
+                exit={{ opacity: 0, x: 20 }}
+                transition={{ duration: 0.4 }}
+                className="flex-shrink-0"
+              >
+                <GalleryCard
+                  galleryImages={galleryImages}
+                  index={(currentGalleryIndex + 1) % galleryImages.length}
+                  opacity={0.5}
+                  scale={0.9}
+                  clickable={false}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <GalleryNavigation
+            onPrev={handlePrev}
+            onNext={handleNext}
+            disabled={isChanging}
           />
+        </div>
+      ) : galleryImages.length >= 1 ? (
+        <div className="flex justify-center">
           <GalleryCard
             galleryImages={galleryImages}
             index={currentGalleryIndex}
           />
-          <GalleryCard
-            galleryImages={galleryImages}
-            index={(currentGalleryIndex + 1) % galleryImages.length}
-            opacity={0.5}
-            scale={0.9}
-          />
+          {galleryImages.length === 2 && (
+            <GalleryCard
+              galleryImages={galleryImages}
+              index={(currentGalleryIndex + 1) % galleryImages.length}
+            />
+          )}
         </div>
-        <GalleryNavigation onPrev={onPrev} onNext={onNext} />
-      </div>
-    ) : galleryImages.length >= 1 ? (
-      <div className="flex justify-center">
-        <GalleryCard
-          galleryImages={galleryImages}
-          index={currentGalleryIndex}
-        />
-        {galleryImages.length === 2 && (
-          <GalleryCard
-            galleryImages={galleryImages}
-            index={(currentGalleryIndex + 1) % galleryImages.length}
-          />
-        )}
-      </div>
-    ) : galleryImages.length === 0 ? (
-      <p className="text-center">{t('pages.home.gallerySection.noImages')}</p>
-    ) : null}
-  </section>
-)
+      ) : galleryImages.length === 0 ? (
+        <p className="text-center">{t('pages.home.gallerySection.noImages')}</p>
+      ) : null}
+    </section>
+  )
+}
 
-const GalleryCard = ({ galleryImages, index }) => (
-  <div className="flex-shrink-0 max-sm:w-[380px]  w-[550px] h-[530px] transition-opacity duration-300 px-3">
+const GalleryCard = ({
+  galleryImages,
+  index,
+  opacity = 1,
+  scale = 1,
+  clickable = true,
+}) => (
+  <motion.div
+    className="flex-shrink-0 max-sm:w-[380px] w-[550px] h-[530px] transition-all duration-300 px-3"
+    style={{ opacity, scale }}
+  >
     <DynamicCard
       type="gallery"
       title={galleryImages[index]?.name}
       imageUrl={galleryImages[index]?.url}
       description={galleryImages[index]?.description}
+      clickable={clickable} // Pasar la propiedad clickable
     />
-  </div>
+  </motion.div>
 )
 
 const AboutSection = ({ t }) => (
@@ -160,23 +249,29 @@ const AboutSection = ({ t }) => (
   </section>
 )
 
-const GalleryNavigation = ({ onPrev, onNext }) => (
+const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
   <>
-    <div className="absolute inset-y-0 left-0 flex items-center justify-center ">
-      <button
+    <div className="absolute inset-y-0 left-0 flex items-center justify-center">
+      <motion.button
         onClick={onPrev}
-        className="p-2 text-white bg-gray-700 max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        disabled={disabled}
+        className={`p-2 text-black t36b backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &lt;
-      </button>
+      </motion.button>
     </div>
     <div className="absolute inset-y-0 right-0 flex items-center justify-center">
-      <button
+      <motion.button
         onClick={onNext}
-        className="p-2 text-white bg-gray-700 max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full"
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        disabled={disabled}
+        className={`p-2 text-black t36b backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &gt;
-      </button>
+      </motion.button>
     </div>
   </>
 )
@@ -188,7 +283,7 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
     </h2>
     {loadingEvents ? (
       <div className="flex items-center justify-center">
-        <Loader loading={loadingEvents} />
+        {/* <Loader loading={loadingEvents} /> */}
       </div>
     ) : events.length > 0 ? (
       <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
@@ -270,6 +365,7 @@ AboutSection.propTypes = {
 
 HeroSection.propTypes = {
   t: PropTypes.func.isRequired,
+  logoSrc: PropTypes.string.isRequired,
 }
 
 WantToParticipateSection.propTypes = {
@@ -286,13 +382,15 @@ EventsSection.propTypes = {
 GalleryNavigation.propTypes = {
   onPrev: PropTypes.func.isRequired,
   onNext: PropTypes.func.isRequired,
-  t: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 }
 
 GalleryCard.propTypes = {
   galleryImages: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
-  t: PropTypes.func.isRequired,
+  opacity: PropTypes.number,
+  scale: PropTypes.number,
+  clickable: PropTypes.bool,
 }
 
 export default HomePage

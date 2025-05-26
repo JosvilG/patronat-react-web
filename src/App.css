@@ -15,7 +15,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -26,4 +26,14 @@
 
 .App-link {
   color: #61dafb;
+}
+
+body {
+  background-color: #ffffff;
+  background-image: radial-gradient(
+      at 20% 33%,
+      hsl(115.69, 92%, 41%) 0,
+      transparent 59%
+    ),
+    radial-gradient(at 82% 65%, hsl(55.64, 100%, 65%) 0, transparent 55%);
 }

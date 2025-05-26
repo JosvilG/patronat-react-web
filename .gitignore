@@ -50,3 +50,23 @@ yarn-error.log*
 
 # TypeScript build output (if you're using TypeScript)
 *.tsbuildinfo
+
+cors.json
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+.runtimeconfig.json
+firebase-export/
+firebase-data.json
+.firebaserc
+firebase.indexes.json
+
+# Firebase Functions específicos
+functions/node_modules/
+functions/.runtimeconfig.json
+functions/firebase-debug.log
+functions/coverage/
+functions/.nyc_output

@@ -7,19 +7,53 @@ import Swal from 'sweetalert2'
 import log from 'loglevel'
 import { db, storage } from '../../firebase/firebase'
 import { createEventModel } from '../../models/eventData'
+import { createFormFieldsModel } from '../../models/formData'
 import imageCompression from 'browser-image-compression'
 import Loader from '../../components/Loader'
+import { useTranslation } from 'react-i18next'
+import DynamicInput from '../../components/Inputs'
+import DynamicItems from '../../components/Items'
+import AddIcon from '@mui/icons-material/Add'
+import DeleteIcon from '@mui/icons-material/Delete'
+import DynamicButton from '../../components/Buttons'
+
+const createEventModelWithParticipants = () => {
+  const baseModel = createEventModel()
+  return {
+    ...baseModel,
+  }
+}
 
 function EventForm() {
-  const [eventData, setEventData] = useState(createEventModel())
+  const { t } = useTranslation()
+  const [eventData, setEventData] = useState(createEventModelWithParticipants())
   const [collaborators, setCollaborators] = useState([])
-  const [search, setSearch] = useState('')
+  const [participants, setParticipants] = useState([])
+  const [collaboratorSearch, setCollaboratorSearch] = useState('')
+  const [participantSearch, setParticipantSearch] = useState('')
   const [filteredCollaborators, setFilteredCollaborators] = useState([])
+  const [filteredParticipants, setFilteredParticipants] = useState([])
+  const [organizerSearch, setOrganizerSearch] = useState('')
+  const [filteredOrganizers, setFilteredOrganizers] = useState([])
   const [file, setFile] = useState(null)
+  const [authDocument, setAuthDocument] = useState(null)
   const [uploading] = useState(false)
   const [progress, setProgress] = useState(0)
+  const [authDocProgress, setAuthDocProgress] = useState(0)
   const [submitting, setSubmitting] = useState(false)
+  const [selectedFormFields, setSelectedFormFields] = useState([
+    'nombre',
+    'tematica',
+    'responsable1',
+    'responsable2',
+    'dni1',
+    'dni2',
+    'telefono1',
+    'telefono2',
+    'ubicacion',
+  ])
   const navigate = useNavigate()
+  const viewDictionary = 'pages.events.registerEvent'
 
   log.setLevel('debug')
 
@@ -59,23 +93,49 @@ function EventForm() {
       }))
       setCollaborators(collaboratorsList)
       setFilteredCollaborators(collaboratorsList)
-      log.debug('Collaborators fetched:', collaboratorsList)
     }
+
+    const fetchParticipants = async () => {
+      log.debug('Fetching participants...')
+      const participantsSnap = await getDocs(collection(db, 'participants'))
+      const participantsList = participantsSnap.docs.map((docSnap) => ({
+        id: docSnap.id,
+        ...docSnap.data(),
+      }))
+      setParticipants(participantsList)
+      setFilteredParticipants(participantsList)
+    }
+
     fetchCollaborators()
+    fetchParticipants()
   }, [])
 
   useEffect(() => {
-    log.debug('Filtering collaborators with search term:', search)
     setFilteredCollaborators(
       collaborators.filter((collab) =>
-        collab.name.toLowerCase().includes(search.toLowerCase())
+        collab.name.toLowerCase().includes(collaboratorSearch.toLowerCase())
       )
     )
-  }, [search, collaborators])
+  }, [collaboratorSearch, collaborators])
+
+  useEffect(() => {
+    setFilteredParticipants(
+      participants.filter((participant) =>
+        participant.name.toLowerCase().includes(participantSearch.toLowerCase())
+      )
+    )
+  }, [participantSearch, participants])
+
+  useEffect(() => {
+    setFilteredOrganizers(
+      collaborators.filter((collab) =>
+        collab.name.toLowerCase().includes(organizerSearch.toLowerCase())
+      )
+    )
+  }, [organizerSearch, collaborators])
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target
-    log.debug('Handling change for field:', name, 'with value:', value)
     setEventData({
       ...eventData,
       [name]: type === 'checkbox' ? checked : value,
@@ -84,28 +144,61 @@ function EventForm() {
 
   const addCollaboratorToEvent = (collab) => {
     if (!eventData.collaborators.includes(collab.id)) {
-      log.debug('Adding collaborator:', collab.name)
       setEventData({
         ...eventData,
         collaborators: [...eventData.collaborators, collab.id],
       })
-    } else {
-      log.warn('Collaborator already added:', collab.name)
     }
   }
 
   const removeCollaboratorFromEvent = (collabId) => {
-    log.debug('Removing collaborator with ID:', collabId)
     setEventData({
       ...eventData,
       collaborators: eventData.collaborators.filter((id) => id !== collabId),
     })
   }
 
-  const uploadFile = async (file) => {
+  const addParticipantToEvent = (participant) => {
+    if (!eventData.participants.includes(participant.id)) {
+      setEventData({
+        ...eventData,
+        participants: [...eventData.participants, participant.id],
+      })
+    }
+  }
+
+  const removeParticipantFromEvent = (participantId) => {
+    setEventData({
+      ...eventData,
+      participants: eventData.participants.filter((id) => id !== participantId),
+    })
+  }
+
+  const setOrganizer = (collab) => {
+    setEventData({
+      ...eventData,
+      organizer: collab.id,
+    })
+  }
+
+  const removeOrganizer = () => {
+    setEventData({
+      ...eventData,
+      organizer: '',
+    })
+  }
+
+  const handleAuthDocChange = (e) => {
+    const selectedFile = e.target.files[0]
+    if (selectedFile) {
+      setAuthDocument(selectedFile)
+    }
+  }
+
+  const uploadFile = async (file, progressSetter, isAuthDoc = false) => {
     try {
-      log.info('Iniciando subida del archivo a Firebase Storage...')
-      const storageRef = ref(storage, `uploads/${file.name}`)
+      const folderPath = isAuthDoc ? 'authorizations' : 'uploads'
+      const storageRef = ref(storage, `${folderPath}/${file.name}`)
       const uploadTask = uploadBytesResumable(storageRef, file)
 
       return new Promise((resolve, reject) => {
@@ -114,7 +207,7 @@ function EventForm() {
           (snapshot) => {
             const progressPercent =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-            setProgress(progressPercent)
+            progressSetter(progressPercent)
           },
           (error) => {
             log.error('Error al subir el archivo:', error)
@@ -122,7 +215,6 @@ function EventForm() {
           },
           async () => {
             const url = await getDownloadURL(uploadTask.snapshot.ref)
-            log.info('Archivo subido con éxito. URL del archivo:', url)
             resolve(url)
           }
         )
@@ -134,53 +226,91 @@ function EventForm() {
   }
 
   const handleTagChange = (tag) => {
-    log.debug('Selecting tag:', tag)
     setEventData({ ...eventData, tags: [tag] })
   }
 
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0]
     if (selectedFile) {
-      log.info('Archivo seleccionado:', selectedFile)
-
       try {
         const webpFile = await convertToWebP(selectedFile)
         setFile(webpFile)
+
+        const previewURL = URL.createObjectURL(webpFile)
+        setEventData({
+          ...eventData,
+          imageURL: previewURL,
+        })
       } catch (error) {
         log.error('Error al convertir la imagen:', error)
       }
     }
   }
 
+  const handleFormFieldToggle = (fieldId) => {
+    setSelectedFormFields((prev) => {
+      if (prev.includes(fieldId)) {
+        return prev.filter((id) => id !== fieldId)
+      } else {
+        return [...prev, fieldId]
+      }
+    })
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
 
-    const startTimestamp = Timestamp.fromDate(
-      new Date(`${eventData.startDate}T${eventData.startTime}`)
-    )
-    const endTimestamp = Timestamp.fromDate(
-      new Date(`${eventData.endDate}T${eventData.endTime}`)
-    )
-
     try {
       let fileUrl = ''
+      let authDocUrl = ''
+
       if (file) {
-        fileUrl = await uploadFile(file)
+        fileUrl = await uploadFile(file, setProgress, false)
       }
 
-      await addDoc(collection(db, 'events'), {
-        ...eventData,
-        startDateTime: startTimestamp,
-        endDateTime: endTimestamp,
+      if (authDocument) {
+        authDocUrl = await uploadFile(authDocument, setAuthDocProgress, true)
+      }
+
+      const eventDataToSave = { ...eventData }
+      delete eventDataToSave.imageURL
+
+      const eventDocRef = await addDoc(collection(db, 'events'), {
+        ...eventDataToSave,
         createdAt: Timestamp.now(),
         eventURL: fileUrl,
+        authDocumentURL: authDocUrl,
+        formFieldsIds: eventData.needForm ? selectedFormFields : [],
       })
+
+      if (eventData.needForm) {
+        const allFormFields = createFormFieldsModel()
+
+        const formFields = allFormFields.filter((field) =>
+          selectedFormFields.includes(field.fieldId)
+        )
+
+        formFields.forEach((field, index) => {
+          field.order = index + 1
+        })
+
+        const formCampsRef = collection(
+          db,
+          'events',
+          eventDocRef.id,
+          'formCamps'
+        )
+
+        await Promise.all(
+          formFields.map((field) => addDoc(formCampsRef, field))
+        )
+      }
 
       const MySwal = withReactContent(Swal)
       MySwal.fire({
-        title: 'Evento creado correctamente',
-        text: 'El evento se ha creado y guardado con éxito.',
+        title: t(`${viewDictionary}.successPopup.title`),
+        text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
         confirmButtonText: 'Aceptar',
       }).then(() => {
@@ -198,8 +328,8 @@ function EventForm() {
 
       const MySwal = withReactContent(Swal)
       MySwal.fire({
-        title: 'Error al registrar el evento',
-        text: errorMessage,
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.text \n`, { errorMessage }),
         icon: 'error',
         confirmButtonText: 'Cerrar',
       })
@@ -209,388 +339,535 @@ function EventForm() {
   }
 
   return (
-    <div>
+    <div className="container px-4 pb-6 mx-auto">
       <Loader loading={submitting} />
 
-      <form
-        onSubmit={handleSubmit}
-        className="p-6 mx-auto space-y-6 bg-white rounded-lg shadow-lg max-w-7xl"
-      >
-        <div>
-          <label
-            htmlFor="title"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Título del Evento
-          </label>
-          <input
-            required
-            type="text"
-            name="title"
-            id="title"
-            placeholder="Título del evento"
-            value={eventData.title}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+      <form onSubmit={handleSubmit} className="mx-auto space-y-6 max-w-7xl">
+        <h1 className="mb-6 text-center t64b">
+          {t(`${viewDictionary}.title`)}
+        </h1>
 
-        <div>
-          <label
-            htmlFor="description"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Descripción
-          </label>
-          <textarea
-            required
-            name="description"
-            id="description"
-            placeholder="Descripción"
-            value={eventData.description}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            rows="4"
-          />
-        </div>
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.basicInfoTitle`)}
+          </h3>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <label
-              htmlFor="startDate"
-              className="block mb-2 text-sm font-semibold text-gray-700"
-            >
-              Fecha de Inicio
-            </label>
-            <input
-              required
-              type="date"
-              name="startDate"
-              id="startDate"
-              value={eventData.startDate}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="startTime"
-              className="block mb-2 text-sm font-semibold text-gray-700"
-            >
-              Hora de Inicio
-            </label>
-            <input
-              required
-              type="time"
-              name="startTime"
-              id="startTime"
-              value={eventData.startTime}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="col-span-2">
+              <DynamicInput
+                name="title"
+                textId={t(`${viewDictionary}.nameLabel`)}
+                type="text"
+                value={eventData.title}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-          <div>
-            <label
-              htmlFor="endDate"
-              className="block mb-2 text-sm font-semibold text-gray-700"
-            >
-              Fecha de Fin
-            </label>
-            <input
-              type="date"
-              name="endDate"
-              id="endDate"
-              value={eventData.endDate}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="endTime"
-              className="block mb-2 text-sm font-semibold text-gray-700"
-            >
-              Hora de Fin
-            </label>
-            <input
-              type="time"
-              name="endTime"
-              id="endTime"
-              value={eventData.endTime}
-              onChange={handleChange}
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
+            <div className="col-span-2">
+              <DynamicInput
+                name="description"
+                textId={t(`${viewDictionary}.descriptionLabel`)}
+                type="textarea"
+                value={eventData.description}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <div>
-          <label
-            htmlFor="location"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Ubicación
-          </label>
-          <input
-            type="text"
-            name="location"
-            id="location"
-            placeholder="Ubicación"
-            value={eventData.location}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+            <div className="col-span-2">
+              <h3 className="mb-4 text-lg font-semibold text-gray-700">
+                {t(`${viewDictionary}.organizerLabel`)}
+              </h3>
 
-        <div>
-          <label
-            htmlFor="imageURL"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            URL de la imagen
-          </label>
-          <input
-            type="text"
-            name="imageURL"
-            id="imageURL"
-            placeholder="URL de la imagen"
-            value={eventData.imageURL}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+                <div>
+                  <DynamicInput
+                    name="searchOrganizer"
+                    textId="Buscar organizador"
+                    type="text"
+                    value={organizerSearch}
+                    onChange={(e) => setOrganizerSearch(e.target.value)}
+                  />
 
-        <div className="mt-4">
-          <h4 className="text-lg font-semibold">Subir Imagen</h4>
-          <input type="file" onChange={handleFileChange} className="mt-2" />
-          {uploading && <p>Subiendo archivo: {progress}%</p>}
-          {progress > 0 && progress < 100 && (
-            <div className="mt-2">
-              <div className="w-full h-2 bg-gray-200 rounded-md">
-                <div
-                  className="h-2 bg-blue-600 rounded-md"
-                  style={{ width: `${progress}%` }}
-                ></div>
+                  <div className="p-2 mt-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                    <DynamicItems
+                      items={filteredOrganizers.map((collab) => ({
+                        title: collab.name,
+                        description: collab.role,
+                        type: 'eventData',
+                        icon: (
+                          <button
+                            type="button"
+                            onClick={() => setOrganizer(collab)}
+                          >
+                            <AddIcon fontSize="small" />
+                          </button>
+                        ),
+                      }))}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <h4 className="mb-2 text-gray-700 t16r">
+                    Organizador Seleccionado{' '}
+                    {t(`${viewDictionary}.selectedOrganizerLabel`)}
+                  </h4>
+                  <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                    {eventData.organizer ? (
+                      <DynamicItems
+                        items={(() => {
+                          const organizer = collaborators.find(
+                            (collab) => collab.id === eventData.organizer
+                          )
+                          return organizer
+                            ? [
+                                {
+                                  title: organizer.name,
+                                  description: organizer.role,
+                                  type: 'eventData',
+                                  icon: (
+                                    <button
+                                      type="button"
+                                      onClick={removeOrganizer}
+                                    >
+                                      <DeleteIcon fontSize="small" />
+                                    </button>
+                                  ),
+                                },
+                              ]
+                            : []
+                        })()}
+                      />
+                    ) : (
+                      <p className="p-2 text-gray-500">
+                        {t(`${viewDictionary}.anyOrganizerLabel`)}
+                      </p>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
-          )}
+
+            <div className="col-span-2">
+              <DynamicInput
+                name="location"
+                textId={t(`${viewDictionary}.locationLabel`)}
+                type="text"
+                value={eventData.location}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="organizer"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Organizador
-          </label>
-          <input
-            type="text"
-            name="organizer"
-            id="organizer"
-            placeholder="Nombre del organizador"
-            value={eventData.organizer}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.dateInfoTitle`)}
+          </h3>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+            <div>
+              <DynamicInput
+                name="startDate"
+                textId={t(`${viewDictionary}.initDateLabel`)}
+                type="date"
+                value={eventData.startDate}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <DynamicInput
+                name="startTime"
+                textId={t(`${viewDictionary}.startTimeLabel`)}
+                type="time"
+                value={eventData.startTime}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div>
+              <DynamicInput
+                name="endDate"
+                textId={t(`${viewDictionary}.endDateLabel`)}
+                type="date"
+                value={eventData.endDate}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <DynamicInput
+                name="endTime"
+                textId={t(`${viewDictionary}.endTimeLabel`)}
+                type="time"
+                value={eventData.endTime}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="capacity"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Capacidad
-          </label>
-          <input
-            type="number"
-            name="capacity"
-            id="capacity"
-            placeholder="Capacidad del evento"
-            value={eventData.capacity}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.detailsInfoTitle`)}
+          </h3>
+
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <div>
+              <DynamicInput
+                name="capacity"
+                textId={t(`${viewDictionary}.capacityLabel`)}
+                type="number"
+                value={eventData.capacity}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <DynamicInput
+                name="price"
+                textId={t(`${viewDictionary}.priceLabel`)}
+                type="number"
+                value={eventData.price}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div>
+              <DynamicInput
+                name="minAge"
+                textId={t(`${viewDictionary}.minAgeLabel`)}
+                type="number"
+                value={eventData.minAge}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="flex items-center mr-8">
+              <DynamicInput
+                name="allowCars"
+                textId={t(`${viewDictionary}.allowCarsLabel`)}
+                type="checkbox"
+                checked={eventData.allowCars}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="flex items-center">
+              <DynamicInput
+                name="hasBar"
+                textId={t(`${viewDictionary}.hasBarLabel`)}
+                type="checkbox"
+                checked={eventData.hasBar}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="flex items-center">
+              <DynamicInput
+                name="needForm"
+                textId={t(`${viewDictionary}.needFormLabel`)}
+                type="checkbox"
+                checked={eventData.needForm}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="price"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Precio
-          </label>
-          <input
-            type="number"
-            name="price"
-            id="price"
-            placeholder="Precio del evento"
-            value={eventData.price}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        {eventData.needForm && (
+          <div className="p-4 mb-6 rounded-lg">
+            <h3 className="mb-4 text-lg font-semibold text-gray-700">
+              {t(`${viewDictionary}.inscriptionCampsForm`)}
+            </h3>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+              {createFormFieldsModel().map((field) => (
+                <div key={field.fieldId}>
+                  <DynamicInput
+                    name={`field-${field.fieldId}`}
+                    textId={`${t(field.label)} ${field.required ? t(`${viewDictionary}.mandatoryLabel`) : t(`${viewDictionary}.optionalLabel`)}`}
+                    type="checkbox"
+                    checked={selectedFormFields.includes(field.fieldId)}
+                    onChange={() => handleFormFieldToggle(field.fieldId)}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.galleryInfoTitle`)}
+          </h3>
+
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <h4 className="t16r">{t(`${viewDictionary}.addImage`)}</h4>
+              <DynamicInput
+                name="eventImage"
+                type="document"
+                onChange={handleFileChange}
+              />
+              {uploading && <p>Subiendo archivo: {progress}%</p>}
+              {progress > 0 && progress < 100 && (
+                <div className="mt-2">
+                  <div className="w-full h-2 bg-gray-200 rounded-md">
+                    <div
+                      className="h-2 bg-blue-600 rounded-md"
+                      style={{ width: `${progress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+
+              {eventData.imageURL && (
+                <div className="mt-4">
+                  <img
+                    src={eventData.imageURL}
+                    alt="Vista previa del evento"
+                    className="object-cover w-full h-48 rounded-lg shadow-md"
+                  />
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label
-            htmlFor="minAge"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Edad mínima
-          </label>
-          <input
-            type="number"
-            name="minAge"
-            id="minAge"
-            placeholder="Edad mínima para asistir"
-            value={eventData.minAge}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.authorizationDocumentTitle`)}
+          </h3>
+
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <h4 className="t16r">
+                {t(`${viewDictionary}.uploadAutDocument`)}
+              </h4>
+              <DynamicInput
+                name="authDocument"
+                type="document"
+                onChange={handleAuthDocChange}
+              />
+              {authDocument && (
+                <p className="mt-2 text-sm text-gray-600">
+                  Documento seleccionado: {authDocument.name}
+                </p>
+              )}
+              {authDocProgress > 0 && authDocProgress < 100 && (
+                <div className="mt-2">
+                  <div className="w-full h-2 bg-gray-200 rounded-md">
+                    <div
+                      className="h-2 bg-blue-600 rounded-md"
+                      style={{ width: `${authDocProgress}%` }}
+                    ></div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label className="inline-flex items-center">
-            <input
-              type="checkbox"
-              name="allowCars"
-              checked={eventData.allowCars}
-              onChange={handleChange}
-              className="form-checkbox"
-            />
-            <span className="ml-2 text-sm font-semibold text-gray-700">
-              Permitir entrada con carros
-            </span>
-          </label>
-        </div>
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.tagsInfoTitle`)}
+          </h3>
 
-        <div>
-          <label className="inline-flex items-center">
-            <input
-              type="checkbox"
-              name="hasBar"
-              checked={eventData.hasBar}
-              onChange={handleChange}
-              className="form-checkbox"
-            />
-            <span className="ml-2 text-sm font-semibold text-gray-700">
-              Barra de alcohol disponible
-            </span>
-          </label>
-        </div>
-
-        <div>
-          <label
-            htmlFor="category"
-            className="block mb-2 text-sm font-semibold text-gray-700"
-          >
-            Categoría
-          </label>
-          <select
-            name="category"
-            id="category"
-            value={eventData.category}
-            onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">Selecciona una categoría</option>
-            <option value="technology">Tecnología</option>
-            <option value="music">Música</option>
-            <option value="sports">Deportes</option>
-            <option value="business">Negocios</option>
-          </select>
-        </div>
-
-        {/* Etiquetas (tags) con radio buttons */}
-        <div>
-          <h4 className="mb-2 text-sm font-semibold text-gray-700">
-            Selecciona una etiqueta
-          </h4>
-          <div className="space-y-2">
-            {predefinedTags.map((tag) => (
-              <label key={tag} className="inline-flex items-center">
-                <input
+          <div>
+            <h4 className="mb-2 text-gray-700 t16r">
+              {t(`${viewDictionary}.tagsLabel`)}
+            </h4>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {predefinedTags.map((tag) => (
+                <DynamicInput
+                  key={tag}
+                  name={`tag-${tag}`}
+                  textId={`${tag}`}
                   type="radio"
-                  name="tag"
-                  value={tag}
                   checked={eventData.tags.includes(tag)}
                   onChange={() => handleTagChange(tag)}
-                  className="form-radio"
                 />
-                <span className="ml-2 text-sm text-gray-700">{tag}</span>
-              </label>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
 
-        <div className="mt-4">
-          <h4 className="text-lg font-semibold">Colaboradores</h4>
-          <div className="mb-5">
-            <input
-              type="text"
-              id="search"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              placeholder="Buscar colaborador..."
-              className="w-full p-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.collaboratorsInfoTitle`)}
+          </h3>
+
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <DynamicInput
+                name="searchCollaborator"
+                textId={t(`${viewDictionary}.collaboratorsSearchLabel`)}
+                type="text"
+                value={collaboratorSearch}
+                onChange={(e) => setCollaboratorSearch(e.target.value)}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="">
+                <h4 className="mb-2 text-gray-700 t16r">
+                  {t(`${viewDictionary}.collaboratorsLabel`)}
+                </h4>
+                <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                  <DynamicItems
+                    items={filteredCollaborators.map((collab) => ({
+                      title: collab.name,
+                      description: collab.role,
+                      type: 'eventData',
+                      icon: (
+                        <button
+                          type="button"
+                          onClick={() => addCollaboratorToEvent(collab)}
+                        >
+                          <AddIcon fontSize="small" />
+                        </button>
+                      ),
+                    }))}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="mb-2 text-gray-700 t16r">
+                  {t(`${viewDictionary}.collaboratorsSelectedLabel`)}
+                </h4>
+                <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                  <DynamicItems
+                    items={eventData.collaborators
+                      .map((collabId) => {
+                        const collaborator = collaborators.find(
+                          (collab) => collab.id === collabId
+                        )
+                        return collaborator
+                          ? {
+                              title: collaborator.name,
+                              description: collaborator.role,
+                              type: 'eventData',
+                              icon: (
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeCollaboratorFromEvent(collabId)
+                                  }
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </button>
+                              ),
+                            }
+                          : null
+                      })
+                      .filter(Boolean)}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
-          <ul>
-            {filteredCollaborators.map((collab) => (
-              <li
-                key={collab.id}
-                className="flex items-center justify-between p-2 mb-2 border-b"
-              >
-                <span>
-                  {collab.name} - {collab.role}
-                </span>
-                <button
-                  type="button"
-                  onClick={() => addCollaboratorToEvent(collab)}
-                  className="px-3 py-1 text-white bg-blue-500 rounded"
-                >
-                  Añadir
-                </button>
-              </li>
-            ))}
-          </ul>
         </div>
 
-        <div className="mt-4">
-          <h4 className="text-lg font-semibold">Colaboradores Seleccionados</h4>
-          <ul>
-            {eventData.collaborators.map((collabId) => {
-              const collaborator = collaborators.find(
-                (collab) => collab.id === collabId
-              )
-              return collaborator ? (
-                <li
-                  key={collabId}
-                  className="flex items-center justify-between p-2 mb-2 border-b"
-                >
-                  <span>
-                    {collaborator.name} - {collaborator.role}
-                  </span>
-                  <button
-                    type="button"
-                    onClick={() => removeCollaboratorFromEvent(collabId)}
-                    className="px-3 py-1 text-white bg-red-500 rounded"
-                  >
-                    Eliminar
-                  </button>
-                </li>
-              ) : null
-            })}
-          </ul>
+        <div className="p-4 mb-6 rounded-lg ">
+          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+            {t(`${viewDictionary}.participantTitle`)}
+          </h3>
+
+          <div className="grid grid-cols-1 gap-6">
+            <div>
+              <DynamicInput
+                name="searchParticipant"
+                textId={t(`${viewDictionary}.searchParticipantsLabel`)}
+                type="text"
+                value={participantSearch}
+                onChange={(e) => setParticipantSearch(e.target.value)}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="">
+                <h4 className="mb-2 text-gray-700 t16r">
+                  {t(`${viewDictionary}.participantList`)}
+                </h4>
+                <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                  <DynamicItems
+                    items={filteredParticipants.map((participant) => ({
+                      title: participant.name,
+                      description: participant.email,
+                      type: 'eventData',
+                      icon: (
+                        <button
+                          type="button"
+                          onClick={() => addParticipantToEvent(participant)}
+                        >
+                          <AddIcon fontSize="small" />
+                        </button>
+                      ),
+                    }))}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <h4 className="mb-2 text-gray-700 t16r">
+                  {t(`${viewDictionary}.selectedParticipantsTitle`)}
+                </h4>
+                <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                  <DynamicItems
+                    items={eventData.participants
+                      .map((participantId) => {
+                        const participant = participants.find(
+                          (p) => p.id === participantId
+                        )
+                        return participant
+                          ? {
+                              title: participant.name,
+                              description: participant.email,
+                              type: 'eventData',
+                              icon: (
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeParticipantFromEvent(participantId)
+                                  }
+                                >
+                                  <DeleteIcon fontSize="small" />
+                                </button>
+                              ),
+                            }
+                          : null
+                      })
+                      .filter(Boolean)}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <button
-          type="submit"
-          className="w-full px-4 py-2 text-white bg-blue-600 rounded-lg"
-        >
-          Crear Evento
-        </button>
+        <div className="flex justify-end mt-8">
+          <DynamicButton
+            type="button"
+            onClick={() => navigate('/dashboard')}
+            size="small"
+            state="normal"
+            textId="components.buttons.cancel"
+            className="mr-4"
+          />
+
+          <DynamicButton
+            type="submit"
+            size="small"
+            state="normal"
+            textId={`${viewDictionary}.submitButton`}
+          />
+        </div>
       </form>
     </div>
   )

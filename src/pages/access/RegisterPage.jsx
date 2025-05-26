@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth'
 import log from 'loglevel'
 import { doc, setDoc, Timestamp } from 'firebase/firestore'
+import { motion } from 'framer-motion'
 import { createUserModel } from '../../models/usersData'
 import { db } from '../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
-import useGallery from '../../hooks/useGallery'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
+import useTaggedImage from '../../hooks/useTaggedImage'
+import usePointerAnimation from '../../hooks/usePointerAnimation'
+
+import useChangeTracker from '../../hooks/useModificationsRegister'
 
 function RegisterPage() {
   const navigate = useNavigate()
@@ -16,23 +20,18 @@ function RegisterPage() {
   const [formData, setFormData] = useState(createUserModel())
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [age, setAge] = useState(null) // Estado para la edad
-  const { galleryImages } = useGallery()
+  const [age, setAge] = useState(null)
   const { t } = useTranslation()
+  const viewDictionary = 'pages.userRegister'
 
-  const [backgroundImage, setBackgroundImage] = useState(null)
+  const { trackCreation, isTracking } = useChangeTracker({
+    tag: 'users',
+    entityType: 'user',
+  })
 
-  useEffect(() => {
-    if (galleryImages.length > 0) {
-      const loginImages = galleryImages.filter((image) =>
-        image.tags.includes('login')
-      )
-
-      if (loginImages.length > 0) {
-        setBackgroundImage(loginImages[0].url)
-      }
-    }
-  }, [galleryImages])
+  const { moveX, moveY, handleMouseMove } = usePointerAnimation()
+  const { backgroundImage, imageLoaded, handleImageLoad, handleImageError } =
+    useTaggedImage('login', '/images/default-login.jpg')
 
   const calculateAge = (birthDate) => {
     if (!birthDate) return null
@@ -55,13 +54,12 @@ function RegisterPage() {
       [name]: value,
     }))
 
-    // Si el campo cambiado es birthDate, calculamos la edad
     if (name === 'birthDate') {
       const calculatedAge = calculateAge(value)
       setAge(calculatedAge)
       setFormData((prevData) => ({
         ...prevData,
-        age: calculatedAge, // Guardamos la edad calculada en formData
+        age: calculatedAge,
       }))
     }
   }
@@ -79,7 +77,7 @@ function RegisterPage() {
       )
       const { user } = userCredential
 
-      await setDoc(doc(db, 'users', user.uid), {
+      const userData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
         phoneNumber: formData.phoneNumber,
@@ -88,27 +86,51 @@ function RegisterPage() {
         dni: formData.dni,
         email: formData.email,
         createdAt: Timestamp.fromDate(new Date()),
-        modificationHistory: [],
         modifiedAt: Timestamp.fromDate(new Date()),
         role: 'user',
-      })
+      }
 
-      navigate('/')
+      await setDoc(doc(db, 'users', user.uid), userData)
+
+      await trackCreation({
+        entityId: user.uid,
+        entityData: userData,
+        modifierId: user.uid,
+        entityName: `${userData.firstName} ${userData.lastName}`,
+        sensitiveFields: ['password', 'dni'],
+        onSuccess: () => {
+          navigate('/')
+        },
+        onError: (error) => {
+          log.warn('Usuario creado pero error al registrar cambios:', error)
+          navigate('/')
+        },
+      })
     } catch (err) {
       log.error('Error al crear cuenta:', err)
-      setError('Hubo un error al crear tu cuenta. Por favor, intenta de nuevo.')
+      setError(
+        err.code === 'auth/email-already-in-use'
+          ? t(
+              'common.errorMessages.emailInUse',
+              'Este correo electrónico ya está registrado'
+            )
+          : t(
+              'common.errorMessages.genericRegistration',
+              'Hubo un error al crear tu cuenta. Por favor, intenta de nuevo.'
+            )
+      )
     } finally {
       setLoading(false)
     }
   }
 
   return (
-    <div className="items-center mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 h-fit justify-items-center sm:px-6 lg:px-8">
-      <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px]">
+    <div className="items-center h-screen mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
+      <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px] z-10">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.userRegister.title')}</h1>
+          <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
-            {t('pages.userRegister.description')}
+            {t(`${viewDictionary}.description`)}
           </p>
         </div>
         {error && <p className="mb-4 text-center text-red-500">{error}</p>}
@@ -118,38 +140,34 @@ function RegisterPage() {
         >
           <DynamicInput
             name="firstName"
-            textId="firstName"
             type="text"
-            placeholder={t('pages.userRegister.name')}
+            textId={`${viewDictionary}.name`}
             value={formData.firstName}
             onChange={(e) => handleChange('firstName', e.target.value)}
             required
           />
           <DynamicInput
             name="lastName"
-            textId="lastName"
             type="text"
             value={formData.lastName}
-            placeholder={t('pages.userRegister.surname')}
+            textId={`${viewDictionary}.surname`}
             onChange={(e) => handleChange('lastName', e.target.value)}
             required
           />
           <DynamicInput
             name="phoneNumber"
-            textId="phoneNumber"
             type="phone"
             value={formData.phoneNumber}
-            placeholder={t('pages.userRegister.phone')}
+            textId={`${viewDictionary}.phone`}
             onChange={(e) => handleChange('phoneNumber', e.target.value)}
             required
           />
           <div className="flex items-center justify-between max-sm:w-[373px]">
             <DynamicInput
               name="birthDate"
-              textId="pages.userRegister.birthDate"
               type="date"
               value={formData.birthDate}
-              placeholder={t('pages.userRegister.birthDate')}
+              textId={`${viewDictionary}.birthDate`}
               onChange={(e) => handleChange('birthDate', e.target.value)}
               required
             />
@@ -161,43 +179,90 @@ function RegisterPage() {
           </div>
           <DynamicInput
             name="dni"
-            textId="dni"
             type="dni"
             value={formData.dni}
-            placeholder={t('pages.userRegister.dni')}
+            textId={`${viewDictionary}.dni`}
             onChange={(e) => handleChange('dni', e.target.value)}
             required
           />
           <DynamicInput
             name="email"
-            textId="email"
             type="email"
             value={formData.email}
-            placeholder={t('pages.userRegister.email')}
+            textId={`${viewDictionary}.email`}
             onChange={(e) => handleChange('email', e.target.value)}
             required
           />
           <DynamicInput
             name="password"
-            textId="password"
             type="password"
             value={formData.password}
-            placeholder={t('pages.userRegister.password')}
+            textId={`${viewDictionary}.password`}
             onChange={(e) => handleChange('password', e.target.value)}
             required
           />
-          <DynamicButton size="large" state="normal" type="submit">
-            {t('components.buttons.register')}
-          </DynamicButton>
+          <DynamicButton
+            size="large"
+            state={loading || isTracking ? 'disabled' : 'normal'}
+            type="submit"
+            textId="components.buttons.register"
+            disabled={loading || isTracking}
+          />
+
+          {isTracking && (
+            <p className="mt-2 text-sm text-center text-gray-600">
+              {t(
+                'pages.users.listUsers.trackingChanges',
+                'Registrando cambios...'
+              )}
+            </p>
+          )}
         </form>
       </div>
-      <div className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 md:relative md:bottom-20">
-        <img
-          src={backgroundImage}
-          alt="login portada"
-          className="object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 lg:w-[80%] mg:w-[90%] sm:w-full h-full"
-        />
-      </div>
+
+      {/* Sección de imagen con animación */}
+      <motion.div
+        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply"
+        onMouseMove={handleMouseMove}
+      >
+        {backgroundImage && (
+          <motion.div
+            className="relative w-full h-full overflow-hidden"
+            style={{
+              x: moveX,
+              y: moveY,
+            }}
+          >
+            <motion.img
+              src={backgroundImage}
+              alt="register portada"
+              className={`
+                object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 
+                lg:w-[80%] mg:w-[90%] sm:w-full h-full
+                transition-opacity duration-1000 ease-in-out
+                ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+              `}
+              onLoad={handleImageLoad}
+              onError={handleImageError}
+              style={{
+                width: '105%',
+                height: '105%',
+                objectFit: 'cover',
+                objectPosition: 'center',
+              }}
+              initial={{ scale: 1.02 }}
+              animate={{
+                scale: 1.02,
+                opacity: imageLoaded ? 1 : 0,
+              }}
+              transition={{
+                opacity: { duration: 0.8, ease: 'easeInOut' },
+                scale: { duration: 1.2, ease: 'easeOut' },
+              }}
+            />
+          </motion.div>
+        )}
+      </motion.div>
     </div>
   )
 }
