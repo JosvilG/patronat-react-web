@@ -738,7 +738,7 @@
         "defaultPosition": "Membre",
         "defaultDescription": "Aquest membre de la junta no té descripció disponible."
       },
-      "galerySection": {
+      "gallerySection": {
         "title": "Galeria",
         "noImages": "No hi ha imatges disponibles"
       },
