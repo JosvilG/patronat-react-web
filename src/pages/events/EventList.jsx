@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import useSlug from '../../hooks/useSlug'
-import Swal from 'sweetalert2'
+import { showPopup } from '../../services/popupService'
 
 function EventList() {
   const { t } = useTranslation()
@@ -55,7 +55,7 @@ function EventList() {
 
   const handleDelete = async (id) => {
     try {
-      const confirmResult = await Swal.fire({
+      showPopup({
         title: '¿Estás seguro?',
         text: 'Se eliminarán el evento y todas sus inscripciones. Esta acción no se puede deshacer.',
         icon: 'warning',
@@ -64,49 +64,53 @@ function EventList() {
         cancelButtonColor: '#d33',
         confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar',
+        onConfirm: async () => {
+          try {
+            const inscriptionsQuery = query(
+              collection(db, 'inscriptions'),
+              where('eventId', '==', id)
+            )
+
+            const inscriptionsSnapshot = await getDocs(inscriptionsQuery)
+
+            const deletePromises = inscriptionsSnapshot.docs.map(
+              (inscriptionDoc) =>
+                deleteDoc(doc(db, 'inscriptions', inscriptionDoc.id))
+            )
+
+            await Promise.all(deletePromises)
+
+            await deleteDoc(doc(db, 'events', id))
+
+            const updatedEvents = events.filter((event) => event.id !== id)
+            setEvents(updatedEvents)
+            setFilteredEvents(updatedEvents)
+
+            showPopup({
+              title: '¡Eliminado!',
+              text: 'El evento y sus inscripciones han sido eliminados.',
+              icon: 'success',
+            })
+          } catch (error) {
+            console.error('Error al eliminar el evento:', error)
+            showPopup({
+              title: 'Error',
+              text: 'No se pudo eliminar el evento. Por favor, inténtalo de nuevo.',
+              icon: 'error',
+            })
+          }
+        },
       })
-
-      if (!confirmResult.isConfirmed) {
-        return
-      }
-
-      const inscriptionsQuery = query(
-        collection(db, 'inscriptions'),
-        where('eventId', '==', id)
-      )
-
-      const inscriptionsSnapshot = await getDocs(inscriptionsQuery)
-
-      const deletePromises = inscriptionsSnapshot.docs.map((inscriptionDoc) =>
-        deleteDoc(doc(db, 'inscriptions', inscriptionDoc.id))
-      )
-
-      await Promise.all(deletePromises)
-
-      await deleteDoc(doc(db, 'events', id))
-
-      const updatedEvents = events.filter((event) => event.id !== id)
-      setEvents(updatedEvents)
-      setFilteredEvents(updatedEvents)
-
-      Swal.fire(
-        '¡Eliminado!',
-        'El evento y sus inscripciones han sido eliminados.',
-        'success'
-      )
     } catch (error) {
-      console.error('Error al eliminar el evento:', error)
-      Swal.fire(
-        'Error',
-        'No se pudo eliminar el evento. Por favor, inténtalo de nuevo.',
-        'error'
-      )
+      console.error('Error al mostrar el diálogo de confirmación:', error)
     }
   }
 
   return (
-    <div className="max-w-full pb-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+    <div className="flex flex-col items-center max-w-[350px] sm:max-w-full pb-6 mx-auto md:max-w-fit sm:flex-none">
+      <h1 className="mb-4 text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
       <div className="grid items-center justify-start grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
@@ -119,14 +123,13 @@ function EventList() {
         <div className="pl-0 sm:pl-32">
           <DynamicButton
             onClick={() => navigate(`/new-event/`)}
-            size="small"
+            size="x-small"
             state="normal"
             type="add"
-            textId={t(`${viewDictionary}.addNewButton`)}
           />
         </div>
       </div>
-      <ul className="space-y-4">
+      <ul className="w-full space-y-4">
         {filteredEvents.map((event) => (
           <li
             key={event.id}
@@ -138,7 +141,9 @@ function EventList() {
                 alt={event.title}
                 className="object-cover w-16 h-16 rounded-full"
               />
-              <span className="text-lg font-semibold">{event.title}</span>
+              <span className="text-lg font-semibold max-w-[130px] overflow-hidden text-ellipsis sm:max-w-none">
+                {event.title}
+              </span>
             </div>
 
             <div className="flex space-x-2">
@@ -150,9 +155,9 @@ function EventList() {
                     state: { eventId: event.id },
                   })
                 }}
-                size="small"
+                size="x-small"
                 state="normal"
-                textId={t(`${viewDictionary}.modifyButton`)}
+                type="edit"
               />
 
               {/* Mostrar el botón solo si needForm es true */}

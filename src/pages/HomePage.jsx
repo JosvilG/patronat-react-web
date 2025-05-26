@@ -43,7 +43,7 @@ function HomePage() {
     .slice(0, 3)
 
   return (
-    <div className="flex flex-col items-center px-4 bg-transparent min-h-dvh">
+    <div className="flex flex-col items-center px-4 bg-transparent min-h-dvh ">
       <HeroSection t={t} logoSrc={patronatLogo} />
       <AboutSection t={t} />
       <GallerySection
@@ -67,7 +67,7 @@ function HomePage() {
 }
 
 const HeroSection = ({ logoSrc }) => (
-  <section className="relative top-0 h-[690px] -mt-16 mb-[84px] bg-transparent">
+  <section className="relative top-0 h-[690px] -mt-16 sm:mb-[84px] mb-0 bg-transparent max-w-[350px] sm:max-w-none ">
     <div className="absolute inset-0 flex items-center justify-center">
       <img
         src={logoSrc}
@@ -77,17 +77,17 @@ const HeroSection = ({ logoSrc }) => (
     </div>
     <div className="absolute inset-0 bg-transparent" />
     <div className="relative flex flex-col justify-between h-full">
-      <p className="w-auto pt-20 font-bold text-black t36r text-9xl">
+      <p className="w-auto pt-20 font-bold text-black t36l text-9xl">
         <Trans i18nKey="pages.home.heroSection.description" />
       </p>
-      <div className="pb-20">
-        <p className="font-bold text-black t64xl text-9xl text-end">
+      <div className="pb-20 sm:pb-0">
+        <p className="font-bold text-black sm:t64xl t40l text-9xl text-end">
           <Trans
             i18nKey="pages.home.heroSection.title"
             components={{ br: <br /> }}
           />
         </p>
-        <p className="font-bold t96b text-9xl text-end text-[#15642E]">
+        <p className="font-bold  sm:t96b t64b text-9xl text-end text-[#15642E]">
           <Trans i18nKey="pages.home.heroSection.roquetesTitle" />
         </p>
       </div>
@@ -131,9 +131,9 @@ const GallerySection = ({
   }, [galleryImages])
 
   return (
-    <section className="py-16 bg-transparent max-w-[156dvh] pt-8 min-w-full">
-      <h2 className="mb-6 text-right t64s">
-        <a href="/gallery">{t('pages.home.galerySection.title')}</a>
+    <section className="py-16 bg-transparent pt-8 min-w-full max-w-[350px] sm:max-w-none">
+      <h2 className="mb-6 text-right sm:t64s t40s">
+        <a href="/gallery">{t('pages.home.gallerySection.title')}</a>
       </h2>
       {loadingGallery ? (
         <div className="flex items-center justify-center"></div>
@@ -239,11 +239,11 @@ const GalleryCard = ({
 )
 
 const AboutSection = ({ t }) => (
-  <section className="py-10 mb-[84px] text-center bg-transparent">
-    <h2 className="text-left t64s mb-[48px]">
+  <section className="py-10 sm:mb-[84px] mb-0 text-center bg-transparent">
+    <h2 className="text-left sm:t64s t40s mb-[48px]">
       <a href="/about">{t('pages.home.aboutSection.title')}</a>
     </h2>
-    <p className="t24l m-w-[1109px]">
+    <p className="sm:t24l t20l m-w-[1109px]">
       {t('pages.home.aboutSection.description')}
     </p>
   </section>
@@ -251,13 +251,13 @@ const AboutSection = ({ t }) => (
 
 const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
   <>
-    <div className="absolute inset-y-0 left-0 flex items-center justify-center">
+    <div className="absolute inset-y-0 left-0 flex items-center justify-center ">
       <motion.button
         onClick={onPrev}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         disabled={disabled}
-        className={`p-2 text-black t36b backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &lt;
       </motion.button>
@@ -268,7 +268,7 @@ const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         disabled={disabled}
-        className={`p-2 text-black t36b backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+        className={`p-2 text-black sm:t36b t20r  backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &gt;
       </motion.button>
@@ -277,8 +277,8 @@ const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
 )
 
 const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
-  <section className="py-16 bg-transparent">
-    <h2 className="mb-6 text-left t64s">
+  <section className="sm:py-16 bg-transparent max-w-[350px] sm:max-w-none">
+    <h2 className="mb-6 text-left sm:sm:t64s t40s">
       <a href="/events-list"> {t('pages.home.eventSection.title')}</a>
     </h2>
     {loadingEvents ? (
@@ -317,20 +317,20 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
 )
 
 const WantToParticipateSection = ({ t }) => (
-  <section className="wantTo py-10 mb-[84px] text-center bg-transparent">
-    <h2 className="text-right t64s mb-[48px]">
+  <section className="wantTo py-10 sm:mb-[84px] text-center bg-transparent">
+    <h2 className="text-right sm:t64s t40s mb-[48px]">
       {t('pages.home.wantToParticipateSection.title')}
     </h2>
-    <p className="t24l m-w-[1109px] text-right mb-[40px]">
+    <p className="sm:t24l t20l m-w-[1109px] text-right mb-[40px]">
       {t('pages.home.wantToParticipateSection.firstPar')}
     </p>
-    <p className="t24l m-w-[1109px] text-left mb-[40px]">
+    <p className="sm:t24l t20l m-w-[1109px] text-left mb-[40px]">
       {t('pages.home.wantToParticipateSection.secondPar')}
     </p>
-    <p className="t24l m-w-[1109px] text-right mb-[40px]">
+    <p className="sm:t24l t20l m-w-[1109px] text-right mb-[40px]">
       {t('pages.home.wantToParticipateSection.thirdPar')}
     </p>
-    <p className="t24l m-w-[1109px] text-center mb-[40px]">
+    <p className="sm:t24l t20l m-w-[1109px] text-center mb-[40px]">
       <Trans
         i18nKey="pages.home.wantToParticipateSection.linksPar"
         components={{

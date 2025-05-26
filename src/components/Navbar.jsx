@@ -19,20 +19,27 @@ const navLinksData = [
   { to: '/partner-form', label: 'components.navbar.partnersTitle' },
 ]
 
+// Estilo común para botones y enlaces en todos los menús
+const commonMenuItemStyle =
+  't12s flex px-4 py-2 w-full text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)] active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]'
+
 const NavLink = ({ to, label, onClick, isSmallScreen }) => {
-  const baseClass =
-    'flex items-center px-4 py-2 rounded-[27px] transition duration-300 ease-in-out'
+  // Si es pantalla pequeña, usar el estilo común del menú desplegable
+  const baseClass = isSmallScreen
+    ? commonMenuItemStyle
+    : 'flex items-center px-4 py-2 rounded-[27px] transition duration-300 ease-in-out'
+
   const linkClass = isSmallScreen
-    ? 't16s bg-[#A0A0A0] hover:bg-gray-200 text-[#1E1E1E] shadow-[0px_4px_4px_rgba(0,0,0,0.4)]'
+    ? ''
     : 'text-[#1E1E1E] hover:text-[#D9D9D9] active:text-[#D9D9D9]'
 
   return (
     <div
-      className={`h-[39px] min-h-[39px] flex flex-col justify-center items-center w-full ${isSmallScreen ? 'mb-1 rounded-[27px]' : ''}`}
+      className={`h-auto min-h-[39px] flex flex-col justify-center items-center w-full ${isSmallScreen ? 'mb-2' : ''}`}
     >
       <Link
         to={to}
-        className={`${baseClass} ${linkClass} w-full justify-center`}
+        className={`${baseClass} ${linkClass} ${isSmallScreen ? 'w-full' : 'w-auto'}`}
         onClick={onClick}
       >
         {label}
@@ -69,7 +76,7 @@ const DropdownMenu = ({ items, onClose }) => (
               item.onClick()
               onClose()
             }}
-            className="t12s flex px-4 py-2 w-full text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className={commonMenuItemStyle}
           >
             {item.label}
           </button>
@@ -80,7 +87,7 @@ const DropdownMenu = ({ items, onClose }) => (
               item.onClick()
               onClose()
             }}
-            className="t12s flex px-4 py-2 w-full text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className={commonMenuItemStyle}
           >
             {item.label}
           </button>
@@ -88,7 +95,7 @@ const DropdownMenu = ({ items, onClose }) => (
           <Link
             key={index}
             to={item.to}
-            className="t12s flex px-4 py-2 text-sm transition duration-300 ease-in-out mb-1 rounded-[27px] justify-center backdrop-blur-lg backdrop-saturate-[180%] hover:text-[#D9D9D9] bg-[rgba(255,255,255,0.75)]  active:bg-gray-300 shadow-[0px_4px_4px_rgba(0,0,0,0.4)]"
+            className={commonMenuItemStyle}
             onClick={() => {
               onClose()
             }}
@@ -177,52 +184,63 @@ export function Navbar() {
       {isSmallScreen && mobileMenuOpen && (
         <motion.div
           ref={mobileMenuRef}
-          className="absolute right-0 flex flex-col items-center w-[98%] h-auto bg-transparent rounded-lg mt-80"
+          className="absolute right-0 flex flex-col items-center w-[98%] h-auto bg-transparent rounded-lg mt-80 px-4 py-2"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
           transition={{ duration: 0.3 }}
         >
-          {renderNavLinks()}
+          {/* Para dispositivos móviles, ahora usamos botones y enlaces con el mismo estilo que el menú desplegable */}
+          {navLinks.map((link, index) => (
+            <Link
+              key={index}
+              to={link.to}
+              className={commonMenuItemStyle}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
+
           {!user ? (
-            <NavLink
+            <Link
               to="/login"
-              label={t('components.navbar.loginTitle')}
-              onClick={() => {
-                setMobileMenuOpen(false)
-              }}
-              isSmallScreen={isSmallScreen}
-            />
+              className={commonMenuItemStyle}
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              {t('components.navbar.loginTitle')}
+            </Link>
           ) : (
             <>
-              <NavLink
-                to="#"
-                label={t('components.navbar.profileTitle')}
+              <button
                 onClick={() => {
                   navigateToProfile()
                   setMobileMenuOpen(false)
                 }}
-                isSmallScreen={isSmallScreen}
-              />
+                className={commonMenuItemStyle}
+              >
+                {t('components.navbar.profileTitle')}
+              </button>
+
               {userData?.role === 'admin' && (
-                <NavLink
+                <Link
                   to="/dashboard"
-                  label={t('components.navbar.dashboardTitle')}
-                  onClick={() => {
-                    setMobileMenuOpen(false)
-                  }}
-                  isSmallScreen={isSmallScreen}
-                />
+                  className={commonMenuItemStyle}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {t('components.navbar.dashboardTitle')}
+                </Link>
               )}
-              <NavLink
-                to="/login"
-                label={t('components.navbar.signOutTitle')}
+
+              <button
                 onClick={async () => {
                   await handleSignOut()
                   setMobileMenuOpen(false)
                 }}
-                isSmallScreen={isSmallScreen}
-              />
+                className={commonMenuItemStyle}
+              >
+                {t('components.navbar.signOutTitle')}
+              </button>
             </>
           )}
         </motion.div>
@@ -277,7 +295,7 @@ export function Navbar() {
 NavLink.propTypes = {
   to: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   isSmallScreen: PropTypes.bool.isRequired,
 }
 

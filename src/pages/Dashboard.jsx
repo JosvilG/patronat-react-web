@@ -30,7 +30,9 @@ export default function Dashboard() {
 
   return (
     <div className="px-5 pb-6 min-h-dvh ">
-      <h1 className="mb-10 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-10 text-center t40b sm:t64b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {cards.map((card) => (
@@ -38,7 +40,7 @@ export default function Dashboard() {
             key={card.id}
             className="overflow-hidden transition-all duration-300 border border-gray-200 shadow-lg rounded-2xl hover:shadow-xl hover:scale-[1.01] hover:border-gray-300 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]"
           >
-            <div className="p-6">
+            <div className="items-center p-6 ">
               <div className="flex items-center justify-between mb-4">
                 <div className="text-5xl">{card.icon || '📄'}</div>
                 <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
