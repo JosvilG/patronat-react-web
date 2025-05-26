@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -38,6 +38,20 @@ const Calendar = () => {
   const { generateSlug } = useSlug()
   const [games, setGames] = useState([])
   const [allCalendarEvents, setAllCalendarEvents] = useState([])
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth)
+  const calendarRef = useRef(null)
+
+  // Detectar el tamaño de la pantalla
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   useEffect(() => {
     const fetchGames = async () => {
@@ -118,13 +132,13 @@ const Calendar = () => {
       showCancelButton: false,
       cancelButtonText: t('components.popup.closeButtonText'),
       customClass: {
-        popup: 'bg-white rounded-lg shadow-xl p-6',
-        title: 'text-xl font-semibold text-gray-800',
-        content: 'text-gray-700',
+        popup: 'bg-white rounded-lg shadow-xl p-3 sm:p-6',
+        title: 'text-lg sm:text-xl font-semibold text-gray-800',
+        content: 'text-sm sm:text-base text-gray-700',
         confirmButton:
-          'bg-blue-500 text-white rounded-lg py-2 px-4 hover:bg-blue-600',
+          'bg-blue-500 text-white rounded-lg py-1 px-3 sm:py-2 sm:px-4 hover:bg-blue-600',
         cancelButton:
-          'bg-gray-300 text-gray-700 rounded-lg py-2 px-4 hover:bg-gray-400',
+          'bg-gray-300 text-gray-700 rounded-lg py-1 px-3 sm:py-2 sm:px-4 hover:bg-gray-400',
       },
       onConfirm: () => {
         if (!isGame) {
@@ -135,126 +149,171 @@ const Calendar = () => {
     })
   }
 
+  // Configuraciones adaptables según el tamaño de pantalla
+  const isMobile = windowWidth < 640
+
+  const headerToolbar = isMobile
+    ? {
+        left: 'prev,next',
+        center: 'title',
+        right: 'today',
+      }
+    : {
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,dayGridWeek,dayGridDay',
+      }
+
+  const initialView = 'dayGridMonth'
+
   return (
-    <div className="max-w-5xl p-6 mx-auto my-8 bg-white backdrop-blur-[17px] bg-[rgba(255,255,255,0.4)]  rounded-xl -webkit-backdrop-filter: blur(17px) saturate(180%); shadow-lg">
-      <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+    <div className="w-full max-w-5xl p-2 sm:p-6 mx-auto my-4 sm:my-8 bg-white backdrop-blur-[17px] bg-[rgba(255,255,255,0.4)] rounded-xl shadow-lg overflow-hidden">
+      <h2 className="mb-2 text-gray-800 sm:mb-4 t20b sm:t24b">
         {t('components.calendar.title')}
       </h2>
-      <FullCalendar
-        plugins={[dayGridPlugin, interactionPlugin]}
-        initialView="dayGridMonth"
-        events={allCalendarEvents}
-        eventClick={handleEventClick}
-        headerToolbar={{
-          left: 'prev,next today',
-          center: 'title',
-          right: 'dayGridMonth,dayGridWeek,dayGridDay',
-        }}
-        buttonText={{
-          today: t('components.calendar.today'),
-          month: t('components.calendar.month'),
-          week: t('components.calendar.week'),
-          day: t('components.calendar.day'),
-        }}
-        contentHeight="auto"
-        dayCellClassNames="border-gray-200"
-        eventClassNames={({ event }) => {
-          const eventType = event.extendedProps?.type || 'event'
-          return getEventClassNames(event.extendedProps?.tags || [], eventType)
-        }}
-        eventContent={(eventInfo) => {
-          const eventType = eventInfo.event.extendedProps?.type || 'event'
-          const eventTags = eventInfo.event.extendedProps?.tags || []
 
-          let dotColor = 'bg-[#D9D9D9]'
+      <div className="calendar-container">
+        <FullCalendar
+          ref={calendarRef}
+          plugins={[dayGridPlugin, interactionPlugin]}
+          initialView={initialView}
+          events={allCalendarEvents}
+          eventClick={handleEventClick}
+          headerToolbar={headerToolbar}
+          buttonText={{
+            today: t('components.calendar.today'),
+            month: t('components.calendar.month'),
+            week: t('components.calendar.week'),
+            day: t('components.calendar.day'),
+          }}
+          contentHeight="auto"
+          dayCellClassNames="border-gray-200"
+          dayMaxEvents={isMobile ? 2 : 6}
+          moreLinkClick="week"
+          eventClassNames={({ event }) => {
+            const eventType = event.extendedProps?.type || 'event'
+            return getEventClassNames(
+              event.extendedProps?.tags || [],
+              eventType
+            )
+          }}
+          eventContent={(eventInfo) => {
+            const eventType = eventInfo.event.extendedProps?.type || 'event'
+            const eventTags = eventInfo.event.extendedProps?.tags || []
 
-          if (eventType === 'game') {
-            dotColor = 'bg-[#3498db]'
-          } else {
-            for (const tag of eventTags) {
-              if (tagColors?.[tag]) {
-                const tagStyle = tagColors[tag]
-                const bgStyleMatch = tagStyle.match(/bg-[a-z0-9-\[\]#]+/)
-                if (bgStyleMatch) {
-                  dotColor = bgStyleMatch[0]
-                  break
+            let dotColor = 'bg-[#D9D9D9]'
+
+            if (eventType === 'game') {
+              dotColor = 'bg-[#3498db]'
+            } else {
+              for (const tag of eventTags) {
+                if (tagColors?.[tag]) {
+                  const tagStyle = tagColors[tag]
+                  const bgStyleMatch = tagStyle.match(/bg-[a-z0-9-\[\]#]+/)
+                  if (bgStyleMatch) {
+                    dotColor = bgStyleMatch[0]
+                    break
+                  }
                 }
               }
             }
-          }
-          return (
-            <div className="flex items-start space-x-1 px-1 py-0.5">
-              <div
-                className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${dotColor}`}
-              ></div>
-              <div className="flex-1 min-w-0">
-                <div className="text-xs font-normal text-gray-800">
-                  <span className="truncate">{eventInfo.event.title}</span>
+            return (
+              <div className="flex items-start space-x-1 px-1 py-0.5">
+                <div
+                  className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full mt-1.5 flex-shrink-0 ${dotColor}`}
+                ></div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-xs font-normal text-gray-800">
+                    <span className="truncate">{eventInfo.event.title}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-          )
-        }}
-      />
+            )
+          }}
+        />
+      </div>
 
-      <div className="pt-4 mt-6 border-t">
-        <h3 className="mb-2 text-sm font-medium">
+      <div className="pt-3 mt-3 border-t sm:pt-4 sm:mt-6">
+        <h3 className="mb-1 text-xs font-medium sm:mb-2 sm:text-sm">
           {t('components.calendar.legend')}
         </h3>
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-3">
-          <div className="col-span-2 mt-2 mb-1 md:col-span-3">
+        <div className="grid grid-cols-2 gap-1 sm:gap-2 md:grid-cols-4">
+          <div className="col-span-2 mt-1 mb-0.5 sm:mb-1 md:col-span-4">
             <h4 className="text-xs font-medium text-gray-700">
               {t('components.calendar.categories')}
             </h4>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-red-100 rounded-full"></span>
+
+          {/* Leyenda más compacta para móviles */}
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 mr-1 bg-red-100 rounded-full sm:w-3 sm:h-3 sm:mr-2"></span>
             <span className="text-xs">{t('components.calendar.FMRLabel')}</span>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-blue-100 rounded-full"></span>
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 mr-1 bg-blue-100 rounded-full sm:w-3 sm:h-3 sm:mr-2"></span>
             <span className="text-xs">
               {t('components.calendar.ChristmasLabel')}
             </span>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-yellow-100 rounded-full"></span>
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 mr-1 bg-yellow-100 rounded-full sm:w-3 sm:h-3 sm:mr-2"></span>
             <span className="text-xs">
               {t('components.calendar.SantosLabel')}
             </span>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-green-100 rounded-full"></span>
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 mr-1 bg-green-100 rounded-full sm:w-3 sm:h-3 sm:mr-2"></span>
             <span className="text-xs">
               {t('components.calendar.RabalLabel')}
             </span>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-orange-100 rounded-full"></span>
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 mr-1 bg-orange-100 rounded-full sm:w-3 sm:h-3 sm:mr-2"></span>
             <span className="text-xs">
               {t('components.calendar.FestivalLabel')}
             </span>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-purple-100 rounded-full"></span>
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 mr-1 bg-purple-100 rounded-full sm:w-3 sm:h-3 sm:mr-2"></span>
             <span className="text-xs">
               {t('components.calendar.MeetingLabel')}
             </span>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-gray-100 rounded-full"></span>
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 mr-1 bg-gray-100 rounded-full sm:w-3 sm:h-3 sm:mr-2"></span>
             <span className="text-xs">
               {t('components.calendar.OtherLabel')}
             </span>
           </div>
-          <div className="flex items-center p-1 transition-colors rounded cursor-pointer hover:bg-gray-50">
-            <span className="inline-block w-3 h-3 mr-2 bg-[#3498db] rounded-full"></span>
+          <div className="flex items-center p-0.5 sm:p-1 transition-colors rounded hover:bg-gray-50">
+            <span className="inline-block w-2 h-2 sm:w-3 sm:h-3 mr-1 sm:mr-2 bg-[#3498db] rounded-full"></span>
             <span className="text-xs">
               {t('components.calendar.PruebasLabel')}
             </span>
           </div>
         </div>
       </div>
+
+      {/* Estilos para dispositivos móviles */}
+      <style jsx>{`
+        @media (max-width: 640px) {
+          .fc .fc-toolbar-title {
+            font-size: 1.2em;
+          }
+          .fc .fc-button {
+            padding: 0.2em 0.4em;
+            font-size: 0.9em;
+          }
+          .fc .fc-col-header-cell-cushion {
+            padding: 4px;
+            font-size: 0.8em;
+          }
+          .fc .fc-daygrid-day-number {
+            padding: 2px 4px;
+            font-size: 0.8em;
+          }
+        }
+      `}</style>
     </div>
   )
 }

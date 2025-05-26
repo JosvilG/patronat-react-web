@@ -256,10 +256,12 @@ const EventPage = () => {
 
   return (
     <div className="h-auto px-4 pb-4">
-      <h1 className="mb-20 text-center t64b">{event.title}</h1>
+      <h1 className="mb-20 overflow-hidden text-center sm:t64b t40b whitespace-break-spaces line-clamp-2">
+        {event.title}
+      </h1>
 
-      <div className="grid gap-6 md:grid-cols-5">
-        <div className="mb-6 md:col-span-3">
+      <div className="grid justify-center gap-6 md:grid-cols-5">
+        <div className="mb-6 md:col-span-3 w-[340px] sm:w-auto">
           <DynamicCard
             key={event.eventId}
             type="gallery"
@@ -267,9 +269,9 @@ const EventPage = () => {
             imageUrl={event.eventURL || '/placeholder.png'}
           />
         </div>
-        <div>
+        <div className="w-[340px]">
           {hasDateInfo && (
-            <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <div className="space-y-4 bg-[#D9D9D9]  rounded-[60px] h-fit sm:w-[430px] w-auto mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
               <h3 className="pt-4 pl-8 t40b">
                 {t(`${viewDictionary}.dateInfoTitle`)}
               </h3>
@@ -278,7 +280,7 @@ const EventPage = () => {
           )}
 
           {hasAccessInfo && (
-            <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit sm:w-[430px] w-auto mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
               <h3 className="pt-4 pl-8 t40b">
                 {t(`${viewDictionary}.locationInfoTitle`)}
               </h3>
@@ -287,7 +289,7 @@ const EventPage = () => {
           )}
 
           {hasServicesInfo && (
-            <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit sm:w-[430px] w-auto mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
               <h3 className="pt-4 pl-8 t40b">
                 {t(`${viewDictionary}.pricesInfoTitle`)}
               </h3>
@@ -310,7 +312,7 @@ const EventPage = () => {
       {event.description && (
         <div className="flex flex-col items-center mb-4 p-4 justify-center rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           <div className="w-full md:w-auto">
-            <p className="t20r">{event.description}</p>
+            <p className="break-words t20r">{event.description}</p>
           </div>
         </div>
       )}
@@ -333,7 +335,7 @@ const EventPage = () => {
           )}
 
           {hasCollaborators && (
-            <div className="mt-6 md:mt-0">
+            <div className="w-full mt-6 md:mt-0 sm:w-fit">
               <p className="mb-3 text-xl font-bold">
                 {t(`${viewDictionary}.collaborators`)}
               </p>
@@ -361,15 +363,15 @@ const EventPage = () => {
       {hasParticipants && (
         <div className="flex flex-col items-center justify-between p-4 my-20 rounded-lg md:flex-row">
           <div className="w-full text-center">
-            <h2 className="t64bl">
+            <h2 className="sm:t64bl t40b">
               {t(`${viewDictionary}.withParticipation`)}
             </h2>
-            <div className="flex flex-col items-center gap-4 my-20">
+            <div className="flex flex-col items-center gap-4 sm:my-20 ">
               {event.participants?.map((partId) =>
                 participants[partId] ? (
                   <div
                     key={partId}
-                    className="flex justify-start min-w-full gap-6"
+                    className="flex flex-col items-center justify-start min-w-full sm:flex-row sm:items-center sm:gap-6"
                   >
                     <img
                       src={participants[partId]?.url || '/placeholder.png'}
@@ -377,11 +379,13 @@ const EventPage = () => {
                       className="object-contain w-64 h-64 rounded-full"
                     />
                     <div className="flex flex-col items-start justify-center">
-                      <span className="t64b">{participants[partId]?.name}</span>
-                      <p className="text-left t24l">
+                      <span className="sm:t64bl t40b">
+                        {participants[partId]?.name}
+                      </span>
+                      <p className="text-left sm:t24l t20l w-[300px] sm:w-[856px] sm:overflow-hidden sm:text-ellipsis break-words">
                         {participants[partId]?.desc}
                       </p>
-                      <div className="flex items-center gap-4 mt-2">
+                      <div className="flex flex-row items-center justify-center w-full gap-4 mt-2 sm:justify-start">
                         {participants[partId]?.twitter && (
                           <a
                             href={

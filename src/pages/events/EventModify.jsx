@@ -592,13 +592,16 @@ function EventModify() {
     <div className="container px-4 pb-6 mx-auto">
       <Loader loading={submitting} />
 
-      <form onSubmit={handleSubmit} className="p-6 mx-auto space-y-6 max-w-7xl">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center justify-center p-0 mx-auto space-y-6 sm:p-6 max-w-7xl sm:flex-none"
+      >
         <h2 className="mb-6 text-2xl font-bold text-gray-800">
           {t(`${viewDictionary}.title`)}
         </h2>
 
         {/* Sección de información básica */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
@@ -713,12 +716,12 @@ function EventModify() {
         </div>
 
         {/* Sección de fechas y horarios */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.dateInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
             <div>
               <DynamicInput
                 name="startDate"
@@ -764,7 +767,7 @@ function EventModify() {
         </div>
 
         {/* Sección de detalles del evento */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none ">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.detailsInfoTitle`)}
           </h3>
@@ -853,7 +856,7 @@ function EventModify() {
         )}
 
         {/* Sección de imágenes */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.galleryInfoTitle`)}
           </h3>
@@ -918,7 +921,7 @@ function EventModify() {
         </div>
 
         {/* Nueva sección para documento de autorización */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full sm:min-w-none">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             Documento de Autorización
           </h3>
@@ -964,7 +967,7 @@ function EventModify() {
         </div>
 
         {/* Sección de etiquetas */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.tagsInfoTitle`)}
           </h3>
@@ -989,7 +992,7 @@ function EventModify() {
         </div>
 
         {/* Sección de colaboradores */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.collaboratorsInfoTitle`)}
           </h3>
@@ -1067,7 +1070,7 @@ function EventModify() {
         </div>
 
         {/* Nueva sección de participantes */}
-        <div className="p-4 mb-6 rounded-lg ">
+        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.participantsTitle`)}
           </h3>
@@ -1147,7 +1150,11 @@ function EventModify() {
         <div className="flex justify-end mt-8">
           <DynamicButton
             type="button"
-            onClick={() => navigate('/events-control-list')}
+            onClick={(e) => {
+              e.preventDefault() // Prevenir cualquier comportamiento por defecto
+              e.stopPropagation() // Detener la propagación del evento
+              navigate('/events-control-list')
+            }}
             size="small"
             state="normal"
             textId={t(`components.buttons.cancel`)}

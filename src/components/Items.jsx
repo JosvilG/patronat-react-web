@@ -19,14 +19,14 @@ const DynamicItems = ({ items, extraClass }) => {
   }
 
   return (
-    <div className="px-4 pb-[20px]">
+    <div className=" pb-[20px]">
       {items.map((item, index) => (
         <div
           key={index}
-          className={`relative w-full min-w-[400px] max-w-[100%] ${extraClass}`}
+          className={`relative w-full min-w-[300px] sm:min-w-[400px] max-w-[100%] ${extraClass}`}
         >
           <div
-            className={`flex items-center justify-between px-4 py-2 h-fit text-[#252525] hover:text-gray-700 max-w-[100%] ${
+            className={`flex items-center justify-between sm:px-4 px-0 py-2 h-fit text-[#252525] hover:text-gray-700 max-w-[100%] ${
               index !== items.length - 1 && item.type !== 'eventData'
                 ? 'border-b border-[#252525]'
                 : ''
@@ -55,7 +55,7 @@ const DynamicItems = ({ items, extraClass }) => {
             )}
 
             <div
-              className={`flex ${item.type === 'eventData' ? 'flex-row' : 'flex-col'}`}
+              className={`flex ${item.type === 'eventData' ? 'flex-row' : 'flex-col'} max-w-full`}
             >
               <span
                 className="t16b text-base text-[#252525] truncate overflow-hidden whitespace-nowrap mr-4"
