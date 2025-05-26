@@ -65,7 +65,7 @@ const DynamicCard = ({
 
     try {
       const parsedUrl = new URL(url)
-      return ['http:', 'https:'].includes(parsedUrl.protocol)
+      return ['http:', 'https:', 'blob:'].includes(parsedUrl.protocol)
     } catch {
       return false
     }

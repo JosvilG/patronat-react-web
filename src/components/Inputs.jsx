@@ -80,7 +80,16 @@ const DynamicInput = ({
       alert(t('components.inputs.fileSizeError', { size: '5MB' }))
       return
     }
-    onChange && onChange({ target: { name: e.target.name, value: file } })
+
+    // Incluir tanto value como files en el evento personalizado
+    onChange &&
+      onChange({
+        target: {
+          name: e.target.name,
+          value: file,
+          files: e.target.files, // Añadir la propiedad files
+        },
+      })
   }
 
   const renderCustomSelect = () => (
