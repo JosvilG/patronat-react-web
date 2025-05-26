@@ -251,7 +251,7 @@ const AboutSection = ({ t }) => (
 
 const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
   <>
-    <div className="absolute inset-y-0 left-0 flex items-center justify-center ">
+    <div className="absolute inset-y-0 left-0 flex items-center justify-center sm:left-20 ">
       <motion.button
         onClick={onPrev}
         whileHover={{ scale: 1.05 }}
@@ -262,7 +262,7 @@ const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
         &lt;
       </motion.button>
     </div>
-    <div className="absolute inset-y-0 right-0 flex items-center justify-center">
+    <div className="absolute inset-y-0 right-0 flex items-center justify-center sm:right-20">
       <motion.button
         onClick={onNext}
         whileHover={{ scale: 1.05 }}
