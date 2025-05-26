@@ -570,14 +570,7 @@ function EventModify() {
   }
 
   if (loading) {
-    return (
-      <Loader
-        loading={true}
-        size="50px"
-        color="rgb(21, 100, 46)"
-        text="Cargando evento..."
-      />
-    )
+    return <Loader loading={true} size="50px" color="rgb(21, 100, 46)" />
   }
 
   if (error) {

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import OpenInFullIcon from '@mui/icons-material/OpenInFull'
 import { useTranslation } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
+import DOMPurify from 'dompurify'
 
 const DynamicCard = ({
   type,
@@ -47,6 +48,35 @@ const DynamicCard = ({
     setIsLoaded(true)
   }
 
+  const validateAndOpenLink = (url) => {
+    const urlPattern =
+      /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/
+
+    if (!url || !urlPattern.test(url)) {
+      console.error('URL inválida detectada:', url)
+      return
+    }
+
+    window.open(url, '_blank', 'noopener,noreferrer')
+  }
+
+  const validateImageUrl = (url) => {
+    if (!url) return false
+
+    try {
+      const parsedUrl = new URL(url)
+      return ['http:', 'https:'].includes(parsedUrl.protocol)
+    } catch {
+      return false
+    }
+  }
+
+  const sanitizedTitle = title ? DOMPurify.sanitize(title) : ''
+  const sanitizedDescription = description
+    ? DOMPurify.sanitize(description)
+    : ''
+  const sanitizedDate = date ? DOMPurify.sanitize(date) : ''
+
   return (
     <>
       <div
@@ -59,7 +89,7 @@ const DynamicCard = ({
         }`}
         onClick={() => {
           if (clickable && type === 'event' && link) {
-            window.open(link)
+            validateAndOpenLink(link)
           }
         }}
       >
@@ -72,8 +102,14 @@ const DynamicCard = ({
           }
         >
           <img
-            src={imgError ? 'https://via.placeholder.com/150' : imageUrl}
-            alt={title}
+            src={
+              imgError || !validateImageUrl(imageUrl)
+                ? '/path/to/local/placeholder.jpg'
+                : imageUrl
+            }
+            alt={sanitizedTitle}
+            crossOrigin="anonymous"
+            referrerPolicy="no-referrer"
             onLoad={handleImageLoad}
             onError={handleImageError}
             className="object-cover w-full h-full rounded-[60px]"
@@ -90,7 +126,7 @@ const DynamicCard = ({
               }}
             >
               <div className="flex items-baseline justify-between w-full overflow-hidden text-white">
-                <p className="text-white t40b line-clamp-1">{title}</p>
+                <p className="text-white t40b line-clamp-1">{sanitizedTitle}</p>
                 <button
                   className="p-2 bg-black bg-opacity-50 rounded-full"
                   disabled={!clickable}
@@ -112,7 +148,7 @@ const DynamicCard = ({
               }}
             >
               <p className="text-right text-white t16b">
-                {t('components.cards.eventDateTitle')} - {date}
+                {t('components.cards.eventDateTitle')} - {sanitizedDate}
               </p>
             </div>
           )}
@@ -121,10 +157,10 @@ const DynamicCard = ({
         {type === 'event' && (
           <div className="px-4 py-2">
             <p className="pb-2 flex flex-row items-center line-clamp-1 font-bold text-gray-800 transition-colors t40b group-hover:text-[#696969] leading-10">
-              {title}
+              {sanitizedTitle}
             </p>
             <p className="leading-7 text-gray-600 transition-colors t20r group-hover:text-[#696969] line-clamp-3">
-              {description}
+              {sanitizedDescription}
             </p>
           </div>
         )}
@@ -160,8 +196,10 @@ const DynamicCard = ({
               />
               {title && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-black bg-opacity-50 rounded-b-lg">
-                  <h3 className="text-xl font-bold">{title}</h3>
-                  {description && <p className="mt-1 text-sm">{description}</p>}
+                  <h3 className="text-xl font-bold">{sanitizedTitle}</h3>
+                  {description && (
+                    <p className="mt-1 text-sm">{sanitizedDescription}</p>
+                  )}
                 </div>
               )}
             </motion.div>
@@ -173,7 +211,7 @@ const DynamicCard = ({
 }
 
 DynamicCard.propTypes = {
-  type: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['gallery', 'event']).isRequired,
   title: PropTypes.string.isRequired,
   description: PropTypes.string,
   extraClass: PropTypes.string,

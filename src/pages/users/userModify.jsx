@@ -425,7 +425,6 @@ function UserControl() {
     }
   }
 
-  // Mostrar loader si está cargando o registrando cambios
   if (loading || isTracking) {
     return (
       <Loader
@@ -562,7 +561,6 @@ function UserControl() {
             />
           </div>
 
-          {/* Nueva sección para preferencias de usuario */}
           <div className="flex flex-col items-center col-span-2 mt-8 mb-4">
             <h2 className="mb-6 t24b">
               {t(
@@ -572,7 +570,6 @@ function UserControl() {
             </h2>
 
             <div className="grid items-center w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
-              {/* Notificaciones por correo */}
               <div className="flex flex-col items-center">
                 <DynamicInput
                   name="emailNotifications"
@@ -662,7 +659,6 @@ function UserControl() {
                 />
               </div>
             </div>
-            {/* Sección de documento para usuarios staff */}{' '}
             <div className="">
               <div className="flex flex-col items-center col-span-2">
                 <h1 className="mb-4 t16r">

@@ -55,6 +55,19 @@ import UserControl from '../pages/users/userModify'
 import UserList from '../pages/users/userList'
 import UserHistory from '../pages/users/userHistory'
 
+// Páginas de peñas
+import CrewMainPage from '../pages/crews/CrewMainPage'
+import CrewModify from '../pages/crews/CrewModify'
+import CrewList from '../pages/crews/CrewList'
+import CrewPoints from '../pages/crews/CrewPoints'
+import CrewDetails from '../pages/crews/CrewDetails'
+
+// Páginas de pruebas
+import GamesRegister from '../pages/games/GamesRegister'
+import GamesList from '../pages/games/GamesList'
+import GamesModify from '../pages/games/GamesModify'
+import GamesDetails from '../pages/games/GamesDetails'
+
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
   { path: '/login', element: <Auth /> },
@@ -70,11 +83,14 @@ export const publicRoutes = [
     path: '/event-participation-form/:eventSlug',
     element: <EventParticipationForm />,
   },
+  { path: '/new-crew', element: <CrewForm /> },
+  { path: '/crews', element: <CrewMainPage /> },
 ]
 
 export const userProtectedRoutes = [
   { path: '/profile/:slug', element: <ProfilePage /> },
   { path: '/settings', element: <Settings /> },
+  { path: '/crews-modify/:slug', element: <CrewModify /> },
 ]
 
 export const adminProtectedRoutes = [
@@ -90,7 +106,6 @@ export const adminProtectedRoutes = [
   { path: '/list-participant', element: <ParticipantList /> },
   { path: '/upload-file', element: <UploadFileForm /> },
   { path: '/upload-list', element: <UploadList /> },
-  { path: '/new-crew', element: <CrewForm /> },
   { path: '/user-modify', element: <UserControl /> },
   { path: '/edit-user/:slug', element: <UserControl /> },
   { path: '/users-list', element: <UserList /> },
@@ -102,4 +117,11 @@ export const adminProtectedRoutes = [
   { path: '/admin-partner-form', element: <AdminPartnersForm /> },
   { path: '/seasons-list', element: <SeasonsList /> },
   { path: '/event-participants/:slug', element: <EventsParticipants /> },
+  { path: 'crews-list', element: <CrewList /> },
+  { path: '/games-register', element: <GamesRegister /> },
+  { path: '/games-list', element: <GamesList /> },
+  { path: '/edit-game/:slug', element: <GamesModify /> },
+  { path: '/game-details/:slug', element: <GamesDetails /> },
+  { path: '/crew-points', element: <CrewPoints /> },
+  { path: '/crew-details/:slug', element: <CrewDetails /> },
 ]

@@ -13,9 +13,13 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    let isMounted = true
     const auth = getAuth()
+
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
       const fetchData = async () => {
+        if (!isMounted) return
+
         if (firebaseUser) {
           setLoading(true)
           try {
@@ -26,14 +30,18 @@ export function AuthProvider({ children }) {
             const role =
               idTokenResult.claims.role || firestoreData.role || 'user'
 
-            setUser(firebaseUser)
-            setUserData({ ...firestoreData, role })
+            if (isMounted) {
+              setUser(firebaseUser)
+              setUserData({ ...firestoreData, role })
+            }
           } catch (error) {
-            log.error('Error fetching user data or token:', error)
+            if (isMounted) {
+              log.error('Error en autenticación')
+            }
           } finally {
-            setLoading(false)
+            if (isMounted) setLoading(false)
           }
-        } else {
+        } else if (isMounted) {
           setUser(null)
           setUserData(null)
           setLoading(false)
@@ -42,7 +50,10 @@ export function AuthProvider({ children }) {
       fetchData()
     })
 
-    return () => unsubscribe()
+    return () => {
+      isMounted = false
+      unsubscribe()
+    }
   }, [])
 
   const value = useMemo(

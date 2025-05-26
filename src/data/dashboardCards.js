@@ -1,19 +1,19 @@
 export const cards = [
   {
     id: 'events',
-    title: 'Eventos',
-    description: 'Gestiona todos los eventos de la plataforma.',
+    titleKey: 'dashboard.cards.events.title',
+    descriptionKey: 'dashboard.cards.events.description',
     icon: '📅',
     actions: [
       {
         id: 'create-event',
-        title: 'Crear Evento',
+        titleKey: 'dashboard.cards.events.actions.create',
         route: '/new-event',
         type: 'add',
       },
       {
         id: 'events-control-list',
-        title: 'Lista de Eventos',
+        titleKey: 'dashboard.cards.events.actions.list',
         route: '/events-control-list',
         type: 'view',
       },
@@ -21,19 +21,19 @@ export const cards = [
   },
   {
     id: 'users',
-    title: 'Usuarios',
-    description: 'Gestiona y consulta los usuarios registrados.',
+    titleKey: 'dashboard.cards.users.title',
+    descriptionKey: 'dashboard.cards.users.description',
     icon: '👤',
     actions: [
       {
         id: 'manage-users',
-        title: 'Listado de Usuarios',
+        titleKey: 'dashboard.cards.users.actions.manage',
         route: '/users-list',
         type: 'edit',
       },
       {
         id: 'user-history',
-        title: 'Historial de Usuarios',
+        titleKey: 'dashboard.cards.users.actions.history',
         route: '/users-history',
         type: 'view',
       },
@@ -41,20 +41,19 @@ export const cards = [
   },
   {
     id: 'socios',
-    title: 'Socios',
-    description:
-      'Gestiona los socios del Patronat de Festes. Modifica las cuotas, datos personales, etc.',
+    titleKey: 'dashboard.cards.socios.title',
+    descriptionKey: 'dashboard.cards.socios.description',
     icon: '🤝',
     actions: [
       {
         id: 'create-partner',
-        title: 'Crear nuevo socio',
+        titleKey: 'dashboard.cards.socios.actions.create',
         route: '/admin-partner-form',
         type: 'edit',
       },
       {
         id: 'manage-partner',
-        title: 'Gestión de Socios',
+        titleKey: 'dashboard.cards.socios.actions.manage',
         route: '/partners-list',
         type: 'edit',
       },
@@ -62,19 +61,19 @@ export const cards = [
   },
   {
     id: 'payments',
-    title: 'Pagos',
-    description: 'Crea y gestiona los pagos de los boletos y socios.',
+    titleKey: 'dashboard.cards.payments.title',
+    descriptionKey: 'dashboard.cards.payments.description',
     icon: '💳',
     actions: [
       {
         id: 'create-new-payment',
-        title: 'Nuevas remesas',
+        titleKey: 'dashboard.cards.payments.actions.create',
         route: '/new-season',
         type: 'edit',
       },
       {
         id: 'seasons-list',
-        title: 'Lista de remesas',
+        titleKey: 'dashboard.cards.payments.actions.list',
         route: '/seasons-list',
         type: 'edit',
       },
@@ -82,20 +81,19 @@ export const cards = [
   },
   {
     id: 'colaboradores',
-    title: 'Colaboradores',
-    description:
-      'Gestiona los colaborares del Patronat de Festes. Entidades, organizaciones o personas que colaboran.',
+    titleKey: 'dashboard.cards.colaboradores.title',
+    descriptionKey: 'dashboard.cards.colaboradores.description',
     icon: '🤲',
     actions: [
       {
         id: 'create-collaborator',
-        title: 'Crear nuevo colaborador',
+        titleKey: 'dashboard.cards.colaboradores.actions.create',
         route: '/new-collaborator',
         type: 'add',
       },
       {
         id: 'list-collaborator',
-        title: 'Lista de colaboradores',
+        titleKey: 'dashboard.cards.colaboradores.actions.list',
         route: '/list-collaborator',
         type: 'view',
       },
@@ -103,20 +101,19 @@ export const cards = [
   },
   {
     id: 'participantes',
-    title: 'Participantes',
-    description:
-      'Gestiona los participantes en los eventos del Patronat de Festes. Dj, grupos musicales, etc.',
+    titleKey: 'dashboard.cards.participantes.title',
+    descriptionKey: 'dashboard.cards.participantes.description',
     icon: '🎵',
     actions: [
       {
         id: 'create-participants',
-        title: 'Crear nuevo participante',
+        titleKey: 'dashboard.cards.participantes.actions.create',
         route: '/new-participant',
         type: 'add',
       },
       {
         id: 'list-participants',
-        title: 'Lista de participantes',
+        titleKey: 'dashboard.cards.participantes.actions.list',
         route: '/list-participant',
         type: 'view',
       },
@@ -124,57 +121,71 @@ export const cards = [
   },
   {
     id: 'penas',
-    title: 'Peñas',
-    description: 'Administra las peñas asociadas a los eventos.',
+    titleKey: 'dashboard.cards.penas.title',
+    descriptionKey: 'dashboard.cards.penas.description',
     icon: '🍻',
     actions: [
       {
         id: 'new-crew',
-        title: 'Creación de Peñas',
+        titleKey: 'dashboard.cards.penas.actions.create',
         route: '/new-crew',
         type: 'add',
       },
       {
-        id: 'edit-pena',
-        title: 'Modificación de Peñas',
-        route: '/edit-pena',
-        type: 'edit',
-      },
-      {
-        id: 'pena-scores',
-        title: 'Puntuación de Peñas',
-        route: '/pena-scores',
+        id: 'crews-list',
+        titleKey: 'dashboard.cards.penas.actions.list',
+        route: '/crews-list',
         type: 'edit',
       },
       {
         id: 'pena-history',
-        title: 'Historial de Peñas',
+        titleKey: 'dashboard.cards.penas.actions.history',
         route: '/pena-history',
         type: 'view',
       },
       {
-        id: 'pena-requests',
-        title: 'Solicitudes de Peñas',
-        route: '/pena-requests',
+        id: 'crew-points',
+        titleKey: 'dashboard.cards.penas.actions.points',
+        route: '/crew-points',
         type: 'view',
       },
     ],
   },
   {
+    id: 'pruebas',
+    titleKey: 'dashboard.cards.pruebas.title',
+    descriptionKey: 'dashboard.cards.pruebas.description',
+    icon: '🍻',
+    actions: [
+      {
+        id: 'games-register',
+        titleKey: 'dashboard.cards.pruebas.actions.create',
+        route: '/games-register',
+        type: 'add',
+      },
+      {
+        id: 'games-list',
+        titleKey: 'dashboard.cards.pruebas.actions.list',
+        route: '/games-list',
+        type: 'edit',
+      },
+    ],
+  },
+  {
     id: 'archivos',
-    title: 'Archivos',
-    description: 'Gestiona los archivos multimedia de la plataforma.',
+    titleKey: 'dashboard.cards.archivos.title',
+    descriptionKey: 'dashboard.cards.archivos.description',
     icon: '🖼️',
     actions: [
       {
         id: 'add-files',
-        title: 'Añadir Nuevos Archivos',
+        titleKey: 'dashboard.cards.archivos.actions.add',
         route: '/upload-file',
         type: 'add',
       },
       {
         id: 'upload-list',
-        title: 'Listado de Archivos',
+        titleKey: 'dashboard.cards.archivos.actions.list',
         route: '/upload-list',
         type: 'view',
       },
@@ -182,19 +193,19 @@ export const cards = [
   },
   {
     id: 'chat',
-    title: 'Chat',
-    description: 'Gestiona los mensajes y conversaciones.',
+    titleKey: 'dashboard.cards.chat.title',
+    descriptionKey: 'dashboard.cards.chat.description',
     icon: '💬',
     actions: [
       {
         id: 'inbox',
-        title: 'Bandeja de Entrada',
+        titleKey: 'dashboard.cards.chat.actions.inbox',
         route: '/inbox',
         type: 'view',
       },
       {
         id: 'live-chat',
-        title: 'Chat en Vivo',
+        titleKey: 'dashboard.cards.chat.actions.live',
         route: '/live-chat',
         type: 'submit',
       },
@@ -202,8 +213,8 @@ export const cards = [
   },
   {
     id: 'reports',
-    title: 'Reportes',
-    description: 'Consulta los reportes de los eventos y el sistema.',
+    titleKey: 'dashboard.cards.reports.title',
+    descriptionKey: 'dashboard.cards.reports.description',
     icon: '📊',
     route: '/reportes',
   },

@@ -11,12 +11,10 @@ import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 import useSlug from '../hooks/useSlug'
 
-// Ahora usamos el hook useSlug directamente en cada componente
-
 const navLinksData = [
   { to: '/events-list', label: 'components.navbar.eventTitle' },
   { to: '/gallery', label: 'components.navbar.galeryTitle' },
-  { to: '/penas', label: 'components.navbar.crewTitle' },
+  { to: '/crews', label: 'components.navbar.crewTitle' },
   { to: '/about', label: 'components.navbar.whoWeAreTitle' },
   { to: '/partner-form', label: 'components.navbar.partnersTitle' },
 ]
@@ -119,15 +117,18 @@ export function Navbar() {
 
   useOutsideClick(mobileMenuRef, () => setMobileMenuOpen(false))
   useOutsideClick(dropdownRef, () => !isSmallScreen && setDropdownOpen(false))
-  // Función para navegar al perfil del usuario actual
   const navigateToProfile = () => {
     if (userData) {
+      const userId = userData.id || user.uid
+      if (!userId) return
+
       const fullName =
         `${userData.firstName || ''} ${userData.lastName || ''}`.trim()
-      const slug = generateSlug(fullName) || 'usuario'
-      navigate(`/profile/${slug}`, {
-        state: { userId: userData.id || user.uid },
-      })
+      const slug = fullName
+        ? `${generateSlug(fullName)}-${userId.slice(0, 8)}`
+        : userId
+
+      navigate(`/profile/${slug}`, { state: { userId } })
       setDropdownOpen(false)
     }
   }
