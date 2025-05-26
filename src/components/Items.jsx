@@ -1,9 +1,22 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import DynamicButton from './Buttons'
+import DOMPurify from 'dompurify'
 
 const DynamicItems = ({ items, extraClass }) => {
   const [expandedIndex, setExpandedIndex] = useState(null)
+
+  // Añadir esta función para validar URLs
+  const validateUrl = (url) => {
+    if (!url || typeof url !== 'string') return false
+
+    try {
+      const parsed = new URL(url)
+      return ['http:', 'https:'].includes(parsed.protocol)
+    } catch {
+      return false
+    }
+  }
 
   return (
     <div className="px-4 pb-[20px]">
@@ -22,7 +35,19 @@ const DynamicItems = ({ items, extraClass }) => {
             {item.icon && (
               <div className="t16l flex flex-row justify-center items-center h-[46px] w-[76px] text-[#252525] hover:text-gray-700">
                 {typeof item.icon === 'string' ? (
-                  <img src={item.icon} alt="icon" className="w-6 h-6" />
+                  validateUrl(item.icon) ? (
+                    <img
+                      src={item.icon}
+                      alt="icon"
+                      className="w-6 h-6"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        e.target.src = '/path/to/default-icon.png'
+                      }}
+                    />
+                  ) : (
+                    <div className="w-6 h-6 bg-gray-200">!</div> // Placeholder para iconos inválidos
+                  )
                 ) : (
                   item.icon
                 )}
@@ -34,9 +59,9 @@ const DynamicItems = ({ items, extraClass }) => {
             >
               <span
                 className="t16b text-base text-[#252525] truncate overflow-hidden whitespace-nowrap mr-4"
-                title={item.title}
+                title={DOMPurify.sanitize(item.title)}
               >
-                {item.title}
+                {DOMPurify.sanitize(item.title)}
               </span>
               {item.description && (
                 <span
@@ -60,9 +85,9 @@ const DynamicItems = ({ items, extraClass }) => {
                 size="small"
                 state="normal"
                 onClick={() => {
-                  if (item.link) {
+                  if (item.link && validateUrl(item.link)) {
                     window.location.href = item.link
-                  } else if (item.action) {
+                  } else if (item.action && typeof item.action === 'function') {
                     item.action()
                   }
                 }}

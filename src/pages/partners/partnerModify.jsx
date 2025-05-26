@@ -675,25 +675,23 @@ function PartnerModifyForm() {
               </div>
             ) : paymentData && activeSeason ? (
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                <div className="p-4 border rounded-lg">
+                <div className="p-4 ">
                   <h4 className="mb-3 font-medium">
                     {t(`${viewDictionary}.firstFraction`, 'Primera fracción')}
                   </h4>
 
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center">
-                      <input
+                      <DynamicInput
                         type="checkbox"
                         id="firstPayment"
                         name="firstPayment"
-                        className="w-4 h-4 mr-2"
+                        textId={`${viewDictionary}.paid`}
+                        defaultText="Pagado"
                         checked={paymentData.firstPayment || false}
                         onChange={handlePaymentChange}
                         disabled={formData.submitting}
                       />
-                      <label htmlFor="firstPayment">
-                        {t(`${viewDictionary}.paid`, 'Pagado')}
-                      </label>
                     </div>
 
                     <div className="flex flex-col items-start">
@@ -726,25 +724,23 @@ function PartnerModifyForm() {
                   </div>
                 </div>
 
-                <div className="p-4 border rounded-lg">
+                <div className="p-4 ">
                   <h4 className="mb-3 font-medium">
                     {t(`${viewDictionary}.secondFraction`, 'Segunda fracción')}
                   </h4>
 
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center">
-                      <input
+                      <DynamicInput
                         type="checkbox"
                         id="secondPaymentDone"
                         name="secondPaymentDone"
-                        className="w-4 h-4 mr-2"
+                        textId={`${viewDictionary}.paid`}
+                        defaultText="Pagado"
                         checked={paymentData.secondPaymentDone || false}
                         onChange={handlePaymentChange}
                         disabled={formData.submitting}
                       />
-                      <label htmlFor="secondPaymentDone">
-                        {t(`${viewDictionary}.paid`, 'Pagado')}
-                      </label>
                     </div>
 
                     <div className="flex flex-col items-start">
@@ -777,25 +773,23 @@ function PartnerModifyForm() {
                   </div>
                 </div>
 
-                <div className="p-4 border rounded-lg">
+                <div className="p-4 ">
                   <h4 className="mb-3 font-medium">
                     {t(`${viewDictionary}.thirdFraction`, 'Tercera fracción')}
                   </h4>
 
                   <div className="flex flex-col gap-3">
                     <div className="flex items-center">
-                      <input
+                      <DynamicInput
                         type="checkbox"
                         id="thirdPaymentDone"
                         name="thirdPaymentDone"
-                        className="w-4 h-4 mr-2"
+                        textId={`${viewDictionary}.paid`}
+                        defaultText="Pagado"
                         checked={paymentData.thirdPaymentDone || false}
                         onChange={handlePaymentChange}
                         disabled={formData.submitting}
                       />
-                      <label htmlFor="thirdPaymentDone">
-                        {t(`${viewDictionary}.paid`, 'Pagado')}
-                      </label>
                     </div>
 
                     <div className="flex flex-col items-start">

@@ -320,14 +320,7 @@ function ParticipantModifyForm() {
   }, [formState.newImageUrl])
 
   if (loading) {
-    return (
-      <Loader
-        loading={true}
-        size="50px"
-        color="rgb(21, 100, 46)"
-        text="Cargando información del participante..."
-      />
-    )
+    return <Loader loading={true} size="50px" color="rgb(21, 100, 46)" />
   }
 
   if (error) {

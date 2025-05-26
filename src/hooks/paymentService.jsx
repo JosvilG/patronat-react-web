@@ -36,7 +36,6 @@ const withRetry = async (
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
       if (attempt > 0) {
-        console.log(`Reintento ${attempt} de ${maxRetries}...`)
         await wait(delayMs)
       }
       return await operation()
@@ -149,7 +148,6 @@ export const getPartnerPaymentsForSeason = async (
     if (!fallbackToAll) return null
 
     // Si no hay año de temporada pero se permite fallback, buscar el pago más reciente
-    console.log('Intentando recuperar el pago más reciente del socio...')
     return await getMostRecentPayment(partnerId)
   }
 
@@ -159,9 +157,6 @@ export const getPartnerPaymentsForSeason = async (
       let payment = null
 
       // Primer intento con 'seasonYear'
-      console.log(
-        `Buscando pagos para socio ${partnerId} y temporada ${seasonYear} (campo: seasonYear)`
-      )
       let paymentsSnapshot = await getDocs(
         query(paymentsRef, where('seasonYear', '==', seasonYear))
       )
@@ -169,23 +164,17 @@ export const getPartnerPaymentsForSeason = async (
       if (!paymentsSnapshot.empty) {
         const paymentDoc = paymentsSnapshot.docs[0]
         payment = { id: paymentDoc.id, ...paymentDoc.data() }
-        console.log('Pago encontrado:', payment)
         return payment
       }
 
       // Si se permite fallback y no se encontró ningún pago, intentar recuperar todos
       if (fallbackToAll) {
-        console.log(
-          'No se encontraron pagos para la temporada específica. Buscando el pago más reciente...'
-        )
         payment = await getMostRecentPayment(partnerId)
         if (payment) {
-          console.log('Se encontró un pago alternativo:', payment)
           return payment
         }
       }
 
-      console.log('No se encontró ningún pago para el socio')
       return null
     })
   } catch (error) {
@@ -194,9 +183,6 @@ export const getPartnerPaymentsForSeason = async (
     // Último recurso: intentar obtener cualquier pago si fallbackToAll es true
     if (fallbackToAll) {
       try {
-        console.log(
-          'Intentando recuperar cualquier pago como último recurso...'
-        )
         const allPayments = await getAllPartnerPayments(partnerId)
         return allPayments.length > 0 ? allPayments[0] : null
       } catch (fallbackError) {
@@ -284,7 +270,6 @@ export const getPartnerPaymentHistory = async (
 
   try {
     return await withRetry(async () => {
-      console.log(`Buscando historial de pagos para socio ${partnerId}...`)
       // Primero obtenemos todas las temporadas
       const seasonsRef = collection(db, 'seasons')
       const seasonsSnapshot = await getDocs(seasonsRef)
@@ -302,14 +287,11 @@ export const getPartnerPaymentHistory = async (
         }
       })
 
-      console.log('Estado de temporadas:', seasonActiveStatus)
-
       // Ahora obtenemos todos los pagos del socio
       const paymentsRef = collection(db, 'partners', partnerId, 'payments')
       const paymentsSnapshot = await getDocs(paymentsRef)
 
       if (paymentsSnapshot.empty) {
-        console.log('No se encontraron pagos históricos')
         return []
       }
 
@@ -318,21 +300,15 @@ export const getPartnerPaymentHistory = async (
         ...doc.data(),
       }))
 
-      console.log(`Se encontraron ${allPayments.length} pagos totales`)
-
       // Filtramos para obtener solo pagos históricos (temporadas no activas y no futuras)
       const historicalPayments = allPayments.filter((payment) => {
         const paymentYear = payment.seasonYear
         if (!paymentYear) {
-          console.log(`Pago sin año definido: ${payment.id}`)
           return false
         }
 
         // Excluir la temporada actual si se proporciona
         if (currentSeasonYear && paymentYear === currentSeasonYear) {
-          console.log(
-            `Excluyendo pago de temporada actual (${currentSeasonYear}): ${payment.id}`
-          )
           return false
         }
 
@@ -347,26 +323,13 @@ export const getPartnerPaymentHistory = async (
         const isFutureTemporada = paymentYear > currentYear
 
         if (isActiveTemporada) {
-          console.log(
-            `Excluyendo pago de temporada activa ${paymentYear}: ${payment.id}`
-          )
           return false
         } else if (isFutureTemporada) {
-          console.log(
-            `Excluyendo pago de temporada futura ${paymentYear}: ${payment.id}`
-          )
           return false
         } else {
-          console.log(
-            `Incluyendo pago histórico del año ${paymentYear}: ${payment.id}`
-          )
           return true
         }
       })
-
-      console.log(
-        `Se encontraron ${historicalPayments.length} pagos históricos`
-      )
 
       // Ordenar pagos históricos por año (más reciente primero)
       historicalPayments.sort((a, b) => b.seasonYear - a.seasonYear)
@@ -390,7 +353,6 @@ export const createPaymentForPartner = async (
   if (!partnerId || !paymentData) throw new Error('Datos de pago incompletos')
 
   try {
-    console.log(`Creando pago para socio ${partnerId}...`)
     // Verificar si ya existe un pago para esta temporada
     const existingPayment = await getPartnerPaymentsForSeason(
       partnerId,
@@ -399,7 +361,6 @@ export const createPaymentForPartner = async (
     )
 
     if (existingPayment) {
-      console.log('Ya existe un pago para esta temporada:', existingPayment)
       return { created: false, existing: true, payment: existingPayment }
     }
 
@@ -439,8 +400,6 @@ export const createPaymentForPartner = async (
     const paymentsRef = collection(db, 'partners', partnerId, 'payments')
     const docRef = await addDoc(paymentsRef, normalizedData)
 
-    console.log(`Pago creado con ID: ${docRef.id}`)
-
     // Obtener el documento recién creado
     const createdDoc = await getDoc(docRef)
     return {
@@ -466,8 +425,6 @@ export const updatePartnerPayment = async (
   if (!partnerId || !paymentId) throw new Error('ID de pago no proporcionado')
 
   try {
-    console.log(`Actualizando pago ${paymentId} del socio ${partnerId}...`)
-
     // Normalizar los datos antes de actualizar
     const normalizedData = normalizePaymentDates(paymentData)
 
@@ -478,13 +435,11 @@ export const updatePartnerPayment = async (
       userId,
     }
 
-    console.log('Datos de actualización:', updateData)
     await updateDoc(
       doc(db, 'partners', partnerId, 'payments', paymentId),
       updateData
     )
 
-    console.log('Pago actualizado exitosamente')
     return true
   } catch (error) {
     console.error('Error al actualizar pago:', error)
@@ -638,20 +593,17 @@ export const diagnoseSeasonYearIssue = async (partnerId) => {
 export const getActiveSeason = async () => {
   try {
     return await withRetry(async () => {
-      console.log('Buscando temporada activa...')
       const seasonsRef = collection(db, 'seasons')
       const activeSeasonQuery = query(seasonsRef, where('active', '==', true))
       const snapshot = await getDocs(activeSeasonQuery)
 
       if (snapshot.empty) {
-        console.log('No hay temporadas activas')
         return null
       }
 
       // Si hay más de una temporada activa, tomar la primera
       // En un sistema ideal, solo debería haber una temporada activa
       const seasonData = snapshot.docs[0].data()
-      console.log('Temporada activa encontrada:', seasonData)
       return {
         id: snapshot.docs[0].id,
         ...seasonData,
@@ -724,7 +676,6 @@ export const getAllSeasons = async () => {
 export const getApprovedPartners = async () => {
   try {
     return await withRetry(async () => {
-      console.log('Obteniendo socios aprobados...')
       const partnersRef = collection(db, 'partners')
       const approvedPartnersQuery = query(
         partnersRef,
@@ -733,7 +684,6 @@ export const getApprovedPartners = async () => {
       const snapshot = await getDocs(approvedPartnersQuery)
 
       if (snapshot.empty) {
-        console.log('No se encontraron socios aprobados')
         return []
       }
 
@@ -742,7 +692,6 @@ export const getApprovedPartners = async () => {
         ...doc.data(),
       }))
 
-      console.log(`Se encontraron ${partners.length} socios aprobados`)
       return partners
     })
   } catch (error) {
@@ -769,18 +718,14 @@ export const getPartnerPaymentsByStatus = async (partnerId) => {
         await getAllSeasons()
 
       if (!activeSeason) {
-        console.log('No hay temporada activa definida')
         return { current: null, historical: [] }
       }
-
-      console.log(`Temporada activa: ${activeSeason.seasonYear}`)
 
       // 2. Obtener todos los pagos del socio
       const paymentsRef = collection(db, 'partners', partnerId, 'payments')
       const paymentsSnapshot = await getDocs(paymentsRef)
 
       if (paymentsSnapshot.empty) {
-        console.log(`No se encontraron pagos para el socio ${partnerId}`)
         return { current: null, historical: [] }
       }
 
@@ -788,10 +733,6 @@ export const getPartnerPaymentsByStatus = async (partnerId) => {
         id: doc.id,
         ...doc.data(),
       }))
-
-      console.log(
-        `Se encontraron ${allPayments.length} pagos totales para el socio ${partnerId}`
-      )
 
       // 3. Clasificar pagos
       let currentPayment = null
@@ -808,36 +749,21 @@ export const getPartnerPaymentsByStatus = async (partnerId) => {
         const paymentYear = payment.seasonYear
 
         if (!paymentYear) {
-          console.log(`Pago sin año definido: ${payment.id}`)
           return
         }
 
         // Si coincide con la temporada activa, es el pago actual
         if (paymentYear === activeSeason.seasonYear) {
-          console.log(
-            `Pago actual encontrado para temporada ${activeSeason.seasonYear}: ${payment.id}`
-          )
           currentPayment = payment
         }
         // Si está en la lista de temporadas históricas, es un pago histórico
         else if (historicalSeasonsMap[paymentYear]) {
-          console.log(
-            `Pago histórico encontrado para temporada ${paymentYear}: ${payment.id}`
-          )
           historicalPayments.push(payment)
-        } else {
-          console.log(
-            `Pago ignorado para temporada ${paymentYear} (ni actual ni histórica): ${payment.id}`
-          )
         }
       })
 
       // Ordenar pagos históricos por año (descendente)
       historicalPayments.sort((a, b) => b.seasonYear - a.seasonYear)
-
-      console.log(`Clasificación final: 
-        - Pago actual: ${currentPayment ? 'Sí' : 'No'}
-        - Pagos históricos: ${historicalPayments.length}`)
 
       return {
         current: currentPayment,
@@ -859,16 +785,12 @@ export const getAllApprovedPartnersWithPayments = async () => {
     // 1. Obtener la temporada activa
     const activeSeason = await getActiveSeason()
     if (!activeSeason) {
-      console.log(
-        'No hay temporada activa definida, no se pueden procesar pagos'
-      )
       return []
     }
 
     // 2. Obtener todos los socios aprobados
     const approvedPartners = await getApprovedPartners()
     if (approvedPartners.length === 0) {
-      console.log('No hay socios aprobados')
       return []
     }
 
@@ -884,9 +806,6 @@ export const getAllApprovedPartnersWithPayments = async () => {
       })
     )
 
-    console.log(
-      `Procesados ${partnersWithPayments.length} socios con sus pagos`
-    )
     return partnersWithPayments
   } catch (error) {
     console.error('Error al obtener todos los socios con pagos:', error)

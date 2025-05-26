@@ -13,7 +13,11 @@ import SendIcon from '@mui/icons-material/Send'
 import DownloadIcon from '@mui/icons-material/Download'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
 import NoAccountsIcon from '@mui/icons-material/NoAccounts'
-import EuroIcon from '@mui/icons-material/Euro';
+import EuroIcon from '@mui/icons-material/Euro'
+import DoneAllIcon from '@mui/icons-material/DoneAll'
+import PlayArrowIcon from '@mui/icons-material/PlayArrow'
+import PauseIcon from '@mui/icons-material/Pause'
+import ScoreboardIcon from '@mui/icons-material/Scoreboard'
 
 const DynamicButton = ({ size, state, type, textId, children, ...props }) => {
   const { t } = useTranslation()
@@ -100,9 +104,28 @@ const DynamicButton = ({ size, state, type, textId, children, ...props }) => {
           icon: <NoAccountsIcon />,
         }
 
-         case 'payment':
+      case 'payment':
         return {
           icon: <EuroIcon />,
+        }
+
+      case 'done':
+        return {
+          icon: <DoneAllIcon />,
+        }
+
+      case 'play':
+        return {
+          icon: <PlayArrowIcon />,
+        }
+
+      case 'pause':
+        return {
+          icon: <PauseIcon />,
+        }
+      case 'score':
+        return {
+          icon: <ScoreboardIcon />,
         }
       default:
         return { icon: null, classes: '' }

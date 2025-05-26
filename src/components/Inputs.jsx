@@ -1,4 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useCallback } from 'react'
+import DOMPurify from 'dompurify'
 import { Input } from '@mui/base'
 import { useTranslation } from 'react-i18next'
 import TitleIcon from '@mui/icons-material/Title'
@@ -12,21 +13,74 @@ import PhoneIcon from '@mui/icons-material/Phone'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import BrandingWatermarkIcon from '@mui/icons-material/BrandingWatermark'
 
-const DynamicInput = ({ name, textId, type, options, ...props }) => {
+const sanitizeInput = (value) => {
+  const clean = DOMPurify.sanitize(value, {
+    ALLOWED_TAGS: [],
+    ALLOWED_ATTR: [],
+  })
+  return clean
+}
+
+const DynamicInput = ({
+  name,
+  textId,
+  type,
+  options,
+  onChange,
+  ...restProps
+}) => {
   const { t } = useTranslation()
   const [selectedOption, setSelectedOption] = useState(null)
   const [isOpen, setIsOpen] = useState(false)
 
-  const translatedLabel = textId ? t(`${textId}`) : ''
-  const translatedPlaceholder = textId ? t(`${textId}`) : ''
-  const shouldShowLabel = textId && textId.trim() !== ''
+  const translatedLabel = textId ? t(textId) : ''
+  const translatedPlaceholder = textId ? t(textId) : ''
+  const shouldShowLabel = Boolean(textId && textId.trim())
+
+  const handleChange = useCallback(
+    (e) => {
+      if (e.target.type === 'checkbox' || e.target.type === 'radio') {
+        onChange &&
+          onChange({
+            target: {
+              name: e.target.name,
+              value: e.target.checked,
+            },
+          })
+        return
+      }
+
+      let val = e.target.value
+      val = sanitizeInput(val)
+      if (restProps.maxLength && val.length > restProps.maxLength) {
+        val = val.slice(0, restProps.maxLength)
+      }
+      onChange && onChange({ target: { name: e.target.name, value: val } })
+    },
+    [onChange, restProps.maxLength]
+  )
 
   const handleSelectOption = (option) => {
+    const cleanValue = sanitizeInput(option.value)
     setSelectedOption(option)
     setIsOpen(false)
-    if (props.onChange) {
-      props.onChange({ target: { name, value: option.value } })
+    onChange && onChange({ target: { name, value: cleanValue } })
+  }
+
+  const allowedTypes = ['application/pdf', 'image/png', 'image/jpeg']
+  const maxSize = 5 * 1024 * 1024
+  const handleFileChange = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!allowedTypes.includes(file.type)) {
+      alert(t('components.inputs.fileTypeError'))
+      return
     }
+    if (file.size > maxSize) {
+      alert(t('components.inputs.fileSizeError', { size: '5MB' }))
+      return
+    }
+    onChange && onChange({ target: { name: e.target.name, value: file } })
   }
 
   const renderCustomSelect = () => (
@@ -37,34 +91,34 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
         </label>
       )}
       <div className="relative">
-        {/* Custom Select box */}
         <div
           className="w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl cursor-pointer flex justify-between items-center"
+          role="button"
+          tabIndex={0}
           onClick={() => setIsOpen(!isOpen)}
         >
           <span className="text-[#696969]">
             {selectedOption ? t(selectedOption.label) : translatedPlaceholder}
           </span>
           {!isOpen ? (
-            <ExpandMoreIcon fontSize="large"></ExpandMoreIcon>
+            <ExpandMoreIcon fontSize="large" />
           ) : (
-            <ExpandLessIcon fontSize="large"></ExpandLessIcon>
+            <ExpandLessIcon fontSize="large" />
           )}
         </div>
-
-        {/* Dropdown options */}
         {isOpen && (
-          <div className="absolute flex flex-col items-end top-[58px] w-[400px] left-0 right-0 z-10 rounded-[24px] max-h-60 overflow-y-auto">
-            {options.map((option, index) => (
-              <div
-                key={index}
-                onClick={() => handleSelectOption(option)}
+          <ul className="absolute flex flex-col items-end top-[58px] w-[400px] left-0 right-0 z-10 rounded-[24px] max-h-60 overflow-y-auto">
+            {options.map((opt, idx) => (
+              <li
+                key={idx}
+                onClick={() => handleSelectOption(opt)}
                 className="px-4 py-2 w-[348px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
+                role="option"
               >
-                {t(option.label)}
-              </div>
+                {t(opt.label)}
+              </li>
             ))}
-          </div>
+          </ul>
         )}
       </div>
     </div>
@@ -73,172 +127,11 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
   const renderInput = () => {
     switch (type) {
       case 'text':
-        return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 flex flex-row items-center text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-              <input
-                autoComplete="off"
-                name={name}
-                type="text"
-                placeholder={translatedPlaceholder}
-                className="t16l w-[312px] overflow-hidden focus:outline-none bg-transparent"
-                inputProps={{
-                  className:
-                    'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2 ',
-                }}
-                {...props}
-              />
-              <TitleIcon
-                fontSize="large"
-                className="relative left-4 max-sm:left-0 text-[#696969]"
-              />
-            </div>
-          </div>
-        )
-
       case 'users':
-        return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-              <input
-                autoComplete="off"
-                name={name}
-                type="text"
-                placeholder={translatedPlaceholder}
-                className="t16l w-[312px] overflow-hidden focus:outline-none"
-                inputProps={{
-                  className:
-                    'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-                }}
-                {...props}
-              />
-              <AccountCircleIcon
-                fontSize="large"
-                className="relative left-4 max-sm:left-0 text-[#696969]"
-              />
-            </div>
-          </div>
-        )
-
       case 'email':
-        return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-              <input
-                name={name}
-                type="email"
-                placeholder={translatedPlaceholder}
-                className="t16l w-[312px] overflow-hidden focus:outline-none bg-transparent"
-                inputProps={{
-                  className:
-                    'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-                }}
-                {...props}
-              />
-              <EmailIcon
-                fontSize="large"
-                className="relative left-4 max-sm:left-0 text-[#696969]"
-              />
-            </div>
-          </div>
-        )
-
       case 'password':
-        return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 flex flex-row items-center text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-              <input
-                name={name}
-                type="password"
-                placeholder={t('components.inputs.enterPassword')}
-                className="t16l w-[312px] overflow-hidden focus:outline-none bg-transparent"
-                inputProps={{
-                  className:
-                    'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-                }}
-                {...props}
-              />
-              <VisibilityIcon
-                fontSize="large"
-                className="relative left-4 max-sm:left-0 text-[#696969]"
-              ></VisibilityIcon>
-            </div>
-          </div>
-        )
-
       case 'number':
-        return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4">
-              <input
-                name={name}
-                type="number"
-                placeholder={translatedPlaceholder}
-                className="t16l max-w-[200px] h-[54px] px-4 pr-12 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl focus:ring-2 appearance-none"
-                inputProps={{
-                  className:
-                    'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-                }}
-                {...props}
-              />
-              <NumbersIcon className="relative right-[2.5rem] text-[#696969]"></NumbersIcon>
-            </div>
-          </div>
-        )
-
       case 'dni':
-        return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-              <input
-                name={name}
-                type="text"
-                placeholder={translatedPlaceholder}
-                className="t16l w-[312px] overflow-hidden focus:outline-none bg-transparent"
-                inputProps={{
-                  className:
-                    'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-                }}
-                {...props}
-              />
-              <BrandingWatermarkIcon
-                fontSize="large"
-                className="relative left-4 max-sm:left-0 text-[#696969]"
-              ></BrandingWatermarkIcon>
-            </div>
-          </div>
-        )
-
       case 'phone':
         return (
           <div>
@@ -247,58 +140,76 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
                 {translatedLabel}
               </label>
             )}
-            <div className="my-4 w-fit max-sm:min-w-[350px] max-sm:pr-2 min-w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+            <div
+              className={`my-4 flex ${type === 'number' ? 'w-[200px]' : 'w-[400px]'} h-[54px] items-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl`}
+            >
               <input
+                autoComplete={'off'}
                 name={name}
-                type="number"
-                placeholder={translatedPlaceholder}
-                className="t16l w-[312px] overflow-hidden focus:outline-none bg-transparent"
-                inputProps={{
-                  className:
-                    'focus:ring-2 focus:ring-blue-500 rounded-md px-4 py-2',
-                }}
-                {...props}
+                type={
+                  type === 'password'
+                    ? 'password'
+                    : type === 'users'
+                      ? 'text'
+                      : type
+                }
+                placeholder={
+                  type === 'password'
+                    ? t('components.inputs.enterPassword')
+                    : translatedPlaceholder
+                }
+                onChange={handleChange}
+                {...restProps}
+                className={`t16l ${type === 'number' ? 'w-[200px]' : 'w-[400px]'} px-4 py-2 focus:outline-none bg-transparent`}
               />
-              <PhoneIcon
-                fontSize="large"
-                className="relative left-4 max-sm:left-0 text-[#696969]"
-              ></PhoneIcon>
+              {
+                {
+                  text: (
+                    <TitleIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  users: (
+                    <AccountCircleIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  email: (
+                    <EmailIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  password: (
+                    <VisibilityIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  number: (
+                    <NumbersIcon className="relative right-10 text-[#696969]" />
+                  ),
+                  dni: (
+                    <BrandingWatermarkIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                  phone: (
+                    <PhoneIcon
+                      fontSize="large"
+                      className="relative right-6 text-[#696969]"
+                    />
+                  ),
+                }[type]
+              }
             </div>
           </div>
         )
 
       case 'checkbox':
-        return (
-          <div className="w-fit">
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div
-              className="flex items-center w-fit h-[54px] px-4 py-2 border t16r cursor-pointer text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
-              onClick={() => document.getElementById(name)?.click()}
-            >
-              <input
-                type="checkbox"
-                id={name}
-                name={name}
-                {...props}
-                className="hidden peer"
-              />
-
-              <div className="w-[34px] h-[34px] mr-3 border-4 border-[#696969] rounded-lg flex items-center justify-center transition-colors duration-200 ease-in-out peer-checked:bg-[#696969] peer-checked:border-[#696969]"></div>
-
-              <label
-                className="cursor-pointer select-none t16r"
-                onClick={() => document.getElementById(name)?.click()}
-              >
-                {translatedLabel}
-              </label>
-            </div>
-          </div>
-        )
-
       case 'radio':
         return (
           <div className="w-fit">
@@ -308,25 +219,23 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
               </label>
             )}
             <div
-              className="flex items-center w-fit h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl cursor-pointer"
+              className="flex items-center w-fit h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
               onClick={() => document.getElementById(name)?.click()}
             >
               <input
-                type="checkbox"
+                type={type}
                 id={name}
                 name={name}
-                {...props}
+                onChange={handleChange}
+                {...restProps}
                 className="hidden peer"
               />
-
-              <div className="w-[34px] h-[34px] mr-3 border-4 border-[#696969] rounded-full flex items-center justify-center transition-colors duration-200 ease-in-out peer-checked:bg-[#696969] peer-checked:border-[#696969]"></div>
-
-              <label
-                className="cursor-pointer select-none t16r"
-                onClick={() => document.getElementById(name)?.click()}
-              >
-                {translatedLabel}
-              </label>
+              <div
+                className={`w-[34px] h-[34px] mr-3 border-4 border-[#696969] rounded-${
+                  type === 'checkbox' ? 'lg' : 'full'
+                } transition-colors duration-200 ease-in-out peer-checked:bg-[#696969] peer-checked:border-[#696969]`}
+              />
+              <span className="select-none t16r">{translatedLabel}</span>
             </div>
           </div>
         )
@@ -339,14 +248,13 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
                 {translatedLabel}
               </label>
             )}
-            <div className="my-4">
-              <textarea
-                name={name}
-                placeholder={translatedPlaceholder}
-                className="t16l min-w-[400px] w-full min-h-[54px] h-fit px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
-                {...props}
-              />
-            </div>
+            <textarea
+              name={name}
+              placeholder={translatedPlaceholder}
+              onChange={handleChange}
+              {...restProps}
+              className="t16l min-w-[400px] w-full min-h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+            />
           </div>
         )
 
@@ -354,24 +262,6 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
         return renderCustomSelect()
 
       case 'date':
-        return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4">
-              <input
-                type="date"
-                name={name}
-                className="t16l w-[200px] max-w-[200px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl appearance-none"
-                {...props}
-              />
-            </div>
-          </div>
-        )
-
       case 'time':
         return (
           <div>
@@ -380,14 +270,13 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
                 {translatedLabel}
               </label>
             )}
-            <div className="my-4">
-              <input
-                type="time"
-                name={name}
-                className="t16l w-[200px] max-w-[200px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl appearance-none"
-                {...props}
-              />
-            </div>
+            <input
+              type={type}
+              name={name}
+              onChange={handleChange}
+              {...restProps}
+              className="t16l w-[200px] h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl appearance-none"
+            />
           </div>
         )
 
@@ -399,93 +288,62 @@ const DynamicInput = ({ name, textId, type, options, ...props }) => {
                 {translatedLabel}
               </label>
             )}
-            <div className="my-4">
-              <div className="flex space-x-2">
-                {Array.from({ length: 6 }).map((_, index) => (
-                  <input
-                    key={index}
-                    type="text"
-                    maxLength="1"
-                    name={`${name}[${index}]`}
-                    className="t24s max-w-[54px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl text-center caret-transparent"
-                    placeholder="X"
-                    onInput={(e) => {
-                      const target = e.target
-                      const nextSibling = target.nextElementSibling
-                      if (target.value.length === 1 && nextSibling) {
-                        nextSibling.focus()
-                      }
-                    }}
-                    onKeyDown={(e) => {
-                      const target = e.target
-                      const prevSibling = target.previousElementSibling
-
-                      if (
-                        e.key === 'Backspace' &&
-                        !target.value &&
-                        prevSibling
-                      ) {
-                        prevSibling.focus()
-                      }
-                    }}
-                    {...props}
-                  />
-                ))}
-              </div>
+            <div className="flex space-x-2">
+              {Array.from({ length: 6 }).map((_, idx) => (
+                <input
+                  key={idx}
+                  type="text"
+                  maxLength={1}
+                  name={`${name}[${idx}]`}
+                  onChange={handleChange}
+                  {...restProps}
+                  className="t24s w-[54px] h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl text-center"
+                />
+              ))}
             </div>
           </div>
         )
 
       case 'document':
         return (
-          <div>
+          <div className="w-[400px]">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
               </label>
             )}
-            <div className="my-4">
-              <div className="w-[400px] h-[54px]">
-                <label
-                  htmlFor={name}
-                  className="flex w-[400px] h-[54px] items-center px-4 py-2 t16r transition duration-200 cursor-pointer text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
-                >
-                  <span
-                    className="mr-2 t16r max-w-[312px] w-[312px] overflow-hidden"
-                    placeholder=""
-                  >
-                    {t('components.inputs.addDocument')}
-                  </span>
-                  <div className="relative right-0 flex items-center justify-center">
-                    <NoteAddIcon
-                      fontSize="large"
-                      className="t16r"
-                    ></NoteAddIcon>
-                  </div>
-                </label>
-                <input id={name} type="file" className="hidden" {...props} />
-              </div>
+            <div>
+              <label
+                htmlFor={name}
+                className="flex content-center justify-between w-[400px] h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+              >
+                <span className="flex flex-col justify-center mr-2 overflow-hidden t16r">
+                  {t('components.inputs.addDocument')}
+                </span>
+                <NoteAddIcon fontSize="large" />
+              </label>
+              <input
+                id={name}
+                type="file"
+                name={name}
+                accept={restProps.accept}
+                onChange={handleFileChange}
+                className="hidden"
+                {...restProps}
+              />
             </div>
           </div>
         )
 
       default:
         return (
-          <div>
-            {shouldShowLabel && (
-              <label htmlFor={name} className="block mb-2 t16r">
-                {translatedLabel}
-              </label>
-            )}
-            <div className="my-4">
-              <Input
-                name={name}
-                placeholder={translatedPlaceholder}
-                className="w-full px-4 py-2 border rounded-lg"
-                {...props}
-              />
-            </div>
-          </div>
+          <Input
+            name={name}
+            placeholder={translatedPlaceholder}
+            onChange={handleChange}
+            {...restProps}
+            className="w-full px-4 py-2 border rounded-lg"
+          />
         )
     }
   }

@@ -5,12 +5,21 @@
         "title": "Crear Peña",
         "groupNameLabel": "Nombre del Grupo",
         "responsibleLabel": "Responsable",
-        "searchPlaceholder": "Ej: Nombre Uno, Nombre Dos, Nombre Tres",
+        "maxResponsables": "Máximo {{max}}",
+        "searchResponsablePlaceholder": "Buscar responsable...",
+        "searchPlaceholder": "Buscar miembro...",
         "userListTitle": "Listado de Usuarios",
         "addMemberButton": "Añadir",
         "selectedMembersTitle": "Miembros Seleccionados",
+        "selectedResponsablesTitle": "Responsables Seleccionados",
         "removeMemberButton": "Eliminar",
         "submitButton": "Crear Peña",
+        "noUsersMessage": "No se encontraron usuarios",
+        "noMembersMessage": "No hay miembros seleccionados",
+        "noResponsablesMessage": "No hay responsables seleccionados",
+        "addCustomMember": "Añadir a {{name}}",
+        "basicInfoTitle": "Información Básica",
+        "responsableDescription": "  Para poder seleccionar un responsable es necesario que el usuario esté registrado/a en la web. Máximo 2 responsables por peña.",
         "errorPopup": {
           "title": "Error",
           "text": "Algo salió mal. Intenta nuevamente más tarde."
@@ -18,6 +27,408 @@
         "successPopup": {
           "title": "Peña Creada Correctamente",
           "text": "La peña se ha creado y guardado con éxito."
+        },
+        "alreadyResponsable": {
+          "title": "Ya eres responsable de una crew",
+          "text": "No puedes registrar más de una crew en la que seas responsable."
+        },
+        "alreadyResponsablePopup": {
+          "title": "Acción no permitida",
+          "text": "Ya eres responsable de una crew existente. No puedes registrar otra crew en la que seas responsable."
+        }
+      },
+      "mainPage": {
+        "title": "Concurso de peñas",
+        "description": "Descubre todas las peñas del Patronat y su clasificación",
+        "rankingSubtitle": "Clasificación",
+        "seasonSelector": "Temporada",
+        "selectSeasonDescription": "Selecciona la temporada para ver la clasificación",
+        "noCrewsForSeason": "No hay peñas con puntuación para esta temporada",
+        "crew": "Peña",
+        "points": "Puntos",
+        "played": "Pruebas",
+        "participation": "Participación",
+        "actions": "Acciones",
+        "viewDetails": "Ver detalles",
+        "yourCrews": "Tus Peñas",
+        "roleMember": "Miembro",
+        "roleResponsable": "Responsable",
+        "responsables": "Responsables",
+        "noResponsables": "No hay responsables asignados",
+        "members": "Miembros",
+        "noMembers": "Esta peña no tiene miembros",
+        "noCrewsTitle": "Aún no perteneces a ninguna peña",
+        "noCrewsMessage": "Puedes crear tu propia peña o pedir a alguien que te añada a una existente.",
+        "editCrew": "Editar peña",
+        "registerCrew": "Registrar Peña",
+        "joinCrew": "Unirse a una Peña",
+        "authPromptTitle": "Únete a la diversión",
+        "authPromptText": "Regístrate o inicia sesión para ver tus peñas o crear una nueva",
+        "upcomingGamesTitle": "Próximas pruebas",
+        "minParticipants": "Min. de participants"
+      },
+      "details": {
+        "title": "Detalles de la Peña",
+        "loading": "Cargando detalles de la peña...",
+        "error": "Error al cargar los detalles de la peña",
+        "backToCrews": "Volver a Peñas",
+        "basicInfo": "Información Básica",
+        "members": "Miembros:",
+        "season": "Temporada:",
+        "creationDate": "Fecha de Creación:",
+        "lastUpdate": "Última Actualización:",
+        "membersSection": "Miembros de la Peña",
+        "noMembers": "No hay miembros registrados",
+        "responsables": "Responsables",
+        "noResponsables": "No hay responsables asignados",
+        "gamesSection": "Pruebas de la Peña",
+        "points": "Puntos",
+        "noGames": "Esta peña no tiene pruebas registradas",
+        "editCrew": "Editar Peña",
+        "viewDetails": "Ver Detalles",
+        "pendingApproval": "Esta peña está pendiente de aprobación",
+        "approveButton": "Aprobar peña",
+        "rejectButton": "Rechazar peña",
+        "processingAction": "Procesando acción...",
+        "logoAlt": "Logo de {name}",
+        "approvalSuccess": "La peña ha sido aprobada correctamente.",
+        "approvalWithGames": "La peña ha sido aprobada y se le han asignado {{count}} juegos activos.",
+        "approvalTitle": "¡Aprobada!",
+        "rejectTitle": "Rechazar peña",
+        "rejectConfirmation": "¿Estás seguro de que quieres rechazar esta peña? Escribe el motivo del rechazo.",
+        "rejectReason": "Motivo de rechazo",
+        "rejectReasonPlaceholder": "Escribe el motivo por el que se rechaza esta peña...",
+        "rejectConfirmButton": "Sí, rechazar",
+        "rejectCancelButton": "Cancelar",
+        "rejectSuccess": "La peña ha sido rechazada y se ha registrado el motivo.",
+        "rejectSuccessTitle": "Rechazada",
+        "errorTitle": "Error",
+        "approvalError": "No se pudo aprobar la peña. Por favor, inténtalo de nuevo.",
+        "rejectError": "No se pudo rechazar la peña. Por favor, inténtalo de nuevo.",
+        "dateNotAvailable": "Fecha no disponible",
+        "gameDate": "Fecha",
+        "gameLocation": "Ubicación",
+        "messagesDeleted": "Se han eliminado {{count}} {{count, plural, one{mensaje} other{mensajes}}} de rechazo anteriores."
+      },
+      "fullListCrews": {
+        "title": "Listado de Peñas",
+        "searchPlaceholder": "Buscar peñas...",
+        "addNewButton": "Nueva peña",
+        "pendingCrewsTitle": "Peñas pendientes de aprobación",
+        "pendingCrewSingular": "Peña pendiente de aprobación",
+        "pendingCrewsPlural": "{{count}} peñas pendientes de aprobación",
+        "pendingStatus": "Pendiente",
+        "activeStatus": "Activo",
+        "inactiveStatus": "Baja",
+        "membersCount": "{{count}} miembros",
+        "noMembers": "Sin miembros",
+        "seasonLabel": "Temporada:",
+        "viewDetailsButton": "Ver detalles",
+        "editCrewButton": "Editar peña",
+        "deleteCrewButton": "Eliminar peña",
+        "approveCrewButton": "Aprobar peña",
+        "approveCrewDescription": "¿Estás seguro de que quieres aprobar esta peña?",
+        "rejectCrewButton": "Rechazar peña",
+        "confirmDelete": "¿Estás seguro?",
+        "confirmDeleteMessage": "Esta acción eliminará la peña. Esta acción no se puede deshacer.",
+        "confirmDeleteButton": "Sí, eliminar",
+        "cancelButton": "Cancelar",
+        "deleteSuccessTitle": "¡Eliminado!",
+        "deleteSuccessMessage": "La peña ha sido eliminada correctamente.",
+        "deleteErrorMessage": "No se pudo eliminar la peña. Por favor, inténtalo de nuevo.",
+        "confirmReject": "Rechazar peña",
+        "confirmRejectMessage": "¿Estás seguro de que quieres rechazar esta peña? Escribe el motivo del rechazo.",
+        "confirmRejectButton": "Sí, rechazar",
+        "rejectSuccessTitle": "Rechazada",
+        "rejectSuccessMessage": "La peña ha sido rechazada.",
+        "rejectErrorMessage": "No se pudo rechazar la peña. Por favor, inténtalo de nuevo.",
+        "approveSuccessTitle": "¡Aprobada!",
+        "approveSuccessMessage": "La peña ha sido aprobada correctamente.",
+        "approveWithGamesMessage": "La peña ha sido aprobada y se le han asignado {{count}} pruebas activos.",
+        "noResponsible": "⚠️ Sin responsables",
+        "toggleStatusTitle": "Cambiar estado",
+        "deactivateConfirmTitle": "Dar de baja la peña",
+        "deactivateConfirmMessage": "¿Estás seguro de que quieres dar de baja esta peña?",
+        "activateConfirmTitle": "Activar peña",
+        "activateConfirmMessage": "¿Estás seguro de que quieres volver a activar esta peña?",
+        "activateRejectedConfirmTitle": "Activar peña rechazada",
+        "activateRejectedConfirmMessage": "¿Estás seguro de que quieres activar esta peña que fue rechazada?",
+        "toggleStatusButton": "Sí, cambiar estado",
+        "toggleStatusSuccessTitle": "¡Estado actualizado!",
+        "toggleStatusSuccessMessage": "La peña ahora está en estado: {{status}}.",
+        "toggleStatusErrorMessage": "No se pudo cambiar el estado de la peña. Por favor, inténtalo de nuevo.",
+        "deactivateButtonTitle": "Dar de baja",
+        "activateButtonTitle": "Activar peña",
+        "deletedMessagesInfo": "Se han eliminado {{count}} {{message}} de rechazo anteriores.",
+        "approveErrorMessage": "No se pudo aprobar la peña. Por favor, inténtalo de nuevo.",
+        "errorTitle": "Error",
+        "pendingCrewStatus": "Pendiente",
+        "activeCrewStatus": "Activo",
+        "inactiveCrewStatus": "Baja",
+        "rejectedStatus": "Rechazado"
+      },
+      "modifyCrew": {
+        "title": "Modificar Peña",
+        "basicInfoTitle": "Información Básica",
+        "nameLabel": "Nombre de la peña",
+        "responsablesTitle": "Responsables de la Peña",
+        "searchResponsableLabel": "Buscar responsables...",
+        "selectedResponsablesLabel": "Responsables seleccionados",
+        "membersTitle": "Miembros de la Peña",
+        "searchMemberLabel": "Buscar miembros...",
+        "selectedMembersLabel": "Miembros seleccionados",
+        "noMembers": "No hay miembros seleccionados",
+        "submitButton": "Guardar cambios",
+        "accessDeniedTitle": "Acceso denegado",
+        "accessDeniedText": "Solo los responsables y administradores pueden editar esta peña",
+        "confirmButton": "Entendido",
+        "idNotFoundTitle": "Error",
+        "idNotFoundText": "No se encontró el ID de la peña",
+        "successPopup": {
+          "title": "¡Cambios guardados!",
+          "text": "La peña ha sido actualizada correctamente"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Hubo un error al actualizar la peña. {{errorMessage}}"
+        },
+        "errorMessages": {
+          "unavailable": "No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.",
+          "permission-denied": "No tienes permisos suficientes para modificar esta peña.",
+          "default": "Hubo un error al actualizar la peña. Por favor, intenta nuevamente."
+        },
+        "loadingText": "Guardando cambios...",
+        "statusOptions": {
+          "active": "Activo",
+          "pending": "Pendiente",
+          "inactive": "Baja"
+        }
+      },
+      "points": {
+        "title": "Puntuación de Peñas",
+        "description": "Asigna puntos a cada peña en los pruebas activos. Puedes expandir cada peña para ver sus pruebas.",
+        "saveAllButton": "Guardar Todos los Puntos",
+        "saveButton": "Guardar",
+        "pointsColumn": "Puntos",
+        "noCrews": "No hay peñas con pruebas activos disponibles",
+        "totalPoints": "{{points}} puntos totales",
+        "gamesCount": "{{count}} pruebas",
+        "statusLabels": {
+          "active": "Activo",
+          "pending": "Pendiente",
+          "inactive": "Baja"
+        },
+        "participationStatus": {
+          "participated": "Participado",
+          "pending": "Pendiente"
+        },
+        "successMessages": {
+          "pointsSaved": "¡Puntos guardados!",
+          "pointsUpdated": "Los puntos se han actualizado correctamente.",
+          "allPointsSaved": "Todos los puntos se han actualizado correctamente."
+        },
+        "errorMessages": {
+          "loadError": "No se pudieron cargar los datos. Por favor, inténtalo de nuevo.",
+          "saveError": "No se pudieron guardar los puntos. Por favor, inténtalo de nuevo.",
+          "saveAllError": "No se pudieron guardar todos los puntos. Por favor, inténtalo de nuevo."
+        }
+      }
+    },
+    "games": {
+      "details": {
+        "title": "Detalles de la Prueba",
+        "loading": "Cargando detalles de la prueba...",
+        "gameNotFound": "No se encontró información de la prueba",
+        "backToList": "Volver a la lista",
+        "descriptionTitle": "Descripción",
+        "dateInfoTitle": "Información de la fecha",
+        "gameInfoTitle": "Detalles de la prueba",
+        "dateLabel": "Fecha",
+        "timeLabel": "Hora",
+        "locationLabel": "Ubicación",
+        "minParticipantsLabel": "Mínimo de participantes",
+        "scoreLabel": "Puntuación",
+        "seasonLabel": "Temporada",
+        "participatingCrewsTitle": "Peñas participantes",
+        "noCrewsTitle": "No hay peñas asociadas a esta prueba",
+        "noCrewsDescription": "Esta prueba aún no tiene peñas asignadas o no se ha encontrado información de participación.",
+        "points": "puntos",
+        "statusLabels": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "editGame": "Editar prueba",
+        "viewGame": "Ver detalles",
+        "participationStatus": {
+          "confirmed": "Confirmado",
+          "pending": "Pendiente",
+          "rejected": "Rechazado"
+        }
+      },
+      "fullListGames": {
+        "title": "Listado de Pruebas",
+        "searchPlaceholder": "Buscar prueba",
+        "addNewButton": "Nueva prueba",
+        "noGamesFound": "No se encontraron pruebas",
+        "confirmDelete": {
+          "title": "¿Estás seguro?",
+          "text": "Se eliminará la prueba y sus registros asociados. Esta acción no se puede deshacer."
+        },
+        "deleteSuccess": {
+          "title": "¡Eliminado!",
+          "text": "La prueba ha sido eliminada correctamente."
+        },
+        "deleteError": {
+          "title": "Error",
+          "text": "No se pudo eliminar la prueba. Por favor, inténtalo de nuevo."
+        },
+        "statusToggle": {
+          "title": "¿Cambiar estado de la prueba?",
+          "text": "¿Estás seguro de que quieres cambiar el estado de la prueba de \"{currentStatus}\" a \"{newStatus}\"?",
+          "confirmButton": "Sí, cambiar",
+          "cancelButton": "Cancelar",
+          "success": {
+            "title": "¡Estado actualizado!",
+            "text": "La prueba ahora está {status}."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo cambiar el estado de la prueba. Por favor, inténtalo de nuevo."
+          }
+        },
+        "markCompleted": {
+          "title": "Marcar como completada",
+          "text": "¿Estás seguro de que quieres marcar la prueba \"{gameName}\" como completada?",
+          "confirmButton": "Sí, completar",
+          "cancelButton": "Cancelar",
+          "alreadyCompleted": {
+            "title": "Información",
+            "text": "Esta prueba ya está marcada como completada."
+          },
+          "success": {
+            "title": "¡Completado!",
+            "text": "La prueba ha sido marcada como completada."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo marcar la prueba como completada. Por favor, inténtalo de nuevo."
+          }
+        },
+        "buttons": {
+          "activate": "Activar prueba",
+          "deactivate": "Desactivar prueba",
+          "complete": "Marcar como completada",
+          "edit": "Editar prueba",
+          "view": "Ver detalles de la prueba",
+          "delete": "Eliminar prueba"
+        },
+        "status": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "labels": {
+          "season": "Temporada:"
+        }
+      },
+      "modifyGame": {
+        "title": "Modificar Prueba",
+        "basicInfoTitle": "Información Básica",
+        "nameLabel": "Nombre de la Prueba",
+        "descriptionLabel": "Descripción",
+        "dateLabel": "Fecha",
+        "timeLabel": "Hora",
+        "locationLabel": "Ubicación",
+        "gameDetailsTitle": "Detalles de la Prueba",
+        "minParticipantsLabel": "Mínimo de Participantes",
+        "scoreLabel": "Puntuación",
+        "seasonLabel": "Temporada",
+        "statusLabel": "Estado",
+        "submitButton": "Guardar Cambios",
+        "confirmSeasonChange": {
+          "title": "Cambio de temporada detectado",
+          "text": "Has cambiado la temporada de \"{oldSeason}\" a \"{newSeason}\". ¿Quieres crear una nueva prueba para la temporada {newSeason} o actualizar la prueba existente?",
+          "createNew": "Crear nueva prueba",
+          "updateExisting": "Actualizar existente"
+        },
+        "successPopup": {
+          "title": "Prueba actualizada con éxito",
+          "text": "La prueba ha sido actualizada correctamente"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Error al actualizar la prueba: {errorMessage}",
+          "loadingFailed": "No se pudo cargar la información de la prueba."
+        },
+        "newGameSuccess": {
+          "title": "Prueba creada con éxito",
+          "text": "Se ha creado una nueva prueba para la temporada \"{season}\""
+        },
+        "newGameError": {
+          "title": "Error",
+          "text": "No se pudo crear la prueba para la temporada {season}: {errorMessage}"
+        },
+        "statusOptions": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "cloneGame": {
+          "title": "Duplicar para nueva temporada",
+          "selectSeason": "Selecciona una temporada",
+          "placeholder": "Selecciona una temporada",
+          "validationError": "Necesitas seleccionar una temporada",
+          "confirmButton": "Duplicar",
+          "cancelButton": "Cancelar"
+        },
+        "errorMessages": {
+          "unavailable": "No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.",
+          "permission-denied": "No tienes permisos suficientes para modificar esta prueba.",
+          "default": "Hubo un error al actualizar la prueba. Por favor, intenta nuevamente."
+        }
+      },
+      "registerGame": {
+        "title": "Registro de Prueba",
+        "basicInfoTitle": "Información Básica",
+        "nameLabel": "Nombre de la Prueba",
+        "descriptionLabel": "Descripción",
+        "dateLabel": "Fecha",
+        "timeLabel": "Hora",
+        "locationLabel": "Ubicación",
+        "gameDetailsTitle": "Detalles de la Prueba",
+        "minParticipantsLabel": "Mínimo de Participantes",
+        "scoreLabel": "Puntuación",
+        "seasonLabel": "Temporada",
+        "statusLabel": "Estado",
+        "submitButton": "Registrar Prueba",
+        "successPopup": {
+          "title": "Prueba registrada con éxito",
+          "text": "La prueba ha sido registrada correctamente"
+        },
+        "errorPopup": {
+          "title": "Error",
+          "text": "Error al registrar la prueba: {errorMessage}"
+        },
+        "statusOptions": {
+          "active": "Activo",
+          "inactive": "Inactivo",
+          "planned": "Planificado",
+          "completed": "Completado"
+        },
+        "errorMessages": {
+          "unavailable": "No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.",
+          "permission-denied": "No tienes permisos suficientes para crear esta prueba.",
+          "default": "Hubo un error al registrar la prueba. Por favor, intenta nuevamente."
+        },
+        "fieldValidation": {
+          "required": "Este campo es obligatorio",
+          "positiveNumber": "Debe ser un número positivo",
+          "invalidDate": "La fecha no es válida",
+          "seasonRequired": "Debes especificar una temporada"
         }
       }
     },
@@ -253,7 +664,9 @@
         "noButton": "No",
         "exportButton": "Exportar datos",
         "exportSuccess": "Datos exportados correctamente",
-        "exportError": "Error al exportar los datos"
+        "exportError": "Error al exportar los datos",
+        "statusAprobado": "Aprobado",
+        "statusRechazado": "Rechazado"
       }
     },
     "files": {
@@ -658,6 +1071,7 @@
         "priceCategoryLabel": "Categoría de precio",
         "priceCategoryAdult": "Adulto",
         "priceCategoryJunior": "Menor",
+        "paid": "Pagado",
         "statusOptions": {
           "review": "En revisión",
           "active": "Activo",
@@ -845,6 +1259,18 @@
       "confirmPassword": "Repite la contraseña"
     }
   },
+  "common": {
+    "authRequired": {
+      "title": "¡Únete a nuestras Peñas!",
+      "text": "Para gestionar tus peñas, necesitas iniciar sesión o registrarte.",
+      "crewViewInfo": "Participa en las fiestas con tu peña y compite por los mejores premios."
+    },
+    "register": "Registrarse",
+    "login": "Iniciar sesión",
+    "registerCrew": "Crear Nueva Peña",
+    "unknownUser": "Usuario desconocido"
+  },
+
   "components": {
     "navbar": {
       "eventTitle": "Eventos",
@@ -902,7 +1328,21 @@
       "today": "Hoy",
       "month": "Mes",
       "week": "Semana",
-      "day": "Día"
+      "day": "Día",
+      "events": "Eventos",
+      "games": "Pruebas",
+      "legend": "Leyenda",
+      "categories": "Categorías",
+      "types": "Tipos de elementos",
+      "noCategory": "Eventos (sin categoría)",
+      "FMRLabel": "FMR",
+      "RabalLabel": "Rabal de Cristo",
+      "OtherLabel": "Otros",
+      "ChristmasLabel": "Navidad",
+      "FestivalLabel": "Festival",
+      "SantosLabel": "Santos",
+      "MeetingLabel": "Reunión",
+      "PruebasLabel": "Pruebas de peñas"
     }
   },
   "utils": {
@@ -911,5 +1351,99 @@
     "fileType": "El archivo debe ser de tipo imagen (png, jpg, jpeg)",
     "yes": "Sí",
     "no": "No"
+  },
+  "dashboard": {
+    "title": "Panel de Administración",
+    "actionsCount": "{{count}} acciones",
+    "accessButton": "Acceder",
+    "pendingCrews": "{{count}}",
+    "cards": {
+      "events": {
+        "title": "Eventos",
+        "description": "Gestiona todos los eventos de la plataforma.",
+        "actions": {
+          "create": "Crear Evento",
+          "list": "Lista de Eventos"
+        }
+      },
+      "users": {
+        "title": "Usuarios",
+        "description": "Gestiona y consulta los usuarios registrados.",
+        "actions": {
+          "manage": "Listado de Usuarios",
+          "history": "Historial de Usuarios"
+        }
+      },
+      "socios": {
+        "title": "Socios",
+        "description": "Gestiona los socios del Patronat de Festes. Modifica las cuotas, datos personales, etc.",
+        "actions": {
+          "create": "Crear nuevo socio",
+          "manage": "Gestión de Socios"
+        }
+      },
+      "payments": {
+        "title": "Pagos",
+        "description": "Crea y gestiona los pagos de los boletos y socios.",
+        "actions": {
+          "create": "Nuevas remesas",
+          "list": "Lista de remesas"
+        }
+      },
+      "colaboradores": {
+        "title": "Colaboradores",
+        "description": "Gestiona los colaborares del Patronat de Festes. Entidades, organizaciones o personas que colaboran.",
+        "actions": {
+          "create": "Crear nuevo colaborador",
+          "list": "Lista de colaboradores"
+        }
+      },
+      "participantes": {
+        "title": "Participantes",
+        "description": "Gestiona los participantes en los eventos del Patronat de Festes. Dj, grupos musicales, etc.",
+        "actions": {
+          "create": "Crear nuevo participante",
+          "list": "Lista de participantes"
+        }
+      },
+      "penas": {
+        "title": "Peñas",
+        "description": "Administra las peñas asociadas a los eventos.",
+        "actions": {
+          "create": "Creación de Peñas",
+          "list": "Listado de peñas",
+          "history": "Historial de Peñas",
+          "points": "Asignar puntos"
+        }
+      },
+      "pruebas": {
+        "title": "Pruebas",
+        "description": "Crear y gestionar las pruebas de las peñas.",
+        "actions": {
+          "create": "Creación de pruebas",
+          "list": "Listado de pruebas"
+        }
+      },
+      "archivos": {
+        "title": "Archivos",
+        "description": "Gestiona los archivos multimedia de la plataforma.",
+        "actions": {
+          "add": "Añadir Nuevos Archivos",
+          "list": "Listado de Archivos"
+        }
+      },
+      "chat": {
+        "title": "Chat",
+        "description": "Gestiona los mensajes y conversaciones.",
+        "actions": {
+          "inbox": "Bandeja de Entrada",
+          "live": "Chat en Vivo"
+        }
+      },
+      "reports": {
+        "title": "Reportes",
+        "description": "Consulta los reportes de los eventos y el sistema."
+      }
+    }
   }
 }

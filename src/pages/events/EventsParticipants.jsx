@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { useParams, useLocation, useNavigate } from 'react-router-dom'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  updateDoc,
+} from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import { useTranslation } from 'react-i18next'
 import DynamicButton from '../../components/Buttons'
@@ -23,6 +30,7 @@ function EventsParticipants() {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [isUpdating, setIsUpdating] = useState(false)
   const viewDictionary = 'pages.events.eventParticipants'
 
   useEffect(() => {
@@ -103,7 +111,59 @@ function EventsParticipants() {
     setFilteredParticipants(filtered)
   }
 
-  if (loading) {
+  // Función para actualizar el estado de un participante
+  const updateParticipantStatus = async (participantId, newStatus) => {
+    try {
+      setIsUpdating(true)
+
+      // Actualizar en Firestore
+      const participantRef = doc(db, 'inscriptions', participantId)
+      await updateDoc(participantRef, {
+        status: newStatus,
+      })
+
+      // Actualizar el estado local
+      const updatedParticipants = participants.map((participant) =>
+        participant.id === participantId
+          ? { ...participant, status: newStatus }
+          : participant
+      )
+
+      setParticipants(updatedParticipants)
+      setFilteredParticipants(
+        searchQuery.trim() === ''
+          ? updatedParticipants
+          : updatedParticipants.filter((participant) => {
+              const responses = participant.responses || {}
+              return Object.values(responses).some((value) =>
+                value
+                  .toString()
+                  .toLowerCase()
+                  .includes(searchQuery.toLowerCase())
+              )
+            })
+      )
+
+      setIsUpdating(false)
+    } catch (error) {
+      console.error(
+        `Error al ${newStatus === 'aprobado' ? 'aprobar' : 'rechazar'} participante:`,
+        error
+      )
+      setIsUpdating(false)
+    }
+  }
+
+  // Funciones para manejar los botones
+  const handleApprove = (participantId) => {
+    updateParticipantStatus(participantId, 'aprobado')
+  }
+
+  const handleReject = (participantId) => {
+    updateParticipantStatus(participantId, 'rechazado')
+  }
+
+  if (loading || isUpdating) {
     return <Loader loading={true} />
   }
 
@@ -184,22 +244,22 @@ function EventsParticipants() {
                   </span>
                 </div>
                 <div className="flex space-x-2">
-                  <DynamicButton
-                    onClick={() => {
-                      console.log('Aprobar participante', participant.id)
-                    }}
-                    size="x-small"
-                    type="confirm"
-                    title={t(`${viewDictionary}.approveButton`)}
-                  />
-                  <DynamicButton
-                    onClick={() => {
-                      console.log('Rechazar participante', participant.id)
-                    }}
-                    size="x-small"
-                    type="cancel"
-                    title={t(`${viewDictionary}.rejectButton`)}
-                  />
+                  {participant.status !== 'aprobado' && (
+                    <DynamicButton
+                      onClick={() => handleApprove(participant.id)}
+                      size="x-small"
+                      type="confirm"
+                      title={t(`${viewDictionary}.approveButton`)}
+                    />
+                  )}
+                  {participant.status !== 'rechazado' && (
+                    <DynamicButton
+                      onClick={() => handleReject(participant.id)}
+                      size="x-small"
+                      type="cancel"
+                      title={t(`${viewDictionary}.rejectButton`)}
+                    />
+                  )}
                 </div>
               </div>
 
