@@ -87,7 +87,7 @@ const HeroSection = ({ logoSrc }) => (
             components={{ br: <br /> }}
           />
         </p>
-        <p className="font-bold  sm:t96b t64b text-9xl text-end text-[#15642E]">
+        <p className="font-bold  sm:t92b t64b text-9xl text-end text-[#15642E]">
           <Trans i18nKey="pages.home.heroSection.roquetesTitle" />
         </p>
       </div>
