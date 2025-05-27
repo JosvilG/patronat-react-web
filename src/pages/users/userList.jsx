@@ -159,8 +159,8 @@ function UserList() {
     )
 
   return (
-    <div className="h-auto max-w-full pb-6 mx-auto min-h-dvh md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">
+    <div className="flex flex-col items-center h-auto max-w-full pb-6 mx-auto min-h-dvh md:max-w-fit sm:flex-none">
+      <h1 className="mb-4 text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Lista de Usuarios')}
       </h1>
       <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
@@ -178,7 +178,7 @@ function UserList() {
 
       {filteredUsers.length > 0 ? (
         <>
-          <div className="overflow-auto ">
+          <div className="overflow-auto sm:w-full">
             <ul className="space-y-4">
               {paginatedUsers.map((user) => (
                 <li

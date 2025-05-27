@@ -176,9 +176,10 @@ function AdminPartnersForm() {
   return (
     <div className="pb-6 bg-transparent min-h-dvh ">
       <section className="max-w-full mx-auto">
-        <h2 className="mb-8 text-center t64b">
+        <h2 className="mb-8 text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`, 'Registro de Socio')}
         </h2>
+
         <Loader loading={formState.submitting} />
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
@@ -283,7 +284,7 @@ function AdminPartnersForm() {
           <div className="flex justify-center pt-4">
             <DynamicButton
               type="submit"
-              size="large"
+              size="medium"
               state={formState.submitting ? 'disabled' : 'normal'}
               textId={
                 formState.submitting

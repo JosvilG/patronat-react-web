@@ -165,11 +165,11 @@ function PartnersForm() {
 
   return (
     <div className="pb-6 bg-transparent min-h-dvh ">
-      <section className="max-w-full mx-auto">
-        <h2 className="mb-8 text-center t64b">
+      <section className="flex flex-col items-center max-w-full mx-auto sm:flex-none">
+        <h2 className="mb-8 text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`, 'Registro de Socio')}
         </h2>
-        <p className="text-center t16r">
+        <p className="text-center t16r max-w-[340px] sm:max-w-none flex flex-col items-center sm:flex-none">
           <Trans
             i18nKey={`${viewDictionary}.descriptionLabel`}
             components={{ strong: <strong />, br: <br /> }}
@@ -269,7 +269,7 @@ function PartnersForm() {
           <div className="flex justify-center pt-4">
             <DynamicButton
               type="submit"
-              size="large"
+              size="medium"
               state={formState.submitting ? 'disabled' : 'normal'}
               textId={
                 formState.submitting

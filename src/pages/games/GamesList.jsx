@@ -285,8 +285,8 @@ function GamesList() {
   }
 
   return (
-    <div className="max-w-full pb-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">
+    <div className="w-[340px] sm:max-w-full pb-6 mx-auto ">
+      <h1 className="mb-4 text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Listado de Juegos')}
       </h1>
 

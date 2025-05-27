@@ -591,6 +591,7 @@
         "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
         "tagsLabel": "Seleccione etiquetas",
         "organizerLabel": "Añade un organizador",
+        "searchOrganizerLabel": "Buscar organizador",
         "allowCarsLabel": "¿Se permiten carros?",
         "categoryLabel": "Seleccione una categoría",
         "hasBarLabel": "¿Hay Barra?",
@@ -688,6 +689,20 @@
         "optimizationErrorText": "Error al optimizar la imagen.",
         "fileRequired": "Por favor selecciona un archivo.",
         "popups": {
+          "delete": {
+            "title": "¿Estás seguro?",
+            "text": "¿Realmente deseas eliminar el archivo? Esta acción no se puede deshacer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Archivo eliminado",
+            "text": "El archivo ha sido eliminado correctamente."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo eliminar el archivo. Por favor, inténtalo de nuevo."
+          },
           "successTitle": "¡Éxito!",
           "successText": "El archivo se subió correctamente.",
           "successButtonText": "Guardar",
@@ -699,7 +714,28 @@
         "title": "Lista de archivos",
         "fileLabel": "Selecciona una archivo",
         "searchPlaceholder": "Buscar archivo...",
-        "loadingText": "Cargando archivos..."
+        "loadingText": "Cargando archivos...",
+        "popups": {
+          "delete": {
+            "title": "¿Estás seguro?",
+            "text": "¿Realmente deseas eliminar el archivo? Esta acción no se puede deshacer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Archivo eliminado",
+            "text": "El archivo ha sido eliminado correctamente."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo eliminar el archivo. Por favor, inténtalo de nuevo."
+          },
+          "successTitle": "¡Éxito!",
+          "successText": "El archivo se subió correctamente.",
+          "successButtonText": "Guardar",
+          "errorTitle": "¡Error!",
+          "errorText": "Hubo un problema al subir el archivo. Inténtalo nuevamente."
+        }
       }
     },
     "gallery": {
@@ -911,6 +947,7 @@
         "title": "Modificar un colaborador",
         "fileLabel": "Modifica el nombre y la imagen del colaborador",
         "nameLabel": "Nuevo nombre del colaborador",
+        "emailLabel": "Email del colaborador",
         "imageLabel": "Nueva imagen del colaborador",
         "oldImageTitle": "Logo actual",
         "newImageTitle": "Nuevo logo",
@@ -993,7 +1030,23 @@
         "addNewButton": "Añadir",
         "modifyButton": "Modificar",
         "deleteButton": "Eliminar",
-        "loadingText": "Cargando participantes..."
+        "loadingText": "Cargando participantes...",
+        "popups": {
+          "delete": {
+            "title": "¿Estás seguro?",
+            "text": "¿Realmente deseas eliminar a \"{fileName}\"? Esta acción no se puede deshacer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Eliminado",
+            "text": "El participante ha sido eliminado correctamente."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo eliminar el participante. Por favor, inténtalo de nuevo."
+          }
+        }
       }
     },
     "partners": {
@@ -1224,7 +1277,8 @@
         "activeSeasonExistsError": "Ya existe una temporada activa para este año.",
         "databaseConnectionError": "Error de conexión a la base de datos.",
         "sessionExpiredError": "Tu sesión ha caducado. Por favor, inicia sesión de nuevo."
-      }
+      },
+      "seasonList": {}
     },
     "userRegister": {
       "title": "Registro de usuario",

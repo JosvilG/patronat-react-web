@@ -79,7 +79,7 @@ function LoginPage() {
               </Link>{' '}
             </p>{' '}
           </div>
-          <DynamicButton size="large" state="normal" type="submit">
+          <DynamicButton size="medium" state="normal" type="submit">
             {t('components.buttons.login')}
           </DynamicButton>
         </form>

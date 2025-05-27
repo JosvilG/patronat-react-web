@@ -55,10 +55,12 @@ const RecoverPassword = () => {
 
   return (
     <div className="grid items-center h-screen mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
-      <div className="relative z-10 rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-40">
+      <div className="relative z-10 rounded-lg sm:p-4 grid-col-3 w-fit h-fit bottom-40">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.recoverPage.title')}</h1>
-          <p className="mt-4 text-black t16r whitespace-break-spaces">
+          <h1 className="text-black t40b sm:t64b">
+            {t('pages.recoverPage.title')}
+          </h1>
+          <p className="mt-4 text-black t16r whitespace-break-spaces max-w-[370px] sm:max-w-none pb-8 sm:pb-0">
             {t('pages.recoverPage.description')}
           </p>
         </div>

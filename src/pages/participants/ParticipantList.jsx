@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import useSlug from '../../hooks/useSlug'
+import { showPopup } from '../../services/popupService'
 
 function ParticipantList() {
   const { t } = useTranslation()
@@ -48,20 +49,55 @@ function ParticipantList() {
   }
 
   const handleDelete = async (id) => {
-    try {
-      await deleteDoc(doc(db, 'participants', id))
-      const updateParticipants = participant.filter((part) => part.id !== id)
-      setParticipants(updateParticipants)
-      setFilteredParticipants(updateParticipants)
-    } catch (error) {
-      return
-    }
+    // Encontrar el participante para mostrar su nombre en el mensaje de confirmación
+    const participantToDelete = participant.find((part) => part.id === id)
+
+    if (!participantToDelete) return
+
+    showPopup({
+      title: t(`${viewDictionary}.popups.delete.title`),
+      text: t(`${viewDictionary}.popups.delete.text`, {
+        fileName: participantToDelete.name,
+      }),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: t(`${viewDictionary}.popups.delete.confirmButton`),
+      cancelButtonText: t(`${viewDictionary}.popups.delete.cancelButton`),
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      onConfirm: async () => {
+        try {
+          await deleteDoc(doc(db, 'participants', id))
+          const updateParticipants = participant.filter(
+            (part) => part.id !== id
+          )
+          setParticipants(updateParticipants)
+          setFilteredParticipants(updateParticipants)
+
+          // Mostrar mensaje de éxito
+          showPopup({
+            title: t(`${viewDictionary}.popups.success.title`),
+            text: t(`${viewDictionary}.popups.success.text`),
+            icon: 'success',
+          })
+        } catch (error) {
+          // Mostrar mensaje de error
+          showPopup({
+            title: t(`${viewDictionary}.popups.error.title`),
+            text: t(`${viewDictionary}.popups.error.text`),
+            icon: 'error',
+          })
+        }
+      },
+    })
   }
 
   return (
-    <div className="h-screen max-h-[75dvh] pb-6 mx-auto max-w-full md:max-w-fit">
-      <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
+    <div className="h-screen max-h-[75dvh] pb-6 mx-auto max-w-[370px] sm:max-w-full md:max-w-fit flex flex-col items-center sm:flex-none">
+      <h1 className="mb-4 text-center sm:t64b t40b sm:text-start">
+        {t(`${viewDictionary}.title`)}
+      </h1>
+      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
@@ -103,9 +139,9 @@ function ParticipantList() {
                     state: { participantId: part.id },
                   })
                 }}
-                size="small"
+                size="x-small"
                 state="normal"
-                textId={t(`${viewDictionary}.modifyButton`)}
+                type="edit"
               />
               <DynamicButton
                 onClick={() => handleDelete(part.id)}

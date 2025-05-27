@@ -125,7 +125,7 @@ function RegisterPage() {
   }
 
   return (
-    <div className="items-center h-screen mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
+    <div className="items-center mx-auto bg-center bg-cover sm:h-screen sm:grid max-sm:mt-40 min-h-fit sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
       <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px] z-10">
         <div className="max-w-lg mx-auto text-center">
           <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
@@ -162,7 +162,7 @@ function RegisterPage() {
             onChange={(e) => handleChange('phoneNumber', e.target.value)}
             required
           />
-          <div className="flex items-center justify-between max-sm:w-[373px]">
+          <div className="flex flex-col items-center sm:justify-between max-sm:w-[373px]">
             <DynamicInput
               name="birthDate"
               type="date"
@@ -202,7 +202,7 @@ function RegisterPage() {
             required
           />
           <DynamicButton
-            size="large"
+            size="medium"
             state={loading || isTracking ? 'disabled' : 'normal'}
             type="submit"
             textId="components.buttons.register"

@@ -594,14 +594,14 @@ function EventModify() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center justify-center p-0 mx-auto space-y-6 sm:p-6 max-w-7xl sm:flex-none"
+        className="flex flex-col items-center mx-auto space-y-6 max-w-7xl sm:flex-none"
       >
-        <h2 className="mb-6 text-2xl font-bold text-gray-800">
+        <h1 className="mb-6 text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`)}
-        </h2>
+        </h1>
 
         {/* Sección de información básica */}
-        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
@@ -638,7 +638,7 @@ function EventModify() {
                 <div>
                   <DynamicInput
                     name="searchOrganizer"
-                    textId="Buscar organizador"
+                    textId={t(`${viewDictionary}.searchOrganizerLabel`)}
                     type="text"
                     value={organizerSearch}
                     onChange={(e) => setOrganizerSearch(e.target.value)}
@@ -665,7 +665,7 @@ function EventModify() {
 
                 <div>
                   <h4 className="mb-2 text-gray-700 t16r">
-                    Organizador Seleccionado
+                    {t(`${viewDictionary}.organizerLabel`)}{' '}
                   </h4>
                   <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                     {eventData.organizer ? (
@@ -695,7 +695,7 @@ function EventModify() {
                       />
                     ) : (
                       <p className="p-2 text-gray-500">
-                        Ningún organizador seleccionado
+                        {t(`${viewDictionary}.anyOrganizerLabel`)}{' '}
                       </p>
                     )}
                   </div>
@@ -716,12 +716,12 @@ function EventModify() {
         </div>
 
         {/* Sección de fechas y horarios */}
-        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none ">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.dateInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
             <div>
               <DynamicInput
                 name="startDate"
@@ -767,12 +767,12 @@ function EventModify() {
         </div>
 
         {/* Sección de detalles del evento */}
-        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none ">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.detailsInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid items-center justify-center grid-cols-1 gap-6 justify-items-center md:grid-cols-3">
             <div>
               <DynamicInput
                 name="capacity"
@@ -803,7 +803,7 @@ function EventModify() {
               />
             </div>
 
-            <div className="flex items-center mr-8">
+            <div className="flex items-center sm:mr-8">
               <DynamicInput
                 name="allowCars"
                 textId={t(`${viewDictionary}.allowCarsLabel`)}
@@ -835,11 +835,11 @@ function EventModify() {
         </div>
 
         {eventData.needForm && (
-          <div className="p-4 mt-6 border border-gray-200 rounded-lg bg-gray-50">
-            <h4 className="mb-4 font-medium text-gray-700 text-md">
+          <div className="p-4 mb-6 rounded-lg">
+            <h3 className="mb-4 text-lg font-semibold text-gray-700">
               {t('pages.events.modifyEvent.selectFormFields')}
-            </h4>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+            </h3>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
               {createFormFieldsModel().map((field) => (
                 <div key={field.fieldId}>
                   <DynamicInput
@@ -856,7 +856,7 @@ function EventModify() {
         )}
 
         {/* Sección de imágenes */}
-        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.galleryInfoTitle`)}
           </h3>
@@ -921,7 +921,7 @@ function EventModify() {
         </div>
 
         {/* Nueva sección para documento de autorización */}
-        <div className="min-w-full sm:min-w-none">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             Documento de Autorización
           </h3>
@@ -967,7 +967,7 @@ function EventModify() {
         </div>
 
         {/* Sección de etiquetas */}
-        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.tagsInfoTitle`)}
           </h3>
@@ -992,7 +992,7 @@ function EventModify() {
         </div>
 
         {/* Sección de colaboradores */}
-        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.collaboratorsInfoTitle`)}
           </h3>
@@ -1070,7 +1070,7 @@ function EventModify() {
         </div>
 
         {/* Nueva sección de participantes */}
-        <div className="min-w-full p-4 mb-6 rounded-lg sm:min-w-none">
+        <div className="p-4 mb-6 rounded-lg">
           <h3 className="mb-4 text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.participantsTitle`)}
           </h3>
@@ -1147,12 +1147,12 @@ function EventModify() {
           </div>
         </div>
 
-        <div className="flex justify-end mt-8">
+        <div className="flex justify-end sm:mt-8">
           <DynamicButton
             type="button"
             onClick={(e) => {
-              e.preventDefault() // Prevenir cualquier comportamiento por defecto
-              e.stopPropagation() // Detener la propagación del evento
+              e.preventDefault()
+              e.stopPropagation()
               navigate('/events-control-list')
             }}
             size="small"

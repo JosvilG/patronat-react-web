@@ -51,7 +51,6 @@ function UserControl() {
     endDate: '',
     description: '',
     documentUrl: '',
-    // Nuevos campos añadidos
     emailNotifications: false,
   })
   const [originalData, setOriginalData] = useState({})
@@ -441,9 +440,9 @@ function UserControl() {
   }
 
   return (
-    <div className="h-auto pb-6 mx-auto text-center max-w-fit">
+    <div className="w-full max-w-4xl px-4 pb-6 mx-auto text-center">
       <Loader loading={submitting} />
-      <h1 className="mb-4 t64b">
+      <h1 className="mb-4 sm:t64b t40b">
         {isOwnProfile
           ? t(`${viewDictionary}.title`, 'Actualizar datos de perfil')
           : t(`${viewDictionary}.editUserTitle`, 'Editar usuario')}
@@ -465,9 +464,9 @@ function UserControl() {
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center space-y-4"
+        className="flex flex-col items-center w-full space-y-4"
       >
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 min-w-max">
+        <div className="flex flex-col items-center w-full gap-6 sm:grid sm:grid-cols-2 sm:gap-4">
           <div className="flex flex-col items-center">
             <h1 className="mb-4 t16r">
               {t('pages.userRegister.name', 'Nombre')}
@@ -480,6 +479,7 @@ function UserControl() {
               onChange={(e) => handleChange('firstName', e.target.value)}
               required
               disabled={submitting}
+              className="w-full"
             />
           </div>
 
@@ -495,6 +495,7 @@ function UserControl() {
               onChange={(e) => handleChange('lastName', e.target.value)}
               required
               disabled={submitting}
+              className="w-full"
             />
           </div>
 
@@ -510,6 +511,7 @@ function UserControl() {
               onChange={(e) => handleChange('phoneNumber', e.target.value)}
               required
               disabled={submitting}
+              className="w-full"
             />
           </div>
 
@@ -517,7 +519,7 @@ function UserControl() {
             <h1 className="mb-4 t16r">
               {t('pages.userRegister.birthDate', 'Fecha de nacimiento')}
             </h1>
-            <div className="flex items-center justify-between w-full">
+            <div className="flex flex-col items-center w-full sm:flex-row">
               <DynamicInput
                 name="birthDate"
                 type="date"
@@ -526,9 +528,10 @@ function UserControl() {
                 onChange={(e) => handleChange('birthDate', e.target.value)}
                 required
                 disabled={submitting}
+                className="w-full"
               />
               {age !== null && (
-                <span className="relative top-0 text-black t24b right-12 max-sm:right-4">
+                <span className="mt-2 text-black sm:mt-0 sm:ml-4 t24b">
                   {age} años
                 </span>
               )}
@@ -545,6 +548,7 @@ function UserControl() {
               onChange={(e) => handleChange('dni', e.target.value)}
               required
               disabled={submitting}
+              className="w-full"
             />
           </div>
 
@@ -558,6 +562,7 @@ function UserControl() {
               value={formData.email}
               placeholder={t('pages.userRegister.email')}
               disabled
+              className="w-full"
             />
           </div>
 
@@ -604,30 +609,35 @@ function UserControl() {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 max-w-fit">
               <div className="flex flex-col">
                 <h1 className="mb-4 t16r">
-                  {t('pages.userControl.position', 'Posición')}
+                  {t(`${viewDictionary}.position`, 'Posición')}
                 </h1>
                 <DynamicInput
                   name="position"
                   type="text"
                   value={formData.position}
-                  placeholder={t('pages.userControl.position')}
+                  placeholder={t(`${viewDictionary}.position`, 'Posición')}
                   onChange={(e) => handleChange('position', e.target.value)}
                   required={formData.isStaff}
                   disabled={submitting}
+                  className="w-full"
                 />
               </div>
 
               <div className="flex flex-col max-w-fit">
                 <h1 className="mb-4 t16r">
-                  {t('pages.userControl.description', 'Descripción')}
+                  {t(`${viewDictionary}.description`, 'Descripción')}
                 </h1>
                 <DynamicInput
                   name="description"
                   type={'textarea'}
                   value={formData.description}
-                  placeholder={t('pages.userControl.description')}
+                  placeholder={t(
+                    `${viewDictionary}.description`,
+                    'Descripción'
+                  )}
                   onChange={(e) => handleChange('description', e.target.value)}
                   disabled={submitting}
+                  className="w-full"
                 />
               </div>
               <div className="flex flex-col items-center ">
@@ -642,6 +652,7 @@ function UserControl() {
                   onChange={(e) => handleChange('startDate', e.target.value)}
                   required={formData.isStaff}
                   disabled={submitting}
+                  className="w-full"
                 />
               </div>
 
@@ -656,6 +667,7 @@ function UserControl() {
                   placeholder={t('pages.userControl.endDate')}
                   onChange={(e) => handleChange('endDate', e.target.value)}
                   disabled={submitting}
+                  className="w-full"
                 />
               </div>
             </div>
@@ -672,44 +684,46 @@ function UserControl() {
                     disabled={submitting}
                   />
 
-                  <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 sm:gap-4">
+                  <div className="grid w-full grid-cols-1 gap-6 mt-4 sm:grid-cols-2 sm:gap-4">
                     {formData.documentUrl && (
-                      <div>
+                      <div className="flex flex-col items-center">
                         <h1 className="mb-4 t16r">
                           {t(
                             `${viewDictionary}.oldDocTitle`,
                             'Documento actual'
                           )}
                         </h1>
-                        {formData.documentUrl.includes('pdf') ? (
-                          <div className="flex flex-col items-center">
-                            <div className="p-4 rounded-md">
-                              <DynamicCard
-                                type="gallery"
-                                title="Documento actual"
-                                imageUrl={formData.documentUrl}
-                              />
+                        <div className="w-full">
+                          {formData.documentUrl.includes('pdf') ? (
+                            <div className="flex flex-col items-center">
+                              <div className="p-4 rounded-md">
+                                <DynamicCard
+                                  type="gallery"
+                                  title="Documento actual"
+                                  imageUrl={formData.documentUrl}
+                                />
+                              </div>
                             </div>
-                          </div>
-                        ) : formData.documentUrl.match(
-                            /\.(jpeg|jpg|gif|png|webp)$/i
-                          ) ? (
-                          <DynamicCard
-                            type="gallery"
-                            title="Documento actual"
-                            imageUrl={formData.documentUrl}
-                          />
-                        ) : (
-                          <div className="flex flex-col items-center">
-                            <div className="p-4 rounded-md">
-                              <DynamicCard
-                                type="gallery"
-                                title="Documento actual"
-                                imageUrl={formData.documentUrl}
-                              />
+                          ) : formData.documentUrl.match(
+                              /\.(jpeg|jpg|gif|png|webp)$/i
+                            ) ? (
+                            <DynamicCard
+                              type="gallery"
+                              title="Documento actual"
+                              imageUrl={formData.documentUrl}
+                            />
+                          ) : (
+                            <div className="flex flex-col items-center">
+                              <div className="p-4 rounded-md">
+                                <DynamicCard
+                                  type="gallery"
+                                  title="Documento actual"
+                                  imageUrl={formData.documentUrl}
+                                />
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
                     )}
 

@@ -93,18 +93,6 @@ const GalleryPage = () => {
   }, [searchFilteredItems, currentSortType, sortItems, updateSortItems])
 
   /**
-   * Handle sort type change
-   * Supports both select element change events and direct value changes
-   */
-  const handleSortChange = (e) => {
-    const sortType = e?.target?.value || e?.value
-    if (sortType) {
-      setCurrentSortType(sortType)
-      sortItems(sortType, searchFilteredItems)
-    }
-  }
-
-  /**
    * Handle pagination page change
    * @param {Event} event - The event object
    * @param {number} page - The new page number
@@ -114,8 +102,10 @@ const GalleryPage = () => {
   }
 
   return (
-    <div className="container pb-6 mx-auto min-h-dvh">
-      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+    <div className="container flex flex-col items-center pb-6 mx-auto min-h-dvh sm:flex-none">
+      <h1 className="mb-4 text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
       {/* Search and sort controls */}
       <div className="flex flex-col items-center gap-4 mb-8 md:flex-row">
@@ -130,42 +120,13 @@ const GalleryPage = () => {
             onChange={handleSearchChange}
           />
         </div>
-
-        {/* Sort select */}
-        <div className="flex flex-row items-end justify-end w-full md:w-1/2">
-          <DynamicInput
-            name="sort"
-            type="select"
-            textId={t(`${viewDictionary}.orderBy`)}
-            options={[
-              {
-                label: t(`${viewDictionary}.orderByDateAsc`),
-                value: 'dateAsc',
-              },
-              {
-                label: t(`${viewDictionary}.orderByDateDesc`),
-                value: 'dateDesc',
-              },
-              {
-                label: t(`${viewDictionary}.orderByNameAsc`),
-                value: 'nameAsc',
-              },
-              {
-                label: t(`${viewDictionary}.orderByNameDesc`),
-                value: 'nameDesc',
-              },
-            ]}
-            onChange={handleSortChange}
-            value={currentSortType}
-          />
-        </div>
       </div>
 
       {/* Loading indicator */}
       <Loader loading={loadingGallery}></Loader>
 
       {/* Gallery grid with responsive columns */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-[370px] sm:max-w-none">
         {currentPageItems.length > 0 ? (
           currentPageItems.map((image) => (
             <div key={image.id} className="cursor-pointer">

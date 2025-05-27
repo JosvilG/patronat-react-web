@@ -121,7 +121,7 @@ const DynamicInput = ({
               <li
                 key={idx}
                 onClick={() => handleSelectOption(opt)}
-                className="px-4 py-2 w-[348px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
+                className="pl-12 sm:px-4 py-2 w-[348px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
                 role="option"
               >
                 {t(opt.label)}
@@ -229,7 +229,24 @@ const DynamicInput = ({
             )}
             <div
               className="flex items-center w-fit h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
-              onClick={() => document.getElementById(name)?.click()}
+              onClick={() => {
+                // Obtener el estado actual del checkbox
+                const checkbox = document.getElementById(name)
+                // Invertir el estado actual
+                const newCheckedState = !checkbox?.checked
+                // Actualizar el checkbox
+                if (checkbox) checkbox.checked = newCheckedState
+                // Disparar el onChange con el nuevo valor
+                onChange &&
+                  onChange({
+                    target: {
+                      name: name,
+                      checked: newCheckedState,
+                      value: newCheckedState,
+                      type: type,
+                    },
+                  })
+              }}
             >
               <input
                 type={type}
