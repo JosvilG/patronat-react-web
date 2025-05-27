@@ -77,8 +77,10 @@ function CollabList() {
     )
 
   return (
-    <div className="h-screen max-h-[75dvh] pb-6 mx-auto max-w-full md:max-w-fit">
-      <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>
+    <div className="h-screen max-h-[75dvh] pb-6 mx-auto sm:max-w-full max-w-[370px] flex flex-col items-center sm:flex-none">
+      <h1 className="mb-4 text-center sm:text-start sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
       <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
@@ -120,9 +122,9 @@ function CollabList() {
                     state: { collaboratorId: collab.id },
                   })
                 }}
-                size="small"
+                size="x-small"
                 state="normal"
-                textId={t(`${viewDictionary}.modifyButton`)}
+                type="edit"
               />
               <DynamicButton
                 onClick={() => handleDelete(collab.id)}

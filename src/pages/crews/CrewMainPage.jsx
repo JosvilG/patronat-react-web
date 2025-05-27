@@ -717,7 +717,7 @@ function CrewMainPage() {
               <Loader loading={true} />
             </div>
           ) : userCrews.length === 0 ? (
-            <div className="max-w-3xl p-8 mx-auto text-center bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg">
+            <div className="max-w-3xl p-8 mx-auto text-center bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg flex flex-col items-center sm:flex-none">
               <h2 className="mb-6 text-3xl font-bold text-gray-800">
                 {t(`${viewDictionary}.noCrewsTitle`)}
               </h2>
@@ -909,7 +909,7 @@ function CrewMainPage() {
 
       {!user && !authLoading && (
         <div className="mt-12">
-          <div className="max-w-3xl p-8 mx-auto text-center bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg">
+          <div className="max-w-3xl p-8 mx-auto text-center bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg flex flex-col items-center sm:flex-none">
             <h2 className="mb-6 text-3xl font-bold text-gray-800">
               {t('common.authRequired.title')}
             </h2>

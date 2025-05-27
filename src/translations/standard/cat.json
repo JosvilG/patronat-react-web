@@ -593,6 +593,7 @@
         "collaboratorsSelectedLabel": "Col·laboradors Seleccionats",
         "tagsLabel": "Selecciona etiquetes",
         "organizerLabel": "Afegeix un organitzador",
+        "searchOrganizerLabel": "Buscar organitzador",
         "allowCarsLabel": "Es permeten carros?",
         "categoryLabel": "Selecciona una categoria",
         "hasBarLabel": "Hi ha barra?",
@@ -690,6 +691,20 @@
         "optimizationErrorText": "Error en optimitzar la imatge.",
         "fileRequired": "Si us plau, selecciona un fitxer.",
         "popups": {
+          "delete": {
+            "title": "Estàs segur?",
+            "text": "Realment vols eliminar l'arxiu? Aquesta acció no es pot desfer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancel·lar"
+          },
+          "success": {
+            "title": "Arxiu eliminat",
+            "text": "L'arxiu ha estat eliminat correctament."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No s'ha pogut eliminar l'arxiu. Si us plau, torna-ho a provar."
+          },
           "successTitle": "Èxit!",
           "successText": "El fitxer s'ha pujat correctament.",
           "successButtonText": "Desar",
@@ -701,7 +716,28 @@
         "title": "Llista de fitxers",
         "fileLabel": "Selecciona un fitxer",
         "searchPlaceholder": "Cercar fitxer...",
-        "loadingText": "Carregant fitxers..."
+        "loadingText": "Carregant fitxers...",
+        "popups": {
+          "delete": {
+            "title": "Estàs segur?",
+            "text": "Realment vols eliminar l'arxiu? Aquesta acció no es pot desfer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancel·lar"
+          },
+          "success": {
+            "title": "Arxiu eliminat",
+            "text": "L'arxiu ha estat eliminat correctament."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No s'ha pogut eliminar l'arxiu. Si us plau, torna-ho a provar."
+          },
+          "successTitle": "Èxit!",
+          "successText": "El fitxer s'ha pujat correctament.",
+          "successButtonText": "Desar",
+          "errorTitle": "Error!",
+          "errorText": "Hi ha hagut un problema en pujar el fitxer. Torna-ho a intentar."
+        }
       }
     },
     "gallery": {
@@ -914,6 +950,7 @@
         "fileLabel": "Modifica el nom i la imatge del col·laborador",
         "nameLabel": "Nou nom del col·laborador",
         "imageLabel": "Nova imatge del col·laborador",
+        "emailLabel": "Email del col·laborador",
         "oldImageTitle": "Logotip actual",
         "newImageTitle": "Nou logotip",
         "uploadButton": "Desar canvis",
@@ -1318,7 +1355,7 @@
       "recover": "Recuperar"
     },
     "inputs": {
-      "addDocument": "Fes clic per afegir un document",
+      "addDocument": "Afegir un document",
       "enterPassword": "Introdueix la contrasenya"
     },
     "cards": {

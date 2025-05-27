@@ -589,7 +589,7 @@ function PartnerList() {
     )
 
   return (
-    <div className="h-screen max-h-[75dvh] pb-6 mx-auto max-w-full overflow-y-auto relative">
+    <div className="h-screen max-h-[75dvh] pb-6 mx-auto maw-w-[370px] sm:max-w-full overflow-y-auto relative flex flex-col items-center sm:flex-none">
       <Loader
         loading={exportingAllToExcel}
         size="50px"
@@ -610,7 +610,7 @@ function PartnerList() {
         )}
       />
 
-      <h1 className="mb-4 text-center t64b">
+      <h1 className="mb-4 text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Listado de Socios')}
       </h1>
       <div className="grid items-center justify-start grid-cols-1 gap-4 mb-4 md:justify-items-start sm:grid-cols-2 sm:justify-between">
@@ -624,7 +624,7 @@ function PartnerList() {
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <div className="flex pl-0 space-x-2 sm:pl-32">
+        <div className="flex justify-center w-full pl-0 space-x-2 sm:pl-32 sm:justify-start">
           <DynamicButton
             onClick={handleExportAllToExcel}
             size="small"
@@ -1137,152 +1137,249 @@ function PartnerList() {
           </p>
         </div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-                >
-                  {t(`${viewDictionary}.table.name`, 'Nombre')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-                >
-                  {t(`${viewDictionary}.table.email`, 'Email')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-                >
-                  {t(`${viewDictionary}.table.phone`, 'Teléfono')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-                >
-                  {t(`${viewDictionary}.table.createdAt`, 'Fecha de registro')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-                >
-                  {t(`${viewDictionary}.table.status`, 'Estado')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-                >
-                  {t(`${viewDictionary}.table.actions`, 'Acciones')}
-                </th>
-                <th
-                  scope="col"
-                  className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
-                >
-                  {t(`${viewDictionary}.table.actions`, 'Pagos')}
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {filteredPartners.map((partner) => (
-                <tr key={partner.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {partner.name} {partner.lastName}
-                    </div>
-                    <div className="text-sm text-gray-500">
-                      {partner.dni || '-'}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{partner.email}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">{partner.phone}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      {formatDate(partner.createdAt)}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={getStatusBadgeClass(partner.status)}>
-                      {getStatusText(partner.status)}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
-                    <div className="flex space-x-2">
-                      <DynamicButton
-                        onClick={() => {
-                          const slug = generateSlug(
-                            `${partner.name}-${partner.lastName}`
-                          )
-                          navigate(`/partners-info/${slug}`, {
-                            state: { partnerId: partner.id },
-                          })
-                        }}
-                        size="x-small"
-                        state="normal"
-                        type="view"
-                      />
-                      <DynamicButton
-                        onClick={() => {
-                          const slug = generateSlug(
-                            `${partner.name}-${partner.lastName}`
-                          )
-                          navigate(`/partners-modify/${slug}`, {
-                            state: { partnerId: partner.id },
-                          })
-                        }}
-                        size="x-small"
-                        state="normal"
-                        type="edit"
-                      />
-                      <DynamicButton
-                        onClick={() => approvePartner(partner.id)}
-                        size="x-small"
-                        state="normal"
-                        type="personAdd"
-                      />
-                      <DynamicButton
-                        onClick={() => rejectPartner(partner.id)}
-                        size="x-small"
-                        state="normal"
-                        type="personDown"
-                      />
-                      <DynamicButton
-                        onClick={() => deletePartner(partner.id)}
-                        size="x-small"
-                        type="delete"
-                      />
-                      <DynamicButton
-                        onClick={() => handleExportToExcel(partner.id)}
-                        size="x-small"
-                        state="normal"
-                        type="download"
-                        title={t(
-                          `${viewDictionary}.exportToExcel`,
-                          'Exportar a Excel'
-                        )}
-                      />
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <DynamicButton
-                      name="openModal"
-                      onClick={() => openSidebar(partner)}
-                      size="x-small"
-                      state="normal"
-                      type="payment"
-                    />
-                  </td>
+        <>
+          {/* Vista de tabla para pantallas medianas y grandes */}
+          <div className="hidden w-full overflow-x-auto sm:block">
+            <table className="min-w-full divide-y divide-gray-200">
+              {/* Mantener exactamente igual el thead y tbody existentes */}
+              <thead className="bg-gray-50">
+                <tr>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    {t(`${viewDictionary}.table.name`, 'Nombre')}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    {t(`${viewDictionary}.table.email`, 'Email')}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    {t(`${viewDictionary}.table.phone`, 'Teléfono')}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    {t(
+                      `${viewDictionary}.table.createdAt`,
+                      'Fecha de registro'
+                    )}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    {t(`${viewDictionary}.table.status`, 'Estado')}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    {t(`${viewDictionary}.table.actions`, 'Acciones')}
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase"
+                  >
+                    {t(`${viewDictionary}.table.actions`, 'Pagos')}
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {filteredPartners.map((partner) => (
+                  <tr key={partner.id}>
+                    {/* Mantener exactamente igual las celdas */}
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm font-medium text-gray-900">
+                        {partner.name} {partner.lastName}
+                      </div>
+                      <div className="text-sm text-gray-500">
+                        {partner.dni || '-'}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {partner.email}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {partner.phone}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <div className="text-sm text-gray-900">
+                        {formatDate(partner.createdAt)}
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className={getStatusBadgeClass(partner.status)}>
+                        {getStatusText(partner.status)}
+                      </span>
+                    </td>
+                    <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                      <div className="flex space-x-2">
+                        <DynamicButton
+                          onClick={() => {
+                            const slug = generateSlug(
+                              `${partner.name}-${partner.lastName}`
+                            )
+                            navigate(`/partners-info/${slug}`, {
+                              state: { partnerId: partner.id },
+                            })
+                          }}
+                          size="x-small"
+                          state="normal"
+                          type="view"
+                        />
+                        <DynamicButton
+                          onClick={() => {
+                            const slug = generateSlug(
+                              `${partner.name}-${partner.lastName}`
+                            )
+                            navigate(`/partners-modify/${slug}`, {
+                              state: { partnerId: partner.id },
+                            })
+                          }}
+                          size="x-small"
+                          state="normal"
+                          type="edit"
+                        />
+                        <DynamicButton
+                          onClick={() => approvePartner(partner.id)}
+                          size="x-small"
+                          state="normal"
+                          type="personAdd"
+                        />
+                        <DynamicButton
+                          onClick={() => rejectPartner(partner.id)}
+                          size="x-small"
+                          state="normal"
+                          type="personDown"
+                        />
+                        <DynamicButton
+                          onClick={() => deletePartner(partner.id)}
+                          size="x-small"
+                          type="delete"
+                        />
+                        <DynamicButton
+                          onClick={() => handleExportToExcel(partner.id)}
+                          size="x-small"
+                          state="normal"
+                          type="download"
+                          title={t(
+                            `${viewDictionary}.exportToExcel`,
+                            'Exportar a Excel'
+                          )}
+                        />
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <DynamicButton
+                        name="openModal"
+                        onClick={() => openSidebar(partner)}
+                        size="x-small"
+                        state="normal"
+                        type="payment"
+                      />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Vista de tarjetas para móviles */}
+          <div className="w-full sm:hidden">
+            {filteredPartners.map((partner) => (
+              <div
+                key={partner.id}
+                className="p-4 mb-4 bg-white rounded-lg shadow-md"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="font-medium">
+                    {partner.name} {partner.lastName}
+                  </div>
+                  <span className={getStatusBadgeClass(partner.status)}>
+                    {getStatusText(partner.status)}
+                  </span>
+                </div>
+
+                <div className="mb-1 text-sm text-gray-600">
+                  <div>DNI: {partner.dni || '-'}</div>
+                  <div>Email: {partner.email}</div>
+                  <div>Teléfono: {partner.phone || '-'}</div>
+                  <div>Registro: {formatDate(partner.createdAt)}</div>
+                </div>
+
+                <div className="flex flex-wrap gap-2 pt-3 mt-3 border-t">
+                  <DynamicButton
+                    onClick={() => {
+                      const slug = generateSlug(
+                        `${partner.name}-${partner.lastName}`
+                      )
+                      navigate(`/partners-info/${slug}`, {
+                        state: { partnerId: partner.id },
+                      })
+                    }}
+                    size="x-small"
+                    state="normal"
+                    type="view"
+                  />
+                  <DynamicButton
+                    onClick={() => {
+                      const slug = generateSlug(
+                        `${partner.name}-${partner.lastName}`
+                      )
+                      navigate(`/partners-modify/${slug}`, {
+                        state: { partnerId: partner.id },
+                      })
+                    }}
+                    size="x-small"
+                    state="normal"
+                    type="edit"
+                  />
+                  <DynamicButton
+                    onClick={() => approvePartner(partner.id)}
+                    size="x-small"
+                    state="normal"
+                    type="personAdd"
+                  />
+                  <DynamicButton
+                    onClick={() => rejectPartner(partner.id)}
+                    size="x-small"
+                    state="normal"
+                    type="personDown"
+                  />
+                  <DynamicButton
+                    onClick={() => deletePartner(partner.id)}
+                    size="x-small"
+                    type="delete"
+                  />
+                  <DynamicButton
+                    onClick={() => handleExportToExcel(partner.id)}
+                    size="x-small"
+                    state="normal"
+                    type="download"
+                  />
+                  <DynamicButton
+                    name="openModal"
+                    onClick={() => openSidebar(partner)}
+                    size="x-small"
+                    state="normal"
+                    type="payment"
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   )

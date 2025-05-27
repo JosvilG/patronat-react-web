@@ -202,37 +202,33 @@ const GamesDetails = () => {
 
   return (
     <div className="h-auto px-4 pb-4">
-      <h1 className="mb-20 text-center t64b">{game.name}</h1>
+      <h1 className="mb-20 text-center t40b sm:t64b">{game.name}</h1>
 
-      <div className="grid gap-6 md:grid-cols-5">
-        <div className="mb-6 md:col-span-3">
+      <div className="grid grid-cols-1 gap-6">
+        <div className="col-span-3 mb-6">
           <div className="p-6 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[60px] h-fit">
-            <div className="flex mb-4 space-x-4">
-              <span
-                className={`t12r px-3 py-1 rounded-full ${getStatusClass(
-                  game.status
-                )}`}
-              >
-                {game.status}
-              </span>
-            </div>
-            <h2 className="mb-4 t36b">Descripción</h2>
-            <p className="t20r">{game.description}</p>
+            <div className="flex mb-4 space-x-4"></div>
+            <h2 className="mb-4 sm:t40b t24b">Descripción</h2>
+            <p className="sm:t20r t16r">{game.description}</p>
           </div>
         </div>
         <div>
-          <div className="space-y-4 rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <h3 className="pt-4 pl-8 t40b">
+          <div className="space-y-4 max-w-[340px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <h3 className="pt-4 pl-8 sm:t40b t24b">
               {t(`${viewDictionary}.dateInfoTitle`, 'Información de la fecha')}
             </h3>
-            <DynamicItems items={gameDetailsItems} />
+            <div className="max-w-[200px] ms:max-w-none pl-6 sm:pl-0">
+              <DynamicItems items={gameDetailsItems} />
+            </div>
           </div>
 
-          <div className="space-y-4 rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <h3 className="pt-4 pl-8 t40b">
+          <div className="space-y-4 max-w-[340px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <h3 className="pt-4 pl-8 sm:t40b t24b">
               {t(`${viewDictionary}.gameInfoTitle`, 'Detalles del juego')}
             </h3>
-            <DynamicItems items={gameParticipantsItems} />
+            <div className="max-w-[200px] ms:max-w-none pl-6 sm:pl-0">
+              <DynamicItems items={gameParticipantsItems} />
+            </div>
           </div>
         </div>
       </div>

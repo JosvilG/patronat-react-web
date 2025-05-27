@@ -176,8 +176,13 @@ function ParticipantRegisterForm() {
   return (
     <div className="flex flex-col items-center max-w-lg pb-6 mx-auto min-h-dvh h-fit">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 text-center t64b">{t('pages.participants.title')}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <h1 className="mb-4 text-center sm:t64b t40b">
+        {t('pages.participants.title')}
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center space-y-4 sm:flex-none max-w-[370px]"
+      >
         <DynamicInput
           name="file"
           textId={`${viewDictionary}.fileLabel`}
@@ -258,7 +263,7 @@ function ParticipantRegisterForm() {
         <div>
           <DynamicButton
             type="submit"
-            size="large"
+            size="medium"
             state={formState.uploading ? 'disabled' : 'normal'}
             textId={
               formState.uploading

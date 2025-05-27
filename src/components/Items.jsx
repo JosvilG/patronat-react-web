@@ -58,7 +58,7 @@ const DynamicItems = ({ items, extraClass }) => {
               className={`flex ${item.type === 'eventData' ? 'flex-row' : 'flex-col'} max-w-full`}
             >
               <span
-                className="t16b text-base text-[#252525] truncate overflow-hidden whitespace-nowrap mr-4"
+                className="t16b text-base text-[#252525] max-w-[200px] sm:max-w-none truncate overflow-hidden whitespace-nowrap mr-4"
                 title={DOMPurify.sanitize(item.title)}
               >
                 {DOMPurify.sanitize(item.title)}

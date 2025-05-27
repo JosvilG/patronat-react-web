@@ -136,8 +136,8 @@ function SeasonsList() {
   }
 
   return (
-    <div className="max-w-full pb-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">
+    <div className="max-w-[370px] pb-6 mx-auto md:max-w-fit  ">
+      <h1 className="mb-4 text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Gestión de Temporadas')}
       </h1>
 
@@ -215,7 +215,7 @@ function SeasonsList() {
                   </div>
                 </div>
 
-                <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 mt-4 md:grid-cols-2">
                   {/* Columna para mayores de 16 años */}
                   <div className="p-4 bg-[#D9D9D9] rounded-[20px] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
                     <h3 className="mb-2 font-bold text-center">

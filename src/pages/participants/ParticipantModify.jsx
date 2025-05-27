@@ -340,12 +340,12 @@ function ParticipantModifyForm() {
   }
 
   return (
-    <div className="h-auto max-w-lg pb-6 mx-auto text-center">
+    <div className="flex flex-col items-center h-auto max-w-lg pb-6 mx-auto text-center sm:flex-none">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-4 sm:t64b t40b">{t(`${viewDictionary}.title`)}</h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center space-y-4"
+        className="flex flex-col items-center space-y-4 max-w-[370px] sm:max-w-none"
       >
         <div className="flex flex-col items-center w-full">
           <h1 className="mb-4 t16r">{t(`${viewDictionary}.nameLabel`)}</h1>
@@ -457,7 +457,7 @@ function ParticipantModifyForm() {
 
         <DynamicButton
           type="submit"
-          size="large"
+          size="medium"
           state={formState.uploading ? 'disabled' : 'normal'}
           textId={
             formState.uploading

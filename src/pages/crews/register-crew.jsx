@@ -116,10 +116,8 @@ function RegisterCrew() {
 
   useEffect(() => {
     const checkResponsableStatus = async () => {
-      if (!user) return
-
-      if (user.role === 'admin') {
-        setIsAlreadyResponsable(false)
+      if (!user) {
+        setCheckingResponsableStatus(false) // Marca como finalizado cuando no hay usuario
         return
       }
 
@@ -247,14 +245,13 @@ function RegisterCrew() {
   if (!user) {
     return (
       <div className="container px-4 py-16 mx-auto">
-        <div className="max-w-3xl mx-auto text-center bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-2xl p-8 shadow-lg">
+        <div className="max-w-3xl mx-auto text-center bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-2xl p-8 shadow-lg flex flex-col items-center sm:flex-none">
           <h2 className="mb-6 text-3xl font-bold text-gray-800">
             {t('common.authRequired.title')}
           </h2>
 
           <div className="mb-8 text-lg ">
             <p className="mb-4">{t('common.authRequired.text')}</p>
-            <p>{t('common.authRequired.crewRegistrationInfo')}</p>
           </div>
 
           <div className="flex flex-col justify-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
