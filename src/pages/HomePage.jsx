@@ -131,7 +131,7 @@ const GallerySection = ({
   }, [galleryImages])
 
   return (
-    <section className="py-16 bg-transparent pt-8 min-w-full max-w-[350px] sm:max-w-none">
+    <section className="w-full py-16 pt-8 overflow-hidden bg-transparent">
       <h2 className="mb-6 text-right sm:t64s t40s">
         <a href="/gallery">{t('pages.home.gallerySection.title')}</a>
       </h2>
@@ -139,57 +139,94 @@ const GallerySection = ({
         <div className="flex items-center justify-center"></div>
       ) : galleryImages.length >= 3 ? (
         <div className="relative">
-          <div className="flex justify-center overflow-hidden max-sm:h-[400px]">
-            <AnimatePresence mode="wait">
+          <div className="flex justify-center overflow-hidden">
+            {/* En móviles: implementar swipe con Framer Motion */}
+            <div className="w-full sm:hidden">
               <motion.div
-                key={`left-${currentGalleryIndex}`}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 0.5, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.4 }}
-                className="flex-shrink-0"
-              >
-                <GalleryCard
-                  galleryImages={galleryImages}
-                  index={
-                    (currentGalleryIndex - 1 + galleryImages.length) %
-                    galleryImages.length
+                key={`mobile-container-${currentGalleryIndex}`}
+                drag="x"
+                dragConstraints={{ left: 0, right: 0 }}
+                dragElastic={0.2}
+                onDragEnd={(e, { offset, velocity }) => {
+                  const swipe = Math.abs(offset.x) * velocity.x
+
+                  if (swipe < -100) {
+                    handleNext()
+                  } else if (swipe > 100) {
+                    handlePrev()
                   }
-                  opacity={0.5}
-                  scale={0.9}
-                  clickable={false}
-                />
-              </motion.div>
-              <motion.div
-                key={`center-${currentGalleryIndex}`}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4 }}
-                className="flex-shrink-0 "
+                }}
               >
-                <GalleryCard
-                  galleryImages={galleryImages}
-                  index={currentGalleryIndex}
-                />
+                <motion.div
+                  key={`mobile-slide-${currentGalleryIndex}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                  className="flex justify-center"
+                >
+                  <GalleryCard
+                    galleryImages={galleryImages}
+                    index={currentGalleryIndex}
+                    mobileView={true}
+                  />
+                </motion.div>
               </motion.div>
-              <motion.div
-                key={`right-${currentGalleryIndex}`}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 0.5, x: 0 }}
-                exit={{ opacity: 0, x: 20 }}
-                transition={{ duration: 0.4 }}
-                className="flex-shrink-0"
-              >
-                <GalleryCard
-                  galleryImages={galleryImages}
-                  index={(currentGalleryIndex + 1) % galleryImages.length}
-                  opacity={0.5}
-                  scale={0.9}
-                  clickable={false}
-                />
-              </motion.div>
-            </AnimatePresence>
+            </div>
+
+            {/* En desktop mostrar las 3 imágenes */}
+            <div className="hidden sm:flex">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`left-${currentGalleryIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 0.5, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex-shrink-0"
+                >
+                  <GalleryCard
+                    galleryImages={galleryImages}
+                    index={
+                      (currentGalleryIndex - 1 + galleryImages.length) %
+                      galleryImages.length
+                    }
+                    opacity={0.5}
+                    scale={0.9}
+                    clickable={false}
+                  />
+                </motion.div>
+                <motion.div
+                  key={`center-${currentGalleryIndex}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex-shrink-0"
+                >
+                  <GalleryCard
+                    galleryImages={galleryImages}
+                    index={currentGalleryIndex}
+                  />
+                </motion.div>
+                <motion.div
+                  key={`right-${currentGalleryIndex}`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 0.5, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex-shrink-0"
+                >
+                  <GalleryCard
+                    galleryImages={galleryImages}
+                    index={(currentGalleryIndex + 1) % galleryImages.length}
+                    opacity={0.5}
+                    scale={0.9}
+                    clickable={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            </div>
           </div>
           <GalleryNavigation
             onPrev={handlePrev}
@@ -198,15 +235,63 @@ const GallerySection = ({
           />
         </div>
       ) : galleryImages.length >= 1 ? (
-        <div className="flex justify-center">
-          <GalleryCard
-            galleryImages={galleryImages}
-            index={currentGalleryIndex}
-          />
-          {galleryImages.length === 2 && (
+        <div className="relative">
+          {/* Vista móvil: solo mostrar la imagen actual */}
+          <div className="w-full sm:hidden">
+            <motion.div
+              key={`mobile-single-container-${currentGalleryIndex}`}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = Math.abs(offset.x) * velocity.x
+
+                if (galleryImages.length > 1) {
+                  if (swipe < -100) {
+                    handleNext()
+                  } else if (swipe > 100) {
+                    handlePrev()
+                  }
+                }
+              }}
+            >
+              <motion.div
+                key={`mobile-single-${currentGalleryIndex}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+                className="flex justify-center"
+              >
+                <GalleryCard
+                  galleryImages={galleryImages}
+                  index={currentGalleryIndex}
+                  mobileView={true}
+                />
+              </motion.div>
+            </motion.div>
+          </div>
+
+          {/* Vista desktop: mostrar las imágenes según la cantidad */}
+          <div className="justify-center hidden sm:flex">
             <GalleryCard
               galleryImages={galleryImages}
-              index={(currentGalleryIndex + 1) % galleryImages.length}
+              index={currentGalleryIndex}
+            />
+            {galleryImages.length === 2 && (
+              <GalleryCard
+                galleryImages={galleryImages}
+                index={(currentGalleryIndex + 1) % galleryImages.length}
+              />
+            )}
+          </div>
+
+          {/* Añadir navegación si hay 2 imágenes */}
+          {galleryImages.length === 2 && (
+            <GalleryNavigation
+              onPrev={handlePrev}
+              onNext={handleNext}
+              disabled={isChanging}
             />
           )}
         </div>
@@ -223,9 +308,14 @@ const GalleryCard = ({
   opacity = 1,
   scale = 1,
   clickable = true,
+  mobileView = false, // Añadir soporte para mobileView
 }) => (
   <motion.div
-    className="flex-shrink-0 max-sm:w-[380px] w-[550px] h-[530px] transition-all duration-300 px-3"
+    className={`flex-shrink-0 transition-all duration-300 px-3 ${
+      mobileView
+        ? 'w-[calc(100vw-48px)] max-w-[380px]'
+        : 'max-sm:w-[380px] w-[550px] h-[530px]'
+    }`}
     style={{ opacity, scale }}
   >
     <DynamicCard
@@ -233,7 +323,7 @@ const GalleryCard = ({
       title={galleryImages[index]?.name}
       imageUrl={galleryImages[index]?.url}
       description={galleryImages[index]?.description}
-      clickable={clickable} // Pasar la propiedad clickable
+      clickable={clickable}
     />
   </motion.div>
 )
@@ -251,24 +341,24 @@ const AboutSection = ({ t }) => (
 
 const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
   <>
-    <div className="absolute inset-y-0 left-0 flex items-center justify-center sm:left-20 ">
+    <div className="absolute inset-y-0 left-0 flex items-center justify-center sm:left-20 max-h-[400px] sm:max-h-none">
       <motion.button
         onClick={onPrev}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         disabled={disabled}
-        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &lt;
       </motion.button>
     </div>
-    <div className="absolute inset-y-0 right-0 flex items-center justify-center sm:right-20">
+    <div className="absolute inset-y-0 right-0 flex items-center justify-center sm:right-20 max-h-[400px] sm:max-h-none">
       <motion.button
         onClick={onNext}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         disabled={disabled}
-        className={`p-2 text-black sm:t36b t20r  backdrop-blur-lg shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+        className={`p-2 text-black sm:t36b t20r  backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &gt;
       </motion.button>
@@ -277,8 +367,8 @@ const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
 )
 
 const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
-  <section className="sm:py-16 bg-transparent max-w-[350px] sm:max-w-none">
-    <h2 className="mb-6 text-left sm:sm:t64s t40s">
+  <section className="bg-transparent sm:py-16 sm:max-w-none">
+    <h2 className="mb-6 text-left sm:t64s t40s">
       <a href="/events-list"> {t('pages.home.eventSection.title')}</a>
     </h2>
     {loadingEvents ? (
@@ -286,30 +376,86 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
         {/* <Loader loading={loadingEvents} /> */}
       </div>
     ) : events.length > 0 ? (
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-        {events.map((event) => (
-          <div key={event.eventId} onClick={() => onEventClick(event)}>
-            <DynamicCard
-              type="event"
-              title={event.title}
-              description={event.description}
-              date={new Date(event.start).toLocaleDateString('es-ES', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric',
-              })}
-              imageUrl={
-                event.eventURL
-                  ? event.eventURL
-                  : event.imageURL
-                    ? event.imageURL
-                    : '/placeholder.png'
-              }
-              link={`/event/${event.title.toLowerCase().replace(/ /g, '-')}`}
-            />
+      <>
+        {/* Vista móvil mejorada: carrusel horizontal con scroll snap y paginación */}
+        <div className="relative w-full pb-6 sm:hidden">
+          <div className="w-full overflow-x-auto scrollbar-hide">
+            <div className="flex w-full gap-4 px-2 snap-x snap-mandatory">
+              {events.map((event, index) => (
+                <div
+                  key={event.eventId}
+                  onClick={() => onEventClick(event)}
+                  className="snap-center flex-shrink-0 w-[280px]"
+                >
+                  <DynamicCard
+                    type="event"
+                    title={event.title}
+                    description={event.description}
+                    date={new Date(event.start).toLocaleDateString('es-ES', {
+                      day: '2-digit',
+                      month: 'short',
+                      year: 'numeric',
+                    })}
+                    imageUrl={
+                      event.eventURL
+                        ? event.eventURL
+                        : event.imageURL
+                          ? event.imageURL
+                          : '/placeholder.png'
+                    }
+                    link={`/event/${event.title.toLowerCase().replace(/ /g, '-')}`}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
+
+          {/* Indicadores de paginación */}
+          {events.length > 1 && (
+            <div className="flex justify-center gap-2 mt-4">
+              {events.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-2 h-2 rounded-full ${
+                    index === 0 ? 'bg-[#15642E]' : 'bg-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+          )}
+
+          {/* Texto indicador de scroll */}
+          <div className="mt-2 text-sm text-center text-gray-500 animate-pulse">
+            {t('pages.home.eventSection.swipeHint', 'Desliza para ver más')}
+          </div>
+        </div>
+
+        {/* Vista desktop: cuadrícula original */}
+        <div className="hidden gap-8 sm:grid sm:grid-cols-1 md:grid-cols-3">
+          {events.map((event) => (
+            <div key={event.eventId} onClick={() => onEventClick(event)}>
+              <DynamicCard
+                type="event"
+                title={event.title}
+                description={event.description}
+                date={new Date(event.start).toLocaleDateString('es-ES', {
+                  day: '2-digit',
+                  month: 'short',
+                  year: 'numeric',
+                })}
+                imageUrl={
+                  event.eventURL
+                    ? event.eventURL
+                    : event.imageURL
+                      ? event.imageURL
+                      : '/placeholder.png'
+                }
+                link={`/event/${event.title.toLowerCase().replace(/ /g, '-')}`}
+              />
+            </div>
+          ))}
+        </div>
+      </>
     ) : (
       <p className="text-center"> {t('pages.home.eventSection.noEvents')}</p>
     )}
