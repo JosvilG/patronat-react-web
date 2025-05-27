@@ -247,7 +247,7 @@ function PartnerInfo() {
 
   return (
     <div className="container pb-6 mx-auto">
-      <h1 className="mb-6 text-center sm:t64b t40b">
+      <h1 className="mb-6 text-center sm:t64b t24b">
         {t(`${viewDictionary}.title`, 'Información del Socio')}
       </h1>
 

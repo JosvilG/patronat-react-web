@@ -11,7 +11,7 @@ function AboutPage() {
   return (
     <div className="px-4 pb-6 bg-transparent min-h-dvh">
       <div>
-        <h1 className="text-center t40b sm:t64b">
+        <h1 className="text-center t24b sm:t64b">
           {t(`${viewDictionary}.mainTitle`, 'Sobre nosotros')}
         </h1>
       </div>

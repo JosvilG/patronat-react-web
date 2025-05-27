@@ -50,7 +50,7 @@ const NavLink = ({ to, label, onClick, isSmallScreen }) => {
 
 const MobileMenuButton = ({ onClick }) => (
   <button
-    className="absolute pr-4 mt-6 focus:outline-none right-8"
+    className="absolute sm:pr-4 sm:mt-6 focus:outline-none right-8"
     onClick={onClick}
   >
     <div className="flex justify-center items-center w-11 h-11 bg-[#3A3A3A] text-white hover:text-[#3A3A3A] hover:bg-gray-200 active:text-[#3A3A3A] active:bg-gray-300 rounded-[12px] shadow-[0px_4px_4px_rgba(0,0,0,0.4)]">
@@ -152,12 +152,12 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 bg-gradient-to-b from-white to-95%">
-      <div className="flex items-center ml-8">
+      <div className="flex items-center sm:ml-8">
         <Link to="/">
           <img
             src="/assets/logos/Patronat_color_1024x1024.webp"
             alt="Logo"
-            className="mr-2 w-28 h-28 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-36 lg:h-36"
+            className="w-16 h-16 mr-2 sm:w-28 sm:h-28 md:w-36 md:h-36 lg:w-36 lg:h-36"
           />
         </Link>
       </div>

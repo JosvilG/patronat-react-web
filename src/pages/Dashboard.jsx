@@ -30,7 +30,7 @@ export default function Dashboard() {
 
   return (
     <div className="px-5 pb-6 min-h-dvh ">
-      <h1 className="mb-10 text-center t40b sm:t64b">
+      <h1 className="mb-10 text-center t24b sm:t64b">
         {t(`${viewDictionary}.title`)}
       </h1>
 

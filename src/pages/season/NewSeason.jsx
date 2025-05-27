@@ -549,7 +549,7 @@ function NewSeason() {
   return (
     <div className="flex flex-col items-center h-auto max-w-4xl pb-6 mx-auto">
       <Loader loading={formState.submitting || creatingPayments} />
-      <h1 className="mb-4 text-center sm:t64b t40b">
+      <h1 className="mb-4 text-center sm:t64b t24b">
         {t(`${viewDictionary}.title`, 'Registrar Nueva Temporada')}
       </h1>
 

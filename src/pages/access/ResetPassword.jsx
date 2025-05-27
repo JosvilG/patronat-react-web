@@ -74,7 +74,9 @@ const ResetPassword = () => {
     <div className="grid items-center h-screen mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
       <div className="relative z-10 rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-40">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.resetPassword.title')}</h1>
+          <h1 className="text-black sm:t40b t24b">
+            {t('pages.resetPassword.title')}
+          </h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
             {t('pages.resetPassword.description')}
           </p>

@@ -279,7 +279,7 @@ function RegisterCrew() {
   return (
     <div className="container px-4 pb-6 mx-auto">
       <form onSubmit={handleSubmit} className="mx-auto space-y-6 max-w-7xl">
-        <h1 className="mb-6 text-center t64b">
+        <h1 className="mb-6 text-center sm:t64b t24b">
           {t(`${viewDictionary}.title`)}
         </h1>
 

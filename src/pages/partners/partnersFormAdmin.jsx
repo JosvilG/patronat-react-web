@@ -176,7 +176,7 @@ function AdminPartnersForm() {
   return (
     <div className="pb-6 bg-transparent min-h-dvh ">
       <section className="max-w-full mx-auto">
-        <h2 className="mb-8 text-center sm:t64b t40b">
+        <h2 className="mb-8 text-center sm:t64b t24b">
           {t(`${viewDictionary}.title`, 'Registro de Socio')}
         </h2>
 

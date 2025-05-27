@@ -137,7 +137,7 @@ function SeasonsList() {
 
   return (
     <div className="max-w-[370px] pb-6 mx-auto md:max-w-fit  ">
-      <h1 className="mb-4 text-center sm:t64b t40b">
+      <h1 className="mb-4 text-center sm:t64b t24b">
         {t(`${viewDictionary}.title`, 'Gestión de Temporadas')}
       </h1>
 

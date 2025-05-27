@@ -249,7 +249,7 @@ const CrewPoints = () => {
 
   return (
     <div className="h-auto px-4 pb-8 mx-auto max-w-7xl">
-      <h1 className="mb-12 text-center t64b">
+      <h1 className="mb-12 text-center sm:t64b t24b">
         {t(`${viewDictionary}.title`, 'Puntuación de Peñas')}
       </h1>
 
@@ -362,7 +362,7 @@ const CrewPoints = () => {
                           </div>
                         </div>
 
-                        <div className="flex items-center space-x-3">
+                        <div className="flex flex-col space-x-3 sm:items-center">
                           <div className="flex flex-col items-center">
                             <DynamicInput
                               name={`points-${crew.id}-${game.id}`}

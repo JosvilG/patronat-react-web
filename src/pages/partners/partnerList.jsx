@@ -610,7 +610,7 @@ function PartnerList() {
         )}
       />
 
-      <h1 className="mb-4 text-center sm:t64b t40b">
+      <h1 className="mb-4 text-center sm:t64b t24b">
         {t(`${viewDictionary}.title`, 'Listado de Socios')}
       </h1>
       <div className="grid items-center justify-start grid-cols-1 gap-4 mb-4 md:justify-items-start sm:grid-cols-2 sm:justify-between">

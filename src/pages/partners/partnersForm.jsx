@@ -166,10 +166,10 @@ function PartnersForm() {
   return (
     <div className="pb-6 bg-transparent min-h-dvh ">
       <section className="flex flex-col items-center max-w-full mx-auto sm:flex-none">
-        <h2 className="mb-8 text-center sm:t64b t40b">
+        <h2 className="mb-8 text-center sm:t64b t24b">
           {t(`${viewDictionary}.title`, 'Registro de Socio')}
         </h2>
-        <p className="text-center t16r max-w-[340px] sm:max-w-none flex flex-col items-center sm:flex-none">
+        <p className="text-center t16r max-w-[300px] sm:max-w-none flex flex-col items-center sm:flex-none">
           <Trans
             i18nKey={`${viewDictionary}.descriptionLabel`}
             components={{ strong: <strong />, br: <br /> }}

@@ -146,7 +146,7 @@ function GamesRegister() {
         onSubmit={handleSubmit}
         className="flex flex-col items-center mx-auto space-y-6 max-w-7xl sm:flex-none"
       >
-        <h1 className="mb-6 text-center sm:t64b t40b">
+        <h1 className="mb-6 text-center sm:t64b t24b">
           {t(`${viewDictionary}.title`, 'Registro de Juego')}
         </h1>
 
@@ -218,7 +218,7 @@ function GamesRegister() {
             {t(`${viewDictionary}.gameDetailsTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 ">
+          <div className="grid grid-cols-1 gap-6 justify-items-center">
             <div className="col-span-2">
               <DynamicInput
                 name="minParticipants"

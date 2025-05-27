@@ -473,7 +473,7 @@ function GamesModify() {
         onSubmit={handleSubmit}
         className="flex flex-col items-center mx-auto space-y-6 max-w-7xl sm:flex-none"
       >
-        <h1 className="mb-6 text-center sm:t64b t40b">
+        <h1 className="mb-6 text-center sm:t64b t24b">
           {t(`${viewDictionary}.title`, 'Modificar Juego')}
         </h1>
 

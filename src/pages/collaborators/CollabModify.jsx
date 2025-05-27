@@ -190,7 +190,7 @@ function CollaboratorModifyForm() {
   return (
     <div className="h-auto pb-6 mx-auto text-center max-w-fit ">
       <Loader loading={formData.submitting} />
-      <h1 className="mb-4 sm:t64b t40b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-4 sm:t64b t24b">{t(`${viewDictionary}.title`)}</h1>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center space-y-4"

@@ -433,7 +433,9 @@ function CrewMainPage() {
 
   return (
     <div className="container px-4 pb-12 mx-auto">
-      <h1 className="mb-8 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-8 text-center sm:t64b t24b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
       <div className="mb-10">
         <h2 className="mb-6 text-2xl font-bold text-center">

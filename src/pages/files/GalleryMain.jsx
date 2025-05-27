@@ -102,8 +102,8 @@ const GalleryPage = () => {
   }
 
   return (
-    <div className="container flex flex-col items-center pb-6 mx-auto min-h-dvh sm:flex-none">
-      <h1 className="mb-4 text-center sm:t64b t40b">
+    <div className="container flex flex-col items-center pb-6 mx-auto min-h-dvh sm:flex-none max-w-[300px] sm:max-w-none">
+      <h1 className="mb-4 text-center sm:t64b t24b">
         {t(`${viewDictionary}.title`)}
       </h1>
 

@@ -442,7 +442,7 @@ function UserControl() {
   return (
     <div className="w-full max-w-4xl px-4 pb-6 mx-auto text-center">
       <Loader loading={submitting} />
-      <h1 className="mb-4 sm:t64b t40b">
+      <h1 className="mb-4 sm:t64b t24b">
         {isOwnProfile
           ? t(`${viewDictionary}.title`, 'Actualizar datos de perfil')
           : t(`${viewDictionary}.editUserTitle`, 'Editar usuario')}

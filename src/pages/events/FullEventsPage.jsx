@@ -46,7 +46,7 @@ const FullEventsPage = () => {
 
   return (
     <div className="container flex flex-col items-center pb-6 mx-auto min-h-dvh sm:flex-none ">
-      <h1 className="mb-4 text-center sm:t64b t40b">
+      <h1 className="mb-4 text-center sm:t64b t24b">
         {t(`${viewDictionary}.title`)}
       </h1>
 
@@ -59,7 +59,7 @@ const FullEventsPage = () => {
           onChange={handleSearchChange}
         />
       </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:w-auto w-[340px]">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 sm:w-auto w-[300px]">
         {filteredEvents.map((event) => {
           return (
             <div

@@ -145,7 +145,7 @@ function UploadList() {
 
   return (
     <div className="flex flex-col items-center max-w-full pb-6 mx-auto min-h-dvh h-fit md:max-w-fit sm:flex-none">
-      <h1 className="mb-4 text-center t40b sm:t64b">
+      <h1 className="mb-4 text-center t24b sm:t64b">
         {t(`${viewDictionary}.title`)}
       </h1>
       <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
