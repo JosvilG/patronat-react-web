@@ -248,13 +248,13 @@ const CrewPoints = () => {
   }
 
   return (
-    <div className="h-auto px-4 pb-8 mx-auto max-w-7xl">
-      <h1 className="mb-12 text-center t64b">
+    <div className="h-auto px-3 pb-4 mx-auto sm:px-4 sm:pb-8 max-w-7xl">
+      <h1 className="mb-6 text-center sm:mb-8 md:mb-12 t64b">
         {t(`${viewDictionary}.title`, 'Puntuación de Peñas')}
       </h1>
 
-      <div className="p-6 mb-8 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[40px]">
-        <p className="mb-4 text-center t20r">
+      <div className="p-4 sm:p-6 mb-4 sm:mb-8 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl sm:rounded-2xl md:rounded-[40px]">
+        <p className="mb-3 text-base text-center sm:mb-4 sm:text-lg md:text-xl t20r">
           {t(
             `${viewDictionary}.description`,
             'Asigna puntos a cada peña en los juegos activos. Puedes expandir cada peña para ver sus juegos.'
@@ -277,8 +277,8 @@ const CrewPoints = () => {
       </div>
 
       {crews.length === 0 ? (
-        <div className="p-6 text-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[40px]">
-          <p className="t20r">
+        <div className="p-4 sm:p-6 text-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl sm:rounded-2xl md:rounded-[40px]">
+          <p className="text-base sm:text-lg md:text-xl t20r">
             {t(
               `${viewDictionary}.noCrews`,
               'No hay peñas con juegos activos disponibles'
@@ -286,24 +286,26 @@ const CrewPoints = () => {
           </p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {crews.map((crew) => (
             <div
               key={crew.id}
-              className="overflow-hidden backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[30px] shadow"
+              className="overflow-hidden backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl sm:rounded-2xl md:rounded-[30px] shadow"
             >
               <div
-                className="flex items-center justify-between p-4 cursor-pointer"
+                className="flex items-center justify-between p-3 cursor-pointer sm:p-4"
                 onClick={() =>
                   setExpandedCrewId(expandedCrewId === crew.id ? null : crew.id)
                 }
               >
-                <div className="flex items-center space-x-4">
+                <div className="flex items-center space-x-2 sm:space-x-4">
                   <div>
-                    <h3 className="t24b">{crew.name}</h3>
-                    <div className="flex flex-wrap gap-2 mt-1">
+                    <h3 className="text-lg sm:text-xl md:text-2xl t24b">
+                      {crew.name}
+                    </h3>
+                    <div className="flex flex-wrap gap-1 mt-1 sm:gap-2">
                       <span
-                        className={`inline-block px-2 py-1 t14r rounded-full ${
+                        className={`inline-block px-2 py-0.5 sm:py-1 text-xs sm:text-sm t14r rounded-full ${
                           crew.status === 'Activo'
                             ? 'bg-green-100 text-green-800'
                             : 'bg-gray-100 text-gray-800'
@@ -311,10 +313,10 @@ const CrewPoints = () => {
                       >
                         {crew.status}
                       </span>
-                      <span className="px-2 py-1 text-blue-800 bg-blue-100 rounded-full t14r">
+                      <span className="px-2 py-0.5 sm:py-1 text-xs sm:text-sm text-blue-800 bg-blue-100 rounded-full t14r">
                         {calculateTotalPoints(crew.id)} puntos totales
                       </span>
-                      <span className="px-2 py-1 text-yellow-800 bg-yellow-100 rounded-full t14r">
+                      <span className="px-2 py-0.5 sm:py-1 text-xs sm:text-sm text-yellow-800 bg-yellow-100 rounded-full t14r">
                         {crew.games.length} juegos
                       </span>
                     </div>
@@ -322,7 +324,7 @@ const CrewPoints = () => {
                 </div>
 
                 <svg
-                  className={`w-8 h-8 transition-transform ${
+                  className={`w-6 h-6 sm:w-8 sm:h-8 transition-transform ${
                     expandedCrewId === crew.id ? 'transform rotate-180' : ''
                   }`}
                   fill="none"
@@ -339,30 +341,32 @@ const CrewPoints = () => {
               </div>
 
               {expandedCrewId === crew.id && (
-                <div className="p-6">
-                  <div className="space-y-3">
+                <div className="p-3 sm:p-6">
+                  <div className="space-y-2 sm:space-y-3">
                     {crew.games.map((game) => (
                       <div
                         key={game.id}
-                        className="flex flex-col p-4 space-y-3 transition-colors rounded-lg sm:flex-row sm:items-center sm:justify-between sm:space-y-0"
+                        className="flex flex-col p-3 space-y-3 transition-colors rounded-lg sm:p-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0"
                       >
                         <div className="flex flex-col space-y-1">
-                          <span className="t16b">{game.name}</span>
-                          <div className="flex flex-wrap gap-2 mt-1">
+                          <span className="text-sm font-medium sm:text-base md:text-lg t16b">
+                            {game.name}
+                          </span>
+                          <div className="flex flex-wrap gap-1 mt-1 sm:gap-2">
                             {game.date && (
-                              <span className="px-2 py-1 text-purple-800 bg-purple-100 rounded-full t12r">
+                              <span className="px-2 py-0.5 text-xs sm:text-sm text-purple-800 bg-purple-100 rounded-full t12r">
                                 {game.date}
                               </span>
                             )}
                             {game.location && (
-                              <span className="px-2 py-1 text-blue-800 bg-blue-100 rounded-full t12r">
+                              <span className="px-2 py-0.5 text-xs sm:text-sm text-blue-800 bg-blue-100 rounded-full t12r">
                                 {game.location}
                               </span>
                             )}
                           </div>
                         </div>
 
-                        <div className="flex items-center space-x-3">
+                        <div className="flex items-center space-x-2 sm:space-x-3">
                           <div className="flex flex-col items-center">
                             <DynamicInput
                               name={`points-${crew.id}-${game.id}`}

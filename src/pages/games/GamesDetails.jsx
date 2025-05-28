@@ -146,7 +146,7 @@ const GamesDetails = () => {
 
   if (!game) {
     return (
-      <div className="p-4 text-center">
+      <div className="p-[4%] text-center">
         <p className="t20r">No se encontró información del juego</p>
         <DynamicButton
           onClick={() => navigate('/games-list')}
@@ -154,7 +154,7 @@ const GamesDetails = () => {
           state="normal"
           type="primary"
           textId="Volver a la lista"
-          className="mt-4"
+          className="mt-[4vh]"
         />
       </div>
     )
@@ -201,32 +201,32 @@ const GamesDetails = () => {
   ]
 
   return (
-    <div className="h-auto px-4 pb-4">
-      <h1 className="mb-20 text-center t40b sm:t64b">{game.name}</h1>
+    <div className="h-auto px-[4%] pb-[4vh]">
+      <h1 className="mb-[8vh] text-center t40b sm:t64b">{game.name}</h1>
 
-      <div className="grid grid-cols-1 gap-6">
-        <div className="col-span-3 mb-6">
-          <div className="p-6 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[60px] h-fit">
-            <div className="flex mb-4 space-x-4"></div>
-            <h2 className="mb-4 sm:t40b t24b">Descripción</h2>
+      <div className="grid grid-cols-1 gap-[3vh]">
+        <div className="col-span-3 mb-[3vh]">
+          <div className="p-[5%] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[5vh] h-fit">
+            <div className="flex mb-[3vh] space-x-[3%]"></div>
+            <h2 className="mb-[3vh] sm:t40b t24b">Descripción</h2>
             <p className="sm:t20r t16r">{game.description}</p>
           </div>
         </div>
-        <div>
-          <div className="space-y-4 max-w-[340px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <h3 className="pt-4 pl-8 sm:t40b t24b">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-[3vh]">
+          <div className="space-y-[3vh] w-full rounded-[5vh] h-fit mb-[4vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <h3 className="pt-[3vh] px-[5%] sm:t40b t24b">
               {t(`${viewDictionary}.dateInfoTitle`, 'Información de la fecha')}
             </h3>
-            <div className="max-w-[200px] ms:max-w-none pl-6 sm:pl-0">
+            <div className="px-[5%] pb-[3vh]">
               <DynamicItems items={gameDetailsItems} />
             </div>
           </div>
 
-          <div className="space-y-4 max-w-[340px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <h3 className="pt-4 pl-8 sm:t40b t24b">
+          <div className="space-y-[3vh] w-full rounded-[5vh] h-fit mb-[4vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <h3 className="pt-[3vh] px-[5%] sm:t40b t24b">
               {t(`${viewDictionary}.gameInfoTitle`, 'Detalles del juego')}
             </h3>
-            <div className="max-w-[200px] ms:max-w-none pl-6 sm:pl-0">
+            <div className="px-[5%] pb-[3vh]">
               <DynamicItems items={gameParticipantsItems} />
             </div>
           </div>
@@ -235,20 +235,20 @@ const GamesDetails = () => {
 
       {/* Sección de peñas participantes - Versión simplificada */}
       {crews.length > 0 && (
-        <div className="mt-16">
-          <h2 className="mb-8 text-center t40b">Peñas participantes</h2>
+        <div className="mt-[8vh]">
+          <h2 className="mb-[4vh] text-center t40b">Peñas participantes</h2>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2 lg:grid-cols-3">
             {crews.map((crew) => (
               <div
                 key={crew.id}
-                className="flex flex-col items-center p-6 bg-white shadow rounded-xl"
+                className="flex flex-col items-center p-[5%] bg-white shadow rounded-xl"
               >
-                <h3 className="mb-2 t20b">{crew.name}</h3>
+                <h3 className="mb-[2vh] t20b">{crew.name}</h3>
 
-                <div className="flex flex-wrap justify-center gap-2 mb-2">
+                <div className="flex flex-wrap justify-center gap-[1vh] mb-[2vh] w-full">
                   {crew.points >= 0 && (
-                    <span className="px-2 py-1 text-blue-800 bg-blue-100 rounded-full t12r">
+                    <span className="px-[3%] py-[0.5vh] text-blue-800 bg-blue-100 rounded-full t12r">
                       {crew.points} puntos
                     </span>
                   )}
@@ -260,8 +260,8 @@ const GamesDetails = () => {
       )}
 
       {crews.length === 0 && (
-        <div className="p-6 mt-16 text-center bg-gray-50 rounded-xl">
-          <h2 className="mb-4 text-gray-700 t24b">
+        <div className="p-[5%] mt-[8vh] text-center bg-gray-50 rounded-xl">
+          <h2 className="mb-[3vh] text-gray-700 t24b">
             No hay peñas asociadas a este juego
           </h2>
           <p className="text-gray-600 t16r">
@@ -271,7 +271,7 @@ const GamesDetails = () => {
         </div>
       )}
 
-      <div className="flex justify-center mt-12">
+      <div className="flex justify-center mt-[6vh]">
         <DynamicButton
           onClick={() => navigate('/games-list')}
           size="medium"

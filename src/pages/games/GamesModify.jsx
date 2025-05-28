@@ -127,8 +127,6 @@ function GamesModify() {
     })
   }
 
-  // Modificación de handleSubmit para actualizar la subcolección en crews
-
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
@@ -270,8 +268,6 @@ function GamesModify() {
       throw error
     }
   }
-
-  // Nueva función para actualizar múltiples campos del juego en las crews
 
   // Función para actualizar múltiples campos del juego en todas las crews
   const updateGameInCrews = async (gameId, updatedFields) => {
@@ -466,24 +462,24 @@ function GamesModify() {
   }
 
   return (
-    <div className="container px-4 pb-6 mx-auto">
+    <div className="container px-[4%] pb-[4vh] mx-auto flex flex-col items-center justify-center min-h-[80vh]">
       <Loader loading={submitting} />
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center mx-auto space-y-6 max-w-7xl sm:flex-none"
+        className="flex flex-col items-center mx-auto space-y-[3vh] max-w-md md:max-w-7xl w-full sm:flex-none"
       >
-        <h1 className="mb-6 text-center sm:t64b t40b">
+        <h1 className="mb-[4vh] text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`, 'Modificar Juego')}
         </h1>
 
-        <div className="p-4 mb-6 rounded-lg">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg shadow-sm bg-white/50 w-full">
+          <h3 className="mb-[3vh] text-lg font-semibold text-gray-700 text-center md:text-left">
             {t(`${viewDictionary}.basicInfoTitle`, 'Información Básica')}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 justify-items-center">
-            <div className="col-span-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[3vw] gap-y-[3vh] justify-items-center">
+            <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="name"
                 textId={t(`${viewDictionary}.nameLabel`, 'Nombre del Juego')}
@@ -494,7 +490,18 @@ function GamesModify() {
               />
             </div>
 
-            <div className="col-span-2">
+            <div className="w-[90%] md:w-full">
+              <DynamicInput
+                name="location"
+                textId={t(`${viewDictionary}.locationLabel`, 'Ubicación')}
+                type="text"
+                value={gameData.location}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="w-[90%] md:w-full col-span-1 md:col-span-2">
               <DynamicInput
                 name="description"
                 textId={t(`${viewDictionary}.descriptionLabel`, 'Descripción')}
@@ -505,7 +512,7 @@ function GamesModify() {
               />
             </div>
 
-            <div className="col-span-2">
+            <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="date"
                 textId={t(`${viewDictionary}.dateLabel`, 'Fecha')}
@@ -516,7 +523,7 @@ function GamesModify() {
               />
             </div>
 
-            <div className="col-span-2">
+            <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="time"
                 textId={t(`${viewDictionary}.timeLabel`, 'Hora')}
@@ -526,27 +533,16 @@ function GamesModify() {
                 required
               />
             </div>
-
-            <div className="col-span-2">
-              <DynamicInput
-                name="location"
-                textId={t(`${viewDictionary}.locationLabel`, 'Ubicación')}
-                type="text"
-                value={gameData.location}
-                onChange={handleChange}
-                required
-              />
-            </div>
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg shadow-sm bg-white/50 w-full">
+          <h3 className="mb-[3vh] text-lg font-semibold text-gray-700 text-center md:text-left">
             {t(`${viewDictionary}.gameDetailsTitle`, 'Detalles del Juego')}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6">
-            <div className="col-span-2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[3vw] gap-y-[3vh] justify-items-center">
+            <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="minParticipants"
                 textId={t(
@@ -560,7 +556,7 @@ function GamesModify() {
               />
             </div>
 
-            <div className="col-span-2">
+            <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="score"
                 textId={t(`${viewDictionary}.scoreLabel`, 'Puntuación')}
@@ -571,7 +567,7 @@ function GamesModify() {
               />
             </div>
 
-            <div className="col-span-2">
+            <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="season"
                 textId={t(`${viewDictionary}.seasonLabel`, 'Temporada')}
@@ -582,7 +578,7 @@ function GamesModify() {
               />
             </div>
 
-            <div className="col-span-3">
+            <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="status"
                 textId={t(`${viewDictionary}.statusLabel`, 'Estado')}
@@ -595,7 +591,8 @@ function GamesModify() {
             </div>
           </div>
         </div>
-        <div className="flex justify-end mt-8">
+
+        <div className="flex flex-col gap-[2vh] sm:flex-row sm:justify-end sm:gap-[2vw] mt-[4vh] w-[90%] md:w-full items-center sm:items-stretch">
           <DynamicButton
             type="button"
             onClick={(e) => {
@@ -606,7 +603,6 @@ function GamesModify() {
             size="small"
             state="normal"
             textId="components.buttons.cancel"
-            className="mr-4"
           />
 
           <DynamicButton

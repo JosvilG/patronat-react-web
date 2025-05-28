@@ -1034,7 +1034,7 @@
         "popups": {
           "delete": {
             "title": "¿Estás seguro?",
-            "text": "¿Realmente deseas eliminar a \"{fileName}\"? Esta acción no se puede deshacer.",
+            "text": "¿Realmente deseas eliminar a \"{{fileName}}\"? Esta acción no se puede deshacer.",
             "confirmButton": "Sí, eliminar",
             "cancelButton": "Cancelar"
           },

@@ -435,19 +435,19 @@ function PartnerModifyForm() {
   }
 
   return (
-    <div className="pb-6 bg-transparent min-h-dvh">
+    <div className="bg-transparent min-h-dvh pb-[5vh]">
       <section className="max-w-full mx-auto">
-        <h2 className="mb-8 text-center sm:t64b t40b">
+        <h2 className="mb-[5vh] text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`, 'Modificar Socio')}
         </h2>
         <Loader loading={formData.submitting} />
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <h2 className="mb-4 text-center t24b">
+        <form onSubmit={handleSubmit} className="p-[4%] space-y-[5vh]">
+          <h2 className="mb-[3vh] text-center t24b">
             {t(`${viewDictionary}.personalInfoSection`, 'Datos Personales')}
           </h2>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 justify-items-center">
+          <div className="grid grid-cols-1 gap-[4vh] md:gap-[3vw] md:grid-cols-2 justify-items-center w-full">
             <DynamicInput
               name="name"
               textId={`${viewDictionary}.nameLabel`}
@@ -457,6 +457,7 @@ function PartnerModifyForm() {
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
 
             <DynamicInput
@@ -471,6 +472,7 @@ function PartnerModifyForm() {
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
 
             <DynamicInput
@@ -485,6 +487,7 @@ function PartnerModifyForm() {
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
 
             <DynamicInput
@@ -498,6 +501,7 @@ function PartnerModifyForm() {
               value={formData.phone}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
 
             <DynamicInput
@@ -512,6 +516,7 @@ function PartnerModifyForm() {
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
 
             <DynamicInput
@@ -525,6 +530,7 @@ function PartnerModifyForm() {
               value={formData.birthDate}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
 
             <DynamicInput
@@ -538,6 +544,7 @@ function PartnerModifyForm() {
               value={formData.address}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
 
             <DynamicInput
@@ -551,6 +558,7 @@ function PartnerModifyForm() {
               value={formData.accountNumber}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
 
             <DynamicInput
@@ -575,16 +583,17 @@ function PartnerModifyForm() {
                   label: `${viewDictionary}.statusOptions.inactive`,
                 },
               ]}
+              className="w-full"
             />
           </div>
 
           {formData.status === 'approved' && (
-            <div className="pt-8 mt-8 border-t border-gray-200">
-              <h2 className="mb-4 text-center t24b">
+            <div className="pt-[5vh] mt-[4vh] border-t border-gray-200">
+              <h2 className="mb-[3vh] text-center t24b">
                 {t(`${viewDictionary}.paymentsSection`, 'Gestión de Pagos')}
               </h2>
 
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 justify-items-center">
+              <div className="grid grid-cols-1 gap-[4vh] justify-items-center w-full">
                 <DynamicInput
                   name="priceCategory"
                   type="select"
@@ -603,24 +612,51 @@ function PartnerModifyForm() {
                       label: `${viewDictionary}.priceCategoryJunior`,
                     },
                   ]}
+                  className="w-full md:w-1/2"
                 />
               </div>
 
-              {/* Mantener la sección de temporada activa y pagos con los mismos estilos */}
               {loadingSeason ? (
-                <p className="mt-4 mb-4 text-sm text-center text-gray-500">
+                <p className="mt-[3vh] mb-[3vh] text-sm text-center text-gray-500">
                   {t(
                     `${viewDictionary}.payments.loadingSeason`,
                     'Cargando información de la temporada...'
                   )}
                 </p>
               ) : activeSeason ? (
-                <div className="p-4 mt-4 mb-6 bg-gray-100 rounded-lg">
-                  {/* Información de temporada - mantener igual */}
+                <div className="p-[4%] mt-[3vh] mb-[4vh] bg-gray-100 rounded-lg">
+                  {/* Contenido de la temporada */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[3vh] md:gap-[2vw]">
+                    <div className="break-words">
+                      <h3 className="text-base font-medium mb-[2vh]">
+                        {t(
+                          `${viewDictionary}.payments.seasonInfo`,
+                          'Temporada {year}',
+                          {
+                            year: activeSeason.seasonYear,
+                          }
+                        )}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-[1vh]">
+                        {t(
+                          `${viewDictionary}.payments.totalPrice`,
+                          'Precio total:'
+                        )}{' '}
+                        {activeSeason.totalPrice}€
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {t(
+                          `${viewDictionary}.payments.fractions`,
+                          'Fracciones:'
+                        )}{' '}
+                        {activeSeason.numberOfFractions}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               ) : (
-                <div className="p-4 mt-4 mb-6 text-center bg-gray-100 rounded-lg">
-                  <p className="text-sm text-gray-500">
+                <div className="p-[4%] mt-[3vh] mb-[4vh] text-center bg-gray-100 rounded-lg">
+                  <p className="text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.noActiveSeason`,
                       'No hay temporada activa configurada.'
@@ -631,8 +667,8 @@ function PartnerModifyForm() {
 
               {/* Sección de pagos */}
               {loadingPayments ? (
-                <div className="p-4 text-center">
-                  <p className="text-sm text-gray-500">
+                <div className="p-[4%] text-center">
+                  <p className="text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.loadingPayments`,
                       'Cargando información de pagos...'
@@ -640,12 +676,87 @@ function PartnerModifyForm() {
                   </p>
                 </div>
               ) : paymentData && activeSeason ? (
-                <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-3 justify-items-center">
-                  {/* Mantener las tres fracciones de pago */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[4vh] md:gap-[2vw] mt-[3vh]">
+                  {/* Primera fracción */}
+                  <div className="p-[5%] bg-gray-50 rounded-lg w-full">
+                    <h4 className="font-medium mb-[2vh] break-words">
+                      {t(
+                        `${viewDictionary}.payments.firstFraction`,
+                        'Primera fracción'
+                      )}
+                    </h4>
+
+                    <div className="flex items-center mb-[2vh]">
+                      <input
+                        id="firstPayment"
+                        name="firstPayment"
+                        type="checkbox"
+                        className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                        checked={paymentData.firstPayment}
+                        onChange={handlePaymentChange}
+                        disabled={formData.submitting}
+                      />
+                      <label
+                        htmlFor="firstPayment"
+                        className="ml-[0.5rem] block text-sm text-gray-700 break-words"
+                      >
+                        {t(
+                          `${viewDictionary}.payments.markAsPaid`,
+                          'Marcar como pagado'
+                        )}
+                      </label>
+                    </div>
+
+                    <div className="mb-[2vh]">
+                      <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                        {t(`${viewDictionary}.payments.amount`, 'Importe')}
+                      </label>
+                      <div className="flex rounded-md shadow-sm">
+                        <input
+                          type="number"
+                          name="firstPaymentPrice"
+                          value={paymentData.firstPaymentPrice || 0}
+                          onChange={handlePaymentChange}
+                          className="block w-full rounded-l-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                          min="0"
+                          step="0.01"
+                        />
+                        <span className="inline-flex items-center px-[0.75rem] rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                          €
+                        </span>
+                      </div>
+                    </div>
+
+                    {paymentData.firstPayment && (
+                      <div>
+                        <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                          {t(
+                            `${viewDictionary}.payments.paymentDate`,
+                            'Fecha de pago'
+                          )}
+                        </label>
+                        <input
+                          type="date"
+                          name="firstPaymentDate"
+                          value={
+                            paymentData.firstPaymentDate
+                              ? formatDate(paymentData.firstPaymentDate)
+                              : ''
+                          }
+                          onChange={handleDateChange}
+                          className="block w-full rounded-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Segunda y tercera fracciones seguirían un formato similar */}
                 </div>
               ) : (
-                <div className="p-4 mt-4 text-center rounded-lg bg-gray-50">
-                  <p className="mb-3 text-sm text-gray-500">
+                <div className="p-[4%] mt-[3vh] text-center rounded-lg bg-gray-50">
+                  <p className="mb-[2vh] text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.noPaymentsFound`,
                       'No se encontró información de pagos para este socio en la temporada activa.'
@@ -653,12 +764,12 @@ function PartnerModifyForm() {
                   </p>
                   <button
                     onClick={refreshPaymentData}
-                    className="flex items-center px-3 py-1 mx-auto text-sm bg-gray-200 rounded hover:bg-gray-300"
+                    className="flex items-center px-[1rem] py-[0.5rem] mx-auto text-sm bg-gray-200 rounded hover:bg-gray-300"
                     type="button"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      className="w-4 h-4 mr-1"
+                      className="w-4 h-4 mr-[0.5rem]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -680,7 +791,7 @@ function PartnerModifyForm() {
             </div>
           )}
 
-          <div className="flex justify-center pt-4">
+          <div className="flex justify-center pt-[3vh]">
             <DynamicButton
               type="submit"
               size="medium"

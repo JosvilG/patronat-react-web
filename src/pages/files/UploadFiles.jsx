@@ -19,15 +19,7 @@ import { showPopup } from '../../services/popupService'
  * Provides a form interface for uploading files to Firebase Storage
  * with metadata stored in Firestore. Supports image optimization,
  * file validation, and progress tracking.
- *
- * Features:
- * - File validation and optimization
- * - Image preview generation
- * - Progress tracking during upload
- * - Metadata management (name, description, tags, etc.)
- * - Visibility control (public/private)
  */
-
 function UploadFileForm() {
   // Auth context to get current user information
   const { user } = useContext(AuthContext)
@@ -62,12 +54,6 @@ function UploadFileForm() {
 
   /**
    * Handles file selection and processing
-   *
-   * 1. Validates the file format and size
-   * 2. Processes/optimizes the file if needed
-   * 3. Generates a preview for images
-   *
-   * @param {Event} e - The file input change event
    */
   const handleFileChange = async (e) => {
     const selectedFile = e.target.files[0]
@@ -115,14 +101,6 @@ function UploadFileForm() {
 
   /**
    * Handles form submission and file upload process
-   *
-   * 1. Creates a reference to Firebase Storage
-   * 2. Uploads the file with progress tracking
-   * 3. Gets the download URL
-   * 4. Saves metadata to Firestore
-   * 5. Shows success/error notifications
-   *
-   * @param {Event} e - Form submission event
    */
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -231,13 +209,15 @@ function UploadFileForm() {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center h-auto max-w-xl pb-6 mx-auto">
+    <div className="flex flex-col items-center justify-center h-auto w-[92%] max-w-xl pb-[4vh] mx-auto">
       {/* Loading indicator for upload process */}
       <Loader loading={uploading} />
-      <h1 className="mb-4 sm:t64b t40b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center justify-center space-y-4"
+        className="flex flex-col items-center justify-center w-full space-y-[3vh]"
       >
         {/* File input field */}
         <DynamicInput
@@ -251,17 +231,16 @@ function UploadFileForm() {
 
         {/* Image preview */}
         {preview && (
-          <div className="mt-4">
+          <div className="mt-[3vh] w-full">
             <DynamicCard type="gallery" imageUrl={preview} />
           </div>
         )}
 
         {/* Processing indicator */}
         {processing && (
-          <div className="flex items-center justify-center mt-4">
-            <div className="w-6 h-6 border-2 border-t-2 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
-            <span className="ml-2">
-              {' '}
+          <div className="flex items-center justify-center mt-[3vh]">
+            <div className="w-[1.5rem] h-[1.5rem] border-2 border-t-2 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+            <span className="ml-[2vw]">
               {t(`${viewDictionary}.optimizingText`)}
             </span>
           </div>
@@ -270,7 +249,7 @@ function UploadFileForm() {
         {/* Status message */}
         {message && !processing && (
           <div
-            className={`p-2 mt-4 text-center text-white ${
+            className={`p-[2%] mt-[3vh] text-center text-white w-full ${
               message.includes('optimizado')
                 ? 'bg-blue-500'
                 : message.includes('Error')
@@ -315,7 +294,7 @@ function UploadFileForm() {
           onChange={(e) => setTags(e.target.value)}
           disabled={uploading || processing}
         />
-        <p className="t12l"> {t(`${viewDictionary}.tagsDescription`)}</p>
+        <p className="w-full t12l"> {t(`${viewDictionary}.tagsDescription`)}</p>
         <DynamicInput
           name="visibility"
           textId={`${viewDictionary}.visibilityLabel`}
@@ -332,25 +311,28 @@ function UploadFileForm() {
           disabled={uploading || processing}
           required={true}
         />
-        <p className="t12l"> {t(`${viewDictionary}.visibliityDescription`)}</p>
+        <p className="w-full t12l">
+          {' '}
+          {t(`${viewDictionary}.visibliityDescription`)}
+        </p>
 
         {/* Upload progress indicator */}
         {uploading && (
-          <div className="mt-4">
+          <div className="mt-[3vh] w-full">
             <div className="w-full bg-gray-200 rounded-full">
               <div
-                className="h-2 bg-blue-600 rounded-full"
+                className="h-[0.5vh] bg-blue-600 rounded-full"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <div className="mt-2 text-sm text-center">
+            <div className="mt-[2vh] text-sm text-center">
               {Math.round(progress)}%
             </div>
           </div>
         )}
 
         {/* Submit button */}
-        <div>
+        <div className="mt-[3vh]">
           <DynamicButton
             type="submit"
             size="medium"

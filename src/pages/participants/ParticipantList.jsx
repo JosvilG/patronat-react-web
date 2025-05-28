@@ -36,8 +36,8 @@ function ParticipantList() {
   }, [])
 
   const handleSearchChange = (event) => {
-    const query = event.target.value
-    setSearchQuery(query)
+    const query = event.target.value.toLowerCase()
+    setSearchQuery(event.target.value)
 
     const filtered = participant.filter(
       (part) =>
@@ -93,19 +93,22 @@ function ParticipantList() {
   }
 
   return (
-    <div className="h-screen max-h-[75dvh] pb-6 mx-auto max-w-[370px] sm:max-w-full md:max-w-fit flex flex-col items-center sm:flex-none">
-      <h1 className="mb-4 text-center sm:t64b t40b sm:text-start">
+    <div className="min-h-[50vh] max-h-[90vh] pb-[4vh] mx-auto w-[92%] sm:w-full md:w-auto flex flex-col items-center">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b sm:text-start">
         {t(`${viewDictionary}.title`)}
       </h1>
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 sm:grid-cols-2 sm:justify-between">
-        <DynamicInput
-          name="search"
-          type="text"
-          placeholder={t(`${viewDictionary}.searchPlaceholder`)}
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <div className="pl-0 sm:pl-32">
+
+      <div className="w-full grid items-center grid-cols-1 gap-[3vh] mb-[4vh] sm:grid-cols-2 sm:gap-[2vw]">
+        <div className="w-full">
+          <DynamicInput
+            name="search"
+            type="text"
+            placeholder={t(`${viewDictionary}.searchPlaceholder`)}
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <div className="flex justify-center sm:justify-end">
           <DynamicButton
             onClick={() => navigate(`/new-participant/`)}
             size="small"
@@ -115,26 +118,26 @@ function ParticipantList() {
           />
         </div>
       </div>
-      <ul className="space-y-4">
+
+      <ul className="w-full space-y-[3vh]">
         {filteredParticipants.map((part) => (
           <li
             key={part.id}
-            className="flex items-center justify-between p-4 space-x-4 bg-gray-100 rounded-lg shadow"
+            className="flex flex-col sm:flex-row items-center justify-between p-[4%] rounded-lg shadow bg-gray-100"
           >
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-[3vw] mb-[2vh] sm:mb-0">
               <img
                 src={part.url}
                 alt={part.name}
-                className="object-cover w-16 h-16 rounded-full"
+                className="object-cover w-[3.5rem] h-[3.5rem] sm:w-[4rem] sm:h-[4rem] rounded-full"
               />
               <span className="text-lg font-semibold">{part.name}</span>
             </div>
 
-            <div className="flex space-x-2">
+            <div className="flex gap-[2vw]">
               <DynamicButton
                 onClick={() => {
                   const slug = generateSlug(part.name)
-
                   navigate(`/modify-participant/${slug}`, {
                     state: { participantId: part.id },
                   })

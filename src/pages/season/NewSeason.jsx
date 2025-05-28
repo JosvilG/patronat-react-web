@@ -539,7 +539,7 @@ function NewSeason() {
     return (
       <Loader
         loading={true}
-        size="50px"
+        size="10vmin"
         color="rgb(21, 100, 46)"
         text={t(`${viewDictionary}.loadingText`, 'Cargando...')}
       />
@@ -547,14 +547,14 @@ function NewSeason() {
   }
 
   return (
-    <div className="flex flex-col items-center h-auto max-w-4xl pb-6 mx-auto">
+    <div className="flex flex-col items-center w-[92%] md:w-auto pb-[4vh] mx-auto max-w-4xl">
       <Loader loading={formState.submitting || creatingPayments} />
-      <h1 className="mb-4 text-center sm:t64b t40b">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Registrar Nueva Temporada')}
       </h1>
 
       {existingActiveSeason && (
-        <div className="p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg">
+        <div className="p-[4%] mb-[4vh] text-sm text-blue-700 bg-blue-100 rounded-lg w-full">
           <p>
             {t(
               `${viewDictionary}.activeSeasonNotice`,
@@ -566,7 +566,7 @@ function NewSeason() {
       )}
 
       <form onSubmit={handleSubmit} className="w-full">
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex flex-col items-center mb-[4vh]">
           <DynamicInput
             name="seasonYear"
             textId={`${viewDictionary}.seasonYearLabel`}
@@ -579,7 +579,7 @@ function NewSeason() {
           />
 
           {checkingYear && (
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-[2vh] text-sm text-gray-500">
               {t(
                 `${viewDictionary}.checkingYear`,
                 'Verificando disponibilidad del año...'
@@ -588,13 +588,15 @@ function NewSeason() {
           )}
 
           {yearValidationMessage && (
-            <p className="mt-1 text-sm text-red-600">{yearValidationMessage}</p>
+            <p className="mt-[2vh] text-sm text-red-600">
+              {yearValidationMessage}
+            </p>
           )}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="p-6 space-y-4 rounded-[30px] h-fit mb-8 text-black ">
-            <h2 className="mb-4 text-center t24b">
+        <div className="grid grid-cols-1 gap-[4vh] md:grid-cols-2 md:gap-[3vw]">
+          <div className="p-[5%] space-y-[3vh] rounded-[30px] h-fit mb-[4vh] text-black">
+            <h2 className="mb-[3vh] text-center t24b">
               {t(`${viewDictionary}.adultPrices`, 'Mayores de 16 años')}
             </h2>
             <div className="flex flex-col items-center">
@@ -647,8 +649,8 @@ function NewSeason() {
             </div>
           </div>
 
-          <div className="p-6 space-y-4 rounded-[30px] h-fit mb-8 text-black ">
-            <h2 className="mb-4 text-center t24b">
+          <div className="p-[5%] space-y-[3vh] rounded-[30px] h-fit mb-[4vh] text-black">
+            <h2 className="mb-[3vh] text-center t24b">
               {t(`${viewDictionary}.juniorPrices`, 'Precios para 14-16 años')}
             </h2>
             <div className="flex flex-col items-center">
@@ -702,7 +704,7 @@ function NewSeason() {
           </div>
         </div>
 
-        <div className="flex flex-col items-center mt-4 space-x-2">
+        <div className="flex flex-col items-center mt-[3vh] space-x-0 sm:space-x-[1vw]">
           <DynamicInput
             name="active"
             type="checkbox"
@@ -714,10 +716,10 @@ function NewSeason() {
           />
 
           {activationMessage && (
-            <p className="mt-1 text-sm text-amber-600">
+            <p className="mt-[2vh] text-sm text-amber-600">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="inline w-4 h-4 mr-1"
+                className="inline w-4 h-4 mr-[0.5vw]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -734,7 +736,7 @@ function NewSeason() {
           )}
         </div>
 
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-[4vh]">
           <DynamicButton
             type="submit"
             size="medium"

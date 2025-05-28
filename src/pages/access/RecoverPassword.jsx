@@ -54,19 +54,19 @@ const RecoverPassword = () => {
   }
 
   return (
-    <div className="grid items-center h-screen mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
-      <div className="relative z-10 rounded-lg sm:p-4 grid-col-3 w-fit h-fit bottom-40">
-        <div className="max-w-lg mx-auto text-center">
+    <div className="grid items-center min-h-dvh mx-auto bg-center bg-cover md:grid-cols-3 sm:grid-cols-1 justify-items-center px-[4%] sm:px-[5%] lg:px-[6%]">
+      <div className="sm:mb-[50%] relative z-10 rounded-lg p-[5%] sm:p-[4%] grid-col-3 w-fit sm:translate-y-[-10vh] md:translate-y-0">
+        <div className="mx-auto text-center">
           <h1 className="text-black t40b sm:t64b">
             {t('pages.recoverPage.title')}
           </h1>
-          <p className="mt-4 text-black t16r whitespace-break-spaces max-w-[370px] sm:max-w-none pb-8 sm:pb-0">
+          <p className="mt-[3vh] text-black t16r whitespace-break-spaces max-w-full sm:max-w-none pb-[4vh] sm:pb-[2vh]">
             {t('pages.recoverPage.description')}
           </p>
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center w-full"
+          className="flex flex-col items-center w-full gap-[3vh]"
         >
           <DynamicInput
             name="email"
@@ -89,7 +89,7 @@ const RecoverPassword = () => {
 
       {/* Sección de la imagen con animación */}
       <motion.div
-        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply"
+        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-[2%] md:right-[2%] bg-blend-multiply mix-blend-multiply"
         onMouseMove={handleMouseMove}
       >
         {backgroundImage && (

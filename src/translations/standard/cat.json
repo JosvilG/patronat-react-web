@@ -1032,7 +1032,23 @@
         "addNewButton": "Afegir",
         "modifyButton": "Modificar",
         "deleteButton": "Eliminar",
-        "loadingText": "Carregant participants..."
+        "loadingText": "Carregant participants...",
+        "popups": {
+          "delete": {
+            "title": "Estàs segur?",
+            "text": "Realment vols eliminar a \"{{fileName}}\"? Aquesta acció no es pot desfer",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Eliminat",
+            "text": "El participant ha estat eliminat correctament."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No ha estat possible eliminar el participant. Per favor, prova un altre cop."
+          }
+        }
       }
     },
     "partners": {

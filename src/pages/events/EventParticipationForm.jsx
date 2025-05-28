@@ -194,9 +194,9 @@ function EventParticipationForm() {
 
   if (error) {
     return (
-      <div className="container px-4 py-8 mx-auto text-center">
+      <div className="container px-[4%] py-[5vh] mx-auto text-center">
         <h2 className="text-2xl font-bold text-red-600">{error}</h2>
-        <div className="mt-4">
+        <div className="mt-[3vh]">
           <DynamicButton
             type="button"
             onClick={() => navigate(-1)}
@@ -210,15 +210,15 @@ function EventParticipationForm() {
   }
 
   return (
-    <div className="container px-4 pb-6 mx-auto">
+    <div className="container px-[4%] pb-[4vh] mx-auto">
       <Loader loading={submitting} />
 
-      <form onSubmit={handleSubmit} className="mx-auto space-y-6">
-        <h1 className="mb-6 text-center t64b">
+      <form onSubmit={handleSubmit} className="mx-auto space-y-[4vh]">
+        <h1 className="mb-[4vh] text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`, { eventTitle: eventData?.title })}
         </h1>
-        <div className="p-6 mb-6 rounded-lg">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2">
             {formFields.map((field) => (
               <div
                 key={field.id}
@@ -236,7 +236,7 @@ function EventParticipationForm() {
                   })}
                 />
                 {field.description && (
-                  <p className="mt-1 text-sm text-gray-500">
+                  <p className="mt-[1vh] text-sm text-gray-500">
                     {field.description}
                   </p>
                 )}
@@ -245,7 +245,7 @@ function EventParticipationForm() {
           </div>
         </div>
 
-        <div className="flex justify-end mt-8 space-x-4">
+        <div className="flex justify-end mt-[4vh] gap-[3vw]">
           <DynamicButton
             type="button"
             onClick={() => navigate(-1)}

@@ -29,21 +29,21 @@ export default function Dashboard() {
   }, [])
 
   return (
-    <div className="px-5 pb-6 min-h-dvh ">
-      <h1 className="mb-10 text-center t40b sm:t64b">
+    <div className="px-[4%] sm:px-5 pb-[4vh] min-h-dvh">
+      <h1 className="mb-[5vh] sm:mb-10 text-center t24b sm:t64b">
         {t(`${viewDictionary}.title`)}
       </h1>
 
-      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 md:gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {cards.map((card) => (
           <div
             key={card.id}
             className="overflow-hidden transition-all duration-300 border border-gray-200 shadow-lg rounded-2xl hover:shadow-xl hover:scale-[1.01] hover:border-gray-300 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]"
           >
-            <div className="items-center p-6 ">
-              <div className="flex items-center justify-between mb-4">
-                <div className="text-5xl">{card.icon || '📄'}</div>
-                <div className="px-3 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full">
+            <div className="items-center p-4 sm:p-6">
+              <div className="flex items-center justify-between mb-3 sm:mb-4">
+                <div className="text-4xl sm:text-5xl">{card.icon || '📄'}</div>
+                <div className="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-100 rounded-full sm:px-3">
                   {card.actions
                     ? t(`${viewDictionary}.actionsCount`, {
                         count: card.actions.length,
@@ -52,13 +52,15 @@ export default function Dashboard() {
                 </div>
               </div>
 
-              <h2 className="mb-2 text-2xl font-bold text-gray-800">
+              <h2 className="mb-2 text-xl font-bold text-gray-800 sm:text-2xl">
                 {t(card.titleKey)}
               </h2>
-              <p className="mb-6 text-gray-600">{t(card.descriptionKey)}</p>
+              <p className="mb-4 text-sm text-gray-600 sm:mb-6 sm:text-base">
+                {t(card.descriptionKey)}
+              </p>
 
               {card.actions && (
-                <div className="flex flex-col gap-2 mt-6 -ml-4 w-fit">
+                <div className="flex flex-col gap-2 mt-4 -ml-2 sm:mt-6 sm:-ml-4 w-fit">
                   {card.actions.map((action) => (
                     <Link key={action.id} to={action.route} className="block">
                       <div className="relative">
@@ -82,7 +84,7 @@ export default function Dashboard() {
               )}
 
               {!card.actions && card.route && (
-                <Link to={card.route} className="block mt-4">
+                <Link to={card.route} className="block mt-3 sm:mt-4">
                   <DynamicButton
                     type="view"
                     state="normal"

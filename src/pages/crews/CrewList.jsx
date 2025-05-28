@@ -420,12 +420,14 @@ function CrewList() {
   }
 
   return (
-    <div className="max-w-full pb-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+    <div className="flex flex-col items-center w-[92%] mx-auto pb-[4vh] sm:w-full md:w-auto sm:flex-none">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
       {pendingCrews.length > 0 && (
-        <div className="p-4 mb-6 transition-all duration-300 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,220,220,0.75)] border border-red-200 rounded-[30px] shadow-md">
-          <h2 className="mb-4 text-red-700 t24b">
+        <div className="w-full p-3 sm:p-4 mb-[4vh] transition-all duration-300 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,220,220,0.75)] border border-red-200 rounded-lg sm:rounded-xl md:rounded-[30px] shadow-md">
+          <h2 className="mb-3 text-xl text-red-700 sm:mb-4 sm:text-2xl t24b">
             {pendingCrews.length === 1
               ? t(`${viewDictionary}.pendingCrewSingular`)
               : t(`${viewDictionary}.pendingCrewsPlural`, {
@@ -433,21 +435,21 @@ function CrewList() {
                 })}
           </h2>
 
-          <div className="space-y-3">
+          <div className="space-y-[2vh]">
             {pendingCrews.map((crew) => (
               <div
                 key={crew.id}
-                className="p-4 border border-red-100 rounded-xl backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]"
+                className="p-[4%] sm:p-[2%] border border-red-100 rounded-md sm:rounded-xl backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]"
               >
-                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
-                  <div className="flex items-center mb-3 space-x-3 sm:mb-0">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-[2vh] sm:space-y-0">
+                  <div className="flex items-center space-x-[3%]">
                     <div>
                       <h3 className="t18b">{crew.title}</h3>
-                      <div className="flex flex-wrap gap-2 mt-1">
-                        <span className="px-2 py-1 text-red-800 bg-red-100 rounded-full t12r">
+                      <div className="flex flex-wrap gap-1 mt-1 sm:gap-2">
+                        <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs text-red-800 bg-red-100 rounded-full t12r">
                           {t(`${viewDictionary}.pendingStatus`)}
                         </span>
-                        <span className="px-2 py-1 text-gray-800 bg-gray-100 rounded-full t12r">
+                        <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs text-gray-800 bg-gray-100 rounded-full t12r">
                           {(() => {
                             const memberCount = crew.membersNames?.length || 0
                             const responsibleCount = Array.isArray(
@@ -466,13 +468,13 @@ function CrewList() {
                           })()}
                         </span>
                         {crew.season && (
-                          <span className="px-2 py-1 text-yellow-800 bg-yellow-100 rounded-full t12r">
+                          <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs text-yellow-800 bg-yellow-100 rounded-full t12r">
                             {t(`${viewDictionary}.seasonLabel`)} {crew.season}
                           </span>
                         )}
                         {(!crew.responsable ||
                           crew.responsable.length === 0) && (
-                          <span className="px-2 py-1 rounded-full text-amber-800 bg-amber-100 t12r">
+                          <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs rounded-full text-amber-800 bg-amber-100 t12r">
                             {t(`${viewDictionary}.noResponsible`)}
                           </span>
                         )}
@@ -480,7 +482,7 @@ function CrewList() {
                     </div>
                   </div>
 
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-[2vw] mt-[2vh] sm:mt-0">
                     <DynamicButton
                       onClick={() => {
                         const slug = generateSlug(crew.title)
@@ -512,7 +514,7 @@ function CrewList() {
         </div>
       )}
 
-      <div className="grid items-center justify-start grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
+      <div className="grid items-center justify-start grid-cols-1 gap-[3vh] mb-[4vh] w-full md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
@@ -521,7 +523,7 @@ function CrewList() {
           value={searchQuery}
           onChange={handleSearchChange}
         />
-        <div className="pl-0 sm:pl-32">
+        <div className="pl-0 sm:pl-[5%] md:pl-[10%] flex justify-center sm:justify-end">
           <DynamicButton
             onClick={() => navigate(`/new-crew/`)}
             size="small"
@@ -532,18 +534,18 @@ function CrewList() {
         </div>
       </div>
 
-      <ul className="space-y-4">
+      <ul className="w-full space-y-[3vh]">
         {filteredCrews.map((crew) => (
           <li
             key={crew.id}
-            className="flex items-center justify-between p-4 space-x-4 bg-gray-100 rounded-lg shadow"
+            className="flex flex-col sm:flex-row items-center justify-between p-[4%] sm:p-[2%] space-y-[2vh] sm:space-y-0 sm:space-x-[2%] bg-gray-100 rounded-lg shadow"
           >
-            <div className="flex flex-col">
-              <div className="flex items-center space-x-2">
+            <div className="flex flex-col w-full sm:w-auto">
+              <div className="flex flex-wrap items-center gap-1 sm:gap-2">
                 <span className="text-lg font-semibold">{crew.title}</span>
                 {crew.status && (
                   <span
-                    className={`px-2 py-1 text-xs font-medium rounded-full 
+                    className={`px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium rounded-full 
                       ${
                         crew.status === 'Activo'
                           ? 'text-green-800 bg-green-100'
@@ -568,12 +570,12 @@ function CrewList() {
                   </span>
                 )}
                 {(!crew.responsable || crew.responsable.length === 0) && (
-                  <span className="px-2 py-1 text-xs font-medium rounded-full text-amber-800 bg-amber-100">
+                  <span className="px-1.5 sm:px-2 py-0.5 sm:py-1 text-xs font-medium rounded-full text-amber-800 bg-amber-100">
                     {t(`${viewDictionary}.noResponsible`)}
                   </span>
                 )}
               </div>
-              <span className="text-sm text-gray-600">
+              <span className="text-xs text-gray-600 sm:text-sm">
                 {(() => {
                   const memberCount = crew.membersNames?.length || 0
                   const responsibleCount = Array.isArray(crew.responsable)
@@ -589,7 +591,7 @@ function CrewList() {
               </span>
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex space-x-[2vw] mt-[2vh] sm:mt-0">
               {crew.status !== 'Pendiente' && (
                 <DynamicButton
                   onClick={() => handleToggleStatus(crew.id, crew.status)}

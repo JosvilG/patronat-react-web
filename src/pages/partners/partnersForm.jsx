@@ -164,12 +164,12 @@ function PartnersForm() {
   }
 
   return (
-    <div className="pb-6 bg-transparent min-h-dvh ">
-      <section className="flex flex-col items-center max-w-full mx-auto sm:flex-none">
-        <h2 className="mb-8 text-center sm:t64b t40b">
+    <div className="pb-[4vh] bg-transparent min-h-dvh w-full">
+      <section className="w-[92%] mx-auto md:w-auto md:max-w-[90%] flex flex-col items-center sm:flex-none">
+        <h2 className="mb-[4vh] text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`, 'Registro de Socio')}
         </h2>
-        <p className="text-center t16r max-w-[340px] sm:max-w-none flex flex-col items-center sm:flex-none">
+        <p className="text-center t16r w-[90%] max-w-[90vw] sm:max-w-none flex flex-col items-center sm:flex-none">
           <Trans
             i18nKey={`${viewDictionary}.descriptionLabel`}
             components={{ strong: <strong />, br: <br /> }}
@@ -177,10 +177,10 @@ function PartnersForm() {
           />
         </p>
 
-        <Loader loading={formState.submitting} />
+        <Loader loading={formState.submitting} size="10vmin" />
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 justify-items-center">
+        <form onSubmit={handleSubmit} className="p-[4%] space-y-[3vh] w-full">
+          <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2 md:gap-[2vw] justify-items-center w-full">
             <DynamicInput
               name="name"
               textId={`${viewDictionary}.nameLabel`}
@@ -190,6 +190,7 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
+              className="w-full"
             />
             <DynamicInput
               name="lastName"
@@ -203,6 +204,7 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
+              className="w-full"
             />
             <DynamicInput
               name="address"
@@ -216,6 +218,7 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
+              className="w-full"
             />
             <DynamicInput
               name="email"
@@ -229,6 +232,7 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
+              className="w-full"
             />
             <DynamicInput
               name="phone"
@@ -242,6 +246,7 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
+              className="w-full"
             />
             <DynamicInput
               name="birthDate"
@@ -251,6 +256,7 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
+              className="w-full"
             />
             <DynamicInput
               name="dni"
@@ -264,9 +270,10 @@ function PartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
+              className="w-full"
             />
           </div>
-          <div className="flex justify-center pt-4">
+          <div className="flex justify-center pt-[3vh]">
             <DynamicButton
               type="submit"
               size="medium"

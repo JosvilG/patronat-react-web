@@ -70,26 +70,27 @@ function CollabList() {
     return (
       <Loader
         loading={true}
-        size="50px"
+        size="10vmin"
         color="rgb(21, 100, 46)"
         text={t(`${viewDictionary}.loadingText`)}
       />
     )
 
   return (
-    <div className="h-screen max-h-[75dvh] pb-6 mx-auto sm:max-w-full max-w-[370px] flex flex-col items-center sm:flex-none">
-      <h1 className="mb-4 text-center sm:text-start sm:t64b t40b">
+    <div className="min-h-[50vh] max-h-[75dvh] pb-[5vh] mx-auto w-[92%] md:w-auto md:max-w-[90%] overflow-y-auto flex flex-col items-center sm:flex-none">
+      <h1 className="mb-[4vh] text-center sm:text-start sm:t64b t40b">
         {t(`${viewDictionary}.title`)}
       </h1>
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
+      <div className="grid items-center w-full grid-cols-1 gap-[3vh] mb-[4vh] md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
           placeholder={t(`${viewDictionary}.searchPlaceholder`)}
           value={searchQuery}
           onChange={handleSearchChange}
+          className="w-full"
         />
-        <div className="pl-0 sm:pl-32">
+        <div className="flex justify-center w-full sm:justify-start">
           <DynamicButton
             onClick={() => navigate(`/new-collaborator/`)}
             size="small"
@@ -99,22 +100,24 @@ function CollabList() {
           />
         </div>
       </div>
-      <ul className="space-y-4">
+      <ul className="w-full space-y-[3vh]">
         {filteredCollaborators.map((collab) => (
           <li
             key={collab.id}
-            className="flex items-center justify-between p-4 space-x-4 bg-gray-100 rounded-lg shadow"
+            className="flex flex-wrap items-center justify-between p-[4%] gap-[2vw] bg-gray-100 rounded-lg shadow"
           >
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center gap-[3vw]">
               <img
                 src={collab.url}
                 alt={collab.name}
-                className="object-cover w-16 h-16 rounded-full"
+                className="object-cover w-[3rem] h-[3rem] sm:w-[4rem] sm:h-[4rem] rounded-full"
               />
-              <span className="text-lg font-semibold">{collab.name}</span>
+              <span className="text-base font-semibold break-words sm:text-lg">
+                {collab.name}
+              </span>
             </div>
 
-            <div className="flex space-x-2">
+            <div className="flex gap-[1vw] mt-[1vh] sm:mt-0 ml-auto sm:ml-0">
               <DynamicButton
                 onClick={() => {
                   const slug = generateSlug(collab.name)

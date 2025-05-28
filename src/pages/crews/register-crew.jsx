@@ -18,7 +18,7 @@ function RegisterCrew() {
   const { t } = useTranslation()
   const viewDictionary = 'pages.crew.registerCrew'
   const navigate = useNavigate()
-  const { user, loading: authLoading } = useContext(AuthContext)
+  const { user, userData, loading: authLoading } = useContext(AuthContext)
 
   const errorPopupContext = {
     title: t(`${viewDictionary}.errorPopup.title`),
@@ -117,12 +117,20 @@ function RegisterCrew() {
   useEffect(() => {
     const checkResponsableStatus = async () => {
       if (!user) {
-        setCheckingResponsableStatus(false) // Marca como finalizado cuando no hay usuario
+        setCheckingResponsableStatus(false)
         return
       }
 
       try {
         setCheckingResponsableStatus(true)
+
+        // Cambiar esta línea para usar userData.role
+        if (userData?.role === 'admin') {
+          setIsAlreadyResponsable(false)
+          setCheckingResponsableStatus(false)
+          return
+        }
+
         const crewsRef = collection(db, 'crews')
         const q = query(
           crewsRef,
@@ -139,7 +147,7 @@ function RegisterCrew() {
     }
 
     checkResponsableStatus()
-  }, [user])
+  }, [user, userData]) // Agregar userData a las dependencias
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -181,7 +189,8 @@ function RegisterCrew() {
       return
     }
 
-    if (isAlreadyResponsable && user.role !== 'admin') {
+    // Cambiar esta condición también
+    if (isAlreadyResponsable && userData?.role !== 'admin') {
       showPopup(alreadyResponsablePopupContext)
       return
     }
@@ -208,22 +217,23 @@ function RegisterCrew() {
 
   if (authLoading || usersLoading || checkingResponsableStatus) {
     return (
-      <div className="flex items-center justify-center h-screen pb-64">
+      <div className="flex items-center justify-center h-screen">
         <div className="loader" />
       </div>
     )
   }
 
-  if (isAlreadyResponsable) {
+  // Si ya es responsable y NO es administrador, mostrar mensaje
+  if (isAlreadyResponsable && userData?.role !== 'admin') {
     return (
-      <div className="container px-4 py-16 mx-auto">
-        <div className="max-w-3xl mx-auto text-center bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-2xl p-8 shadow-lg">
-          <h2 className="mb-6 text-3xl font-bold text-gray-800">
+      <div className="container px-3 py-4 mx-auto sm:py-8 md:py-16 sm:px-4">
+        <div className="max-w-3xl mx-auto text-center bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg">
+          <h2 className="mb-3 text-xl font-bold text-gray-800 sm:mb-6 sm:text-2xl md:text-3xl">
             {t(`${viewDictionary}.alreadyResponsable.title`)}
           </h2>
 
-          <div className="mb-8 text-lg">
-            <p className="mb-4">
+          <div className="mb-4 text-base sm:mb-8 sm:text-lg">
+            <p className="mb-2 sm:mb-4">
               {t(`${viewDictionary}.alreadyResponsable.text`)}
             </p>
           </div>
@@ -244,17 +254,17 @@ function RegisterCrew() {
 
   if (!user) {
     return (
-      <div className="container px-4 py-16 mx-auto">
-        <div className="max-w-3xl mx-auto text-center bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-2xl p-8 shadow-lg flex flex-col items-center sm:flex-none">
-          <h2 className="mb-6 text-3xl font-bold text-gray-800">
+      <div className="container px-3 py-4 mx-auto sm:py-8 md:py-16 sm:px-4">
+        <div className="max-w-3xl mx-auto text-center bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 shadow-lg flex flex-col items-center">
+          <h2 className="mb-3 text-xl font-bold text-gray-800 sm:mb-6 sm:text-2xl md:text-3xl">
             {t('common.authRequired.title')}
           </h2>
 
-          <div className="mb-8 text-lg ">
-            <p className="mb-4">{t('common.authRequired.text')}</p>
+          <div className="mb-4 text-base sm:mb-8 sm:text-lg">
+            <p className="mb-2 sm:mb-4">{t('common.authRequired.text')}</p>
           </div>
 
-          <div className="flex flex-col justify-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+          <div className="flex flex-col justify-center w-full space-y-3 sm:w-auto sm:flex-row sm:space-y-0 sm:space-x-3 md:space-x-6">
             <DynamicButton
               type="personAdd"
               size="medium"
@@ -277,18 +287,21 @@ function RegisterCrew() {
   }
 
   return (
-    <div className="container px-4 pb-6 mx-auto">
-      <form onSubmit={handleSubmit} className="mx-auto space-y-6 max-w-7xl">
-        <h1 className="mb-6 text-center t64b">
+    <div className="container px-3 pb-4 mx-auto sm:px-4 sm:pb-6">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto space-y-4 sm:space-y-6 max-w-7xl"
+      >
+        <h1 className="mb-3 text-center sm:mb-6 sm:t64b t40b">
           {t(`${viewDictionary}.title`)}
         </h1>
 
-        <div className="p-4 mb-6 rounded-lg">
-          <h3 className="mb-4 font-semibold t24b">
+        <div className="p-3 mb-4 rounded-lg sm:p-4 sm:mb-6">
+          <h3 className="mb-2 font-semibold sm:mb-4 t24b">
             {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-3 sm:gap-6">
             <div>
               <DynamicInput
                 name="title"
@@ -301,10 +314,10 @@ function RegisterCrew() {
             </div>
 
             <div>
-              <h4 className="mb-2 t24b">
+              <h4 className="mb-1 sm:mb-2 t24b">
                 {t(`${viewDictionary}.responsibleLabel`)}
               </h4>
-              <p className="text-center t16r">
+              <p className="text-sm text-center sm:text-base t16r">
                 {t(`${viewDictionary}.responsableDescription`)}
               </p>
 
@@ -318,10 +331,10 @@ function RegisterCrew() {
                 onChange={(e) => setResponsableSearch(e.target.value)}
               />
 
-              <div className="grid grid-cols-1 gap-6 mt-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 mt-2 sm:gap-4 md:gap-6 sm:mt-4 md:grid-cols-2">
                 <div>
-                  <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-                    <h4 className="mb-2 t16r">
+                  <div className="p-2 overflow-y-auto max-h-48 sm:max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                    <h4 className="mb-1 sm:mb-2 t16r">
                       {t(`${viewDictionary}.userListTitle`)}
                     </h4>
                     {Array.isArray(filteredResponsables) &&
@@ -349,7 +362,7 @@ function RegisterCrew() {
                         }))}
                       />
                     ) : (
-                      <p className="p-2 text-gray-500">
+                      <p className="p-2 text-sm text-gray-500 sm:text-base">
                         {t(`${viewDictionary}.noUsersMessage`)}
                       </p>
                     )}
@@ -357,10 +370,10 @@ function RegisterCrew() {
                 </div>
 
                 <div>
-                  <h4 className="mb-2 t16b">
+                  <h4 className="mb-1 sm:mb-2 t16b">
                     {t(`${viewDictionary}.selectedResponsablesTitle`)}
                   </h4>
-                  <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                  <div className="p-2 overflow-y-auto max-h-48 sm:max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                     {selectedResponsables.length > 0 ? (
                       <DynamicItems
                         items={selectedResponsables.map((user) => ({
@@ -377,7 +390,7 @@ function RegisterCrew() {
                         }))}
                       />
                     ) : (
-                      <p className="p-2 text-gray-500">
+                      <p className="p-2 text-sm text-gray-500 sm:text-base">
                         {t(`${viewDictionary}.noResponsablesMessage`)}
                       </p>
                     )}
@@ -388,10 +401,12 @@ function RegisterCrew() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg">
-          <h3 className="mb-4 t24b">{t(`${viewDictionary}.userListTitle`)}</h3>
+        <div className="p-3 mb-4 rounded-lg sm:p-4 sm:mb-6">
+          <h3 className="mb-2 sm:mb-4 t24b">
+            {t(`${viewDictionary}.userListTitle`)}
+          </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-3 sm:gap-4 md:gap-6 md:grid-cols-2">
             <div>
               <DynamicInput
                 name="search"
@@ -401,8 +416,8 @@ function RegisterCrew() {
                 onChange={(e) => setSearch(e.target.value)}
               />
 
-              <div className="p-2 mt-4 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-                <h4 className="mb-2 t16r">
+              <div className="p-2 mt-2 sm:mt-4 overflow-y-auto max-h-48 sm:max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                <h4 className="mb-1 sm:mb-2 t16r">
                   {t(`${viewDictionary}.userListTitle`)}
                 </h4>
                 {Array.isArray(filteredUsers) && filteredUsers.length > 0 ? (
@@ -431,10 +446,10 @@ function RegisterCrew() {
                 ) : (
                   <div>
                     {search.trim() !== '' && (
-                      <div className="flex items-center justify-between p-2 mt-2">
+                      <div className="flex items-center justify-between p-2 mt-1 sm:mt-2">
                         <button
                           type="button"
-                          className="flex items-center hover:text-gray-900"
+                          className="flex items-center text-sm sm:text-base hover:text-gray-900"
                           onClick={addMembersFromSearch}
                         >
                           <PersonAddIcon fontSize="small" className="mr-1" />
@@ -450,10 +465,10 @@ function RegisterCrew() {
             </div>
 
             <div>
-              <h4 className="mb-2 t16b">
+              <h4 className="mb-1 sm:mb-2 t16b">
                 {t(`${viewDictionary}.selectedMembersTitle`)}
               </h4>
-              <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+              <div className="p-2 overflow-y-auto max-h-48 sm:max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                 {crewData.membersNames && crewData.membersNames.length > 0 ? (
                   <DynamicItems
                     items={crewData.membersNames.map((memberName) => ({
@@ -479,7 +494,7 @@ function RegisterCrew() {
                     }))}
                   />
                 ) : (
-                  <p className="p-2 text-gray-500">
+                  <p className="p-2 text-sm text-gray-500 sm:text-base">
                     {t(`${viewDictionary}.noMembersMessage`)}
                   </p>
                 )}
@@ -488,7 +503,7 @@ function RegisterCrew() {
           </div>
         </div>
 
-        <div className="flex justify-end mt-8">
+        <div className="flex justify-end mt-3 sm:mt-4 md:mt-6">
           <DynamicButton
             type="submit"
             size="small"

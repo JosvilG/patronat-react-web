@@ -339,23 +339,23 @@ function EventForm() {
   }
 
   return (
-    <div className="container px-4 pb-6 mx-auto">
+    <div className="container px-[4%] pb-[4vh] mx-auto">
       <Loader loading={submitting} />
 
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center mx-auto space-y-6 max-w-7xl sm:flex-none"
+        className="flex flex-col items-center mx-auto space-y-[4vh] max-w-7xl sm:flex-none"
       >
-        <h1 className="mb-6 text-center sm:t64b t40b">
+        <h1 className="mb-[4vh] text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`)}
         </h1>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2">
             <div className="col-span-2">
               <DynamicInput
                 name="title"
@@ -379,11 +379,11 @@ function EventForm() {
             </div>
 
             <div className="col-span-2">
-              <h3 className="mb-4 text-lg font-semibold text-gray-700">
+              <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
                 {t(`${viewDictionary}.organizerLabel`)}
               </h3>
 
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2">
                 <div>
                   <DynamicInput
                     name="searchOrganizer"
@@ -393,7 +393,7 @@ function EventForm() {
                     onChange={(e) => setOrganizerSearch(e.target.value)}
                   />
 
-                  <div className="p-2 mt-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                  <div className="p-[3%] mt-[2vh] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                     <DynamicItems
                       items={filteredOrganizers.map((collab) => ({
                         title: collab.name,
@@ -413,11 +413,11 @@ function EventForm() {
                 </div>
 
                 <div>
-                  <h4 className="mb-2 text-gray-700 t16r">
+                  <h4 className="mb-[2vh] text-gray-700 t16r">
                     Organizador Seleccionado{' '}
                     {t(`${viewDictionary}.selectedOrganizerLabel`)}
                   </h4>
-                  <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                  <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                     {eventData.organizer ? (
                       <DynamicItems
                         items={(() => {
@@ -444,7 +444,7 @@ function EventForm() {
                         })()}
                       />
                     ) : (
-                      <p className="p-2 text-gray-500">
+                      <p className="p-[3%] text-gray-500">
                         {t(`${viewDictionary}.anyOrganizerLabel`)}
                       </p>
                     )}
@@ -465,12 +465,12 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.dateInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-4">
+          <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-4">
             <div>
               <DynamicInput
                 name="startDate"
@@ -515,12 +515,12 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.detailsInfoTitle`)}
           </h3>
 
-          <div className="grid items-center justify-center grid-cols-1 gap-6 justify-items-center md:grid-cols-3">
+          <div className="grid items-center justify-center grid-cols-1 gap-[3vh] justify-items-center md:grid-cols-3">
             <div>
               <DynamicInput
                 name="capacity"
@@ -551,7 +551,7 @@ function EventForm() {
               />
             </div>
 
-            <div className="flex items-center sm:mr-8">
+            <div className="flex items-center sm:mr-[5%]">
               <DynamicInput
                 name="allowCars"
                 textId={t(`${viewDictionary}.allowCarsLabel`)}
@@ -584,11 +584,11 @@ function EventForm() {
         </div>
 
         {eventData.needForm && (
-          <div className="p-4 mb-6 rounded-lg">
-            <h3 className="mb-4 text-lg font-semibold text-gray-700">
+          <div className="p-[4%] mb-[4vh] rounded-lg">
+            <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
               {t(`${viewDictionary}.inscriptionCampsForm`)}
             </h3>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
+            <div className="grid grid-cols-1 gap-[3vh] sm:grid-cols-2 md:grid-cols-3">
               {createFormFieldsModel().map((field) => (
                 <div key={field.fieldId}>
                   <DynamicInput
@@ -604,12 +604,12 @@ function EventForm() {
           </div>
         )}
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.galleryInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-[3vh]">
             <div>
               <h4 className="t16r">{t(`${viewDictionary}.addImage`)}</h4>
               <DynamicInput
@@ -619,10 +619,10 @@ function EventForm() {
               />
               {uploading && <p>Subiendo archivo: {progress}%</p>}
               {progress > 0 && progress < 100 && (
-                <div className="mt-2">
-                  <div className="w-full h-2 bg-gray-200 rounded-md">
+                <div className="mt-[2vh]">
+                  <div className="w-full h-[0.5vh] bg-gray-200 rounded-md">
                     <div
-                      className="h-2 bg-blue-600 rounded-md"
+                      className="h-[0.5vh] bg-blue-600 rounded-md"
                       style={{ width: `${progress}%` }}
                     ></div>
                   </div>
@@ -630,11 +630,11 @@ function EventForm() {
               )}
 
               {eventData.imageURL && (
-                <div className="mt-4">
+                <div className="mt-[2vh]">
                   <img
                     src={eventData.imageURL}
                     alt="Vista previa del evento"
-                    className="object-cover w-full h-48 rounded-lg shadow-md"
+                    className="object-cover w-full rounded-lg shadow-md aspect-video"
                   />
                 </div>
               )}
@@ -642,12 +642,12 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.authorizationDocumentTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-[3vh]">
             <div>
               <h4 className="t16r">
                 {t(`${viewDictionary}.uploadAutDocument`)}
@@ -658,15 +658,15 @@ function EventForm() {
                 onChange={handleAuthDocChange}
               />
               {authDocument && (
-                <p className="mt-2 text-sm text-gray-600">
+                <p className="mt-[2vh] text-sm text-gray-600">
                   Documento seleccionado: {authDocument.name}
                 </p>
               )}
               {authDocProgress > 0 && authDocProgress < 100 && (
-                <div className="mt-2">
-                  <div className="w-full h-2 bg-gray-200 rounded-md">
+                <div className="mt-[2vh]">
+                  <div className="w-full h-[0.5vh] bg-gray-200 rounded-md">
                     <div
-                      className="h-2 bg-blue-600 rounded-md"
+                      className="h-[0.5vh] bg-blue-600 rounded-md"
                       style={{ width: `${authDocProgress}%` }}
                     ></div>
                   </div>
@@ -676,16 +676,16 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.tagsInfoTitle`)}
           </h3>
 
           <div>
-            <h4 className="mb-2 text-gray-700 t16r">
+            <h4 className="mb-[2vh] text-gray-700 t16r">
               {t(`${viewDictionary}.tagsLabel`)}
             </h4>
-            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-[3vh] md:grid-cols-4">
               {predefinedTags.map((tag) => (
                 <DynamicInput
                   key={tag}
@@ -700,12 +700,12 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.collaboratorsInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-[3vh]">
             <div>
               <DynamicInput
                 name="searchCollaborator"
@@ -716,12 +716,12 @@ function EventForm() {
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2">
               <div className="">
-                <h4 className="mb-2 text-gray-700 t16r">
+                <h4 className="mb-[2vh] text-gray-700 t16r">
                   {t(`${viewDictionary}.collaboratorsLabel`)}
                 </h4>
-                <div className="p-2  overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
                     items={filteredCollaborators.map((collab) => ({
                       title: collab.name,
@@ -741,10 +741,10 @@ function EventForm() {
               </div>
 
               <div>
-                <h4 className="mb-2 text-gray-700 t16r">
+                <h4 className="mb-[2vh] text-gray-700 t16r">
                   {t(`${viewDictionary}.collaboratorsSelectedLabel`)}
                 </h4>
-                <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
                     items={eventData.collaborators
                       .map((collabId) => {
@@ -777,12 +777,12 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[4%] mb-[4vh] rounded-lg">
+          <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.participantTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6">
+          <div className="grid grid-cols-1 gap-[3vh]">
             <div>
               <DynamicInput
                 name="searchParticipant"
@@ -793,12 +793,12 @@ function EventForm() {
               />
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2">
               <div className="">
-                <h4 className="mb-2 text-gray-700 t16r">
+                <h4 className="mb-[2vh] text-gray-700 t16r">
                   {t(`${viewDictionary}.participantList`)}
                 </h4>
-                <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
                     items={filteredParticipants.map((participant) => ({
                       title: participant.name,
@@ -818,10 +818,10 @@ function EventForm() {
               </div>
 
               <div>
-                <h4 className="mb-2 text-gray-700 t16r">
+                <h4 className="mb-[2vh] text-gray-700 t16r">
                   {t(`${viewDictionary}.selectedParticipantsTitle`)}
                 </h4>
-                <div className="p-2 overflow-y-auto max-h-60  text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems
                     items={eventData.participants
                       .map((participantId) => {
@@ -854,14 +854,14 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="flex justify-end sm:mt-8">
+        <div className="flex justify-end gap-[3vh] sm:mt-[4vh]">
           <DynamicButton
             type="button"
             onClick={() => navigate('/dashboard')}
             size="small"
             state="normal"
             textId="components.buttons.cancel"
-            className="mr-4"
+            className="mr-[3vh]"
           />
 
           <DynamicButton

@@ -386,7 +386,7 @@ function CrewMainPage() {
       case 'rechazo':
         return (
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -401,7 +401,7 @@ function CrewMainPage() {
       case 'aprobacion':
         return (
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -416,7 +416,7 @@ function CrewMainPage() {
       default:
         return (
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]"
             fill="currentColor"
             viewBox="0 0 20 20"
             xmlns="http://www.w3.org/2000/svg"
@@ -432,39 +432,41 @@ function CrewMainPage() {
   }
 
   return (
-    <div className="container px-4 pb-12 mx-auto">
-      <h1 className="mb-8 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+    <div className="w-[92%] mx-auto pb-[4vh] sm:pb-[6vh]">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
-      <div className="mb-10">
-        <h2 className="mb-6 text-2xl font-bold text-center">
+      <div className="mb-[6vh]">
+        <h2 className="mb-[3vh] text-2xl font-bold text-center">
           {t(`${viewDictionary}.upcomingGamesTitle`, 'Próximas Pruebas')}
         </h2>
 
         {loadingGames ? (
-          <div className="flex items-center justify-center h-40">
+          <div className="flex items-center justify-center h-[40vh] sm:h-[30vh]">
             <Loader loading={true} />
           </div>
         ) : upcomingGames.length > 0 ? (
           <div className="relative">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid grid-cols-1 gap-[1.5rem] md:grid-cols-2 lg:grid-cols-3">
               {getCurrentPageGames().map((game) => (
                 <div
                   key={game.id}
-                  className="relative p-6 transition-all duration-300 overflow-hidden bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg hover:shadow-xl"
+                  className="relative p-[5%] transition-all duration-300 overflow-hidden bg-white bg-opacity-75 rounded-lg sm:rounded-xl md:rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg hover:shadow-xl"
                 >
-                  <div className="absolute top-0 right-0 px-3 py-1 text-sm font-medium text-white bg-green-500 rounded-bl-lg">
+                  <div className="absolute top-0 right-0 px-[0.75rem] py-[0.25rem] text-sm font-medium text-white bg-green-500 rounded-bl-lg">
                     {game.season ||
                       t(`${viewDictionary}.noSeason`, 'Sin temporada')}
                   </div>
 
-                  <h3 className="mb-3 text-xl font-bold truncate">
+                  <h3 className="mb-[0.75rem] text-xl font-bold truncate">
                     {game.name}
                   </h3>
 
-                  <div className="mb-3 text-gray-600">
-                    <div className="flex items-center mb-2">
+                  <div className="mb-[0.75rem] text-gray-600">
+                    <div className="flex items-center mb-[0.5rem]">
                       <svg
-                        className="w-5 h-5 mr-2"
+                        className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]"
                         fill="currentColor"
                         viewBox="0 0 20 20"
                         xmlns="http://www.w3.org/2000/svg"
@@ -479,9 +481,9 @@ function CrewMainPage() {
                     </div>
 
                     {game.time && (
-                      <div className="flex items-center mb-2">
+                      <div className="flex items-center mb-[0.5rem]">
                         <svg
-                          className="w-5 h-5 mr-2"
+                          className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"
@@ -497,9 +499,9 @@ function CrewMainPage() {
                     )}
 
                     {game.location && (
-                      <div className="flex items-center mb-2">
+                      <div className="flex items-center mb-[0.5rem]">
                         <svg
-                          className="w-5 h-5 mr-2"
+                          className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"
@@ -517,7 +519,7 @@ function CrewMainPage() {
                     {game.minParticipants && (
                       <div className="flex items-center">
                         <svg
-                          className="w-5 h-5 mr-2"
+                          className="w-[1.25rem] h-[1.25rem] mr-[0.5rem]"
                           fill="currentColor"
                           viewBox="0 0 20 20"
                           xmlns="http://www.w3.org/2000/svg"
@@ -536,23 +538,22 @@ function CrewMainPage() {
                   </div>
 
                   {game.description && (
-                    <p className="mt-3 text-sm text-gray-700 line-clamp-2">
+                    <p className="mt-[0.75rem] text-sm text-gray-700 line-clamp-2">
                       {game.description}
                     </p>
                   )}
 
-                  <div className="flex justify-end mt-4">
+                  <div className="flex justify-end mt-[1rem]">
                     {userData?.role === 'admin' && (
                       <DynamicButton
                         type="view"
                         size="x-small"
                         state="normal"
-                        onClick={() => {
-                          const gameSlug = generateSlug(game.name)
-                          navigate(`/game-details/${gameSlug}`, {
+                        onClick={() =>
+                          navigate(`/game-details/${generateSlug(game.name)}`, {
                             state: { gameId: game.id },
                           })
-                        }}
+                        }
                       />
                     )}
                   </div>
@@ -568,13 +569,13 @@ function CrewMainPage() {
                 itemsPerPage={gamesPerPage}
                 onChange={handleGamePageChange}
                 size="medium"
-                className="flex justify-center mt-6"
+                className="flex justify-center mt-[1.5rem]"
                 scrollToTop={false}
               />
             )}
           </div>
         ) : (
-          <div className="p-6 text-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[40px]">
+          <div className="p-[5%] text-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-lg sm:rounded-xl md:rounded-2xl">
             <p className="t18r">
               {t(
                 `${viewDictionary}.noUpcomingGames`,
@@ -585,22 +586,22 @@ function CrewMainPage() {
         )}
       </div>
 
-      <div className="mb-12">
+      <div className="mb-[6vh]">
         {rankingLoading ? (
-          <div className="flex items-center justify-center h-40">
+          <div className="flex items-center justify-center h-[30vh] sm:h-[20vh]">
             <Loader loading={true} />
           </div>
-        ) : sortedCrews.length > 0 ? (
+        ) : (
           <div
-            className="overflow-x-auto backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[40px] p-6"
+            className="backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-lg sm:rounded-xl md:rounded-2xl p-[5%]"
             style={{ zIndex: -1 }}
           >
-            <div className="flex flex-row justify-between">
-              <h3 className="mb-4 t24b">
+            <div className="flex flex-col sm:flex-row justify-between mb-[1rem] sm:items-center">
+              <h3 className="mb-[1rem] sm:mb-0 t24b">
                 {t(`${viewDictionary}.rankingSubtitle`, 'Clasificación')} -{' '}
                 {selectedSeason}
               </h3>
-              <div className="w-full md:w-auto">
+              <div className="w-full sm:w-auto">
                 <DynamicInput
                   name="seasonSelector"
                   textId={`${viewDictionary}.seasonSelector`}
@@ -615,113 +616,209 @@ function CrewMainPage() {
                 />
               </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="text-left border-b-2 border-gray-200">
-                    <th className="px-4 py-3 t16b">#</th>
-                    <th className="px-4 py-3 t16b">
-                      {t(`${viewDictionary}.crew`, 'Peña')}
-                    </th>
-                    <th className="px-4 py-3 text-center t16b">
-                      {t(`${viewDictionary}.points`, 'Puntos')}
-                    </th>
-                    <th className="px-4 py-3 text-center t16b">
-                      {t(`${viewDictionary}.played`, 'Juegos')}
-                    </th>
-                    <th className="px-4 py-3 text-center t16b">
-                      {t(`${viewDictionary}.participation`, 'Participación')}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
+
+            {sortedCrews.length > 0 ? (
+              <>
+                {/* Vista de tabla para pantallas sm y superiores */}
+                <div className="relative hidden w-full overflow-x-auto sm:block">
+                  <div className="text-center text-sm text-gray-500 mb-[1rem]">
+                    <span>
+                      &#8594;{' '}
+                      {t(
+                        `${viewDictionary}.swipeToSeeMore`,
+                        'Desliza para ver más'
+                      )}
+                    </span>
+                  </div>
+                  <table className="w-full border-collapse min-w-[600px]">
+                    <thead>
+                      <tr className="text-left border-b-2 border-gray-200">
+                        <th className="px-[1rem] py-[0.75rem] t16b">#</th>
+                        <th className="px-[1rem] py-[0.75rem] t16b">
+                          {t(`${viewDictionary}.crew`, 'Peña')}
+                        </th>
+                        <th className="px-[1rem] py-[0.75rem] text-center t16b">
+                          {t(`${viewDictionary}.points`, 'Puntos')}
+                        </th>
+                        <th className="px-[1rem] py-[0.75rem] text-center t16b">
+                          {t(`${viewDictionary}.played`, 'Juegos')}
+                        </th>
+                        <th className="px-[1rem] py-[0.75rem] text-center t16b">
+                          {t(
+                            `${viewDictionary}.participation`,
+                            'Participación'
+                          )}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sortedCrews.map((crew, index) => {
+                        const stats = calculateStats(crew)
+
+                        return (
+                          <tr
+                            key={crew.id}
+                            className={`border-b border-gray-200 hover:bg-gray-50 ${
+                              index < 3 ? 'bg-yellow-50' : ''
+                            }`}
+                          >
+                            <td className="px-4 py-4 t16b">
+                              {index + 1}
+                              {index === 0 && (
+                                <span className="ml-2 text-yellow-500">🏆</span>
+                              )}
+                            </td>
+                            <td className="px-4 py-4">
+                              <div className="flex items-center">
+                                {crew.logoURL ? (
+                                  <img
+                                    src={crew.logoURL}
+                                    alt={`Logo de ${crew.name}`}
+                                    className="object-cover w-10 h-10 mr-3 rounded-full"
+                                  />
+                                ) : (
+                                  <div className="flex items-center justify-center w-10 h-10 mr-3 text-white bg-gray-400 rounded-full">
+                                    {crew.name.charAt(0)}
+                                  </div>
+                                )}
+                                <span className="t16b">{crew.name}</span>
+                              </div>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="px-4 py-1 font-bold text-green-800 bg-green-100 rounded-full t18b">
+                                {crew.seasonPoints[selectedSeason] || 0}
+                              </span>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <span className="t16r">
+                                {stats.playedGames} / {stats.totalGames}
+                              </span>
+                            </td>
+                            <td className="px-4 py-4 text-center">
+                              <div className="flex items-center justify-center">
+                                <div className="relative flex items-center w-full h-4 bg-gray-200 rounded-full">
+                                  <div
+                                    className="h-4 rounded-full bg-gradient-to-r from-green-400 to-green-600"
+                                    style={{ width: `${stats.participation}%` }}
+                                  ></div>
+                                  <span className="absolute inset-0 flex items-center justify-center t14b">
+                                    {stats.participation}%
+                                  </span>
+                                </div>
+                              </div>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Vista de cards para móviles */}
+                <div className="block sm:hidden space-y-[1rem]">
                   {sortedCrews.map((crew, index) => {
                     const stats = calculateStats(crew)
 
                     return (
-                      <tr
+                      <div
                         key={crew.id}
-                        className={`border-b border-gray-200 hover:bg-gray-50 ${
-                          index < 3 ? 'bg-yellow-50' : ''
+                        className={`p-[4%] rounded-lg shadow ${
+                          index < 3 ? 'bg-yellow-50' : 'bg-white bg-opacity-75'
                         }`}
                       >
-                        <td className="px-4 py-4 t16b">
-                          {index + 1}
-                          {index === 0 && (
-                            <span className="ml-2 text-yellow-500">🏆</span>
-                          )}
-                        </td>
-                        <td className="px-4 py-4">
+                        <div className="flex items-center justify-between mb-[0.75rem]">
                           <div className="flex items-center">
-                            {crew.logoURL ? (
-                              <img
-                                src={crew.logoURL}
-                                alt={`Logo de ${crew.name}`}
-                                className="object-cover w-10 h-10 mr-3 rounded-full"
-                              />
-                            ) : (
-                              <div className="flex items-center justify-center w-10 h-10 mr-3 text-white bg-gray-400 rounded-full">
-                                {crew.name.charAt(0)}
-                              </div>
+                            <div className="flex items-center justify-center w-6 h-6 mr-2 font-bold text-white bg-gray-700 rounded-full">
+                              {index + 1}
+                            </div>
+                            {index === 0 && (
+                              <span className="text-lg text-yellow-500">
+                                🏆
+                              </span>
                             )}
-                            <span className="t16b">{crew.name}</span>
                           </div>
-                        </td>
-                        <td className="px-4 py-4 text-center">
-                          <span className="px-4 py-1 font-bold text-green-800 bg-green-100 rounded-full t18b">
-                            {crew.seasonPoints[selectedSeason] || 0}
+                          <span className="px-3 py-1 font-bold text-green-800 bg-green-100 rounded-full t18b">
+                            {crew.seasonPoints[selectedSeason] || 0} pts
                           </span>
-                        </td>
-                        <td className="px-4 py-4 text-center">
-                          <span className="t16r">
-                            {stats.playedGames} / {stats.totalGames}
-                          </span>
-                        </td>
-                        <td className="px-4 py-4 text-center">
-                          <div className="relative flex items-center w-full h-4 bg-gray-200 rounded-full">
-                            <div
-                              className="h-4 rounded-full bg-gradient-to-r from-green-400 to-green-600"
-                              style={{ width: `${stats.participation}%` }}
-                            ></div>
-                            <span className="absolute inset-0 flex items-center justify-center t14b">
-                              {stats.participation}%
+                        </div>
+
+                        <div className="flex items-center mb-[0.75rem]">
+                          {crew.logoURL ? (
+                            <img
+                              src={crew.logoURL}
+                              alt={`Logo de ${crew.name}`}
+                              className="object-cover w-8 h-8 mr-2 rounded-full"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center w-8 h-8 mr-2 text-white bg-gray-400 rounded-full">
+                              {crew.name.charAt(0)}
+                            </div>
+                          )}
+                          <span className="font-bold t16b">{crew.name}</span>
+                        </div>
+
+                        <div className="space-y-2">
+                          <div>
+                            <span className="text-sm text-gray-600">
+                              {t(`${viewDictionary}.played`, 'Juegos')}:
+                            </span>
+                            <span className="ml-2 font-medium">
+                              {stats.playedGames} / {stats.totalGames}
                             </span>
                           </div>
-                        </td>
-                      </tr>
+
+                          <div>
+                            <div className="flex items-center justify-between mb-1">
+                              <span className="text-sm text-gray-600">
+                                {t(
+                                  `${viewDictionary}.participation`,
+                                  'Participación'
+                                )}
+                                :
+                              </span>
+                              <span className="font-medium">
+                                {stats.participation}%
+                              </span>
+                            </div>
+                            <div className="relative h-2 bg-gray-200 rounded-full">
+                              <div
+                                className="absolute top-0 left-0 h-2 rounded-full bg-gradient-to-r from-green-400 to-green-600"
+                                style={{ width: `${stats.participation}%` }}
+                              ></div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     )
                   })}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        ) : (
-          <div
-            className="p-6 text-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[40px]"
-            style={{ zIndex: -1 }}
-          >
-            <p className="t18r">
-              {t(
-                `${viewDictionary}.noCrewsForSeason`,
-                'No hay peñas con puntuación para esta temporada'
-              )}
-            </p>
+                </div>
+              </>
+            ) : (
+              <div className="text-center mt-[2rem]">
+                <p className="t18r">
+                  {t(
+                    `${viewDictionary}.noCrewsForSeason`,
+                    'No hay peñas con puntuación para esta temporada'
+                  )}
+                </p>
+              </div>
+            )}
           </div>
         )}
       </div>
 
       {user && (
-        <div className="mt-12">
+        <div className="mt-[6vh]">
           {authLoading || loading || usersLoading ? (
-            <div className="flex items-center justify-center my-8">
+            <div className="flex items-center justify-center my-[2rem]">
               <Loader loading={true} />
             </div>
           ) : userCrews.length === 0 ? (
-            <div className="max-w-3xl p-8 mx-auto text-center bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg flex flex-col items-center sm:flex-none">
-              <h2 className="mb-6 text-3xl font-bold text-gray-800">
+            <div className="max-w-3xl p-[5%] mx-auto text-center bg-white bg-opacity-75 rounded-lg sm:rounded-xl md:rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg flex flex-col items-center sm:flex-none">
+              <h2 className="mb-[1.5rem] text-3xl font-bold text-gray-800">
                 {t(`${viewDictionary}.noCrewsTitle`)}
               </h2>
-              <p className="mb-8 text-lg">
+              <p className="mb-[2rem] text-lg">
                 {t(`${viewDictionary}.noCrewsMessage`)}
               </p>
               <div className="flex justify-center">
@@ -736,18 +833,20 @@ function CrewMainPage() {
             </div>
           ) : (
             <>
-              <div className="w-auto space-y-6">
+              <div className="w-auto space-y-[1.5rem]">
                 {userCrews.map((crew) => (
                   <div
                     key={crew.id}
-                    className="p-6 transition-all duration-300 bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg hover:shadow-xl"
+                    className="p-[5%] transition-all duration-300 bg-white bg-opacity-75 rounded-lg sm:rounded-xl md:rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg hover:shadow-xl"
                   >
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center">
-                        <h2 className="text-2xl font-bold">{crew.title}</h2>
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-[1rem]">
+                      <div className="flex items-center mb-[0.5rem] sm:mb-0">
+                        <h2 className="text-xl font-bold sm:text-2xl">
+                          {crew.title}
+                        </h2>
 
                         <span
-                          className={`ml-3 px-3 py-1 text-sm font-medium rounded-full 
+                          className={`ml-[0.75rem] px-[0.75rem] py-[0.25rem] text-sm font-medium rounded-full 
                           ${
                             crew.status === 'Activo'
                               ? 'bg-green-100 text-green-800'
@@ -764,7 +863,7 @@ function CrewMainPage() {
                         </span>
                       </div>
                       <span
-                        className={`px-3 py-1 text-sm font-medium rounded-full ${
+                        className={`px-[0.75rem] py-[0.25rem] text-sm font-medium rounded-full ${
                           crew.role === 'responsable'
                             ? 'bg-green-100 text-green-800'
                             : 'bg-green-100 text-green-800'
@@ -776,13 +875,13 @@ function CrewMainPage() {
                       </span>
                     </div>
 
-                    <div className="mb-4">
-                      <h3 className="mb-2 font-semibold t16b">
+                    <div className="mb-[1rem]">
+                      <h3 className="mb-[0.5rem] font-semibold t16b">
                         {t(`${viewDictionary}.responsables`)}
                       </h3>
                       {responsableNames[crew.id] &&
                       responsableNames[crew.id].length > 0 ? (
-                        <ul className="pl-5 list-disc">
+                        <ul className="pl-[1.25rem] list-disc">
                           {responsableNames[crew.id].map((name, index) => (
                             <li key={index} className="text-gray-700">
                               {name}
@@ -797,11 +896,11 @@ function CrewMainPage() {
                     </div>
 
                     <div>
-                      <h3 className="mb-2 font-semibold t16b">
+                      <h3 className="mb-[0.5rem] font-semibold t16b">
                         {t(`${viewDictionary}.members`)} (
                         {crew.membersNames?.length || 0})
                       </h3>
-                      <div className="p-2 overflow-y-auto text-[#696969] max-h-40 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+                      <div className="p-[0.5rem] overflow-y-auto text-[#696969] max-h-[10rem] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                         {crew.membersNames && crew.membersNames.length > 0 ? (
                           <DynamicItems
                             items={crew.membersNames.map((memberName) => ({
@@ -810,7 +909,7 @@ function CrewMainPage() {
                             }))}
                           />
                         ) : (
-                          <p className="p-2 text-gray-500">
+                          <p className="p-[0.5rem] text-gray-500">
                             {t(`${viewDictionary}.noMembers`)}
                           </p>
                         )}
@@ -819,15 +918,15 @@ function CrewMainPage() {
 
                     {crewMessages[crew.id] &&
                       crewMessages[crew.id].length > 0 && (
-                        <div className="mt-6">
-                          <h3 className="mb-3 font-semibold t16b">
+                        <div className="mt-[1.5rem]">
+                          <h3 className="mb-[0.75rem] font-semibold t16b">
                             {t(`${viewDictionary}.messages`, 'Mensajes')}
                           </h3>
-                          <div className="space-y-3">
+                          <div className="space-y-[0.75rem]">
                             {crewMessages[crew.id].map((message) => (
                               <div
                                 key={message.id}
-                                className={`p-3 border rounded-lg ${getMessageTypeStyle(
+                                className={`p-[0.75rem] border rounded-lg ${getMessageTypeStyle(
                                   message.messageType
                                 )}`}
                               >
@@ -836,7 +935,7 @@ function CrewMainPage() {
                                     {getMessageTypeIcon(message.messageType)}
                                   </div>
                                   <div className="flex-grow">
-                                    <div className="flex items-center justify-between mb-1">
+                                    <div className="flex items-center justify-between mb-[0.25rem]">
                                       <p className="font-medium">
                                         {message.messageType === 'rechazo'
                                           ? 'Aviso importante'
@@ -855,7 +954,7 @@ function CrewMainPage() {
                         </div>
                       )}
 
-                    <div className="flex justify-end mt-4 space-x-3">
+                    <div className="flex justify-end mt-[1rem] space-x-[0.75rem]">
                       {crew.role === 'responsable' && (
                         <DynamicButton
                           type="edit"
@@ -892,7 +991,7 @@ function CrewMainPage() {
               </div>
 
               {!userCrews.some((crew) => crew.role === 'responsable') && (
-                <div className="flex justify-center mt-10">
+                <div className="flex justify-center mt-[2.5rem]">
                   <DynamicButton
                     type="add"
                     size="medium"
@@ -908,18 +1007,18 @@ function CrewMainPage() {
       )}
 
       {!user && !authLoading && (
-        <div className="mt-12">
-          <div className="max-w-3xl p-8 mx-auto text-center bg-white bg-opacity-75 rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg flex flex-col items-center sm:flex-none">
-            <h2 className="mb-6 text-3xl font-bold text-gray-800">
+        <div className="mt-[6vh]">
+          <div className="max-w-3xl p-[5%] mx-auto text-center bg-white bg-opacity-75 rounded-lg sm:rounded-xl md:rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg flex flex-col items-center sm:flex-none">
+            <h2 className="mb-[1.5rem] text-3xl font-bold text-gray-800">
               {t('common.authRequired.title')}
             </h2>
 
-            <div className="mb-8 text-lg">
-              <p className="mb-4">{t('common.authRequired.text')}</p>
+            <div className="mb-[2rem] text-lg">
+              <p className="mb-[1rem]">{t('common.authRequired.text')}</p>
               <p>{t('common.authRequired.crewViewInfo')}</p>
             </div>
 
-            <div className="flex flex-col justify-center space-y-4 md:flex-row md:space-y-0 md:space-x-6">
+            <div className="flex flex-col justify-center space-y-[1rem] md:flex-row md:space-y-0 md:space-x-[1.5rem]">
               <DynamicButton
                 type="personAdd"
                 size="medium"

@@ -68,7 +68,7 @@ function HomePage() {
 
 const HeroSection = ({ logoSrc }) => (
   <section className="relative top-0 h-[90vh] min-h-[500px] -mt-4 sm:-mt-16 sm:mb-[5vh] mb-0 bg-transparent max-w-full sm:max-w-none">
-    <div className="absolute inset-0 flex items-center justify-center">
+    <div className="absolute inset-0 flex items-center justify-center mt-[60%] sm:mt-0">
       <img
         src={logoSrc}
         alt="Patronat 50 Aniversari"
@@ -77,17 +77,17 @@ const HeroSection = ({ logoSrc }) => (
     </div>
     <div className="absolute inset-0 bg-transparent" />
     <div className="relative flex flex-col justify-between h-full">
-      <p className="w-auto pt-[10vh] font-bold text-black t36l text-9xl">
+      <p className="w-auto pt-[10vh] font-bold text-black sm:t36l t24l text-9xl">
         <Trans i18nKey="pages.home.heroSection.description" />
       </p>
       <div className="pb-[5vh] sm:pb-0">
-        <p className="font-bold text-black sm:t64xl t40l text-9xl text-end">
+        <p className="font-bold text-black sm:t64xl t24l text-9xl text-end">
           <Trans
             i18nKey="pages.home.heroSection.title"
             components={{ br: <br /> }}
           />
         </p>
-        <p className="font-bold sm:t92b t64b text-9xl text-end text-[#15642E]">
+        <p className="font-bold sm:t92b sm:t64b t40b text-9xl text-end text-[#15642E]">
           <Trans i18nKey="pages.home.heroSection.roquetesTitle" />
         </p>
       </div>

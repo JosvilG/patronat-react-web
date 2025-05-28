@@ -255,24 +255,27 @@ const EventPage = () => {
   const hasServicesInfo = eventServicesDetails.length > 0
 
   return (
-    <div className="h-auto px-4 pb-4">
-      <h1 className="mb-20 overflow-hidden text-center sm:t64b t40b whitespace-break-spaces line-clamp-2">
+    <div className="h-auto w-[92%] mx-auto pb-[4vh] sm:pb-[6vh]">
+      <h1 className="mb-[5vh] sm:mb-[8vh] overflow-hidden text-center sm:t64b t40b whitespace-break-spaces line-clamp-2">
         {event.title}
       </h1>
 
-      <div className="grid justify-center gap-6 md:grid-cols-5">
-        <div className="mb-6 md:col-span-3 w-[340px] sm:w-auto">
+      <div className="grid grid-cols-1 md:grid-cols-5 gap-[1.5rem] justify-items-center md:justify-items-start">
+        {/* Imagen principal */}
+        <div className="md:col-span-3 w-full max-w-[90vw] md:max-w-full mb-[1.5rem] md:mb-0">
           <DynamicCard
             key={event.eventId}
             type="gallery"
-            extraClass="h-[53rem] "
+            extraClass="aspect-[3/4] w-full h-auto max-h-[80vh] object-cover"
             imageUrl={event.eventURL || '/placeholder.png'}
           />
         </div>
-        <div className="w-[340px]">
+
+        {/* Información lateral */}
+        <div className="md:col-span-2 w-full max-w-[90vw] md:max-w-full">
           {hasDateInfo && (
-            <div className="space-y-4 bg-[#D9D9D9]  rounded-[60px] h-fit sm:w-[430px] w-auto mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-              <h3 className="pt-4 pl-8 t40b">
+            <div className="space-y-[1rem] bg-[#D9D9D9] rounded-[2rem] sm:rounded-[3rem] h-fit w-full mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+              <h3 className="pt-[1rem] pl-[1.5rem] sm:pl-[2rem] t36b sm:t40b">
                 {t(`${viewDictionary}.dateInfoTitle`)}
               </h3>
               <DynamicItems items={eventDataDetails} />
@@ -280,8 +283,8 @@ const EventPage = () => {
           )}
 
           {hasAccessInfo && (
-            <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit sm:w-[430px] w-auto mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-              <h3 className="pt-4 pl-8 t40b">
+            <div className="space-y-[1rem] bg-[#D9D9D9] rounded-[2rem] sm:rounded-[3rem] h-fit w-full mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+              <h3 className="pt-[1rem] pl-[1.5rem] sm:pl-[2rem] t36b sm:t40b">
                 {t(`${viewDictionary}.locationInfoTitle`)}
               </h3>
               <DynamicItems items={eventAccessDetails} />
@@ -289,8 +292,8 @@ const EventPage = () => {
           )}
 
           {hasServicesInfo && (
-            <div className="space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit sm:w-[430px] w-auto mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-              <h3 className="pt-4 pl-8 t40b">
+            <div className="space-y-[1rem] bg-[#D9D9D9] rounded-[2rem] sm:rounded-[3rem] h-fit w-full mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+              <h3 className="pt-[1rem] pl-[1.5rem] sm:pl-[2rem] t36b sm:t40b">
                 {t(`${viewDictionary}.pricesInfoTitle`)}
               </h3>
               <DynamicItems items={eventServicesDetails} />
@@ -298,8 +301,10 @@ const EventPage = () => {
           )}
         </div>
       </div>
+
+      {/* Botón de inscripción */}
       {event.needForm && (
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center my-[2rem]">
           <DynamicButton
             size="large"
             state="primary"
@@ -309,47 +314,50 @@ const EventPage = () => {
           />
         </div>
       )}
+
+      {/* Descripción del evento */}
       {event.description && (
-        <div className="flex flex-col items-center mb-4 p-4 justify-center rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+        <div className="flex flex-col items-center mb-[1.5rem] p-[1rem] sm:p-[1.5rem] justify-center rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           <div className="w-full md:w-auto">
-            <p className="break-words t20r">{event.description}</p>
+            <p className="break-words t18r sm:t20r">{event.description}</p>
           </div>
         </div>
       )}
 
+      {/* Organizadores y colaboradores */}
       {(organizer || hasCollaborators) && (
-        <div className="flex flex-col items-center justify-between p-4 rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+        <div className="flex flex-col items-center justify-between p-[1rem] sm:p-[1.5rem] rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           {organizer && (
             <div className="w-full md:w-auto">
-              <p className="mb-3 text-xl font-bold">
+              <p className="mb-[0.75rem] t18b sm:t20b">
                 {t(`${viewDictionary}.organizer`)}
               </p>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-[0.75rem]">
                 <img
                   src={organizer.url || '/placeholder.png'}
                   alt={`Organizador ${organizer.name}`}
-                  className="object-contain w-24 h-24 rounded-full"
+                  className="object-contain w-[4.5rem] h-[4.5rem] sm:w-[6rem] sm:h-[6rem] rounded-full"
                 />
               </div>
             </div>
           )}
 
           {hasCollaborators && (
-            <div className="w-full mt-6 md:mt-0 sm:w-fit">
-              <p className="mb-3 text-xl font-bold">
+            <div className="w-full mt-[1.5rem] md:mt-0 sm:w-fit">
+              <p className="mb-[0.75rem] t18b sm:t20b">
                 {t(`${viewDictionary}.collaborators`)}
               </p>
-              <div className="flex flex-wrap items-center gap-4">
+              <div className="flex flex-wrap items-center gap-[1rem]">
                 {event.collaborators?.map((collabId) =>
                   collaborators[collabId] ? (
                     <div
                       key={collabId}
-                      className="flex flex-col items-center gap-2"
+                      className="flex flex-col items-center gap-[0.5rem]"
                     >
                       <img
                         src={collaborators[collabId]?.url || '/placeholder.png'}
                         alt={collaborators[collabId]?.name || 'Colaborador'}
-                        className="object-contain w-24 h-24 rounded-full"
+                        className="object-contain w-[4.5rem] h-[4.5rem] sm:w-[6rem] sm:h-[6rem] rounded-full"
                       />
                     </div>
                   ) : null
@@ -360,32 +368,33 @@ const EventPage = () => {
         </div>
       )}
 
+      {/* Participantes */}
       {hasParticipants && (
-        <div className="flex flex-col items-center justify-between p-4 my-20 rounded-lg md:flex-row">
+        <div className="flex flex-col items-center justify-between p-[1rem] sm:p-[1.5rem] my-[5vh] rounded-lg md:flex-row">
           <div className="w-full text-center">
-            <h2 className="sm:t64bl t40b">
+            <h2 className="t40b sm:t64bl">
               {t(`${viewDictionary}.withParticipation`)}
             </h2>
-            <div className="flex flex-col items-center gap-4 sm:my-20 ">
+            <div className="flex flex-col items-center gap-[2rem] my-[5vh] sm:my-[6vh]">
               {event.participants?.map((partId) =>
                 participants[partId] ? (
                   <div
                     key={partId}
-                    className="flex flex-col items-center justify-start min-w-full sm:flex-row sm:items-center sm:gap-6"
+                    className="flex flex-col items-center justify-start w-full sm:flex-row sm:items-center sm:gap-[1.5rem]"
                   >
                     <img
                       src={participants[partId]?.url || '/placeholder.png'}
                       alt={participants[partId]?.name || 'Participante'}
-                      className="object-contain w-64 h-64 rounded-full"
+                      className="object-contain w-[10rem] h-[10rem] sm:w-[16rem] sm:h-[16rem] rounded-full"
                     />
-                    <div className="flex flex-col items-start justify-center">
-                      <span className="sm:t64bl t40b">
+                    <div className="flex flex-col items-start justify-center mt-[1rem] sm:mt-0">
+                      <span className="t36b sm:t64bl">
                         {participants[partId]?.name}
                       </span>
-                      <p className="text-left sm:t24l t20l w-[300px] sm:w-[856px] sm:overflow-hidden sm:text-ellipsis break-words">
+                      <p className="text-left t18l sm:t24l w-full max-w-full sm:max-w-[90%] break-words">
                         {participants[partId]?.desc}
                       </p>
-                      <div className="flex flex-row items-center justify-center w-full gap-4 mt-2 sm:justify-start">
+                      <div className="flex flex-row items-center justify-center w-full gap-[1rem] mt-[0.75rem] sm:justify-start">
                         {participants[partId]?.twitter && (
                           <a
                             href={

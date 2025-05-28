@@ -12,7 +12,7 @@ import DynamicButton from '../../components/Buttons'
 import Loader from '../../components/Loader'
 import PaginationControl from '../../components/Pagination'
 import useSearchFilter from '../../hooks/useSearchFilter'
-import { showPopup } from '../../services/popupService' // Importamos showPopup
+import { showPopup } from '../../services/popupService'
 
 function UploadList() {
   const { t } = useTranslation()
@@ -137,18 +137,18 @@ function UploadList() {
     return (
       <Loader
         loading={true}
-        size="50px"
+        size="10vmin"
         color="rgb(21, 100, 46)"
         text={t(`${viewDictionary}.loadingText`)}
       />
     )
 
   return (
-    <div className="flex flex-col items-center max-w-full pb-6 mx-auto min-h-dvh h-fit md:max-w-fit sm:flex-none">
-      <h1 className="mb-4 text-center t40b sm:t64b">
+    <div className="flex flex-col items-center px-[4%] pb-[4vh] mx-auto min-h-dvh h-fit w-[92%] sm:w-full md:w-auto sm:flex-none">
+      <h1 className="mb-[4vh] text-center t40b sm:t64b">
         {t(`${viewDictionary}.title`)}
       </h1>
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
+      <div className="grid items-center justify-start grid-cols-1 gap-[3vh] mb-[4vh] w-full md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
@@ -157,19 +157,21 @@ function UploadList() {
           onChange={handleSearchChange}
         />
       </div>
-      <ul className="space-y-4 max-w-[370px] sm:max-w-none">
+      <ul className="space-y-[3vh] w-full">
         {currentUploads.map((upload, index) => (
           <li
             key={index}
-            className="flex items-center justify-between p-4 space-x-4 bg-gray-100 rounded-lg shadow"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-[4%] sm:p-[3%] space-y-[2vh] sm:space-y-0 sm:space-x-[3%] bg-gray-100 rounded-lg shadow"
           >
-            <div>
-              <span className="block text-lg font-semibold">{upload.name}</span>
-              <span className="block text-sm text-gray-500">
+            <div className="w-full sm:w-auto">
+              <span className="block text-lg font-semibold truncate max-w-full sm:max-w-[30vw]">
+                {upload.name}
+              </span>
+              <span className="block max-w-full text-sm text-gray-500 truncate">
                 {upload.fullPath}
               </span>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex w-full sm:w-auto justify-end space-x-[2vw]">
               <DynamicButton
                 size="x-small"
                 type="save"
@@ -195,7 +197,7 @@ function UploadList() {
         onChange={handlePageChange}
         itemName="archivos"
         size="medium"
-        className="my-6"
+        className="my-[5vh]"
       />
     </div>
   )

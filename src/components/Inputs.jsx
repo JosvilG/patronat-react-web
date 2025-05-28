@@ -81,13 +81,12 @@ const DynamicInput = ({
       return
     }
 
-    // Incluir tanto value como files en el evento personalizado
     onChange &&
       onChange({
         target: {
           name: e.target.name,
           value: file,
-          files: e.target.files, // Añadir la propiedad files
+          files: e.target.files,
         },
       })
   }
@@ -101,27 +100,27 @@ const DynamicInput = ({
       )}
       <div className="relative">
         <div
-          className="w-[326px] sm:w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl cursor-pointer flex justify-between items-center"
+          className="w-full max-w-xs sm:max-w-md h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl cursor-pointer flex justify-between items-center"
           role="button"
           tabIndex={0}
           onClick={() => setIsOpen(!isOpen)}
         >
-          <span className="text-[#696969]">
+          <span className="text-[#696969] truncate pr-2">
             {selectedOption ? t(selectedOption.label) : translatedPlaceholder}
           </span>
           {!isOpen ? (
-            <ExpandMoreIcon fontSize="large" />
+            <ExpandMoreIcon fontSize="large" className="flex-shrink-0" />
           ) : (
-            <ExpandLessIcon fontSize="large" />
+            <ExpandLessIcon fontSize="large" className="flex-shrink-0" />
           )}
         </div>
         {isOpen && (
-          <ul className="absolute flex flex-col items-end top-[58px] w-[326px] sm:w-[400px] left-0 right-0 z-10 rounded-[24px] max-h-60 overflow-y-auto">
+          <ul className="absolute flex flex-col top-[58px] w-full left-0 right-0 z-10 rounded-[24px] max-h-60 overflow-y-auto">
             {options.map((opt, idx) => (
               <li
                 key={idx}
                 onClick={() => handleSelectOption(opt)}
-                className="pl-12 sm:px-4 py-2 w-[348px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
+                className="px-4 py-2 w-full mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer truncate"
                 role="option"
               >
                 {t(opt.label)}
@@ -143,14 +142,16 @@ const DynamicInput = ({
       case 'dni':
       case 'phone':
         return (
-          <div>
+          <div className="w-full max-w-xs sm:max-w-md">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
               </label>
             )}
             <div
-              className={`my-4 flex ${type === 'number' ? 'w-[200px]' : 'w-[326px] sm:w-[400px]'} h-[54px] items-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl`}
+              className={`my-4 flex ${
+                type === 'number' ? 'w-full max-w-[200px]' : 'w-full'
+              } h-[54px] items-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl`}
             >
               <input
                 autoComplete={'off'}
@@ -169,51 +170,46 @@ const DynamicInput = ({
                 }
                 onChange={handleChange}
                 {...restProps}
-                className={`t16l ${type === 'number' ? 'w-[200px]' : 'w-[326px] sm:w-[400px]'} px-4 py-2 focus:outline-none bg-transparent`}
+                className={`t16l ${
+                  type === 'number'
+                    ? 'w-[calc(100%-40px)]'
+                    : 'w-[calc(100%-40px)]'
+                } px-4 py-2 focus:outline-none bg-transparent`}
               />
-              {
+              <div className="flex justify-center flex-shrink-0 w-10">
                 {
-                  text: (
-                    <TitleIcon
-                      fontSize="large"
-                      className="relative sm:right-6 right-2 text-[#696969]"
-                    />
-                  ),
-                  users: (
-                    <AccountCircleIcon
-                      fontSize="large"
-                      className="relative sm:right-6 right-2 text-[#696969]"
-                    />
-                  ),
-                  email: (
-                    <EmailIcon
-                      fontSize="large"
-                      className="relative sm:right-6 right-2 text-[#696969]"
-                    />
-                  ),
-                  password: (
-                    <VisibilityIcon
-                      fontSize="large"
-                      className="relative sm:right-6 right-2 text-[#696969]"
-                    />
-                  ),
-                  number: (
-                    <NumbersIcon className="relative right-10 text-[#696969]" />
-                  ),
-                  dni: (
-                    <BrandingWatermarkIcon
-                      fontSize="large"
-                      className="relative sm:right-6 right-2 text-[#696969]"
-                    />
-                  ),
-                  phone: (
-                    <PhoneIcon
-                      fontSize="large"
-                      className="relative sm:right-6 right-2 text-[#696969]"
-                    />
-                  ),
-                }[type]
-              }
+                  {
+                    text: (
+                      <TitleIcon fontSize="large" className="text-[#696969]" />
+                    ),
+                    users: (
+                      <AccountCircleIcon
+                        fontSize="large"
+                        className="text-[#696969]"
+                      />
+                    ),
+                    email: (
+                      <EmailIcon fontSize="large" className="text-[#696969]" />
+                    ),
+                    password: (
+                      <VisibilityIcon
+                        fontSize="large"
+                        className="text-[#696969]"
+                      />
+                    ),
+                    number: <NumbersIcon className="text-[#696969]" />,
+                    dni: (
+                      <BrandingWatermarkIcon
+                        fontSize="large"
+                        className="text-[#696969]"
+                      />
+                    ),
+                    phone: (
+                      <PhoneIcon fontSize="large" className="text-[#696969]" />
+                    ),
+                  }[type]
+                }
+              </div>
             </div>
           </div>
         )
@@ -221,22 +217,18 @@ const DynamicInput = ({
       case 'checkbox':
       case 'radio':
         return (
-          <div className="w-fit">
+          <div className="max-w-full w-fit">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
               </label>
             )}
             <div
-              className="flex items-center w-fit h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+              className="flex items-center w-fit max-w-full h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
               onClick={() => {
-                // Obtener el estado actual del checkbox
                 const checkbox = document.getElementById(name)
-                // Invertir el estado actual
                 const newCheckedState = !checkbox?.checked
-                // Actualizar el checkbox
                 if (checkbox) checkbox.checked = newCheckedState
-                // Disparar el onChange con el nuevo valor
                 onChange &&
                   onChange({
                     target: {
@@ -257,18 +249,20 @@ const DynamicInput = ({
                 className="hidden peer"
               />
               <div
-                className={`w-[34px] h-[34px] mr-3 border-4 border-[#696969] rounded-${
+                className={`w-[34px] h-[34px] flex-shrink-0 mr-3 border-4 border-[#696969] rounded-${
                   type === 'checkbox' ? 'lg' : 'full'
                 } transition-colors duration-200 ease-in-out peer-checked:bg-[#696969] peer-checked:border-[#696969]`}
               />
-              <span className="select-none t16r">{translatedLabel}</span>
+              <span className="truncate select-none t16r">
+                {translatedLabel}
+              </span>
             </div>
           </div>
         )
 
       case 'textarea':
         return (
-          <div className="w-[326px] sm:w-[400px]">
+          <div className="w-full max-w-xs sm:max-w-md">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
@@ -279,7 +273,7 @@ const DynamicInput = ({
               placeholder={translatedPlaceholder}
               onChange={handleChange}
               {...restProps}
-              className="t16l w-[326px] sm:w-[400px] min-h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+              className="t16l w-full min-h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
             />
           </div>
         )
@@ -290,7 +284,7 @@ const DynamicInput = ({
       case 'date':
       case 'time':
         return (
-          <div>
+          <div className="w-full max-w-[200px]">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
@@ -301,7 +295,7 @@ const DynamicInput = ({
               name={name}
               onChange={handleChange}
               {...restProps}
-              className="t16l w-[200px] h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl appearance-none"
+              className="t16l w-full h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl appearance-none"
             />
           </div>
         )
@@ -314,7 +308,7 @@ const DynamicInput = ({
                 {translatedLabel}
               </label>
             )}
-            <div className="flex space-x-2">
+            <div className="flex flex-wrap space-x-2 gap-y-2">
               {Array.from({ length: 6 }).map((_, idx) => (
                 <input
                   key={idx}
@@ -323,7 +317,7 @@ const DynamicInput = ({
                   name={`${name}[${idx}]`}
                   onChange={handleChange}
                   {...restProps}
-                  className="t24s w-[54px] h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl text-center"
+                  className="t24s w-[calc(16.666%-4px)] min-w-[40px] max-w-[54px] aspect-square px-0 py-0 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl text-center"
                 />
               ))}
             </div>
@@ -332,7 +326,7 @@ const DynamicInput = ({
 
       case 'document':
         return (
-          <div className="w-[326px] sm:w-[400px]">
+          <div className="w-full max-w-xs sm:max-w-md">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
@@ -341,12 +335,12 @@ const DynamicInput = ({
             <div>
               <label
                 htmlFor={name}
-                className="flex content-center justify-between w-[326px] sm:w-[400px] h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+                className="flex content-center justify-between w-full h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
               >
-                <span className="flex flex-col justify-center mr-2 overflow-hidden t16r">
+                <span className="flex flex-col justify-center mr-2 overflow-hidden truncate t16r">
                   {t('components.inputs.addDocument')}
                 </span>
-                <NoteAddIcon fontSize="large" />
+                <NoteAddIcon fontSize="large" className="flex-shrink-0" />
               </label>
               <input
                 id={name}
