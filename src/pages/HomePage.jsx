@@ -67,27 +67,27 @@ function HomePage() {
 }
 
 const HeroSection = ({ logoSrc }) => (
-  <section className="relative top-0 h-[690px] -mt-16 sm:mb-[84px] mb-0 bg-transparent max-w-[350px] sm:max-w-none ">
+  <section className="relative top-0 h-[90vh] min-h-[500px] -mt-4 sm:-mt-16 sm:mb-[5vh] mb-0 bg-transparent max-w-full sm:max-w-none">
     <div className="absolute inset-0 flex items-center justify-center">
       <img
         src={logoSrc}
         alt="Patronat 50 Aniversari"
-        className="absolute w-full h-auto -z-10 opacity-5 top-4 left-4 "
+        className="absolute w-full h-auto -z-10 opacity-5 top-[2%] left-[2%]"
       />
     </div>
     <div className="absolute inset-0 bg-transparent" />
     <div className="relative flex flex-col justify-between h-full">
-      <p className="w-auto pt-20 font-bold text-black t36l text-9xl">
+      <p className="w-auto pt-[10vh] font-bold text-black t36l text-9xl">
         <Trans i18nKey="pages.home.heroSection.description" />
       </p>
-      <div className="pb-20 sm:pb-0">
+      <div className="pb-[5vh] sm:pb-0">
         <p className="font-bold text-black sm:t64xl t40l text-9xl text-end">
           <Trans
             i18nKey="pages.home.heroSection.title"
             components={{ br: <br /> }}
           />
         </p>
-        <p className="font-bold  sm:t92b t64b text-9xl text-end text-[#15642E]">
+        <p className="font-bold sm:t92b t64b text-9xl text-end text-[#15642E]">
           <Trans i18nKey="pages.home.heroSection.roquetesTitle" />
         </p>
       </div>
@@ -308,13 +308,13 @@ const GalleryCard = ({
   opacity = 1,
   scale = 1,
   clickable = true,
-  mobileView = false, // Añadir soporte para mobileView
+  mobileView = false,
 }) => (
   <motion.div
-    className={`flex-shrink-0 transition-all duration-300 px-3 ${
+    className={`flex-shrink-0 transition-all duration-300 px-[3%] ${
       mobileView
-        ? 'w-[calc(100vw-48px)] max-w-[380px]'
-        : 'max-sm:w-[380px] w-[550px] h-[530px]'
+        ? 'w-[90vw] max-w-[380px]'
+        : 'max-sm:w-full sm:w-[45vw] md:w-[35vw] lg:w-[550px] aspect-[1/0.96]'
     }`}
     style={{ opacity, scale }}
   >
@@ -329,11 +329,11 @@ const GalleryCard = ({
 )
 
 const AboutSection = ({ t }) => (
-  <section className="py-10 sm:mb-[84px] mb-0 text-center bg-transparent">
-    <h2 className="text-left sm:t64s t40s mb-[48px]">
+  <section className="py-[5vh] sm:mb-[5vh] mb-[3vh] text-center bg-transparent">
+    <h2 className="text-left sm:t64s t40s mb-[5vh]">
       <a href="/about">{t('pages.home.aboutSection.title')}</a>
     </h2>
-    <p className="sm:t24l t20l m-w-[1109px]">
+    <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px]">
       {t('pages.home.aboutSection.description')}
     </p>
   </section>
@@ -341,24 +341,24 @@ const AboutSection = ({ t }) => (
 
 const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
   <>
-    <div className="absolute inset-y-0 left-0 flex items-center justify-center sm:left-20 max-h-[400px] sm:max-h-none">
+    <div className="absolute inset-y-0 left-0 flex items-center justify-center sm:left-[5%] max-h-[100%]">
       <motion.button
         onClick={onPrev}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         disabled={disabled}
-        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] w-[10vw] h-[10vw] max-w-[80px] max-h-[80px] min-w-[40px] min-h-[40px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &lt;
       </motion.button>
     </div>
-    <div className="absolute inset-y-0 right-0 flex items-center justify-center sm:right-20 max-h-[400px] sm:max-h-none">
+    <div className="absolute inset-y-0 right-0 flex items-center justify-center sm:right-[5%] max-h-[100%]">
       <motion.button
         onClick={onNext}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         disabled={disabled}
-        className={`p-2 text-black sm:t36b t20r  backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] max-sm:w-[40px] max-sm:h-[40px] h-[80px] w-[80px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] w-[10vw] h-[10vw] max-w-[80px] max-h-[80px] min-w-[40px] min-h-[40px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
       >
         &gt;
       </motion.button>
@@ -378,14 +378,14 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
     ) : events.length > 0 ? (
       <>
         {/* Vista móvil mejorada: carrusel horizontal con scroll snap y paginación */}
-        <div className="relative w-full pb-6 sm:hidden">
+        <div className="relative w-full pb-[5%] sm:hidden">
           <div className="w-full overflow-x-auto scrollbar-hide">
-            <div className="flex w-full gap-4 px-2 snap-x snap-mandatory">
+            <div className="flex w-full gap-[4%] px-[2%] snap-x snap-mandatory">
               {events.map((event, index) => (
                 <div
                   key={event.eventId}
                   onClick={() => onEventClick(event)}
-                  className="snap-center flex-shrink-0 w-[280px]"
+                  className="snap-center flex-shrink-0 w-[80vw] max-w-[280px]"
                 >
                   <DynamicCard
                     type="event"
@@ -463,20 +463,20 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
 )
 
 const WantToParticipateSection = ({ t }) => (
-  <section className="wantTo py-10 sm:mb-[84px] text-center bg-transparent">
-    <h2 className="text-right sm:t64s t40s mb-[48px]">
+  <section className="wantTo py-[5vh] sm:mb-[5vh] text-center bg-transparent">
+    <h2 className="text-right sm:t64s t40s mb-[5vh]">
       {t('pages.home.wantToParticipateSection.title')}
     </h2>
-    <p className="sm:t24l t20l m-w-[1109px] text-right mb-[40px]">
+    <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-right mb-[4vh]">
       {t('pages.home.wantToParticipateSection.firstPar')}
     </p>
-    <p className="sm:t24l t20l m-w-[1109px] text-left mb-[40px]">
+    <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-left mb-[4vh]">
       {t('pages.home.wantToParticipateSection.secondPar')}
     </p>
-    <p className="sm:t24l t20l m-w-[1109px] text-right mb-[40px]">
+    <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-right mb-[4vh]">
       {t('pages.home.wantToParticipateSection.thirdPar')}
     </p>
-    <p className="sm:t24l t20l m-w-[1109px] text-center mb-[40px]">
+    <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-center mb-[4vh]">
       <Trans
         i18nKey="pages.home.wantToParticipateSection.linksPar"
         components={{
