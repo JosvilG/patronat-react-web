@@ -621,15 +621,6 @@ function CrewMainPage() {
               <>
                 {/* Vista de tabla para pantallas sm y superiores */}
                 <div className="relative hidden w-full overflow-x-auto sm:block">
-                  <div className="text-center text-sm text-gray-500 mb-[1rem]">
-                    <span>
-                      &#8594;{' '}
-                      {t(
-                        `${viewDictionary}.swipeToSeeMore`,
-                        'Desliza para ver más'
-                      )}
-                    </span>
-                  </div>
                   <table className="w-full border-collapse min-w-[600px]">
                     <thead>
                       <tr className="text-left border-b-2 border-gray-200">
