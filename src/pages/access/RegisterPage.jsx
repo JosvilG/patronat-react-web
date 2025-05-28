@@ -125,8 +125,8 @@ function RegisterPage() {
   }
 
   return (
-    <div className="items-center mx-auto bg-center bg-cover min-h-dvh sm:grid justify-items-center px-[4%] sm:px-[5%] lg:px-[6%]">
-      <div className="relative rounded-lg p-[5%] sm:p-[4%] md:p-[6%] grid-col-3 w-fit sm:translate-y-[-5vh] md:translate-y-0 z-10">
+    <div className="grid items-center min-h-dvh mx-auto bg-center bg-cover md:grid-cols-3 sm:grid-cols-1 justify-items-center px-[4%] sm:px-[5%] lg:px-[6%]">
+      <div className="sm:mb-[50%] relative z-10 rounded-lg md:p-[5%] sm:p-[4%] p-[6%] grid-col-3 w-fit sm:translate-y-[-10vh] md:translate-y-0">
         <div className="mx-auto text-center">
           <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
           <p className="mt-[3vh] text-black t16r whitespace-break-spaces">
@@ -136,7 +136,7 @@ function RegisterPage() {
         {error && <p className="mb-[2vh] text-center text-red-500">{error}</p>}
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center sm:items-stretch gap-[3vh]"
+          className="flex flex-col items-center sm:items-stretch gap-[3vh] mt-[5vh] mb-0"
         >
           <DynamicInput
             name="firstName"
@@ -220,9 +220,8 @@ function RegisterPage() {
         </form>
       </div>
 
-      {/* Sección de imagen con animación - mantenida intacta */}
       <motion.div
-        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-[1vh] md:right-[2%] bg-blend-multiply mix-blend-multiply"
+        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-[1vh] md:right-[1%] bg-blend-multiply mix-blend-multiply"
         onMouseMove={handleMouseMove}
       >
         {backgroundImage && (
