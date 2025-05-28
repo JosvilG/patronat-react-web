@@ -214,7 +214,7 @@ function EventParticipationForm() {
       <Loader loading={submitting} />
 
       <form onSubmit={handleSubmit} className="mx-auto space-y-6">
-        <h1 className="mb-6 text-center sm:t64b t24b">
+        <h1 className="mb-6 text-center t64b">
           {t(`${viewDictionary}.title`, { eventTitle: eventData?.title })}
         </h1>
         <div className="p-6 mb-6 rounded-lg">

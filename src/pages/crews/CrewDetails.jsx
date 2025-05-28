@@ -649,7 +649,7 @@ const CrewDetails = () => {
 
   return (
     <div className="container pb-6 mx-auto">
-      <h1 className="mb-4 text-center sm:t64b t24b">
+      <h1 className="mb-4 text-center t64b">
         {t(`${viewDictionary}.title`, 'Detalles de la Peña')}
       </h1>
 

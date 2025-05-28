@@ -234,7 +234,7 @@ function UploadFileForm() {
     <div className="flex flex-col items-center justify-center h-auto max-w-xl pb-6 mx-auto">
       {/* Loading indicator for upload process */}
       <Loader loading={uploading} />
-      <h1 className="mb-4 sm:t64b t24b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-4 sm:t64b t40b">{t(`${viewDictionary}.title`)}</h1>
       <form
         onSubmit={handleSubmit}
         className="flex flex-col items-center justify-center space-y-4"

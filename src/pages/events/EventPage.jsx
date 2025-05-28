@@ -256,12 +256,12 @@ const EventPage = () => {
 
   return (
     <div className="h-auto px-4 pb-4">
-      <h1 className="mb-20 overflow-hidden text-center sm:t64b t24b whitespace-break-spaces line-clamp-2">
+      <h1 className="mb-20 overflow-hidden text-center sm:t64b t40b whitespace-break-spaces line-clamp-2">
         {event.title}
       </h1>
 
       <div className="grid justify-center gap-6 md:grid-cols-5">
-        <div className="mb-6 md:col-span-3 w-[300px] sm:w-auto">
+        <div className="mb-6 md:col-span-3 w-[340px] sm:w-auto">
           <DynamicCard
             key={event.eventId}
             type="gallery"
@@ -269,7 +269,7 @@ const EventPage = () => {
             imageUrl={event.eventURL || '/placeholder.png'}
           />
         </div>
-        <div className="w-[300px]">
+        <div className="w-[340px]">
           {hasDateInfo && (
             <div className="space-y-4 bg-[#D9D9D9]  rounded-[60px] h-fit sm:w-[430px] w-auto mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
               <h3 className="pt-4 pl-8 t40b">

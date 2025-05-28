@@ -202,7 +202,7 @@ const GamesDetails = () => {
 
   return (
     <div className="h-auto px-4 pb-4">
-      <h1 className="mb-20 text-center t24b sm:t64b">{game.name}</h1>
+      <h1 className="mb-20 text-center t40b sm:t64b">{game.name}</h1>
 
       <div className="grid grid-cols-1 gap-6">
         <div className="col-span-3 mb-6">
@@ -213,7 +213,7 @@ const GamesDetails = () => {
           </div>
         </div>
         <div>
-          <div className="space-y-4 max-w-[300px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+          <div className="space-y-4 max-w-[340px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
             <h3 className="pt-4 pl-8 sm:t40b t24b">
               {t(`${viewDictionary}.dateInfoTitle`, 'Información de la fecha')}
             </h3>
@@ -222,7 +222,7 @@ const GamesDetails = () => {
             </div>
           </div>
 
-          <div className="space-y-4 max-w-[300px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+          <div className="space-y-4 max-w-[340px] sm:max-w-none rounded-[60px] h-fit w-[430px] mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
             <h3 className="pt-4 pl-8 sm:t40b t24b">
               {t(`${viewDictionary}.gameInfoTitle`, 'Detalles del juego')}
             </h3>

@@ -242,7 +242,7 @@ function CrewModify() {
       <Loader loading={submitting} />
 
       <form onSubmit={handleSubmit} className="mx-auto space-y-6 max-w-7xl">
-        <h1 className="mb-6 text-center sm:t64b t24b">
+        <h1 className="mb-6 text-center t64b">
           {t(`${viewDictionary}.title`)}
         </h1>
 

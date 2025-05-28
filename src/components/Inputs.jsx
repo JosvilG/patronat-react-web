@@ -101,7 +101,7 @@ const DynamicInput = ({
       )}
       <div className="relative">
         <div
-          className="w-[280px] sm:w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl cursor-pointer flex justify-between items-center"
+          className="w-[326px] sm:w-[400px] h-[54px] px-4 py-2 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl cursor-pointer flex justify-between items-center"
           role="button"
           tabIndex={0}
           onClick={() => setIsOpen(!isOpen)}
@@ -116,12 +116,12 @@ const DynamicInput = ({
           )}
         </div>
         {isOpen && (
-          <ul className="absolute flex flex-col items-end top-[58px] w-[280px] sm:w-[400px] left-0 right-0 z-10 rounded-[24px] max-h-60 overflow-y-auto">
+          <ul className="absolute flex flex-col items-end top-[58px] w-[326px] sm:w-[400px] left-0 right-0 z-10 rounded-[24px] max-h-60 overflow-y-auto">
             {options.map((opt, idx) => (
               <li
                 key={idx}
                 onClick={() => handleSelectOption(opt)}
-                className="pl-12 sm:px-4 py-2 w-[280px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
+                className="pl-12 sm:px-4 py-2 w-[348px] mb-1 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl hover:cursor-pointer"
                 role="option"
               >
                 {t(opt.label)}
@@ -150,7 +150,7 @@ const DynamicInput = ({
               </label>
             )}
             <div
-              className={`my-4 flex ${type === 'number' ? 'w-[200px]' : 'w-[256px] sm:w-[400px]'} h-[54px] items-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl`}
+              className={`my-4 flex ${type === 'number' ? 'w-[200px]' : 'w-[326px] sm:w-[400px]'} h-[54px] items-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl`}
             >
               <input
                 autoComplete={'off'}
@@ -169,32 +169,32 @@ const DynamicInput = ({
                 }
                 onChange={handleChange}
                 {...restProps}
-                className={`t16l ${type === 'number' ? 'w-[200px]' : 'w-[300px] sm:w-[400px]'} px-4 py-2 focus:outline-none bg-transparent`}
+                className={`t16l ${type === 'number' ? 'w-[200px]' : 'w-[326px] sm:w-[400px]'} px-4 py-2 focus:outline-none bg-transparent`}
               />
               {
                 {
                   text: (
                     <TitleIcon
                       fontSize="large"
-                      className="relative sm:right-6 right-4 text-[#696969]"
+                      className="relative sm:right-6 right-2 text-[#696969]"
                     />
                   ),
                   users: (
                     <AccountCircleIcon
                       fontSize="large"
-                      className="relative sm:right-6 right-4 text-[#696969]"
+                      className="relative sm:right-6 right-2 text-[#696969]"
                     />
                   ),
                   email: (
                     <EmailIcon
                       fontSize="large"
-                      className="relative sm:right-6 right-4 text-[#696969]"
+                      className="relative sm:right-6 right-2 text-[#696969]"
                     />
                   ),
                   password: (
                     <VisibilityIcon
                       fontSize="large"
-                      className="relative sm:right-6 right-4 text-[#696969]"
+                      className="relative sm:right-6 right-2 text-[#696969]"
                     />
                   ),
                   number: (
@@ -203,13 +203,13 @@ const DynamicInput = ({
                   dni: (
                     <BrandingWatermarkIcon
                       fontSize="large"
-                      className="relative sm:right-6 right-4 text-[#696969]"
+                      className="relative sm:right-6 right-2 text-[#696969]"
                     />
                   ),
                   phone: (
                     <PhoneIcon
                       fontSize="large"
-                      className="relative sm:right-6 right-4 text-[#696969]"
+                      className="relative sm:right-6 right-2 text-[#696969]"
                     />
                   ),
                 }[type]
@@ -268,7 +268,7 @@ const DynamicInput = ({
 
       case 'textarea':
         return (
-          <div className="w-[256px] sm:w-[400px]">
+          <div className="w-[326px] sm:w-[400px]">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
@@ -279,7 +279,7 @@ const DynamicInput = ({
               placeholder={translatedPlaceholder}
               onChange={handleChange}
               {...restProps}
-              className="t16l w-[256px] sm:w-[400px] min-h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+              className="t16l w-[326px] sm:w-[400px] min-h-[54px] px-4 py-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
             />
           </div>
         )
@@ -332,7 +332,7 @@ const DynamicInput = ({
 
       case 'document':
         return (
-          <div className="w-[256px] sm:w-[400px]">
+          <div className="w-[326px] sm:w-[400px]">
             {shouldShowLabel && (
               <label htmlFor={name} className="block mb-2 t16r">
                 {translatedLabel}
@@ -341,7 +341,7 @@ const DynamicInput = ({
             <div>
               <label
                 htmlFor={name}
-                className="flex content-center justify-between w-[256px] sm:w-[400px] h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
+                className="flex content-center justify-between w-[326px] sm:w-[400px] h-[54px] px-4 py-2 cursor-pointer backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl"
               >
                 <span className="flex flex-col justify-center mr-2 overflow-hidden t16r">
                   {t('components.inputs.addDocument')}

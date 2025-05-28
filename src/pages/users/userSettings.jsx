@@ -269,9 +269,9 @@ function Settings() {
   // Resto del código sin cambios...
 
   return (
-    <div className="h-auto pb-6 mx-auto text-center sm:max-w-fit max-w-[300px]">
+    <div className="h-auto pb-6 mx-auto text-center sm:max-w-fit max-w-[340px]">
       <Loader loading={saving || isTracking} />
-      <h1 className="mb-4 sm:t64b t24b">
+      <h1 className="mb-4 sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Configuración de cuenta')}
       </h1>
       <form className="flex flex-col items-center space-y-4 ">
@@ -297,7 +297,7 @@ function Settings() {
               </div>
 
               {/* Notificaciones por correo */}
-              <div className="flex flex-col items-center max-w-[300px] sm:max-w-none">
+              <div className="flex flex-col items-center max-w-[340px] sm:max-w-none">
                 <div className="flex items-center justify-center space-x-2">
                   <DynamicInput
                     name="emailNotifications"

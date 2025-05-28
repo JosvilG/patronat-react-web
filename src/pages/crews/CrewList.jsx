@@ -420,10 +420,8 @@ function CrewList() {
   }
 
   return (
-    <div className="max-w-[300px] pb-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center sm:t64b t24b">
-        {t(`${viewDictionary}.title`)}
-      </h1>
+    <div className="max-w-full pb-6 mx-auto md:max-w-fit">
+      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
 
       {pendingCrews.length > 0 && (
         <div className="p-4 mb-6 transition-all duration-300 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,220,220,0.75)] border border-red-200 rounded-[30px] shadow-md">

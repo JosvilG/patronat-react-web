@@ -176,7 +176,7 @@ function ParticipantRegisterForm() {
   return (
     <div className="flex flex-col items-center max-w-lg pb-6 mx-auto min-h-dvh h-fit">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 text-center sm:t64b t24b">
+      <h1 className="mb-4 text-center sm:t64b t40b">
         {t('pages.participants.title')}
       </h1>
       <form

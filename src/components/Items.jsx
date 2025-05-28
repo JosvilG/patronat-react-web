@@ -23,7 +23,7 @@ const DynamicItems = ({ items, extraClass }) => {
       {items.map((item, index) => (
         <div
           key={index}
-          className={`relative w-full sm:min-w-[400px] max-w-[100%] ${extraClass}`}
+          className={`relative w-full min-w-[300px] sm:min-w-[400px] max-w-[100%] ${extraClass}`}
         >
           <div
             className={`flex items-center justify-between sm:px-4 px-0 py-2 h-fit text-[#252525] hover:text-gray-700 max-w-[100%] ${

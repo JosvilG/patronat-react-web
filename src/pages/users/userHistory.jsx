@@ -221,10 +221,8 @@ function UserHistory() {
   const totalPages = Math.ceil(filteredChanges.length / itemsPerPage)
 
   return (
-    <div className="h-auto max-w-[300px] sm:max-w-full p-6 mx-auto min-h-dvh md:max-w-fit">
-      <h1 className="mb-4 text-center sm:t64b t24b">
-        {t(`${viewDictionary}.title`)}
-      </h1>
+    <div className="h-auto max-w-full p-6 mx-auto min-h-dvh md:max-w-fit">
+      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
 
       <div className="mb-6">
         <DynamicInput
