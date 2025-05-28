@@ -1319,6 +1319,11 @@
       "text": "Para gestionar tus peñas, necesitas iniciar sesión o registrarte.",
       "crewViewInfo": "Participa en las fiestas con tu peña y compite por los mejores premios."
     },
+    "authRequiredEvents": {
+      "title": "¡Debes registrarte!",
+      "text": "Para poder inscribirte en eventos, necesitas iniciar sesión o registrarte.",
+      "eventViewInfo": "Participa en los eventos y disfruta de la experiencia al máximo."
+    },
     "register": "Registrarse",
     "login": "Iniciar sesión",
     "registerCrew": "Crear Nueva Peña",

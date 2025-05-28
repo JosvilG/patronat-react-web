@@ -1320,6 +1320,11 @@
       "text": "Per gestionar les teves colles, cal iniciar sessió o registrar-se.",
       "crewViewInfo": "Participa a les festes amb la teva colla i competeix pels millors premis."
     },
+    "authRequiredEvents": {
+      "title": "Necesites registrar-te!",
+      "text": "Per poder inscriure't als events, necesites registrar-te o iniciar sessió",
+      "eventViewInfo": "Participa als events i disfruta de l'experiencia al màxim."
+    },
     "register": "Registrar-se",
     "login": "Iniciar sessió",
     "registerCrew": "Crear nova Colla",
