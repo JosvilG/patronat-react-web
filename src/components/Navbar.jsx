@@ -18,6 +18,7 @@ const navLinksData = [
   { to: '/crews', label: 'components.navbar.crewTitle' },
   { to: '/about', label: 'components.navbar.whoWeAreTitle' },
   { to: '/partner-form', label: 'components.navbar.partnersTitle' },
+  { to: '/contact', label: 'components.navbar.contactTitle' },
 ]
 
 // Estilo común para botones y enlaces en todos los menús

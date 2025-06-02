@@ -1311,6 +1311,81 @@
       "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
       "newPassword": "Introduce tu nueva contraseña",
       "confirmPassword": "Repite la contraseña"
+    },
+    "contact": {
+      "form": {
+        "title": "Contacta con nosotros",
+        "description": "Si tienes cualquier duda o sugerencia, rellena el formulario y nos pondremos en contacto contigo.",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "message": "Mensaje",
+        "phone": "Teléfono",
+        "subject": "Asunto",
+        "sending": "Enviando mensaje",
+        "submitButton": "Enviar",
+        "success": "Tu mensaje se ha enviado correctamente. Nos pondremos en contacto contigo pronto.",
+        "successMessage": "Tu mensaje se ha enviado correctamente. Nos pondremos en contacto contigo pronto.",
+        "errorMessage": "Ha habido un error al enviar el mensaje. Vuelve a intentarlo más tarde.",
+        "validation": {
+          "requiredFields": "Por favor, completa todos los campos obligatorios.",
+          "invalidEmail": "Por favor, introduce una dirección de correo electrónico válida.",
+          "fieldTooLong": "El nombre no puede exceder los 100 caracteres y el mensaje no puede exceder los 5000 caracteres.",
+          "captchaRequired": "Por favor, verifica que no eres un robot."
+        },
+        "tooManyRequests": "Has realizado demasiadas solicitudes. Por favor, espera unos minutos antes de intentarlo de nuevo.",
+        "error": "Ha habido un error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.",
+        "info": {
+          "title": "Información de contacto",
+          "address": "Dirección",
+          "phone": "Teléfono",
+          "email": "Correo electrónico",
+          "hours": "Horario"
+        },
+        "chatNow": "Chatea ahora",
+        "chat": {
+          "title": "Chat en vivo",
+          "welcome": "¡Bienvenido a nuestro chat en vivo!",
+          "howCanWeHelp": "¿En qué podemos ayudarte?",
+          "typePlaceholder": "Escribe tu mensaje aquí...",
+          "send": "Enviar"
+        }
+      },
+      "menu": {
+        "title": "Enviar mensaje masivo",
+        "description": "Utiliza este formulario para enviar un mensaje a todos los socios o responsables de peñas.",
+        "recipientTypeLabel": "Selecciona los destinatarios",
+        "partners": "Socios",
+        "crews": "Peñas",
+        "loadingRecipients": "Cargando destinatarios...",
+        "recipientsDetails": "Detalles de los destinatarios",
+        "partnersSelectedCount": "{{valid}} de {{total}} socios tienen correo electrónico",
+        "notAllHaveEmail": "Algunos socios no tienen correo electrónico registrado",
+        "crewsSelectedCount": "{{validResponsibles}} responsables de {{totalCrews}} peñas tienen correo electrónico",
+        "notAllResponsiblesHaveEmail": "Algunos responsables no tienen correo electrónico registrado",
+        "emailWillBeSentTo": "El correo se enviará a {{count}} destinatarios",
+        "subject": "Asunto",
+        "message": "Mensaje",
+        "submitButton": "Enviar mensaje",
+        "noRecipients": "No hay destinatarios disponibles para el tipo seleccionado",
+        "successMessage": "Tu mensaje se ha enviado correctamente a todos los destinatarios",
+        "errorMessage": "Ha habido un error al enviar los mensajes. Inténtalo de nuevo más tarde.",
+        "errorFetchingRecipients": "Error al cargar los destinatarios. Por favor, inténtalo de nuevo.",
+        "confirmSend": "¿Estás seguro de querer enviar este mensaje a {{count}} destinatarios?",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Confirmar envío",
+        "sendingProgress": "Enviando mensajes... ({{sent}}/{{total}})",
+        "allCrews": "Todas las peñas",
+        "allPartners": "Todos los socios",
+        "emailPreview": "Vista previa del correo",
+        "selectCrews": "Selecciona las peñas",
+        "selectAll": "Seleccionar todas",
+        "deselectAll": "Deseleccionar todas",
+        "loadingCrews": "Cargando peñas...",
+        "confirmTitle": "Confirmar envío",
+        "successTitle": "Mensaje enviado",
+        "errorTitle": "Error",
+        "okButton": "Aceptar"
+      }
     }
   },
   "common": {
@@ -1338,6 +1413,7 @@
       "whoWeAreTitle": "Nosotros",
       "dashboardTitle": "Panel de control",
       "profileTitle": "Perfil",
+      "contactTitle": "Contacto",
       "shopTitle": "Tienda",
       "settingsTitle": "Configuración",
       "signOutTitle": "Cerrar Sesión",
@@ -1496,7 +1572,8 @@
         "description": "Gestiona los mensajes y conversaciones.",
         "actions": {
           "inbox": "Bandeja de Entrada",
-          "live": "Chat en Vivo"
+          "live": "Chat en Vivo",
+          "sendMessages": "Enviar correo"
         }
       },
       "reports": {

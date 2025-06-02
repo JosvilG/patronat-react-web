@@ -68,6 +68,12 @@ import GamesList from '../pages/games/GamesList'
 import GamesModify from '../pages/games/GamesModify'
 import GamesDetails from '../pages/games/GamesDetails'
 
+// Páginas de contacto
+import ContactMain from '../pages/contact/ContactMain'
+import ContactMenu from '../pages/contact/ContactMenu'
+import LiveChat from '../pages/contact/LiveChat'
+import AdminChatPanel from '../pages/contact/AdminChatPanel'
+
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
   { path: '/login', element: <Auth /> },
@@ -79,6 +85,7 @@ export const publicRoutes = [
   { path: '/recover-password', element: <RecoverPassword /> },
   { path: '/reset-password', element: <ResetPassword /> },
   { path: '/gallery', element: <GalleryPage /> },
+  { path: '/contact', element: <ContactMain /> },
   {
     path: '/event-participation-form/:eventSlug',
     element: <EventParticipationForm />,
@@ -91,6 +98,7 @@ export const userProtectedRoutes = [
   { path: '/profile/:slug', element: <ProfilePage /> },
   { path: '/settings', element: <Settings /> },
   { path: '/crews-modify/:slug', element: <CrewModify /> },
+  { path: '/chat', element: <LiveChat /> },
 ]
 
 export const adminProtectedRoutes = [
@@ -124,4 +132,6 @@ export const adminProtectedRoutes = [
   { path: '/game-details/:slug', element: <GamesDetails /> },
   { path: '/crew-points', element: <CrewPoints /> },
   { path: '/crew-details/:slug', element: <CrewDetails /> },
+  { path: '/contact-menu', element: <ContactMenu /> },
+  { path: '/admin-chat', element: <AdminChatPanel /> },
 ]

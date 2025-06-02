@@ -198,15 +198,15 @@ export const cards = [
     icon: '💬',
     actions: [
       {
-        id: 'inbox',
-        titleKey: 'dashboard.cards.chat.actions.inbox',
-        route: '/inbox',
-        type: 'view',
+        id: 'contact-menu',
+        titleKey: 'dashboard.cards.chat.actions.sendMessages',
+        route: '/contact-menu',
+        type: 'submit',
       },
       {
-        id: 'live-chat',
+        id: 'admin-chat',
         titleKey: 'dashboard.cards.chat.actions.live',
-        route: '/live-chat',
+        route: '/admin-chat',
         type: 'submit',
       },
     ],

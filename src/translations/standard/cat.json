@@ -1312,6 +1312,81 @@
       "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
       "newPassword": "Introdueix la nova contrasenya",
       "confirmPassword": "Repeteix la contrasenya"
+    },
+    "contact": {
+      "form": {
+        "title": "Contacta amb nosaltres",
+        "description": "Si tens qualsevol dubte o suggeriment, omple el formulari i ens posarem en contacte amb tu.",
+        "name": "Nom",
+        "email": "Correu electrònic",
+        "message": "Missatge",
+        "phone": "Telèfon",
+        "subject": "Assumpte",
+        "sending": "Enviant missatge",
+        "submitButton": "Enviar",
+        "success": "El teu missatge s'ha enviat correctament. Ens posarem en contacte amb tu aviat.",
+        "successMessage": "El teu missatge s'ha enviat correctament. Ens posarem en contacte amb tu aviat.",
+        "errorMessage": "Hi ha hagut un error en enviar el missatge. Torna-ho a intentar més tard.",
+        "validation": {
+          "requiredFields": "Si us plau, completa tots els camps obligatoris.",
+          "invalidEmail": "Si us plau, introdueix una adreça de correu electrònic vàlida.",
+          "fieldTooLong": "El nom no pot excedir els 100 caràcters i el missatge no pot excedir els 5000 caràcters.",
+          "captchaRequired": "Si us plau, verifica que no ets un robot."
+        },
+        "tooManyRequests": "Has realitzat massa sol·licituds. Si us plau, espera uns minuts abans d'intentar-ho de nou.",
+        "error": "Hi ha hagut un error en enviar el missatge. Si us plau, intenta-ho de nou més tard.",
+        "info": {
+          "title": "Informació de contacte",
+          "address": "Adreça",
+          "phone": "Telèfon",
+          "email": "Correu electrònic",
+          "hours": "Horari"
+        },
+        "chatNow": "Xateja ara",
+        "chat": {
+          "title": "Xat en viu",
+          "welcome": "Benvingut al nostre xat en viu!",
+          "howCanWeHelp": "En què podem ajudar-te?",
+          "typePlaceholder": "Escriu el teu missatge aquí...",
+          "send": "Enviar"
+        }
+      },
+      "menu": {
+        "title": "Enviar missatge massiu",
+        "description": "Utilitza aquest formulari per enviar un missatge a tots els socis o responsables de colles.",
+        "recipientTypeLabel": "Selecciona els destinataris",
+        "partners": "Socis",
+        "crews": "Colles",
+        "loadingRecipients": "Carregant destinataris...",
+        "recipientsDetails": "Detalls dels destinataris",
+        "partnersSelectedCount": "{{valid}} de {{total}} socis tenen correu electrònic",
+        "notAllHaveEmail": "Alguns socis no tenen correu electrònic registrat",
+        "crewsSelectedCount": "{{validResponsibles}} responsables de {{totalCrews}} colles tenen correu electrònic",
+        "notAllResponsiblesHaveEmail": "Alguns responsables no tenen correu electrònic registrat",
+        "emailWillBeSentTo": "El correu s'enviarà a {{count}} destinataris",
+        "subject": "Assumpte",
+        "message": "Missatge",
+        "submitButton": "Enviar missatge",
+        "noRecipients": "No hi ha destinataris disponibles per al tipus seleccionat",
+        "successMessage": "El teu missatge s'ha enviat correctament a tots els destinataris",
+        "errorMessage": "Hi ha hagut un error en enviar els missatges. Torna-ho a provar més tard.",
+        "errorFetchingRecipients": "Error en carregar els destinataris. Si us plau, torna-ho a provar.",
+        "confirmSend": "Estàs segur de voler enviar aquest missatge a {{count}} destinataris?",
+        "cancelButton": "Cancel·lar",
+        "confirmButton": "Confirmar enviament",
+        "sendingProgress": "Enviant missatges... ({{sent}}/{{total}})",
+        "allCrews": "Totes les colles",
+        "allPartners": "Tots els socis",
+        "emailPreview": "Vista prèvia del correu",
+        "selectCrews": "Selecciona les colles",
+        "selectAll": "Seleccionar totes",
+        "deselectAll": "Desseleccionar totes",
+        "loadingCrews": "Carregant colles...",
+        "confirmTitle": "Confirmar enviament",
+        "successTitle": "Missatge enviat",
+        "errorTitle": "Error",
+        "okButton": "Acceptar"
+      }
     }
   },
   "common": {
@@ -1338,6 +1413,7 @@
       "whoWeAreTitle": "Qui som",
       "dashboardTitle": "Tauler de control",
       "profileTitle": "Perfil",
+      "contactTitle": "Contacte",
       "shopTitle": "Botiga",
       "settingsTitle": "Configuració",
       "signOutTitle": "Tancar sessió",
@@ -1496,7 +1572,8 @@
         "description": "Gestiona els missatges i converses.",
         "actions": {
           "inbox": "Safata d'entrada",
-          "live": "Xat en directe"
+          "live": "Xat en directe",
+          "sendMessages": "Enviar correu"
         }
       },
       "reports": {
