@@ -32,6 +32,8 @@ yarn.lock
 .env.test.local
 .env.production.local
 .env
+.env.production
+.env.preprod
 
 # MacOS system files
 .DS_Store
