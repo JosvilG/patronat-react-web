@@ -70,3 +70,4 @@ functions/.runtimeconfig.json
 functions/firebase-debug.log
 functions/coverage/
 functions/.nyc_output
+functions/.env/
