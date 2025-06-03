@@ -126,7 +126,7 @@ const Calendar = () => {
     }
 
     showPopup({
-      title: `${eventData.title} ${isGame ? '(Juego)' : ''}`,
+      title: `${eventData.title} `,
       text: buildPopupText(eventData, t),
       icon: 'info',
       showCancelButton: false,
