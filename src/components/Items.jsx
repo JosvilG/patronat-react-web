@@ -6,7 +6,7 @@ import DOMPurify from 'dompurify'
 const DynamicItems = ({ items, extraClass }) => {
   const [expandedIndex, setExpandedIndex] = useState(null)
 
-  // Añadir esta función para validar URLs
+  // Función para validar URLs
   const validateUrl = (url) => {
     if (!url || typeof url !== 'string') return false
 
@@ -19,34 +19,36 @@ const DynamicItems = ({ items, extraClass }) => {
   }
 
   return (
-    <div className="px-4 pb-[20px]">
+    <div className="pb-[1.25rem]">
       {items.map((item, index) => (
         <div
           key={index}
-          className={`relative w-full min-w-[400px] max-w-[100%] ${extraClass}`}
+          className={`relative w-full min-w-full sm:min-w-[80%] max-w-[100%] ${extraClass}`}
         >
           <div
-            className={`flex items-center justify-between px-4 py-2 h-fit text-[#252525] hover:text-gray-700 max-w-[100%] ${
+            className={`flex items-center justify-between px-[1.5rem] sm:px-[1rem] py-[0.5rem] h-fit text-[#252525] hover:text-gray-700 max-w-[100%] ${
               index !== items.length - 1 && item.type !== 'eventData'
                 ? 'border-b border-[#252525]'
                 : ''
             }`}
           >
             {item.icon && (
-              <div className="t16l flex flex-row justify-center items-center h-[46px] w-[76px] text-[#252525] hover:text-gray-700">
+              <div className="t16l flex flex-row justify-center items-center h-auto min-h-[2.5rem] w-[3.5rem] sm:w-[4.75rem] text-[#252525] hover:text-gray-700">
                 {typeof item.icon === 'string' ? (
                   validateUrl(item.icon) ? (
                     <img
                       src={item.icon}
                       alt="icon"
-                      className="w-6 h-6"
+                      className="w-[1.25rem] h-[1.25rem] sm:w-[1.5rem] sm:h-[1.5rem]"
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         e.target.src = '/path/to/default-icon.png'
                       }}
                     />
                   ) : (
-                    <div className="w-6 h-6 bg-gray-200">!</div> // Placeholder para iconos inválidos
+                    <div className="w-[1.25rem] h-[1.25rem] sm:w-[1.5rem] sm:h-[1.5rem] bg-gray-200">
+                      !
+                    </div>
                   )
                 ) : (
                   item.icon
@@ -55,17 +57,19 @@ const DynamicItems = ({ items, extraClass }) => {
             )}
 
             <div
-              className={`flex ${item.type === 'eventData' ? 'flex-row' : 'flex-col'}`}
+              className={`flex ${
+                item.type === 'eventData' ? 'flex-row' : 'flex-col'
+              } flex-1 max-w-[calc(100%-4rem)] sm:max-w-[calc(100%-5.75rem)]`}
             >
               <span
-                className="t16b text-base text-[#252525] truncate overflow-hidden whitespace-nowrap mr-4"
+                className="t16b text-base text-[#252525] max-w-[60%] sm:max-w-none truncate overflow-hidden whitespace-nowrap mr-[0.5rem] sm:mr-[1rem]"
                 title={DOMPurify.sanitize(item.title)}
               >
                 {DOMPurify.sanitize(item.title)}
               </span>
               {item.description && (
                 <span
-                  className="overflow-hidden text-sm truncate t16r whitespace-nowrap"
+                  className="overflow-hidden text-sm truncate t16r whitespace-nowrap max-w-[80%] sm:max-w-none"
                   title={item.description}
                 >
                   {item.description}
@@ -74,7 +78,7 @@ const DynamicItems = ({ items, extraClass }) => {
             </div>
 
             {item.badge && (
-              <div className="t16l flex flex-row items-center h-[46px] w-[76px] text-[#252525] hover:text-gray-700 overflow-hidden text-ellipsis">
+              <div className="t16l flex flex-row items-center h-auto min-h-[2.5rem] w-[3.5rem] sm:w-[4.75rem] text-[#252525] hover:text-gray-700 overflow-hidden text-ellipsis">
                 {item.badge}
               </div>
             )}
@@ -94,7 +98,7 @@ const DynamicItems = ({ items, extraClass }) => {
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="w-5 h-5"
+                  className="w-[1.25rem] h-[1.25rem]"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -123,10 +127,12 @@ const DynamicItems = ({ items, extraClass }) => {
             )}
           </div>
 
-          {item.extraContent && <div className="px-4">{item.extraContent}</div>}
+          {item.extraContent && (
+            <div className="px-[0.5rem] sm:px-[1rem]">{item.extraContent}</div>
+          )}
 
           {item.expandable && expandedIndex === index && (
-            <div className="t16l mt-2 px-4 text-[#252525]">
+            <div className="t16l mt-[0.5rem] px-[0.5rem] sm:px-[1rem] text-[#252525]">
               {item.expandableContent}
             </div>
           )}

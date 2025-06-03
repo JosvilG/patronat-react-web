@@ -90,7 +90,7 @@ function EventsParticipants() {
     }
 
     fetchParticipants()
-  }, [eventId, slug, generateSlug])
+  }, [eventId, slug, generateSlug, t])
 
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase()
@@ -169,9 +169,9 @@ function EventsParticipants() {
 
   if (error) {
     return (
-      <div className="container px-4 py-8 mx-auto text-center">
+      <div className="container px-[4%] py-[5vh] mx-auto text-center">
         <h2 className="text-2xl font-bold text-red-600">{error}</h2>
-        <div className="mt-4">
+        <div className="mt-[3vh]">
           <DynamicButton
             type="button"
             onClick={() => navigate(-1)}
@@ -185,9 +185,9 @@ function EventsParticipants() {
   }
 
   return (
-    <div className="container px-4 py-8 mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold">
+    <div className="container px-[4%] py-[4vh] mx-auto">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-[4vh] gap-[2vh]">
+        <h1 className="text-xl font-bold sm:text-2xl">
           {t(`${viewDictionary}.title`, { eventTitle: eventTitle || 'Evento' })}
         </h1>
         <DynamicButton
@@ -199,7 +199,7 @@ function EventsParticipants() {
         />
       </div>
 
-      <div className="mb-6">
+      <div className="mb-[4vh]">
         <DynamicInput
           name="search"
           type="text"
@@ -211,22 +211,22 @@ function EventsParticipants() {
       </div>
 
       {filteredParticipants.length === 0 ? (
-        <div className="p-6 text-center bg-gray-100 rounded-lg">
+        <div className="p-[5%] text-center bg-gray-100 rounded-lg">
           <p className="text-lg text-gray-600">
             {t(`${viewDictionary}.noParticipants`)}
           </p>
         </div>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-[3vh]">
           {filteredParticipants.map((participant) => (
             <li
               key={participant.id}
-              className="p-4 bg-gray-100 rounded-lg shadow"
+              className="p-[4%] bg-gray-100 rounded-lg shadow"
             >
-              <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center">
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-[2vh] gap-[2vh]">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-[1vh] sm:gap-[1vw]">
                   <span
-                    className={`px-2 mr-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                    className={`px-[2%] py-[0.5vh] inline-flex text-xs leading-5 font-semibold rounded-full 
                     ${
                       participant.status === 'pendiente'
                         ? 'bg-yellow-100 text-yellow-800'
@@ -243,7 +243,7 @@ function EventsParticipants() {
                     {t(`${viewDictionary}.dateLabel`)} {participant.createdAt}
                   </span>
                 </div>
-                <div className="flex space-x-2">
+                <div className="flex gap-[2vw]">
                   {participant.status !== 'aprobado' && (
                     <DynamicButton
                       onClick={() => handleApprove(participant.id)}
@@ -263,12 +263,12 @@ function EventsParticipants() {
                 </div>
               </div>
 
-              <div className="flex flex-wrap gap-2 mt-3">
+              <div className="flex flex-wrap gap-[2vh] mt-[3vh]">
                 {participant.responses &&
                   Object.entries(participant.responses).map(([key, value]) => (
                     <div
                       key={key}
-                      className="px-3 py-1 text-sm bg-white rounded-lg shadow-sm"
+                      className="px-[3%] py-[1vh] text-sm bg-white rounded-lg shadow-sm w-full sm:w-auto"
                     >
                       <span className="font-medium">{key}:</span> {value}
                     </div>

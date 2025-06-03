@@ -593,6 +593,7 @@
         "collaboratorsSelectedLabel": "Col·laboradors Seleccionats",
         "tagsLabel": "Selecciona etiquetes",
         "organizerLabel": "Afegeix un organitzador",
+        "searchOrganizerLabel": "Buscar organitzador",
         "allowCarsLabel": "Es permeten carros?",
         "categoryLabel": "Selecciona una categoria",
         "hasBarLabel": "Hi ha barra?",
@@ -690,6 +691,20 @@
         "optimizationErrorText": "Error en optimitzar la imatge.",
         "fileRequired": "Si us plau, selecciona un fitxer.",
         "popups": {
+          "delete": {
+            "title": "Estàs segur?",
+            "text": "Realment vols eliminar l'arxiu? Aquesta acció no es pot desfer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancel·lar"
+          },
+          "success": {
+            "title": "Arxiu eliminat",
+            "text": "L'arxiu ha estat eliminat correctament."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No s'ha pogut eliminar l'arxiu. Si us plau, torna-ho a provar."
+          },
           "successTitle": "Èxit!",
           "successText": "El fitxer s'ha pujat correctament.",
           "successButtonText": "Desar",
@@ -701,7 +716,28 @@
         "title": "Llista de fitxers",
         "fileLabel": "Selecciona un fitxer",
         "searchPlaceholder": "Cercar fitxer...",
-        "loadingText": "Carregant fitxers..."
+        "loadingText": "Carregant fitxers...",
+        "popups": {
+          "delete": {
+            "title": "Estàs segur?",
+            "text": "Realment vols eliminar l'arxiu? Aquesta acció no es pot desfer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancel·lar"
+          },
+          "success": {
+            "title": "Arxiu eliminat",
+            "text": "L'arxiu ha estat eliminat correctament."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No s'ha pogut eliminar l'arxiu. Si us plau, torna-ho a provar."
+          },
+          "successTitle": "Èxit!",
+          "successText": "El fitxer s'ha pujat correctament.",
+          "successButtonText": "Desar",
+          "errorTitle": "Error!",
+          "errorText": "Hi ha hagut un problema en pujar el fitxer. Torna-ho a intentar."
+        }
       }
     },
     "gallery": {
@@ -738,7 +774,7 @@
         "defaultPosition": "Membre",
         "defaultDescription": "Aquest membre de la junta no té descripció disponible."
       },
-      "galerySection": {
+      "gallerySection": {
         "title": "Galeria",
         "noImages": "No hi ha imatges disponibles"
       },
@@ -914,6 +950,7 @@
         "fileLabel": "Modifica el nom i la imatge del col·laborador",
         "nameLabel": "Nou nom del col·laborador",
         "imageLabel": "Nova imatge del col·laborador",
+        "emailLabel": "Email del col·laborador",
         "oldImageTitle": "Logotip actual",
         "newImageTitle": "Nou logotip",
         "uploadButton": "Desar canvis",
@@ -995,7 +1032,23 @@
         "addNewButton": "Afegir",
         "modifyButton": "Modificar",
         "deleteButton": "Eliminar",
-        "loadingText": "Carregant participants..."
+        "loadingText": "Carregant participants...",
+        "popups": {
+          "delete": {
+            "title": "Estàs segur?",
+            "text": "Realment vols eliminar a \"{{fileName}}\"? Aquesta acció no es pot desfer",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Eliminat",
+            "text": "El participant ha estat eliminat correctament."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No ha estat possible eliminar el participant. Per favor, prova un altre cop."
+          }
+        }
       }
     },
     "partners": {
@@ -1259,6 +1312,123 @@
       "description": "Si us plau, omple els camps per completar el canvi de contrasenya",
       "newPassword": "Introdueix la nova contrasenya",
       "confirmPassword": "Repeteix la contrasenya"
+    },
+    "contact": {
+      "form": {
+        "title": "Contacta amb nosaltres",
+        "description": "Si tens qualsevol dubte o suggeriment, omple el formulari i ens posarem en contacte amb tu.",
+        "name": "Nom",
+        "email": "Correu electrònic",
+        "message": "Missatge",
+        "phone": "Telèfon",
+        "subject": "Assumpte",
+        "sending": "Enviant missatge",
+        "submitButton": "Enviar",
+        "success": "El teu missatge s'ha enviat correctament. Ens posarem en contacte amb tu aviat.",
+        "successMessage": "El teu missatge s'ha enviat correctament. Ens posarem en contacte amb tu aviat.",
+        "errorMessage": "Hi ha hagut un error en enviar el missatge. Torna-ho a intentar més tard.",
+        "validation": {
+          "requiredFields": "Si us plau, completa tots els camps obligatoris.",
+          "invalidEmail": "Si us plau, introdueix una adreça de correu electrònic vàlida.",
+          "fieldTooLong": "El nom no pot excedir els 100 caràcters i el missatge no pot excedir els 5000 caràcters.",
+          "captchaRequired": "Si us plau, verifica que no ets un robot."
+        },
+        "tooManyRequests": "Has realitzat massa sol·licituds. Si us plau, espera uns minuts abans d'intentar-ho de nou.",
+        "error": "Hi ha hagut un error en enviar el missatge. Si us plau, intenta-ho de nou més tard.",
+        "info": {
+          "title": "Informació de contacte",
+          "address": "Adreça",
+          "phone": "Telèfon",
+          "email": "Correu electrònic",
+          "hours": "Horari"
+        },
+        "chatNow": "Xateja ara",
+        "chat": {
+          "title": "Xat en viu",
+          "welcome": "Benvingut al nostre xat en viu!",
+          "howCanWeHelp": "En què podem ajudar-te?",
+          "typePlaceholder": "Escriu el teu missatge aquí...",
+          "send": "Enviar"
+        }
+      },
+      "menu": {
+        "title": "Enviar missatge massiu",
+        "description": "Utilitza aquest formulari per enviar un missatge a tots els socis o responsables de colles.",
+        "recipientTypeLabel": "Selecciona els destinataris",
+        "partners": "Socis",
+        "crews": "Colles",
+        "loadingRecipients": "Carregant destinataris...",
+        "recipientsDetails": "Detalls dels destinataris",
+        "partnersSelectedCount": "{{valid}} de {{total}} socis tenen correu electrònic",
+        "notAllHaveEmail": "Alguns socis no tenen correu electrònic registrat",
+        "crewsSelectedCount": "{{validResponsibles}} responsables de {{totalCrews}} colles tenen correu electrònic",
+        "notAllResponsiblesHaveEmail": "Alguns responsables no tenen correu electrònic registrat",
+        "emailWillBeSentTo": "El correu s'enviarà a {{count}} destinataris",
+        "subject": "Assumpte",
+        "message": "Missatge",
+        "submitButton": "Enviar missatge",
+        "noRecipients": "No hi ha destinataris disponibles per al tipus seleccionat",
+        "successMessage": "El teu missatge s'ha enviat correctament a tots els destinataris",
+        "errorMessage": "Hi ha hagut un error en enviar els missatges. Torna-ho a provar més tard.",
+        "errorFetchingRecipients": "Error en carregar els destinataris. Si us plau, torna-ho a provar.",
+        "confirmSend": "Estàs segur de voler enviar aquest missatge a {{count}} destinataris?",
+        "cancelButton": "Cancel·lar",
+        "confirmButton": "Confirmar enviament",
+        "sendingProgress": "Enviant missatges... ({{sent}}/{{total}})",
+        "allCrews": "Totes les colles",
+        "allPartners": "Tots els socis",
+        "emailPreview": "Vista prèvia del correu",
+        "selectCrews": "Selecciona les colles",
+        "selectAll": "Seleccionar totes",
+        "deselectAll": "Desseleccionar totes",
+        "loadingCrews": "Carregant colles...",
+        "confirmTitle": "Confirmar enviament",
+        "successTitle": "Missatge enviat",
+        "errorTitle": "Error",
+        "okButton": "Acceptar"
+      },
+      "liveChat": {
+        "title": "Xat de suport",
+        "loading": "Carregant missatges...",
+        "inputPlaceholder": "Escriu un missatge...",
+        "sendButton": "Enviar",
+        "welcomeMessage": "Hola {name}! En què podem ajudar-te avui?",
+        "authRequired": {
+          "title": "Autenticació requerida",
+          "text": "Per utilitzar el xat de suport, necessites iniciar sessió al teu compte."
+        },
+        "notification": {
+          "newMessage": "Tens un nou missatge"
+        }
+      },
+      "adminChatPanel": {
+        "title": "Panell d'Administració de Xat",
+        "activeChats": "Converses actives ({{count}})",
+        "backButton": "Tornar",
+        "loading": {
+          "chats": "Carregant xats...",
+          "messages": "Carregant missatges...",
+          "page": "Carregant..."
+        },
+        "noChats": "No hi ha converses actives",
+        "userPlaceholders": {
+          "name": "Usuari",
+          "email": "Sense correu"
+        },
+        "selectChatPrompt": "Selecciona un xat per començar",
+        "messageInput": {
+          "placeholder": "Escriu un missatge..."
+        },
+        "buttons": {
+          "send": "Enviar",
+          "closeChat": "Tancar xat"
+        },
+        "accessDenied": "Accés denegat",
+        "status": {
+          "read": "Llegit",
+          "sent": "Enviat"
+        }
+      }
     }
   },
   "common": {
@@ -1266,6 +1436,11 @@
       "title": "Uneix-te a les nostres Colles!",
       "text": "Per gestionar les teves colles, cal iniciar sessió o registrar-se.",
       "crewViewInfo": "Participa a les festes amb la teva colla i competeix pels millors premis."
+    },
+    "authRequiredEvents": {
+      "title": "Necesites registrar-te!",
+      "text": "Per poder inscriure't als events, necesites registrar-te o iniciar sessió",
+      "eventViewInfo": "Participa als events i disfruta de l'experiencia al màxim."
     },
     "register": "Registrar-se",
     "login": "Iniciar sessió",
@@ -1280,6 +1455,7 @@
       "whoWeAreTitle": "Qui som",
       "dashboardTitle": "Tauler de control",
       "profileTitle": "Perfil",
+      "contactTitle": "Contacte",
       "shopTitle": "Botiga",
       "settingsTitle": "Configuració",
       "signOutTitle": "Tancar sessió",
@@ -1318,7 +1494,7 @@
       "recover": "Recuperar"
     },
     "inputs": {
-      "addDocument": "Fes clic per afegir un document",
+      "addDocument": "Afegir un document",
       "enterPassword": "Introdueix la contrasenya"
     },
     "cards": {
@@ -1438,7 +1614,8 @@
         "description": "Gestiona els missatges i converses.",
         "actions": {
           "inbox": "Safata d'entrada",
-          "live": "Xat en directe"
+          "live": "Xat en directe",
+          "sendMessages": "Enviar correu"
         }
       },
       "reports": {

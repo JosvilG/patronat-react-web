@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import {
   collection,
@@ -16,6 +16,7 @@ import Loader from '../../components/Loader'
 import log from 'loglevel'
 import useSlug from '../../hooks/useSlug'
 import { showPopup } from '../../services/popupService'
+import { AuthContext } from '../../contexts/AuthContext'
 
 function EventParticipationForm() {
   const { t } = useTranslation()
@@ -32,6 +33,7 @@ function EventParticipationForm() {
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState(null)
   const viewDictionary = 'pages.events.eventParticipationForm'
+  const { user } = useContext(AuthContext)
 
   useEffect(() => {
     const fetchEventAndForm = async () => {
@@ -164,7 +166,7 @@ function EventParticipationForm() {
         responses: { ...formValues },
         createdAt: Timestamp.now(),
         status: 'pendiente',
-        submitBy: null,
+        submitBy: user ? user.uid : null,
       }
 
       await addDoc(collection(db, 'inscriptions'), inscriptionData)
@@ -192,11 +194,49 @@ function EventParticipationForm() {
     }
   }
 
+  // Si no hay usuario autenticado, mostrar mensaje para registrarse o iniciar sesión
+  if (!user) {
+    return (
+      <div className="container px-[4%] py-[5vh] mx-auto sm:py-[8vh] md:py-[10vh]">
+        <div className="max-w-3xl mx-auto text-center bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-xl sm:rounded-2xl p-[1rem] sm:p-[1.5rem] md:p-[2rem] shadow-lg flex flex-col items-center">
+          <h2 className="mb-[1rem] text-xl font-bold text-gray-800 sm:mb-[1.5rem] sm:text-2xl md:text-3xl">
+            {t('common.authRequiredEvents.title')}
+          </h2>
+
+          <div className="mb-[1rem] text-base sm:mb-[2rem] sm:text-lg">
+            <p className="mb-[0.5rem] sm:mb-[1rem]">
+              {t('common.authRequiredEvents.text')}
+            </p>
+            <p>{t('common.authRequiredEvents.eventViewInfo')}</p>
+          </div>
+
+          <div className="flex flex-col justify-center w-full space-y-[1rem] sm:w-auto sm:flex-row sm:space-y-0 sm:space-x-[1rem] md:space-x-[1.5rem]">
+            <DynamicButton
+              type="personAdd"
+              size="medium"
+              state="normal"
+              textId={t('common.register')}
+              onClick={() => navigate('/register')}
+            />
+
+            <DynamicButton
+              type="submit"
+              size="medium"
+              state="highlighted"
+              textId={t('common.login')}
+              onClick={() => navigate('/login')}
+            />
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   if (error) {
     return (
-      <div className="container px-4 py-8 mx-auto text-center">
+      <div className="container px-[4%] py-[5vh] mx-auto text-center">
         <h2 className="text-2xl font-bold text-red-600">{error}</h2>
-        <div className="mt-4">
+        <div className="mt-[3vh]">
           <DynamicButton
             type="button"
             onClick={() => navigate(-1)}
@@ -210,15 +250,15 @@ function EventParticipationForm() {
   }
 
   return (
-    <div className="container px-4 pb-6 mx-auto">
+    <div className="container px-[4%] pb-[4vh] mx-auto">
       <Loader loading={submitting} />
 
-      <form onSubmit={handleSubmit} className="mx-auto space-y-6">
-        <h1 className="mb-6 text-center t64b">
+      <form onSubmit={handleSubmit} className="mx-auto space-y-[4vh]">
+        <h1 className="mb-[4vh] text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`, { eventTitle: eventData?.title })}
         </h1>
-        <div className="p-6 mb-6 rounded-lg">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="p-[4%] mb-[4vh] rounded-lg backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+          <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2">
             {formFields.map((field) => (
               <div
                 key={field.id}
@@ -231,21 +271,13 @@ function EventParticipationForm() {
                   value={formValues[field.fieldId]}
                   onChange={handleChange}
                   required={field.required}
-                  placeholder={t(`${viewDictionary}.fieldPlaceholder`, {
-                    fieldName: field.label.toLowerCase(),
-                  })}
                 />
-                {field.description && (
-                  <p className="mt-1 text-sm text-gray-500">
-                    {field.description}
-                  </p>
-                )}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex justify-end mt-8 space-x-4">
+        <div className="flex justify-end mt-[4vh] gap-[3vw]">
           <DynamicButton
             type="button"
             onClick={() => navigate(-1)}

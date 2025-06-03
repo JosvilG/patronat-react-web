@@ -1,7 +1,3 @@
-/**
- * Component for displaying and managing uploaded files from Firebase storage.
- * Provides functionality to view, search, download and delete files from various storage folders.
- */
 import React, { useEffect, useState } from 'react'
 import {
   getStorage,
@@ -16,17 +12,15 @@ import DynamicButton from '../../components/Buttons'
 import Loader from '../../components/Loader'
 import PaginationControl from '../../components/Pagination'
 import useSearchFilter from '../../hooks/useSearchFilter'
+import { showPopup } from '../../services/popupService'
 
 function UploadList() {
   const { t } = useTranslation()
-  // State for storing all uploads
   const [uploads, setUploads] = useState([])
   const [loading, setLoading] = useState(true)
   const [currentPage, setCurrentPage] = useState(1)
   const itemsPerPage = 20
   const viewDictionary = 'pages.files.listUploads'
-
-  // Use the useSearchFilter hook for search functionality
   const {
     searchQuery,
     filteredItems: filteredUploads,
@@ -37,14 +31,9 @@ function UploadList() {
     debounceTime: 300,
   })
 
-  // Calculate total pages for pagination
   const totalPages = Math.ceil(filteredUploads.length / itemsPerPage)
 
   useEffect(() => {
-    /**
-     * Fetches all files from specified folders in Firebase storage.
-     * Aggregates files from multiple folders and stores them in state.
-     */
     const fetchUploads = async () => {
       try {
         const storage = getStorage()
@@ -57,12 +46,10 @@ function UploadList() {
         ]
         const allFiles = []
 
-        // Iterate through each folder and retrieve files
         for (const folder of folders) {
           const folderRef = ref(storage, `${folder}/`)
           const result = await listAll(folderRef)
 
-          // Process each file in the folder
           for (const itemRef of result.items) {
             const url = await getDownloadURL(itemRef)
             allFiles.push({
@@ -74,17 +61,14 @@ function UploadList() {
           }
         }
 
-        // Update state with retrieved files
         setUploads(allFiles)
-        // Update items in the search filter hook
         updateItems(allFiles)
       } catch (error) {
-        // Handle errors silently in production
+        return
       } finally {
         setLoading(false)
       }
     }
-
     fetchUploads()
   }, [])
 
@@ -98,29 +82,50 @@ function UploadList() {
   }
 
   /**
-   * Deletes a file from Firebase storage and updates the UI.
-   * @param {string} filePath - The full path of the file to delete
+   * Muestra un diálogo de confirmación y luego borra el archivo si se confirma.
+   * @param {string} filePath - La ruta completa del archivo a eliminar
    */
-  const handleDelete = async (filePath) => {
-    try {
-      const storage = getStorage()
-      const fileRef = ref(storage, filePath)
+  const handleDelete = (filePath) => {
+    const fileName = filePath.split('/').pop()
 
-      await deleteObject(fileRef)
+    showPopup({
+      title: t(`${viewDictionary}.popups.delete.title`),
+      text: t(`${viewDictionary}.popups.delete.text`, { fileName }),
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: t(`${viewDictionary}.popups.delete.confirmButton`),
+      cancelButtonText: t(`${viewDictionary}.popups.delete.cancelButton`),
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      onConfirm: async () => {
+        try {
+          const storage = getStorage()
+          const fileRef = ref(storage, filePath)
 
-      // Update uploads state by removing the deleted file
-      const updatedUploads = uploads.filter(
-        (upload) => upload.fullPath !== filePath
-      )
-      setUploads(updatedUploads)
-      // Update items in the search filter hook
-      updateItems(updatedUploads)
-    } catch (error) {
-      // Handle errors silently in production
-    }
+          await deleteObject(fileRef)
+
+          const updatedUploads = uploads.filter(
+            (upload) => upload.fullPath !== filePath
+          )
+          setUploads(updatedUploads)
+          updateItems(updatedUploads)
+
+          showPopup({
+            title: t(`${viewDictionary}.popups.success.title`),
+            text: t(`${viewDictionary}.popups.success.text`),
+            icon: 'success',
+          })
+        } catch (error) {
+          showPopup({
+            title: t(`${viewDictionary}.popups.error.title`),
+            text: t(`${viewDictionary}.popups.error.text`),
+            icon: 'error',
+          })
+        }
+      },
+    })
   }
 
-  // Calculate the current page's items for pagination
   const indexOfLastItem = currentPage * itemsPerPage
   const indexOfFirstItem = indexOfLastItem - itemsPerPage
   const currentUploads = filteredUploads.slice(
@@ -128,22 +133,22 @@ function UploadList() {
     indexOfLastItem
   )
 
-  // Show loader while data is being fetched
   if (loading)
     return (
       <Loader
         loading={true}
-        size="50px"
+        size="10vmin"
         color="rgb(21, 100, 46)"
         text={t(`${viewDictionary}.loadingText`)}
       />
     )
 
   return (
-    <div className="max-w-full pb-6 mx-auto min-h-dvh h-fit md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
-      {/* Search input area */}
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
+    <div className="flex flex-col items-center px-[4%] pb-[4vh] mx-auto min-h-dvh h-fit w-[92%] sm:w-full md:w-auto sm:flex-none">
+      <h1 className="mb-[4vh] text-center t40b sm:t64b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
+      <div className="grid items-center justify-start grid-cols-1 gap-[3vh] mb-[4vh] w-full md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
@@ -152,20 +157,21 @@ function UploadList() {
           onChange={handleSearchChange}
         />
       </div>
-      {/* File list */}
-      <ul className="space-y-4">
+      <ul className="space-y-[3vh] w-full">
         {currentUploads.map((upload, index) => (
           <li
             key={index}
-            className="flex items-center justify-between p-4 space-x-4 bg-gray-100 rounded-lg shadow"
+            className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-[4%] sm:p-[3%] space-y-[2vh] sm:space-y-0 sm:space-x-[3%] bg-gray-100 rounded-lg shadow"
           >
-            <div>
-              <span className="block text-lg font-semibold">{upload.name}</span>
-              <span className="block text-sm text-gray-500">
+            <div className="w-full sm:w-auto">
+              <span className="block text-lg font-semibold truncate max-w-full sm:max-w-[30vw]">
+                {upload.name}
+              </span>
+              <span className="block max-w-full text-sm text-gray-500 truncate">
                 {upload.fullPath}
               </span>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex w-full sm:w-auto justify-end space-x-[2vw]">
               <DynamicButton
                 size="x-small"
                 type="save"
@@ -183,7 +189,6 @@ function UploadList() {
         ))}
       </ul>
 
-      {/* Pagination control */}
       <PaginationControl
         page={currentPage}
         count={totalPages}
@@ -192,7 +197,7 @@ function UploadList() {
         onChange={handlePageChange}
         itemName="archivos"
         size="medium"
-        className="my-6"
+        className="my-[5vh]"
       />
     </div>
   )

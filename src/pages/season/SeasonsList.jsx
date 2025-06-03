@@ -136,24 +136,26 @@ function SeasonsList() {
   }
 
   return (
-    <div className="max-w-full pb-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">
+    <div className="w-[92%] pb-[4vh] mx-auto md:w-auto md:max-w-[90%] lg:max-w-[80%]">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Gestión de Temporadas')}
       </h1>
 
-      <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
-        <DynamicInput
-          name="search"
-          type="text"
-          textId={`${viewDictionary}.searchPlaceholder`}
-          placeholder={t(
-            `${viewDictionary}.searchPlaceholder`,
-            'Buscar temporada...'
-          )}
-          value={searchQuery}
-          onChange={handleSearchChange}
-        />
-        <div className="pl-0 sm:pl-32">
+      <div className="grid items-center grid-cols-1 gap-[3vh] mb-[4vh] sm:grid-cols-2 sm:gap-[2vw]">
+        <div className="w-full">
+          <DynamicInput
+            name="search"
+            type="text"
+            textId={`${viewDictionary}.searchPlaceholder`}
+            placeholder={t(
+              `${viewDictionary}.searchPlaceholder`,
+              'Buscar temporada...'
+            )}
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <div className="flex justify-center sm:justify-end">
           <DynamicButton
             onClick={() => navigate('/new-season/')}
             size="small"
@@ -165,33 +167,33 @@ function SeasonsList() {
       </div>
 
       {filteredSeasons.length === 0 ? (
-        <div className="p-4 text-center bg-gray-100 rounded-lg">
+        <div className="p-[4%] text-center bg-gray-100 rounded-lg">
           <p>
             {t(`${viewDictionary}.noSeasons`, 'No hay temporadas registradas.')}
           </p>
         </div>
       ) : (
-        <ul className="space-y-4">
+        <ul className="space-y-[3vh]">
           {filteredSeasons.map((season) => (
             <li
               key={season.id}
-              className="p-4 space-x-4 bg-gray-100 rounded-lg shadow"
+              className="p-[4%] bg-gray-100 rounded-lg shadow"
             >
               <div className="flex flex-col">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-[2vh] sm:gap-0">
+                  <div className="flex flex-wrap items-center gap-[2vw]">
                     <span className="text-lg font-semibold">
                       {t(`${viewDictionary}.seasonLabel`, 'Temporada')}:{' '}
                       {season.seasonYear}
                     </span>
                     {season.active && (
-                      <span className="px-2 py-1 text-xs font-bold text-white bg-green-500 rounded-full">
+                      <span className="px-[2vw] py-[1vh] text-xs font-bold text-white bg-green-500 rounded-full">
                         {t(`${viewDictionary}.activeLabel`, 'Activa')}
                       </span>
                     )}
                   </div>
 
-                  <div className="flex space-x-2">
+                  <div className="flex gap-[2vw]">
                     <DynamicButton
                       onClick={() => navigate(`/edit-season/${season.id}`)}
                       size="small"
@@ -215,13 +217,13 @@ function SeasonsList() {
                   </div>
                 </div>
 
-                <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-[3vh] mt-[4vh] md:grid-cols-2 md:gap-[2vw]">
                   {/* Columna para mayores de 16 años */}
-                  <div className="p-4 bg-[#D9D9D9] rounded-[20px] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-                    <h3 className="mb-2 font-bold text-center">
+                  <div className="p-[5%] bg-[#D9D9D9] rounded-[20px] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+                    <h3 className="mb-[2vh] font-bold text-center">
                       {t(`${viewDictionary}.adultPrices`, 'Mayores de 16 años')}
                     </h3>
-                    <div className="grid grid-cols-1 gap-1">
+                    <div className="grid grid-cols-1 gap-[1vh]">
                       <p className="text-sm">
                         <span className="font-medium">
                           {t(`${viewDictionary}.totalPrice`, 'Precio total')}:
@@ -250,11 +252,11 @@ function SeasonsList() {
                   </div>
 
                   {/* Columna para 14-16 años */}
-                  <div className="p-4 bg-[#D9D9D9] rounded-[20px] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-                    <h3 className="mb-2 font-bold text-center">
+                  <div className="p-[5%] bg-[#D9D9D9] rounded-[20px] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+                    <h3 className="mb-[2vh] font-bold text-center">
                       {t(`${viewDictionary}.juniorPrices`, '14-16 años')}
                     </h3>
-                    <div className="grid grid-cols-1 gap-1">
+                    <div className="grid grid-cols-1 gap-[1vh]">
                       <p className="text-sm">
                         <span className="font-medium">
                           {t(`${viewDictionary}.totalPrice`, 'Precio total')}:
@@ -283,7 +285,7 @@ function SeasonsList() {
                   </div>
                 </div>
 
-                <p className="mt-2 text-sm text-gray-500">
+                <p className="mt-[2vh] text-sm text-gray-500">
                   <span className="font-medium">
                     {t(`${viewDictionary}.createdAt`, 'Creada')}:
                   </span>{' '}

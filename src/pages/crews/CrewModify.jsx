@@ -226,7 +226,7 @@ function CrewModify() {
 
   if (loading || authLoading || usersLoading) {
     return (
-      <div className="flex items-center justify-center h-screen pb-64">
+      <div className="flex items-center justify-center h-[80vh]">
         <div className="loader" />
       </div>
     )
@@ -238,21 +238,24 @@ function CrewModify() {
   }
 
   return (
-    <div className="container px-4 pb-6 mx-auto">
+    <div className="w-[92%] mx-auto pb-[4vh] sm:pb-[6vh]">
       <Loader loading={submitting} />
 
-      <form onSubmit={handleSubmit} className="mx-auto space-y-6 max-w-7xl">
-        <h1 className="mb-6 text-center t64b">
+      <form
+        onSubmit={handleSubmit}
+        className="mx-auto space-y-[1.5rem] max-w-7xl"
+      >
+        <h1 className="mb-[1.5rem] text-center sm:t64b t40b">
           {t(`${viewDictionary}.title`)}
         </h1>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[5%] mb-[1.5rem] rounded-lg bg-white bg-opacity-75 shadow-sm">
+          <h3 className="mb-[1rem] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            <div className="col-span-2">
+          <div className="grid grid-cols-1 gap-[1rem]">
+            <div>
               <DynamicInput
                 name="title"
                 textId={t(`${viewDictionary}.nameLabel`)}
@@ -265,12 +268,12 @@ function CrewModify() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[5%] mb-[1.5rem] rounded-lg bg-white bg-opacity-75 shadow-sm">
+          <h3 className="mb-[1rem] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.responsablesTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-[1.5rem] lg:grid-cols-2">
             <div>
               <DynamicInput
                 name="searchResponsable"
@@ -280,7 +283,7 @@ function CrewModify() {
                 onChange={(e) => setResponsableSearch(e.target.value)}
               />
 
-              <div className="p-2 mt-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+              <div className="p-[0.5rem] mt-[0.5rem] overflow-y-auto max-h-[40vh] sm:max-h-[30vh] md:max-h-[15rem] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                 <DynamicItems
                   items={filteredResponsables.map((u) => ({
                     title: u.name,
@@ -288,6 +291,7 @@ function CrewModify() {
                     icon: (
                       <button
                         type="button"
+                        className="p-[0.5rem]" // Área de toque ampliada
                         onClick={() => addResponsableToCrew(u.id)}
                       >
                         <AddIcon fontSize="small" />
@@ -299,10 +303,10 @@ function CrewModify() {
             </div>
 
             <div>
-              <h4 className="mb-2 text-gray-700 t16r">
+              <h4 className="mb-[0.5rem] text-gray-700 t16r">
                 {t(`${viewDictionary}.selectedResponsablesLabel`)}
               </h4>
-              <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+              <div className="p-[0.5rem] overflow-y-auto max-h-[40vh] sm:max-h-[30vh] md:max-h-[15rem] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                 <DynamicItems
                   items={crewData.responsable
                     .map((responsableId) => {
@@ -316,6 +320,7 @@ function CrewModify() {
                             icon: (
                               <button
                                 type="button"
+                                className="p-[0.5rem]" // Área de toque ampliada
                                 onClick={() =>
                                   removeResponsableFromCrew(responsableId)
                                 }
@@ -333,12 +338,12 @@ function CrewModify() {
           </div>
         </div>
 
-        <div className="p-4 mb-6 rounded-lg ">
-          <h3 className="mb-4 text-lg font-semibold text-gray-700">
+        <div className="p-[5%] mb-[1.5rem] rounded-lg bg-white bg-opacity-75 shadow-sm">
+          <h3 className="mb-[1rem] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.membersTitle`)}
           </h3>
 
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          <div className="grid grid-cols-1 gap-[1.5rem] lg:grid-cols-2">
             <div>
               <DynamicInput
                 name="searchUser"
@@ -348,7 +353,7 @@ function CrewModify() {
                 onChange={(e) => setUserSearch(e.target.value)}
               />
 
-              <div className="p-2 mt-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+              <div className="p-[0.5rem] mt-[0.5rem] overflow-y-auto max-h-[40vh] sm:max-h-[30vh] md:max-h-[15rem] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                 <DynamicItems
                   items={filteredUsers.map((u) => ({
                     title: u.name,
@@ -356,6 +361,7 @@ function CrewModify() {
                     icon: (
                       <button
                         type="button"
+                        className="p-[0.5rem]" // Área de toque ampliada
                         onClick={() => addMemberToCrew(u.name)}
                       >
                         <AddIcon fontSize="small" />
@@ -367,10 +373,10 @@ function CrewModify() {
             </div>
 
             <div>
-              <h4 className="mb-2 text-gray-700 t16r">
+              <h4 className="mb-[0.5rem] text-gray-700 t16r">
                 {t(`${viewDictionary}.selectedMembersLabel`)}
               </h4>
-              <div className="p-2 overflow-y-auto max-h-60 text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+              <div className="p-[0.5rem] overflow-y-auto max-h-[40vh] sm:max-h-[30vh] md:max-h-[15rem] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                 {crewData.membersNames && crewData.membersNames.length > 0 ? (
                   <DynamicItems
                     items={crewData.membersNames.map((memberName) => ({
@@ -379,6 +385,7 @@ function CrewModify() {
                       icon: (
                         <button
                           type="button"
+                          className="p-[0.5rem]" // Área de toque ampliada
                           onClick={() => removeMemberFromCrew(memberName)}
                         >
                           <DeleteIcon fontSize="small" />
@@ -387,7 +394,7 @@ function CrewModify() {
                     }))}
                   />
                 ) : (
-                  <p className="p-2 text-gray-500">
+                  <p className="p-[0.5rem] text-gray-500">
                     {t(`${viewDictionary}.noMembers`)}
                   </p>
                 )}
@@ -396,7 +403,7 @@ function CrewModify() {
           </div>
         </div>
 
-        <div className="flex justify-end mt-8">
+        <div className="items-center flex flex-col sm:flex-row justify-end gap-[1rem] sm:gap-[0.5rem] mt-[2rem]">
           <DynamicButton
             type="button"
             onClick={handleCancel}

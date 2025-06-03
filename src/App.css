@@ -28,6 +28,22 @@
   color: #61dafb;
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.snap-x {
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+.snap-center {
+  scroll-snap-align: center;
+}
+
 body {
   background-color: #ffffff;
   background-image: radial-gradient(
@@ -36,4 +52,12 @@ body {
       transparent 59%
     ),
     radial-gradient(at 82% 65%, hsl(55.64, 100%, 65%) 0, transparent 55%);
+}
+
+@media (pointer: coarse) {
+  .snap-x {
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
 }

@@ -20,27 +20,18 @@ import { useTranslation } from 'react-i18next'
 import DynamicButton from '../../components/Buttons'
 import { createPaymentForPartner } from '../../hooks/paymentService'
 
-// Una función formatDate mejorada que se puede exportar al service
 export const formatDate = (dateValue) => {
   if (!dateValue) return ''
 
   try {
-    // Convertir de timestamp de Firestore si es necesario
     if (dateValue?.toDate) {
       dateValue = dateValue.toDate()
     }
 
-    // Si ya es una fecha, formatear
     if (dateValue instanceof Date) {
-      // Para mostrar en UI
       return dateValue.toLocaleDateString()
-
-      // Para inputs de tipo date
-      // const pad = num => String(num).padStart(2, '0');
-      // return `${dateValue.getFullYear()}-${pad(dateValue.getMonth() + 1)}-${pad(dateValue.getDate())}`;
     }
 
-    // Si es un string que parece una fecha, convertir y formatear
     if (typeof dateValue === 'string' && dateValue.match(/\d{4}-\d{2}-\d{2}/)) {
       return new Date(dateValue).toLocaleDateString()
     }
@@ -51,12 +42,10 @@ export const formatDate = (dateValue) => {
   return ''
 }
 
-// Función para calcular edad basada en fecha de nacimiento
 const calculateAge = (birthDate) => {
   if (!birthDate) return null
 
   try {
-    // Convertir de timestamp de Firestore si es necesario
     let birthDateObj = birthDate
     if (birthDate?.toDate) {
       birthDateObj = birthDate.toDate()
@@ -68,7 +57,6 @@ const calculateAge = (birthDate) => {
     let age = today.getFullYear() - birthDateObj.getFullYear()
     const monthDiff = today.getMonth() - birthDateObj.getMonth()
 
-    // Si aún no ha cumplido años este año
     if (
       monthDiff < 0 ||
       (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
@@ -115,7 +103,6 @@ function NewSeason() {
   useEffect(() => {
     const checkExistingSeasons = async () => {
       try {
-        // Buscar temporada activa
         const activeSeasonQuery = query(
           collection(db, 'seasons'),
           where('active', '==', true)
@@ -158,19 +145,17 @@ function NewSeason() {
       return !querySnapshot.empty
     } catch (error) {
       log.error('Error al comprobar años de temporada existentes:', error)
-      return false // Si hay error, permitimos continuar pero lo registramos
+      return false
     }
   }
 
   const resetForm = () => {
     setFormState({
       seasonYear: new Date().getFullYear() + 1,
-      // Precios para mayores de 16 años
       totalPrice: 0,
       priceFirstFraction: 0,
       priceSeconFraction: 0,
       priceThirdFraction: 0,
-      // Precios para 14-16 años
       totalPriceJunior: 0,
       priceFirstFractionJunior: 0,
       priceSeconFractionJunior: 0,
@@ -208,7 +193,6 @@ function NewSeason() {
 
     setFormState((prev) => ({ ...prev, [name]: parsedValue }))
 
-    // Si cambia el año, verificar duplicación
     if (name === 'seasonYear' && parsedValue) {
       setCheckingYear(true)
       setYearValidationMessage(null)
@@ -253,7 +237,6 @@ function NewSeason() {
       )
     }
 
-    // Comprobar duplicación de año
     const seasonYearExists = await checkExistingSeasonYear(formState.seasonYear)
     if (seasonYearExists) {
       errors.push(
@@ -265,7 +248,6 @@ function NewSeason() {
       )
     }
 
-    // Validación para precios mayores de 16
     if (formState.totalPrice < 0) {
       errors.push(
         t(
@@ -289,7 +271,6 @@ function NewSeason() {
       )
     }
 
-    // Validación para precios 14-16 años
     if (formState.totalPriceJunior < 0) {
       errors.push(
         t(
@@ -322,7 +303,6 @@ function NewSeason() {
     setFormState((prev) => ({ ...prev, submitting: true }))
 
     try {
-      // Verificación de usuario
       if (!user) {
         log.warn('Intento de crear temporada sin usuario autenticado')
         await showPopup({
@@ -338,7 +318,6 @@ function NewSeason() {
       }
       log.info('Usuario autenticado:', user.uid)
 
-      // Validación del formulario (ahora asíncrona)
       const errors = await validateForm()
       if (errors.length > 0) {
         log.warn('Errores de validación en el formulario:', errors)
@@ -353,7 +332,6 @@ function NewSeason() {
       }
       log.info('Formulario validado correctamente')
 
-      // Paso 1: Si es necesario, desactivar temporada existente
       if (formState.active && existingActiveSeason) {
         log.info('Desactivando temporada actual:', existingActiveSeason.id)
         try {
@@ -373,19 +351,16 @@ function NewSeason() {
         }
       }
 
-      // Paso 2: Crear nueva temporada
       log.info('Creando nueva temporada con datos:', { ...formState })
       let newSeasonDocRef
       try {
         newSeasonDocRef = await addDoc(collection(db, 'seasons'), {
           seasonYear: formState.seasonYear,
-          // Precios para mayores de 16 años
           totalPrice: formState.totalPrice,
           numberOfFractions: 3,
           priceFirstFraction: formState.priceFirstFraction,
           priceSeconFraction: formState.priceSeconFraction,
           priceThirdFraction: formState.priceThirdFraction,
-          // Precios para 14-16 años
           totalPriceJunior: formState.totalPriceJunior,
           priceFirstFractionJunior: formState.priceFirstFractionJunior,
           priceSeconFractionJunior: formState.priceSeconFractionJunior,
@@ -405,7 +380,6 @@ function NewSeason() {
         )
       }
 
-      // Paso 3: Obtener socios aprobados para crear pagos
       log.info('Consultando socios aprobados')
       let approvedPartnersSnapshot
       try {
@@ -422,7 +396,6 @@ function NewSeason() {
         )
       }
 
-      // Paso 4: Crear documentos de pagos para socios aprobados
       if (!approvedPartnersSnapshot.empty) {
         setCreatingPayments(true)
 
@@ -437,14 +410,11 @@ function NewSeason() {
             const partnerData = partnerDoc.data()
 
             try {
-              // Calcular la edad del socio
               const age = calculateAge(partnerData.birthDate)
               log.info(`Socio ${partnerId}: edad calculada ${age} años`)
 
-              // Determinar precios según la edad
               let firstPaymentPrice, secondPaymentPrice, thirdPaymentPrice
 
-              // Si el socio tiene entre 14 y 16 años (ambos inclusive), usar precios junior
               if (age !== null && age >= 14 && age <= 16) {
                 firstPaymentPrice = formState.priceFirstFractionJunior
                 secondPaymentPrice = formState.priceSeconFractionJunior
@@ -454,7 +424,6 @@ function NewSeason() {
                   `Aplicando tarifa junior para socio ${partnerId} (${age} años)`
                 )
               } else {
-                // Para mayores de 16 años o si no se pudo calcular la edad, usar precios estándar
                 firstPaymentPrice = formState.priceFirstFraction
                 secondPaymentPrice = formState.priceSeconFraction
                 thirdPaymentPrice = formState.priceThirdFraction
@@ -464,7 +433,6 @@ function NewSeason() {
                 )
               }
 
-              // Crear el objeto de datos de pago
               const paymentData = {
                 seasonYear: formState.seasonYear,
                 firstPayment: false,
@@ -479,13 +447,11 @@ function NewSeason() {
                 thirdPaymentDone: false,
                 thirdPaymentPrice: thirdPaymentPrice,
                 thirdPaymentDate: null,
-                // Guardar información sobre el tipo de tarifa aplicada
                 priceCategory:
                   age !== null && age >= 14 && age <= 16 ? 'junior' : 'adult',
                 partnerAge: age || 'unknown',
               }
 
-              // Usar el servicio para crear el pago
               const result = await createPaymentForPartner(
                 partnerId,
                 paymentData,
@@ -534,7 +500,6 @@ function NewSeason() {
         }
       }
 
-      // Paso 5: Mostrar mensaje de éxito y redirigir
       log.info('Proceso completado con éxito, mostrando mensaje final')
       await showPopup({
         title: t(`${viewDictionary}.successPopup.title`, 'Éxito'),
@@ -552,7 +517,6 @@ function NewSeason() {
     } catch (error) {
       log.error('Error general en el proceso:', error)
 
-      // Mostrar mensaje de error con detalles
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text:
@@ -575,7 +539,7 @@ function NewSeason() {
     return (
       <Loader
         loading={true}
-        size="50px"
+        size="10vmin"
         color="rgb(21, 100, 46)"
         text={t(`${viewDictionary}.loadingText`, 'Cargando...')}
       />
@@ -583,14 +547,14 @@ function NewSeason() {
   }
 
   return (
-    <div className="flex flex-col items-center h-auto max-w-4xl pb-6 mx-auto">
+    <div className="flex flex-col items-center w-[92%] md:w-auto pb-[4vh] mx-auto max-w-4xl">
       <Loader loading={formState.submitting || creatingPayments} />
-      <h1 className="mb-4 text-center t64b">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Registrar Nueva Temporada')}
       </h1>
 
       {existingActiveSeason && (
-        <div className="p-4 mb-4 text-sm text-blue-700 bg-blue-100 rounded-lg">
+        <div className="p-[4%] mb-[4vh] text-sm text-blue-700 bg-blue-100 rounded-lg w-full">
           <p>
             {t(
               `${viewDictionary}.activeSeasonNotice`,
@@ -602,8 +566,7 @@ function NewSeason() {
       )}
 
       <form onSubmit={handleSubmit} className="w-full">
-        {/* Año de temporada - común para ambas columnas */}
-        <div className="flex flex-col items-center mb-6">
+        <div className="flex flex-col items-center mb-[4vh]">
           <DynamicInput
             name="seasonYear"
             textId={`${viewDictionary}.seasonYearLabel`}
@@ -616,7 +579,7 @@ function NewSeason() {
           />
 
           {checkingYear && (
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-[2vh] text-sm text-gray-500">
               {t(
                 `${viewDictionary}.checkingYear`,
                 'Verificando disponibilidad del año...'
@@ -625,14 +588,15 @@ function NewSeason() {
           )}
 
           {yearValidationMessage && (
-            <p className="mt-1 text-sm text-red-600">{yearValidationMessage}</p>
+            <p className="mt-[2vh] text-sm text-red-600">
+              {yearValidationMessage}
+            </p>
           )}
         </div>
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          {/* Columna para mayores de 16 años */}
-          <div className="p-6 space-y-4 bg-[#D9D9D9] rounded-[30px] h-fit mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <h2 className="mb-4 text-center t24b">
+        <div className="grid grid-cols-1 gap-[4vh] md:grid-cols-2 md:gap-[3vw]">
+          <div className="p-[5%] space-y-[3vh] rounded-[30px] h-fit mb-[4vh] text-black">
+            <h2 className="mb-[3vh] text-center t24b">
               {t(`${viewDictionary}.adultPrices`, 'Mayores de 16 años')}
             </h2>
             <div className="flex flex-col items-center">
@@ -685,9 +649,8 @@ function NewSeason() {
             </div>
           </div>
 
-          {/* Columna para 14-16 años */}
-          <div className="p-6 space-y-4 bg-[#D9D9D9] rounded-[30px] h-fit mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <h2 className="mb-4 text-center t24b">
+          <div className="p-[5%] space-y-[3vh] rounded-[30px] h-fit mb-[4vh] text-black">
+            <h2 className="mb-[3vh] text-center t24b">
               {t(`${viewDictionary}.juniorPrices`, 'Precios para 14-16 años')}
             </h2>
             <div className="flex flex-col items-center">
@@ -741,8 +704,7 @@ function NewSeason() {
           </div>
         </div>
 
-        {/* Checkbox para activar temporada */}
-        <div className="flex flex-col items-center mt-4 space-x-2">
+        <div className="flex flex-col items-center mt-[3vh] space-x-0 sm:space-x-[1vw]">
           <DynamicInput
             name="active"
             type="checkbox"
@@ -754,10 +716,10 @@ function NewSeason() {
           />
 
           {activationMessage && (
-            <p className="mt-1 text-sm text-amber-600">
+            <p className="mt-[2vh] text-sm text-amber-600">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="inline w-4 h-4 mr-1"
+                className="inline w-4 h-4 mr-[0.5vw]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -774,11 +736,10 @@ function NewSeason() {
           )}
         </div>
 
-        {/* Botón de guardar */}
-        <div className="flex justify-center mt-6">
+        <div className="flex justify-center mt-[4vh]">
           <DynamicButton
             type="submit"
-            size="large"
+            size="medium"
             state={formState.submitting ? 'disabled' : 'normal'}
             textId={
               formState.submitting

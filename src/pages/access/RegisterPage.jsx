@@ -125,18 +125,18 @@ function RegisterPage() {
   }
 
   return (
-    <div className="items-center h-screen mx-auto bg-center bg-cover sm:grid max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
-      <div className="relative rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-20 max-sm:max-w-[373px] z-10">
-        <div className="max-w-lg mx-auto text-center">
+    <div className="grid items-center min-h-dvh mx-auto bg-center bg-cover md:grid-cols-3 sm:grid-cols-1 justify-items-center px-[4%] sm:px-[5%] lg:px-[6%]">
+      <div className="sm:mb-[50%] relative z-10 rounded-lg md:p-[5%] sm:p-[4%] p-[6%] grid-col-3 w-fit sm:translate-y-[-10vh] md:translate-y-0">
+        <div className="mx-auto text-center">
           <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
-          <p className="mt-4 text-black t16r whitespace-break-spaces">
+          <p className="mt-[3vh] text-black t16r whitespace-break-spaces">
             {t(`${viewDictionary}.description`)}
           </p>
         </div>
-        {error && <p className="mb-4 text-center text-red-500">{error}</p>}
+        {error && <p className="mb-[2vh] text-center text-red-500">{error}</p>}
         <form
           onSubmit={handleSubmit}
-          className="max-sm:flex max-sm:flex-col max-sm:items-center"
+          className="flex flex-col items-center sm:items-stretch gap-[3vh] mt-[5vh] mb-0"
         >
           <DynamicInput
             name="firstName"
@@ -162,7 +162,7 @@ function RegisterPage() {
             onChange={(e) => handleChange('phoneNumber', e.target.value)}
             required
           />
-          <div className="flex items-center justify-between max-sm:w-[373px]">
+          <div className="flex flex-col items-center w-full sm:justify-between">
             <DynamicInput
               name="birthDate"
               type="date"
@@ -172,7 +172,7 @@ function RegisterPage() {
               required
             />
             {age !== null && (
-              <span className="relative text-black t24b right-12 top-3 max-sm:right-4">
+              <span className="relative text-black t24b sm:right-[10%] sm:top-[0.75vh] right-[5%]">
                 {age} años
               </span>
             )}
@@ -202,7 +202,7 @@ function RegisterPage() {
             required
           />
           <DynamicButton
-            size="large"
+            size="medium"
             state={loading || isTracking ? 'disabled' : 'normal'}
             type="submit"
             textId="components.buttons.register"
@@ -210,7 +210,7 @@ function RegisterPage() {
           />
 
           {isTracking && (
-            <p className="mt-2 text-sm text-center text-gray-600">
+            <p className="mt-[2vh] text-sm text-center text-gray-600">
               {t(
                 'pages.users.listUsers.trackingChanges',
                 'Registrando cambios...'
@@ -220,9 +220,8 @@ function RegisterPage() {
         </form>
       </div>
 
-      {/* Sección de imagen con animación */}
       <motion.div
-        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-4 md:right-2 bg-blend-multiply mix-blend-multiply"
+        className="bottom-0 flex justify-end h-full grid-cols-3 col-span-2 overflow-hidden md:absolute md:bottom-[1vh] md:right-[1%] bg-blend-multiply mix-blend-multiply"
         onMouseMove={handleMouseMove}
       >
         {backgroundImage && (

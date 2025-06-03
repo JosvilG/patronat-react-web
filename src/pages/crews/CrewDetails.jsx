@@ -596,7 +596,7 @@ const CrewDetails = () => {
 
   if (authLoading || loading) {
     return (
-      <div className="container pb-6 mx-auto">
+      <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
         <Loader
           loading={true}
           text={t(
@@ -610,11 +610,11 @@ const CrewDetails = () => {
 
   if (error) {
     return (
-      <div className="container pb-6 mx-auto">
-        <div className="p-4 text-center text-red-600">
+      <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
+        <div className="p-[3%] text-center text-red-600">
           {t(`${viewDictionary}.error`, error)}
         </div>
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-[2vh]">
           <DynamicButton
             onClick={() => navigate('/crews')}
             size="medium"
@@ -628,14 +628,14 @@ const CrewDetails = () => {
 
   if (!isAuthorized && crew) {
     return (
-      <div className="container pb-6 mx-auto">
-        <div className="p-4 text-center text-red-600">
+      <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
+        <div className="p-[3%] text-center text-red-600">
           {t(
             `${viewDictionary}.unauthorized`,
             'No tienes permiso para ver los detalles de esta peña'
           )}
         </div>
-        <div className="flex justify-center mt-4">
+        <div className="flex justify-center mt-[2vh]">
           <DynamicButton
             onClick={() => navigate('/crews')}
             size="medium"
@@ -648,24 +648,24 @@ const CrewDetails = () => {
   }
 
   return (
-    <div className="container pb-6 mx-auto">
-      <h1 className="mb-4 text-center t64b">
+    <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Detalles de la Peña')}
       </h1>
 
       {crew && (
-        <div className="space-y-6">
+        <div className="space-y-[3vh]">
           {crew.status === STATUS.PENDING &&
             isAuthorized &&
             AUTHORIZED_ROLES.includes(userData?.role) && (
-              <div className="p-4 mb-4 text-center text-red-700 bg-red-100 border border-red-200 rounded-xl">
-                <p className="mb-2 t18b">
+              <div className="p-[3%] mb-[3vh] text-center text-red-700 bg-red-100 border border-red-200 rounded-[1rem] sm:rounded-[1.5rem]">
+                <p className="mb-[1vh] t18b">
                   {t(
                     `${viewDictionary}.pendingApproval`,
                     'Esta peña está pendiente de aprobación'
                   )}
                 </p>
-                <div className="flex flex-wrap justify-center gap-4 mt-3">
+                <div className="flex flex-wrap justify-center gap-[2vw] mt-[2vh]">
                   <DynamicButton
                     onClick={handleApprove}
                     size="small"
@@ -688,7 +688,7 @@ const CrewDetails = () => {
                   />
                 </div>
                 {actionLoading && (
-                  <div className="mt-2">
+                  <div className="mt-[2vh]">
                     <Loader
                       loading={true}
                       text={t(
@@ -701,18 +701,18 @@ const CrewDetails = () => {
               </div>
             )}
 
-          <div className="p-6 bg-[#D9D9D9] rounded-[60px] h-fit mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <div className="flex flex-col gap-6 lg:flex-row">
-              <div className="flex-1">
-                <h2 className="mb-4 t24b">
+          <div className="p-[5%] space-y-[3vh] rounded-[2rem] sm:rounded-[3rem] h-fit mb-[3vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <div className="grid grid-cols-1 gap-[4vh] lg:grid-cols-2">
+              <div>
+                <h2 className="mb-[2vh] t24b">
                   {t(`${viewDictionary}.basicInfo`, 'Información Básica')}
                 </h2>
 
-                <div className="flex items-center mb-4">
+                <div className="flex items-center mb-[2vh]">
                   <h3 className="t32b">{crew.title}</h3>
                   {crew.status && (
                     <span
-                      className={`ml-3 px-3 py-1 rounded-full t14r ${getStatusClass(crew.status)}`}
+                      className={`ml-[3%] px-[3%] py-[1%] rounded-full t14r ${getStatusClass(crew.status)}`}
                     >
                       {crew.status}
                     </span>
@@ -720,7 +720,7 @@ const CrewDetails = () => {
                 </div>
 
                 {crew.logoURL && (
-                  <div className="mb-4">
+                  <div className="mb-[2vh]">
                     <img
                       src={crew.logoURL}
                       alt={t(
@@ -728,12 +728,12 @@ const CrewDetails = () => {
                         { name: crew.title },
                         `Logo de ${crew.title}`
                       )}
-                      className="object-cover w-32 h-32 border-4 border-white rounded-full shadow-md"
+                      className="object-cover w-24 h-24 border-4 border-white rounded-full shadow-md sm:w-32 sm:h-32"
                     />
                   </div>
                 )}
 
-                <p className="mb-2 t16r">
+                <p className="mb-[1vh] t16r">
                   <span className="font-bold">
                     {t(`${viewDictionary}.members`, 'Miembros:')}
                   </span>{' '}
@@ -742,7 +742,7 @@ const CrewDetails = () => {
                 </p>
 
                 {crew.season && (
-                  <p className="mb-2 t16r">
+                  <p className="mb-[1vh] t16r">
                     <span className="font-bold">
                       {t(`${viewDictionary}.season`, 'Temporada:')}
                     </span>{' '}
@@ -751,7 +751,7 @@ const CrewDetails = () => {
                 )}
 
                 {crew.createdAt && (
-                  <p className="mb-2 t16r">
+                  <p className="mb-[1vh] t16r">
                     <span className="font-bold">
                       {t(
                         `${viewDictionary}.creationDate`,
@@ -772,7 +772,7 @@ const CrewDetails = () => {
                 )}
 
                 {crew.updatedAt && (
-                  <p className="mb-2 t16r">
+                  <p className="mb-[1vh] t16r">
                     <span className="font-bold">
                       {t(
                         `${viewDictionary}.lastUpdate`,
@@ -793,15 +793,18 @@ const CrewDetails = () => {
                 )}
               </div>
 
-              <div className="flex-1">
-                <h2 className="mb-4 t24b">
+              <div>
+                <h2 className="mb-[2vh] t24b">
                   {t(`${viewDictionary}.membersSection`, 'Miembros de la Peña')}
                 </h2>
 
                 {crew.membersNames && crew.membersNames.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-[1vh] md:grid-cols-2">
                     {crew.membersNames.map((memberName, index) => (
-                      <div key={index} className="p-2 bg-opacity-50 rounded-lg">
+                      <div
+                        key={index}
+                        className="p-[2%] bg-opacity-50 rounded-lg"
+                      >
                         <p className="t16r">{memberName}</p>
                       </div>
                     ))}
@@ -815,16 +818,16 @@ const CrewDetails = () => {
                   </p>
                 )}
 
-                <h2 className="mt-6 mb-4 t24b">
+                <h2 className="mt-[3vh] mb-[2vh] t24b">
                   {t(`${viewDictionary}.responsables`, 'Responsables')}
                 </h2>
 
                 {responsables.length > 0 ? (
-                  <div className="space-y-2">
+                  <div className="space-y-[1vh]">
                     {responsables.map((user) => (
                       <div
                         key={user.id}
-                        className="flex items-center p-3 bg-opacity-50 rounded-lg"
+                        className="flex items-center p-[3%] bg-opacity-50 rounded-lg"
                         onClick={() =>
                           isAuthorized &&
                           navigate(
@@ -858,16 +861,16 @@ const CrewDetails = () => {
           </div>
 
           {crewGames.length > 0 && (
-            <div className="p-6 bg-[#D9D9D9] rounded-[60px] h-fit mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-              <h2 className="mb-4 t24b">
+            <div className="p-[5%] space-y-[3vh] rounded-[2rem] sm:rounded-[3rem] h-fit mb-[3vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+              <h2 className="mb-[2vh] t24b">
                 {t(`${viewDictionary}.gamesSection`, 'Juegos de la Peña')}
               </h2>
 
-              <div className="space-y-4">
+              <div className="space-y-[2vh]">
                 {crewGames.map((game) => (
                   <div
                     key={game.id}
-                    className="p-4 transition-shadow bg-white shadow-sm bg-opacity-70 rounded-xl hover:shadow-md"
+                    className="p-[3%] transition-shadow bg-white shadow-sm bg-opacity-70 rounded-[1rem] hover:shadow-md"
                     onClick={() =>
                       isAuthorized &&
                       navigate(
@@ -884,20 +887,20 @@ const CrewDetails = () => {
                         <h3 className="truncate t18b">
                           {game.name || 'Sin nombre'}
                         </h3>
-                        <div className="flex flex-wrap gap-2 mt-1">
+                        <div className="flex flex-wrap gap-[1vh] mt-[1vh]">
                           {game.date && (
-                            <span className="px-2 py-1 text-purple-800 bg-purple-100 rounded-full t12r">
+                            <span className="px-[2%] py-[1%] text-purple-800 bg-purple-100 rounded-full t12r">
                               {game.date}
                             </span>
                           )}
                           {game.location && (
-                            <span className="px-2 py-1 text-blue-800 bg-blue-100 rounded-full t12r max-w-[200px] truncate">
+                            <span className="px-[2%] py-[1%] text-blue-800 bg-blue-100 rounded-full t12r max-w-[200px] truncate">
                               {game.location}
                             </span>
                           )}
                           {game.gameStatus && (
                             <span
-                              className={`px-2 py-1 rounded-full t12r ${getStatusClass(game.gameStatus)}`}
+                              className={`px-[2%] py-[1%] rounded-full t12r ${getStatusClass(game.gameStatus)}`}
                             >
                               {game.gameStatus}
                             </span>
@@ -905,13 +908,13 @@ const CrewDetails = () => {
                         </div>
 
                         {game.description && (
-                          <p className="mt-2 text-gray-700 t14r line-clamp-2 max-w-prose">
+                          <p className="mt-[1vh] text-gray-700 t14r line-clamp-2 max-w-prose">
                             {sanitizeHTML(game.description)}
                           </p>
                         )}
                       </div>
 
-                      <div className="flex-shrink-0 mt-3 md:mt-0 md:ml-4">
+                      <div className="flex-shrink-0 mt-[2vh] md:mt-0 md:ml-[2vw]">
                         <div className="flex flex-col items-center">
                           <span className="t14b">
                             {t(`${viewDictionary}.points`, 'Puntos')}
@@ -930,7 +933,7 @@ const CrewDetails = () => {
             </div>
           )}
 
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-[2vw]">
             <DynamicButton
               onClick={() => navigate(`/crews-list`)}
               size="medium"
@@ -941,7 +944,9 @@ const CrewDetails = () => {
             {isAuthorized && (
               <DynamicButton
                 onClick={() =>
-                  navigate(`/edit-crew/${slug}`, { state: { crewId: crew.id } })
+                  navigate(`/crews-modify/${slug}`, {
+                    state: { crewId: crew.id },
+                  })
                 }
                 size="medium"
                 type="edit"

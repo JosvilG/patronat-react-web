@@ -19,8 +19,10 @@ const FullEventsPage = () => {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        Error al cargar los eventos: {error.message}
+      <div className="flex items-center justify-center h-screen px-[4%] text-center">
+        <p className="font-medium text-red-600">
+          Error al cargar los eventos: {error.message}
+        </p>
       </div>
     )
   }
@@ -45,10 +47,12 @@ const FullEventsPage = () => {
   }
 
   return (
-    <div className="container pb-6 mx-auto min-h-dvh">
-      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+    <div className="container flex flex-col items-center px-[4%] pb-[4vh] mx-auto min-h-dvh sm:flex-none">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
-      <div className="max-w-md mx-auto mb-8">
+      <div className="w-full max-w-md mx-auto mb-[5vh]">
         <DynamicInput
           name="search"
           type="text"
@@ -57,7 +61,7 @@ const FullEventsPage = () => {
           onChange={handleSearchChange}
         />
       </div>
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[3vh] sm:grid-cols-2 lg:grid-cols-3 w-[92%] sm:w-auto">
         {filteredEvents.map((event) => {
           return (
             <div
@@ -81,6 +85,14 @@ const FullEventsPage = () => {
           )
         })}
       </div>
+
+      {filteredEvents.length === 0 && (
+        <div className="w-full text-center py-[5vh]">
+          <p className="text-gray-500">
+            No se encontraron eventos que coincidan con tu búsqueda.
+          </p>
+        </div>
+      )}
     </div>
   )
 }

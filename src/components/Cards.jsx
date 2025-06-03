@@ -65,7 +65,7 @@ const DynamicCard = ({
 
     try {
       const parsedUrl = new URL(url)
-      return ['http:', 'https:'].includes(parsedUrl.protocol)
+      return ['http:', 'https:', 'blob:'].includes(parsedUrl.protocol)
     } catch {
       return false
     }
@@ -126,7 +126,9 @@ const DynamicCard = ({
               }}
             >
               <div className="flex items-baseline justify-between w-full overflow-hidden text-white">
-                <p className="text-white t40b line-clamp-1">{sanitizedTitle}</p>
+                <p className="text-white sm:t40b t24b line-clamp-1">
+                  {sanitizedTitle}
+                </p>
                 <button
                   className="p-2 bg-black bg-opacity-50 rounded-full"
                   disabled={!clickable}
@@ -196,7 +198,7 @@ const DynamicCard = ({
               />
               {title && (
                 <div className="absolute bottom-0 left-0 right-0 p-4 text-white bg-black bg-opacity-50 rounded-b-lg">
-                  <h3 className="text-xl font-bold">{sanitizedTitle}</h3>
+                  <h3 className="font-bold t12r">{sanitizedTitle}</h3>
                   {description && (
                     <p className="mt-1 text-sm">{sanitizedDescription}</p>
                   )}

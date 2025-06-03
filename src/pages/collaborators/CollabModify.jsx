@@ -184,20 +184,24 @@ function CollaboratorModifyForm() {
   }
 
   if (error) {
-    return <div>{error}</div>
+    return <div className="p-[4%] text-center text-red-600">{error}</div>
   }
 
   return (
-    <div className="h-auto pb-6 mx-auto text-center max-w-fit ">
+    <div className="w-[92%] max-w-4xl pb-[5vh] mx-auto">
       <Loader loading={formData.submitting} />
-      <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center space-y-4"
+        className="flex flex-col items-center space-y-[4vh]"
       >
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 min-w-max">
-          <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">{t(`${viewDictionary}.nameLabel`)}</h1>
+        <div className="grid w-full grid-cols-1 gap-[4vh] sm:grid-cols-2 sm:gap-[3vw]">
+          <div className="flex flex-col items-center w-full">
+            <h2 className="mb-[2vh] t16r">
+              {t(`${viewDictionary}.nameLabel`)}
+            </h2>
             <DynamicInput
               name="name"
               type="text"
@@ -206,10 +210,13 @@ function CollaboratorModifyForm() {
                 setFormData((prev) => ({ ...prev, name: e.target.value }))
               }
               disabled={formData.uploading}
+              className="w-full"
             />
           </div>
-          <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">{t(`${viewDictionary}.emailLabel`)}</h1>
+          <div className="flex flex-col items-center w-full">
+            <h2 className="mb-[2vh] t16r">
+              {t(`${viewDictionary}.emailLabel`)}
+            </h2>
             <DynamicInput
               name="email"
               type="email"
@@ -218,10 +225,13 @@ function CollaboratorModifyForm() {
                 setFormData((prev) => ({ ...prev, email: e.target.value }))
               }
               disabled={formData.uploading}
+              className="w-full"
             />
           </div>
-          <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">{t(`${viewDictionary}.imageLabel`)}</h1>
+          <div className="flex flex-col items-center w-full sm:col-span-2">
+            <h2 className="mb-[2vh] t16r">
+              {t(`${viewDictionary}.imageLabel`)}
+            </h2>
             <DynamicInput
               name="file"
               type="document"
@@ -231,12 +241,12 @@ function CollaboratorModifyForm() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2 sm:gap-4">
+        <div className="grid w-full grid-cols-1 gap-[4vh] mt-[2vh] sm:grid-cols-2 sm:gap-[3vw]">
           {formData.currentUrl && (
-            <div>
-              <h1 className="mb-4 t16r">
+            <div className="w-full">
+              <h2 className="mb-[2vh] t16r">
                 {t(`${viewDictionary}.oldImageTitle`)}
-              </h1>
+              </h2>
               <DynamicCard
                 type="gallery"
                 title="Imagen actual"
@@ -246,10 +256,10 @@ function CollaboratorModifyForm() {
           )}
 
           {formData.newImageUrl && (
-            <div>
-              <h1 className="mb-4 t16r">
+            <div className="w-full">
+              <h2 className="mb-[2vh] t16r">
                 {t(`${viewDictionary}.newImageTitle`)}
-              </h1>
+              </h2>
               <DynamicCard
                 type="gallery"
                 title="Nueva imagen"
@@ -259,17 +269,19 @@ function CollaboratorModifyForm() {
           )}
         </div>
 
-        <DynamicButton
-          type="submit"
-          size="large"
-          state={formData.uploading ? 'disabled' : 'normal'}
-          textId={
-            formData.uploading
-              ? `${viewDictionary}.uploadingText`
-              : `${viewDictionary}.uploadButton`
-          }
-          disabled={formData.uploading}
-        />
+        <div className="w-full pt-[2vh] flex justify-center">
+          <DynamicButton
+            type="submit"
+            size="large"
+            state={formData.uploading ? 'disabled' : 'normal'}
+            textId={
+              formData.uploading
+                ? `${viewDictionary}.uploadingText`
+                : `${viewDictionary}.uploadButton`
+            }
+            disabled={formData.uploading}
+          />
+        </div>
       </form>
     </div>
   )

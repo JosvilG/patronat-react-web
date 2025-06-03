@@ -174,10 +174,15 @@ function ParticipantRegisterForm() {
   )
 
   return (
-    <div className="flex flex-col items-center max-w-lg pb-6 mx-auto min-h-dvh h-fit">
+    <div className="flex flex-col items-center w-[92%] sm:w-full md:w-auto pb-[4vh] mx-auto min-h-dvh h-fit">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 text-center t64b">{t('pages.participants.title')}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t('pages.participants.title')}
+      </h1>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center w-full max-w-[90%] sm:max-w-md space-y-[3vh] sm:flex-none"
+      >
         <DynamicInput
           name="file"
           textId={`${viewDictionary}.fileLabel`}
@@ -188,7 +193,7 @@ function ParticipantRegisterForm() {
           accept="image/*"
         />
         {formState.newImageUrl && (
-          <div className="mt-4">
+          <div className="mt-[3vh] w-full">
             <DynamicCard
               type="gallery"
               title={t(`${viewDictionary}.previewImageTitle`)}
@@ -218,7 +223,7 @@ function ParticipantRegisterForm() {
           disabled={formState.uploading}
         />
 
-        <h2 className="mt-6 mb-2 text-xl font-semibold">
+        <h2 className="mt-[4vh] mb-[2vh] text-xl font-semibold w-full text-center sm:text-left">
           {t(`${viewDictionary}.socialMediaTitle`)}
         </h2>
 
@@ -255,10 +260,10 @@ function ParticipantRegisterForm() {
           disabled={formState.uploading}
         />
 
-        <div>
+        <div className="mt-[3vh] w-full flex justify-center sm:justify-end">
           <DynamicButton
             type="submit"
-            size="large"
+            size="medium"
             state={formState.uploading ? 'disabled' : 'normal'}
             textId={
               formState.uploading

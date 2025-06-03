@@ -285,12 +285,12 @@ function GamesList() {
   }
 
   return (
-    <div className="max-w-full pb-6 mx-auto md:max-w-fit">
-      <h1 className="mb-4 text-center t64b">
+    <div className="w-[92%] sm:w-full md:w-auto pb-[4vh] mx-auto">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Listado de Juegos')}
       </h1>
 
-      <div className="grid grid-cols-1 gap-4 mb-4 md:grid-cols-2">
+      <div className="grid grid-cols-1 gap-[3vh] mb-[4vh] md:grid-cols-2">
         <div className="md:col-span-1">
           <DynamicInput
             name="search"
@@ -316,38 +316,38 @@ function GamesList() {
         </div>
       </div>
 
-      <ul className="space-y-4">
+      <ul className="space-y-[3vh]">
         {filteredGames.map((game) => (
           <li
             key={game.id}
-            className="flex flex-col p-4 space-y-2 bg-gray-100 rounded-lg shadow sm:flex-row sm:items-center sm:justify-between sm:space-y-0 sm:space-x-4"
+            className="flex flex-col p-[4%] space-y-[2vh] bg-gray-100 rounded-lg shadow sm:flex-row sm:items-center sm:justify-between sm:space-y-0 sm:space-x-[3%]"
           >
-            <div className="flex flex-col space-y-1">
+            <div className="flex flex-col space-y-[1vh] sm:max-w-[65%]">
               <span className="t16b">{game.name}</span>
-              <div className="flex flex-wrap gap-2 ">
-                <span className="t16l line-clamp-2 w-auto max-w-[500px]">
+              <div className="flex flex-wrap gap-[1vh]">
+                <span className="t16l line-clamp-2 w-auto max-w-full sm:max-w-[80%]">
                   {game.description}
                 </span>
               </div>
-              <div className="flex flex-wrap gap-2 mt-1">
+              <div className="flex flex-wrap gap-[1vh] mt-[1vh]">
                 {game.season && (
-                  <span className="px-2 py-1 text-yellow-800 bg-yellow-100 rounded-full t12r">
+                  <span className="px-[3%] py-[0.5vh] text-yellow-800 bg-yellow-100 rounded-full t12r">
                     Temporada: {game.season}
                   </span>
                 )}
                 {game.location && (
-                  <span className="px-2 py-1 text-blue-800 bg-blue-100 rounded-full t12r">
+                  <span className="px-[3%] py-[0.5vh] text-blue-800 bg-blue-100 rounded-full t12r">
                     {game.location}
                   </span>
                 )}
                 {game.date && (
-                  <span className="px-2 py-1 text-purple-800 bg-purple-100 rounded-full t12r">
+                  <span className="px-[3%] py-[0.5vh] text-purple-800 bg-purple-100 rounded-full t12r">
                     {game.date}
                   </span>
                 )}
               </div>
             </div>
-            <div className="flex space-x-2">
+            <div className="flex flex-wrap gap-[2vw] justify-end">
               {/* Botón Activar/Desactivar */}
               <DynamicButton
                 onClick={() => handleToggleStatus(game)}
@@ -409,7 +409,7 @@ function GamesList() {
           </li>
         ))}
         {filteredGames.length === 0 && (
-          <li className="p-4 text-center bg-gray-100 rounded-lg shadow">
+          <li className="p-[4%] text-center bg-gray-100 rounded-lg shadow">
             <span className="text-gray-600">
               {t(`${viewDictionary}.noGamesFound`, 'No se encontraron juegos')}
             </span>

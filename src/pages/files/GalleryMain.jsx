@@ -93,18 +93,6 @@ const GalleryPage = () => {
   }, [searchFilteredItems, currentSortType, sortItems, updateSortItems])
 
   /**
-   * Handle sort type change
-   * Supports both select element change events and direct value changes
-   */
-  const handleSortChange = (e) => {
-    const sortType = e?.target?.value || e?.value
-    if (sortType) {
-      setCurrentSortType(sortType)
-      sortItems(sortType, searchFilteredItems)
-    }
-  }
-
-  /**
    * Handle pagination page change
    * @param {Event} event - The event object
    * @param {number} page - The new page number
@@ -114,13 +102,15 @@ const GalleryPage = () => {
   }
 
   return (
-    <div className="container pb-6 mx-auto min-h-dvh">
-      <h1 className="mb-4 text-center t64b">{t(`${viewDictionary}.title`)}</h1>
+    <div className="container flex flex-col items-center px-[4%] pb-[4vh] mx-auto min-h-dvh sm:flex-none">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
 
       {/* Search and sort controls */}
-      <div className="flex flex-col items-center gap-4 mb-8 md:flex-row">
+      <div className="flex flex-col items-center gap-[3vh] mb-[5vh] md:flex-row md:gap-[3vw]">
         {/* Search input */}
-        <div className="w-full md:w-1/2">
+        <div className="w-full">
           <DynamicInput
             name="search"
             type="text"
@@ -130,42 +120,13 @@ const GalleryPage = () => {
             onChange={handleSearchChange}
           />
         </div>
-
-        {/* Sort select */}
-        <div className="flex flex-row items-end justify-end w-full md:w-1/2">
-          <DynamicInput
-            name="sort"
-            type="select"
-            textId={t(`${viewDictionary}.orderBy`)}
-            options={[
-              {
-                label: t(`${viewDictionary}.orderByDateAsc`),
-                value: 'dateAsc',
-              },
-              {
-                label: t(`${viewDictionary}.orderByDateDesc`),
-                value: 'dateDesc',
-              },
-              {
-                label: t(`${viewDictionary}.orderByNameAsc`),
-                value: 'nameAsc',
-              },
-              {
-                label: t(`${viewDictionary}.orderByNameDesc`),
-                value: 'nameDesc',
-              },
-            ]}
-            onChange={handleSortChange}
-            value={currentSortType}
-          />
-        </div>
       </div>
 
       {/* Loading indicator */}
       <Loader loading={loadingGallery}></Loader>
 
       {/* Gallery grid with responsive columns */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-[3vh] sm:grid-cols-2 lg:grid-cols-3 w-[92%] sm:max-w-none">
         {currentPageItems.length > 0 ? (
           currentPageItems.map((image) => (
             <div key={image.id} className="cursor-pointer">
@@ -187,7 +148,7 @@ const GalleryPage = () => {
           ))
         ) : (
           // No results message when filtered items are empty
-          <div className="col-span-3 text-center text-gray-500">
+          <div className="col-span-3 py-[3vh] text-center text-gray-500">
             <p className="t24b">{t(`${viewDictionary}.noImagesFound`)}</p>
           </div>
         )}
@@ -202,7 +163,7 @@ const GalleryPage = () => {
         onChange={handlePageChange}
         itemName="imágenes"
         size="large"
-        className="my-8"
+        className="my-[5vh]"
       />
     </div>
   )

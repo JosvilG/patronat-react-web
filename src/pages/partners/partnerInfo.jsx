@@ -204,12 +204,12 @@ function PartnerInfo() {
   const getStatusBadgeClass = (status) => {
     switch (status) {
       case 'approved':
-        return 'bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs inline-block'
+        return 'bg-green-100 text-green-800 px-[2vw] py-[1vh] rounded-full text-xs inline-block'
       case 'rejected':
-        return 'bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs inline-block'
+        return 'bg-red-100 text-red-800 px-[2vw] py-[1vh] rounded-full text-xs inline-block'
       case 'pending':
       default:
-        return 'bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs inline-block'
+        return 'bg-yellow-100 text-yellow-800 px-[2vw] py-[1vh] rounded-full text-xs inline-block'
     }
   }
 
@@ -229,6 +229,7 @@ function PartnerInfo() {
     return (
       <Loader
         loading={true}
+        size="10vmin"
         text={t(
           `${viewDictionary}.loading`,
           'Cargando información del socio...'
@@ -239,22 +240,22 @@ function PartnerInfo() {
 
   if (error) {
     return (
-      <div className="p-4 text-center text-red-600">
+      <div className="p-[4%] text-center text-red-600">
         {t(`${viewDictionary}.${error}`, error)}
       </div>
     )
   }
 
   return (
-    <div className="container pb-6 mx-auto">
-      <h1 className="mb-6 text-center t64b">
+    <div className="container pb-[4vh] mx-auto w-[92%] md:w-auto">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Información del Socio')}
       </h1>
 
       {partnerData ? (
-        <div className="p-6 ">
+        <div className="p-[4%]">
           {/* Botón de exportar */}
-          <div className="flex justify-end mb-4">
+          <div className="flex justify-end mb-[3vh]">
             <DynamicButton
               onClick={handleExportToExcel}
               size="small"
@@ -265,93 +266,94 @@ function PartnerInfo() {
             />
           </div>
 
-          {/* Información personal y adicional (se mantiene igual) */}
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-            {/* ... (código de información personal y adicional sin cambios) */}
-            <div className="py-4 pl-4">
-              <h2 className="mb-4 t24b">
+          {/* Información personal y adicional */}
+          <div className="grid grid-cols-1 gap-[4vh] md:grid-cols-2 md:gap-[3vw] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+            <div className="py-[3vh] pl-[4%] pr-[4%] md:pr-0">
+              <h2 className="mb-[3vh] t24b">
                 {t(
                   `${viewDictionary}.personalInformation.title`,
                   'Información Personal'
                 )}
               </h2>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.personalInformation.name`,
                     'Nombre completo:'
                   )}
-                </span>
+                </span>{' '}
                 {partnerData.name} {partnerData.lastName}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.personalInformation.email`,
                     'Correo Electrónico:'
                   )}
-                </span>
+                </span>{' '}
                 {partnerData.email}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(`${viewDictionary}.personalInformation.dni`, 'DNI:')}
-                </span>
+                </span>{' '}
                 {partnerData.dni}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.personalInformation.phone`,
                     'Teléfono:'
                   )}
-                </span>
+                </span>{' '}
                 {partnerData.phone || '-'}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.personalInformation.birthDate`,
                     'Fecha de Nacimiento:'
                   )}
-                </span>
+                </span>{' '}
                 {formatDate(partnerData.birthDate) || '-'}
               </p>
             </div>
 
-            <div className="py-4 pl-4">
-              <h2 className="mb-4 t24b">
+            <div className="py-[3vh] pl-[4%] pr-[4%] md:pr-0">
+              <h2 className="mb-[3vh] t24b">
                 {t(
                   `${viewDictionary}.additionalInformation.title`,
                   'Información Adicional'
                 )}
               </h2>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.additionalInformation.address`,
                     'Dirección:'
                   )}
-                </span>
+                </span>{' '}
                 {partnerData.address || '-'}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.additionalInformation.accountNumber`,
                     'IBAN:'
                   )}
-                </span>
+                </span>{' '}
                 {partnerData.accountNumber || '-'}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1.5vh] t16r break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.additionalInformation.status`,
                     'Estado:'
                   )}
-                </span>
-                <span className={getStatusBadgeClass(partnerData.status)}>
+                </span>{' '}
+                <span
+                  className={`${getStatusBadgeClass(partnerData.status)} break-words`}
+                >
                   {getStatusText(partnerData.status)}
                 </span>
               </p>
@@ -360,114 +362,115 @@ function PartnerInfo() {
 
           {/* Información de registro */}
           {partnerData.createdAt && (
-            <div className="py-4 pl-4 mt-6 border-t backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-              <p className="text-sm text-gray-500">
+            <div className="py-[3vh] px-[4%] mt-[4vh] border-t backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+              <p className="text-sm text-gray-500 break-words">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.registrationInformation.createdAt`,
                     'Fecha de Registro:'
                   )}
-                </span>
+                </span>{' '}
                 {formatDate(partnerData.createdAt)}
               </p>
             </div>
           )}
 
+          {/* Información de pagos - Temporada activa */}
           {partnerData.status === 'approved' && (
-            <div className="pt-4 mt-6 pb-4 px-4 border-t backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-              <h2 className="mb-4 t24b">
+            <div className="pt-[3vh] mt-[4vh] pb-[3vh] px-[4%] border-t backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
+              <h2 className="mb-[3vh] t24b">
                 {t(`${viewDictionary}.payments.title`, 'Información de Pagos')}
               </h2>
 
               {activeSeason ? (
-                <div className="p-4 mb-6">
-                  <h3 className="mb-3 font-medium">
+                <div className="p-[4%] mb-[4vh]">
+                  <h3 className="mb-[2vh] font-medium break-words">
                     {t(
                       `${viewDictionary}.payments.activeSeason`,
                       'Temporada Activa:'
-                    )}
+                    )}{' '}
                     {activeSeason.seasonYear}
                   </h3>
-                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                  <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2 md:gap-[2vw]">
                     <div>
-                      <p className="text-sm font-medium text-gray-700">
+                      <p className="text-sm font-medium text-gray-700 break-words">
                         {t(
                           `${viewDictionary}.payments.adultPrices`,
                           'Precios Adultos (>16 años)'
                         )}
                         :
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.totalPrice`,
                           'Precio total:'
-                        )}
+                        )}{' '}
                         {activeSeason.totalPrice}€
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.firstFraction`,
                           'Primera fracción:'
-                        )}
+                        )}{' '}
                         {activeSeason.priceFirstFraction}€
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.secondFraction`,
                           'Segunda fracción:'
-                        )}
+                        )}{' '}
                         {activeSeason.priceSeconFraction}€
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.thirdFraction`,
                           'Tercera fracción:'
-                        )}
+                        )}{' '}
                         {activeSeason.priceThirdFraction}€
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm font-medium text-gray-700">
+                      <p className="text-sm font-medium text-gray-700 break-words">
                         {t(
                           `${viewDictionary}.payments.juniorPrices`,
                           'Precios Junior (14-16 años)'
                         )}
                         :
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.totalPrice`,
                           'Precio total:'
-                        )}
+                        )}{' '}
                         {activeSeason.totalPriceJunior || 0}€
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.firstFraction`,
                           'Primera fracción:'
-                        )}
+                        )}{' '}
                         {activeSeason.priceFirstFractionJunior || 0}€
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.secondFraction`,
                           'Segunda fracción:'
-                        )}
+                        )}{' '}
                         {activeSeason.priceSeconFractionJunior || 0}€
                       </p>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-sm text-gray-600 break-words">
                         {t(
                           `${viewDictionary}.payments.thirdFraction`,
                           'Tercera fracción:'
-                        )}
+                        )}{' '}
                         {activeSeason.priceThirdFractionJunior || 0}€
                       </p>
                     </div>
                   </div>
                 </div>
               ) : (
-                <div className="p-4 mb-6 bg-gray-100 rounded-lg">
-                  <p className="text-sm text-gray-500">
+                <div className="p-[4%] mb-[4vh] bg-gray-100 rounded-lg">
+                  <p className="text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.noActiveSeason`,
                       'No hay temporada activa configurada.'
@@ -476,9 +479,9 @@ function PartnerInfo() {
                 </div>
               )}
 
-              {/* Estado de pagos - modificado sin botón de refresh */}
-              <div className="mb-6">
-                <h3 className="mb-3 font-medium t18b">
+              {/* Estado de pagos */}
+              <div className="mb-[4vh]">
+                <h3 className="mb-[2vh] font-medium t18b break-words">
                   {t(
                     `${viewDictionary}.payments.paymentStatus`,
                     'Estado de Pagos'
@@ -486,15 +489,15 @@ function PartnerInfo() {
                 </h3>
 
                 {loadingPayments ? (
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.loadingPayments`,
                       'Cargando información de pagos...'
                     )}
                   </p>
                 ) : partnerPayments ? (
-                  <div className="p-4">
-                    <h4 className="mb-3 text-sm font-medium">
+                  <div className="p-[4%]">
+                    <h4 className="mb-[2vh] text-sm font-medium break-words">
                       {t(
                         `${viewDictionary}.payments.fractionsStatus`,
                         'Estado de las fracciones'
@@ -502,16 +505,16 @@ function PartnerInfo() {
                     </h4>
 
                     {/* Primera fracción */}
-                    <div className="pb-2 mb-4 border-b border-gray-200">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium">
+                    <div className="pb-[1.5vh] mb-[3vh] border-b border-gray-200">
+                      <div className="flex flex-wrap items-center justify-between mb-[1.5vh]">
+                        <span className="font-medium break-words">
                           {t(
                             `${viewDictionary}.payments.firstFraction`,
                             'Primera fracción'
                           )}
                         </span>
                         <span
-                          className={`px-2 py-1 rounded-full text-xs ${
+                          className={`px-[2vw] py-[1vh] rounded-full text-xs break-words ${
                             partnerPayments.firstPayment
                               ? 'bg-green-100 text-green-800'
                               : 'bg-yellow-100 text-yellow-800'
@@ -528,24 +531,26 @@ function PartnerInfo() {
 
                       {partnerPayments.firstPaymentPrice > 0 && (
                         <div className="flex justify-between text-sm">
-                          <span>
+                          <span className="break-words">
                             {t(`${viewDictionary}.payments.amount`, 'Importe')}:
                           </span>
-                          <span>{partnerPayments.firstPaymentPrice}€</span>
+                          <span className="break-words">
+                            {partnerPayments.firstPaymentPrice}€
+                          </span>
                         </div>
                       )}
 
                       {partnerPayments.firstPayment &&
                         partnerPayments.firstPaymentDate && (
                           <div className="flex justify-between text-sm">
-                            <span>
+                            <span className="break-words">
                               {t(
                                 `${viewDictionary}.payments.paymentDate`,
                                 'Fecha de pago'
                               )}
                               :
                             </span>
-                            <span>
+                            <span className="break-words">
                               {formatDate(partnerPayments.firstPaymentDate)}
                             </span>
                           </div>
@@ -554,8 +559,8 @@ function PartnerInfo() {
 
                     {/* Segunda fracción */}
                     {activeSeason && activeSeason.numberOfFractions >= 2 && (
-                      <div className="pb-2 mb-4 border-b border-gray-200">
-                        <div className="flex items-center justify-between mb-2">
+                      <div className="pb-[1.5vh] mb-[3vh] border-b border-gray-200">
+                        <div className="flex flex-wrap items-center justify-between mb-[1.5vh]">
                           <span className="font-medium">
                             {t(
                               `${viewDictionary}.payments.secondFraction`,
@@ -563,7 +568,7 @@ function PartnerInfo() {
                             )}
                           </span>
                           <span
-                            className={`px-2 py-1 rounded-full text-xs ${
+                            className={`px-[2vw] py-[1vh] rounded-full text-xs ${
                               partnerPayments.secondPaymentDone
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-yellow-100 text-yellow-800'
@@ -611,8 +616,8 @@ function PartnerInfo() {
 
                     {/* Tercera fracción */}
                     {activeSeason && activeSeason.numberOfFractions >= 3 && (
-                      <div className="mb-2">
-                        <div className="flex items-center justify-between mb-2">
+                      <div className="mb-[2vh]">
+                        <div className="flex flex-wrap items-center justify-between mb-[1.5vh]">
                           <span className="font-medium">
                             {t(
                               `${viewDictionary}.payments.thirdFraction`,
@@ -620,7 +625,7 @@ function PartnerInfo() {
                             )}
                           </span>
                           <span
-                            className={`px-2 py-1 rounded-full text-xs ${
+                            className={`px-[2vw] py-[1vh] rounded-full text-xs ${
                               partnerPayments.thirdPaymentDone
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-yellow-100 text-yellow-800'
@@ -667,7 +672,7 @@ function PartnerInfo() {
                     )}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.noPaymentsFound`,
                       'No se encontró información de pagos para este socio.'
@@ -676,9 +681,9 @@ function PartnerInfo() {
                 )}
               </div>
 
-              {/* Historial de pagos - modificado sin botón de refresh */}
-              <div className="mb-4">
-                <h3 className="mb-3 font-medium t18b">
+              {/* Historial de pagos */}
+              <div className="mb-[4vh]">
+                <h3 className="mb-[2vh] font-medium t18b break-words">
                   {t(
                     `${viewDictionary}.payments.history`,
                     'Historial de pagos'
@@ -686,18 +691,18 @@ function PartnerInfo() {
                 </h3>
 
                 {loadingHistory ? (
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.loadingHistory`,
                       'Cargando historial de pagos...'
                     )}
                   </p>
                 ) : paymentHistory.length > 0 ? (
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+                  <div className="grid grid-cols-1 gap-[3vh] sm:grid-cols-2 sm:gap-[2vw] md:grid-cols-3">
                     {paymentHistory.map((payment) => (
-                      <div key={payment.id} className="p-3 rounded-lg">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium">
+                      <div key={payment.id} className="p-[4%] rounded-lg">
+                        <div className="flex items-center justify-between mb-[1.5vh]">
+                          <span className="font-medium break-words">
                             Temporada {payment.seasonYear}
                           </span>
                         </div>
@@ -705,11 +710,13 @@ function PartnerInfo() {
                         {/* Primera fracción histórica */}
                         {(payment.firstPayment ||
                           payment.firstPaymentPrice > 0) && (
-                          <div className="pb-1 mb-2 border-b border-gray-200">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm">Primera fracción:</span>
+                          <div className="pb-[1vh] mb-[1.5vh] border-b border-gray-200">
+                            <div className="flex flex-wrap items-center justify-between">
+                              <span className="text-sm break-words">
+                                Primera fracción:
+                              </span>
                               <span
-                                className={`px-2 py-0.5 rounded-full text-xs ${
+                                className={`px-[2vw] py-[0.5vh] rounded-full text-xs break-words ${
                                   payment.firstPayment
                                     ? 'bg-green-100 text-green-800'
                                     : 'bg-yellow-100 text-yellow-800'
@@ -727,14 +734,14 @@ function PartnerInfo() {
                               </span>
                             </div>
                             {payment.firstPaymentPrice > 0 && (
-                              <div className="flex justify-between mt-1 text-xs">
+                              <div className="flex justify-between mt-[1vh] text-xs">
                                 <span>Importe:</span>
                                 <span>{payment.firstPaymentPrice}€</span>
                               </div>
                             )}
                             {payment.firstPayment &&
                               payment.firstPaymentDate && (
-                                <div className="flex justify-between mt-1 text-xs">
+                                <div className="flex justify-between mt-[1vh] text-xs">
                                   <span>Fecha:</span>
                                   <span>
                                     {formatDate(payment.firstPaymentDate)}
@@ -747,11 +754,13 @@ function PartnerInfo() {
                         {/* Segunda fracción histórica */}
                         {(payment.secondPaymentDone ||
                           payment.secondPaymentPrice > 0) && (
-                          <div className="pb-1 mb-2 border-b border-gray-200">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm">Segunda fracción:</span>
+                          <div className="pb-[1vh] mb-[1.5vh] border-b border-gray-200">
+                            <div className="flex flex-wrap items-center justify-between">
+                              <span className="text-sm break-words">
+                                Segunda fracción:
+                              </span>
                               <span
-                                className={`px-2 py-0.5 rounded-full text-xs ${
+                                className={`px-[2vw] py-[0.5vh] rounded-full text-xs break-words ${
                                   payment.secondPaymentDone
                                     ? 'bg-green-100 text-green-800'
                                     : 'bg-yellow-100 text-yellow-800'
@@ -769,14 +778,14 @@ function PartnerInfo() {
                               </span>
                             </div>
                             {payment.secondPaymentPrice > 0 && (
-                              <div className="flex justify-between mt-1 text-xs">
+                              <div className="flex justify-between mt-[1vh] text-xs">
                                 <span>Importe:</span>
                                 <span>{payment.secondPaymentPrice}€</span>
                               </div>
                             )}
                             {payment.secondPaymentDone &&
                               payment.secondPaymentDate && (
-                                <div className="flex justify-between mt-1 text-xs">
+                                <div className="flex justify-between mt-[1vh] text-xs">
                                   <span>Fecha:</span>
                                   <span>
                                     {formatDate(payment.secondPaymentDate)}
@@ -789,11 +798,13 @@ function PartnerInfo() {
                         {/* Tercera fracción histórica */}
                         {(payment.thirdPaymentDone ||
                           payment.thirdPaymentPrice > 0) && (
-                          <div className="mb-1">
-                            <div className="flex items-center justify-between">
-                              <span className="text-sm">Tercera fracción:</span>
+                          <div className="mb-[1vh]">
+                            <div className="flex flex-wrap items-center justify-between">
+                              <span className="text-sm break-words">
+                                Tercera fracción:
+                              </span>
                               <span
-                                className={`px-2 py-0.5 rounded-full text-xs ${
+                                className={`px-[2vw] py-[0.5vh] rounded-full text-xs break-words ${
                                   payment.thirdPaymentDone
                                     ? 'bg-green-100 text-green-800'
                                     : 'bg-yellow-100 text-yellow-800'
@@ -811,14 +822,14 @@ function PartnerInfo() {
                               </span>
                             </div>
                             {payment.thirdPaymentPrice > 0 && (
-                              <div className="flex justify-between mt-1 text-xs">
+                              <div className="flex justify-between mt-[1vh] text-xs">
                                 <span>Importe:</span>
                                 <span>{payment.thirdPaymentPrice}€</span>
                               </div>
                             )}
                             {payment.thirdPaymentDone &&
                               payment.thirdPaymentDate && (
-                                <div className="flex justify-between mt-1 text-xs">
+                                <div className="flex justify-between mt-[1vh] text-xs">
                                   <span>Fecha:</span>
                                   <span>
                                     {formatDate(payment.thirdPaymentDate)}
@@ -831,7 +842,7 @@ function PartnerInfo() {
                     ))}
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-500 break-words">
                     {t(
                       `${viewDictionary}.payments.noPaymentHistory`,
                       'No hay pagos de temporadas anteriores.'

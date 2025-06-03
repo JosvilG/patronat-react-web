@@ -152,12 +152,15 @@ function CollaboratorRegisterForm() {
   )
 
   return (
-    <div className="flex flex-col items-center h-auto max-w-lg pb-6 mx-auto">
+    <div className="flex flex-col items-center w-[92%] max-w-lg pb-[5vh] mx-auto">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 text-center t64b">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t('pages.collaborators.title')}
       </h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col items-center w-full sm:w-auto"
+      >
         <DynamicInput
           name="name"
           textId={`${viewDictionary}.nameLabel`}
@@ -167,6 +170,7 @@ function CollaboratorRegisterForm() {
             setFormState((prev) => ({ ...prev, name: e.target.value }))
           }
           disabled={formState.uploading}
+          className="w-full"
         />
         <DynamicInput
           name="file"
@@ -178,7 +182,7 @@ function CollaboratorRegisterForm() {
           accept="image/*"
         />
         {formState.newImageUrl && (
-          <div className="mt-4">
+          <div className="mt-[3vh] w-full sm:w-auto">
             <DynamicCard
               type="gallery"
               title={t(`${viewDictionary}.previewImageTitle`)}
@@ -186,10 +190,10 @@ function CollaboratorRegisterForm() {
             />
           </div>
         )}
-        <div>
+        <div className="mt-[5vh] sm:mt-[3vh] w-full flex justify-center">
           <DynamicButton
             type="submit"
-            size="large"
+            size="medium"
             state={formState.uploading ? 'disabled' : 'normal'}
             textId={
               formState.uploading

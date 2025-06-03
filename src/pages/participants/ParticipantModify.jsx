@@ -53,7 +53,6 @@ function ParticipantModifyForm() {
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
-  // Usamos el hook useSlug en lugar de definir la función localmente
 
   const getStoragePathFromUrl = (url) => {
     try {
@@ -320,35 +319,37 @@ function ParticipantModifyForm() {
   }, [formState.newImageUrl])
 
   if (loading) {
-    return <Loader loading={true} size="50px" color="rgb(21, 100, 46)" />
+    return <Loader loading={true} size="10vmin" color="rgb(21, 100, 46)" />
   }
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="mb-4 text-2xl font-bold text-red-500">Error</h1>
+      <div className="flex flex-col items-center justify-center min-h-[80vh]">
+        <h1 className="mb-[3vh] text-2xl font-bold text-red-500">Error</h1>
         <p className="text-lg">{error}</p>
         <DynamicButton
           onClick={() => navigate('/list-participant')}
           size="medium"
           state="normal"
           textId="Volver a la lista de participantes"
-          className="mt-4"
+          className="mt-[3vh]"
         />
       </div>
     )
   }
 
   return (
-    <div className="h-auto max-w-lg pb-6 mx-auto text-center">
+    <div className="flex flex-col items-center w-[92%] sm:w-full md:w-auto pb-[4vh] mx-auto min-h-dvh h-fit">
       <Loader loading={formState.submitting} />
-      <h1 className="mb-4 t64b">{t(`${viewDictionary}.title`)}</h1>
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
+        {t(`${viewDictionary}.title`)}
+      </h1>
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col items-center space-y-4"
+        className="flex flex-col items-center w-full max-w-[90%] sm:max-w-md space-y-[3vh] sm:flex-none"
       >
         <div className="flex flex-col items-center w-full">
-          <h1 className="mb-4 t16r">{t(`${viewDictionary}.nameLabel`)}</h1>
+          <h1 className="mb-[2vh] t16r">{t(`${viewDictionary}.nameLabel`)}</h1>
           <DynamicInput
             name="name"
             type="text"
@@ -374,7 +375,7 @@ function ParticipantModifyForm() {
           />
         </div>
 
-        <h2 className="w-full mt-6 mb-2 text-xl font-semibold text-left">
+        <h2 className="w-full mt-[4vh] mb-[2vh] text-xl font-semibold text-center sm:text-left">
           {t(`${viewDictionary}.socialMediaTitle`)}
         </h2>
 
@@ -427,10 +428,10 @@ function ParticipantModifyForm() {
           />
         </div>
 
-        <div className="grid w-full grid-cols-1 gap-6 mt-4 sm:grid-cols-2 sm:gap-4">
+        <div className="grid w-full grid-cols-1 gap-[3vh] mt-[3vh] sm:grid-cols-2 sm:gap-[3vw]">
           {formState.currentUrl && (
             <div>
-              <h1 className="mb-4 t16r">
+              <h1 className="mb-[2vh] t16r">
                 {t(`${viewDictionary}.oldImageTitle`)}
               </h1>
               <DynamicCard
@@ -443,7 +444,7 @@ function ParticipantModifyForm() {
 
           {formState.newImageUrl && (
             <div>
-              <h1 className="mb-4 t16r">
+              <h1 className="mb-[2vh] t16r">
                 {t(`${viewDictionary}.newImageTitle`)}
               </h1>
               <DynamicCard
@@ -455,17 +456,19 @@ function ParticipantModifyForm() {
           )}
         </div>
 
-        <DynamicButton
-          type="submit"
-          size="large"
-          state={formState.uploading ? 'disabled' : 'normal'}
-          textId={
-            formState.uploading
-              ? `${viewDictionary}.uploadingText`
-              : `${viewDictionary}.uploadButton`
-          }
-          disabled={formState.uploading}
-        />
+        <div className="mt-[3vh] w-full flex justify-center sm:justify-end">
+          <DynamicButton
+            type="submit"
+            size="medium"
+            state={formState.uploading ? 'disabled' : 'normal'}
+            textId={
+              formState.uploading
+                ? `${viewDictionary}.uploadingText`
+                : `${viewDictionary}.uploadButton`
+            }
+            disabled={formState.uploading}
+          />
+        </div>
       </form>
     </div>
   )

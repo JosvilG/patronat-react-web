@@ -94,28 +94,28 @@ function ProfilePage() {
   const userData = profileData || authUserData
 
   return (
-    <div className="container pb-6 mx-auto">
-      <h1 className="mb-4 text-center t64b">
+    <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
+      <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`, 'Perfil de Usuario')}
       </h1>
 
       {userData ? (
-        <div className="p-6 space-y-4 bg-[#D9D9D9] rounded-[60px] h-fit  mb-8 text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+        <div className="p-[5%] space-y-[3vh] rounded-[2rem] sm:rounded-[3rem] h-fit mb-[5vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+          <div className="grid grid-cols-1 gap-[4vh] md:grid-cols-2">
             <div>
-              <h2 className="mb-4 t24b">
+              <h2 className="mb-[2vh] t24b">
                 {t(
                   `${viewDictionary}.personalInformation.title`,
                   'Información Personal'
                 )}
               </h2>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(`${viewDictionary}.personalInformation.name`, 'Nombre:')}
                 </span>{' '}
                 {userData.firstName} {userData.lastName}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.personalInformation.email`,
@@ -124,13 +124,13 @@ function ProfilePage() {
                 </span>{' '}
                 {userData.email}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(`${viewDictionary}.personalInformation.dni`, 'DNI:')}
                 </span>{' '}
                 {userData.dni}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.personalInformation.phoneNumber`,
@@ -139,7 +139,7 @@ function ProfilePage() {
                 </span>{' '}
                 {userData.phoneNumber}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.personalInformation.birthDate`,
@@ -148,7 +148,7 @@ function ProfilePage() {
                 </span>{' '}
                 {userData.birthDate}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(`${viewDictionary}.personalInformation.age`, 'Edad:')}
                 </span>{' '}
@@ -158,13 +158,13 @@ function ProfilePage() {
 
             {userData.isStaff && (
               <div>
-                <h2 className="mb-4 t24b">
+                <h2 className="mb-[2vh] t24b">
                   {t(
                     `${viewDictionary}.staffInformation.title`,
                     'Información de Staff'
                   )}
                 </h2>
-                <p className="mb-2 t16r">
+                <p className="mb-[1vh] t16r">
                   <span className="font-bold">
                     {t(
                       `${viewDictionary}.staffInformation.position`,
@@ -173,7 +173,7 @@ function ProfilePage() {
                   </span>{' '}
                   {userData.position}
                 </p>
-                <p className="mb-2 t16r">
+                <p className="mb-[1vh] t16r">
                   <span className="font-bold">
                     {t(
                       `${viewDictionary}.staffInformation.startDate`,
@@ -183,7 +183,7 @@ function ProfilePage() {
                   {userData.startDate}
                 </p>
                 {userData.endDate && (
-                  <p className="mb-2 t16r">
+                  <p className="mb-[1vh] t16r">
                     <span className="font-bold">
                       {t(
                         `${viewDictionary}.staffInformation.endDate`,
@@ -193,7 +193,7 @@ function ProfilePage() {
                     {userData.endDate}
                   </p>
                 )}
-                <p className="mb-2 t16r">
+                <p className="mb-[1vh] t16r">
                   <span className="font-bold">
                     {t(
                       `${viewDictionary}.staffInformation.description`,
@@ -203,8 +203,8 @@ function ProfilePage() {
                   {userData.description}
                 </p>
                 {userData.documentUrl && (
-                  <div className="mt-4">
-                    <p className="mb-2 font-bold t16r">
+                  <div className="mt-[2vh]">
+                    <p className="mb-[1vh] font-bold t16r">
                       {t(
                         `${viewDictionary}.staffInformation.document`,
                         'Documento:'
@@ -226,14 +226,14 @@ function ProfilePage() {
           </div>
 
           {userData.preferredLanguage && (
-            <div className="mt-6">
-              <h2 className="mb-4 t24b">
+            <div className="mt-[3vh]">
+              <h2 className="mb-[2vh] t24b">
                 {t(
                   `${viewDictionary}.preferences.title`,
                   'Preferencias de Usuario'
                 )}
               </h2>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.preferences.language`,
@@ -246,7 +246,7 @@ function ProfilePage() {
                     ? 'Català'
                     : 'English'}
               </p>
-              <p className="mb-2 t16r">
+              <p className="mb-[1vh] t16r">
                 <span className="font-bold">
                   {t(
                     `${viewDictionary}.preferences.notifications`,
@@ -261,7 +261,7 @@ function ProfilePage() {
           )}
 
           {userData.createdAt && (
-            <p className="mt-6 text-sm text-gray-500">
+            <p className="mt-[3vh] text-sm text-gray-500">
               <span className="font-bold">
                 {t(
                   `${viewDictionary}.accountInformation.registrationDate`,

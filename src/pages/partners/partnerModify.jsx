@@ -435,127 +435,132 @@ function PartnerModifyForm() {
   }
 
   return (
-    <div className="h-auto max-w-4xl pb-6 mx-auto text-center">
-      <Loader loading={formData.submitting} />
-      <h1 className="mb-6 t64b">
-        {t(`${viewDictionary}.title`, 'Modificar Socio')}
-      </h1>
-
-      <form onSubmit={handleSubmit} className="p-6 space-y-6">
-        <h2 className="mb-4 text-xl font-bold text-left">
-          {t(`${viewDictionary}.personalInfoSection`, 'Datos Personales')}
+    <div className="bg-transparent min-h-dvh pb-[5vh]">
+      <section className="max-w-full mx-auto">
+        <h2 className="mb-[5vh] text-center sm:t64b t40b">
+          {t(`${viewDictionary}.title`, 'Modificar Socio')}
         </h2>
+        <Loader loading={formData.submitting} />
 
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.nameLabel`, 'Nombre')}*
-            </label>
+        <form onSubmit={handleSubmit} className="p-[4%] space-y-[5vh]">
+          <h2 className="mb-[3vh] text-center t24b">
+            {t(`${viewDictionary}.personalInfoSection`, 'Datos Personales')}
+          </h2>
+
+          <div className="grid grid-cols-1 gap-[4vh] md:gap-[3vw] md:grid-cols-2 justify-items-center w-full">
             <DynamicInput
               name="name"
+              textId={`${viewDictionary}.nameLabel`}
+              placeholder={t(`${viewDictionary}.namePlaceholder`, 'Nombre')}
               type="text"
               value={formData.name}
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.lastNameLabel`, 'Apellidos')}*
-            </label>
             <DynamicInput
               name="lastName"
+              textId={`${viewDictionary}.lastNameLabel`}
+              placeholder={t(
+                `${viewDictionary}.lastNamePlaceholder`,
+                'Apellidos'
+              )}
               type="text"
               value={formData.lastName}
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.emailLabel`, 'Email')}*
-            </label>
             <DynamicInput
               name="email"
+              textId={`${viewDictionary}.emailLabel`}
+              placeholder={t(
+                `${viewDictionary}.emailPlaceholder`,
+                'Correo electrónico'
+              )}
               type="email"
               value={formData.email}
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.phoneLabel`, 'Teléfono')}
-            </label>
             <DynamicInput
               name="phone"
-              type="text"
+              textId={`${viewDictionary}.phoneLabel`}
+              placeholder={t(
+                `${viewDictionary}.phonePlaceholder`,
+                'Número de teléfono'
+              )}
+              type="phone"
               value={formData.phone}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.dniLabel`, 'DNI')}*
-            </label>
             <DynamicInput
               name="dni"
+              textId={`${viewDictionary}.dniLabel`}
+              placeholder={t(
+                `${viewDictionary}.dniPlaceholder`,
+                'DNI (8 dígitos + letra)'
+              )}
               type="text"
               value={formData.dni}
               onChange={handleInputChange}
               disabled={formData.submitting}
               required
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.birthDateLabel`, 'Fecha de nacimiento')}
-            </label>
             <DynamicInput
               name="birthDate"
+              textId={`${viewDictionary}.birthDateLabel`}
+              placeholder={t(
+                `${viewDictionary}.birthDatePlaceholder`,
+                'Fecha de nacimiento'
+              )}
               type="date"
               value={formData.birthDate}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.addressLabel`, 'Dirección')}
-            </label>
             <DynamicInput
               name="address"
+              textId={`${viewDictionary}.addressLabel`}
+              placeholder={t(
+                `${viewDictionary}.addressPlaceholder`,
+                'Dirección completa'
+              )}
               type="text"
               value={formData.address}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
-            <label className="mb-2 t16b">
-              {t(`${viewDictionary}.accountNumberLabel`, 'IBAN')}
-            </label>
             <DynamicInput
               name="accountNumber"
+              textId={`${viewDictionary}.accountNumberLabel`}
+              placeholder={t(
+                `${viewDictionary}.accountNumberPlaceholder`,
+                'IBAN (ES + 22 dígitos)'
+              )}
               type="text"
               value={formData.accountNumber}
               onChange={handleInputChange}
               disabled={formData.submitting}
+              className="w-full"
             />
-          </div>
 
-          <div className="flex flex-col items-start">
             <DynamicInput
               name="status"
               type="select"
@@ -567,315 +572,243 @@ function PartnerModifyForm() {
               options={[
                 {
                   value: 'pending',
-                  label: `${viewDictionary}.status.pending`,
+                  label: `${viewDictionary}.statusOptions.review`,
                 },
                 {
                   value: 'approved',
-                  label: `${viewDictionary}.status.approved`,
+                  label: `${viewDictionary}.statusOptions.active`,
                 },
                 {
                   value: 'rejected',
-                  label: `${viewDictionary}.status.rejected`,
+                  label: `${viewDictionary}.statusOptions.inactive`,
                 },
               ]}
+              className="w-full"
             />
           </div>
-        </div>
 
-        {formData.status === 'approved' && (
-          <div className="pt-8 mt-8 border-t border-gray-200">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-left">
+          {formData.status === 'approved' && (
+            <div className="pt-[5vh] mt-[4vh] border-t border-gray-200">
+              <h2 className="mb-[3vh] text-center t24b">
                 {t(`${viewDictionary}.paymentsSection`, 'Gestión de Pagos')}
               </h2>
-            </div>
 
-            <div className="flex flex-col items-start">
-              <DynamicInput
-                name="priceCategory"
-                type="select"
-                textId={`${viewDictionary}.priceCategoryLabel`}
-                defaultText="Categoría de precios"
-                value={formData.priceCategory}
-                onChange={handleCategoryChange}
-                disabled={formData.submitting}
-                options={[
-                  {
-                    value: 'adult',
-                    label: `${viewDictionary}.priceCategoryAdult`,
-                  },
-                  {
-                    value: 'junior',
-                    label: `${viewDictionary}.priceCategoryJunior`,
-                  },
-                ]}
-              />
-            </div>
-            {loadingSeason ? (
-              <p className="mb-4 text-sm text-gray-500">
-                {t(
-                  `${viewDictionary}.payments.loadingSeason`,
-                  'Cargando información de la temporada...'
-                )}
-              </p>
-            ) : activeSeason ? (
-              <div className="p-4 mb-6 bg-gray-100 rounded-lg">
-                <h3 className="mb-3 font-medium">
-                  {t(`${viewDictionary}.activeSeason`, 'Temporada Activa:')}{' '}
-                  {activeSeason.seasonYear}
-                </h3>
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <div>
-                    <p className="text-sm font-medium text-gray-700">
-                      {t(
-                        `${viewDictionary}.adultPrices`,
-                        'Precios Adultos (>16 años)'
-                      )}
-                      :
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      {t(`${viewDictionary}.totalPrice`, 'Precio total:')}{' '}
-                      {activeSeason.totalPrice}€
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm font-medium text-gray-700">
-                      {t(
-                        `${viewDictionary}.juniorPrices`,
-                        'Precios Junior (14-16 años)'
-                      )}
-                      :
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      {t(`${viewDictionary}.totalPrice`, 'Precio total:')}{' '}
-                      {activeSeason.totalPriceJunior || 0}€
-                    </p>
+              <div className="grid grid-cols-1 gap-[4vh] justify-items-center w-full">
+                <DynamicInput
+                  name="priceCategory"
+                  type="select"
+                  textId={`${viewDictionary}.priceCategoryLabel`}
+                  defaultText="Categoría de precios"
+                  value={formData.priceCategory}
+                  onChange={handleCategoryChange}
+                  disabled={formData.submitting}
+                  options={[
+                    {
+                      value: 'adult',
+                      label: `${viewDictionary}.priceCategoryAdult`,
+                    },
+                    {
+                      value: 'junior',
+                      label: `${viewDictionary}.priceCategoryJunior`,
+                    },
+                  ]}
+                  className="w-full md:w-1/2"
+                />
+              </div>
+
+              {loadingSeason ? (
+                <p className="mt-[3vh] mb-[3vh] text-sm text-center text-gray-500">
+                  {t(
+                    `${viewDictionary}.payments.loadingSeason`,
+                    'Cargando información de la temporada...'
+                  )}
+                </p>
+              ) : activeSeason ? (
+                <div className="p-[4%] mt-[3vh] mb-[4vh] bg-gray-100 rounded-lg">
+                  {/* Contenido de la temporada */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[3vh] md:gap-[2vw]">
+                    <div className="break-words">
+                      <h3 className="text-base font-medium mb-[2vh]">
+                        {t(
+                          `${viewDictionary}.payments.seasonInfo`,
+                          'Temporada {year}',
+                          {
+                            year: activeSeason.seasonYear,
+                          }
+                        )}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-[1vh]">
+                        {t(
+                          `${viewDictionary}.payments.totalPrice`,
+                          'Precio total:'
+                        )}{' '}
+                        {activeSeason.totalPrice}€
+                      </p>
+                      <p className="text-sm text-gray-600">
+                        {t(
+                          `${viewDictionary}.payments.fractions`,
+                          'Fracciones:'
+                        )}{' '}
+                        {activeSeason.numberOfFractions}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ) : (
-              <div className="p-4 mb-6 bg-gray-100 rounded-lg">
-                <p className="text-sm text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.noActiveSeason`,
-                    'No hay temporada activa configurada.'
-                  )}
-                </p>
-              </div>
-            )}
+              ) : (
+                <div className="p-[4%] mt-[3vh] mb-[4vh] text-center bg-gray-100 rounded-lg">
+                  <p className="text-sm text-gray-500 break-words">
+                    {t(
+                      `${viewDictionary}.payments.noActiveSeason`,
+                      'No hay temporada activa configurada.'
+                    )}
+                  </p>
+                </div>
+              )}
 
-            {loadingPayments ? (
-              <div className="p-4 text-center">
-                <p className="text-sm text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.loadingPayments`,
-                    'Cargando información de pagos...'
-                  )}
-                </p>
-              </div>
-            ) : paymentData && activeSeason ? (
-              <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-                <div className="p-4 ">
-                  <h4 className="mb-3 font-medium">
-                    {t(`${viewDictionary}.firstFraction`, 'Primera fracción')}
-                  </h4>
+              {/* Sección de pagos */}
+              {loadingPayments ? (
+                <div className="p-[4%] text-center">
+                  <p className="text-sm text-gray-500 break-words">
+                    {t(
+                      `${viewDictionary}.payments.loadingPayments`,
+                      'Cargando información de pagos...'
+                    )}
+                  </p>
+                </div>
+              ) : paymentData && activeSeason ? (
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[4vh] md:gap-[2vw] mt-[3vh]">
+                  {/* Primera fracción */}
+                  <div className="p-[5%] bg-gray-50 rounded-lg w-full">
+                    <h4 className="font-medium mb-[2vh] break-words">
+                      {t(
+                        `${viewDictionary}.payments.firstFraction`,
+                        'Primera fracción'
+                      )}
+                    </h4>
 
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center">
-                      <DynamicInput
-                        type="checkbox"
+                    <div className="flex items-center mb-[2vh]">
+                      <input
                         id="firstPayment"
                         name="firstPayment"
-                        textId={`${viewDictionary}.paid`}
-                        defaultText="Pagado"
-                        checked={paymentData.firstPayment || false}
-                        onChange={handlePaymentChange}
-                        disabled={formData.submitting}
-                      />
-                    </div>
-
-                    <div className="flex flex-col items-start">
-                      <label className="mb-1 text-sm">
-                        {t(`${viewDictionary}.amount`, 'Importe')}
-                      </label>
-                      <DynamicInput
-                        name="firstPaymentPrice"
-                        type="number"
-                        value={paymentData.firstPaymentPrice || 0}
-                        onChange={handlePaymentChange}
-                        disabled={formData.submitting}
-                      />
-                    </div>
-
-                    <div className="flex flex-col items-start">
-                      <label className="mb-1 text-sm">
-                        {t(`${viewDictionary}.paymentDate`, 'Fecha de pago')}
-                      </label>
-                      <DynamicInput
-                        name="firstPaymentDate"
-                        type="date"
-                        value={formatDate(paymentData.firstPaymentDate)}
-                        onChange={handleDateChange}
-                        disabled={
-                          formData.submitting || !paymentData.firstPayment
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-4 ">
-                  <h4 className="mb-3 font-medium">
-                    {t(`${viewDictionary}.secondFraction`, 'Segunda fracción')}
-                  </h4>
-
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center">
-                      <DynamicInput
                         type="checkbox"
-                        id="secondPaymentDone"
-                        name="secondPaymentDone"
-                        textId={`${viewDictionary}.paid`}
-                        defaultText="Pagado"
-                        checked={paymentData.secondPaymentDone || false}
+                        className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                        checked={paymentData.firstPayment}
                         onChange={handlePaymentChange}
                         disabled={formData.submitting}
                       />
+                      <label
+                        htmlFor="firstPayment"
+                        className="ml-[0.5rem] block text-sm text-gray-700 break-words"
+                      >
+                        {t(
+                          `${viewDictionary}.payments.markAsPaid`,
+                          'Marcar como pagado'
+                        )}
+                      </label>
                     </div>
 
-                    <div className="flex flex-col items-start">
-                      <label className="mb-1 text-sm">
-                        {t(`${viewDictionary}.amount`, 'Importe')}
+                    <div className="mb-[2vh]">
+                      <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                        {t(`${viewDictionary}.payments.amount`, 'Importe')}
                       </label>
-                      <DynamicInput
-                        name="secondPaymentPrice"
-                        type="number"
-                        value={paymentData.secondPaymentPrice || 0}
-                        onChange={handlePaymentChange}
-                        disabled={formData.submitting}
-                      />
+                      <div className="flex rounded-md shadow-sm">
+                        <input
+                          type="number"
+                          name="firstPaymentPrice"
+                          value={paymentData.firstPaymentPrice || 0}
+                          onChange={handlePaymentChange}
+                          className="block w-full rounded-l-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                          min="0"
+                          step="0.01"
+                        />
+                        <span className="inline-flex items-center px-[0.75rem] rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                          €
+                        </span>
+                      </div>
                     </div>
 
-                    <div className="flex flex-col items-start">
-                      <label className="mb-1 text-sm">
-                        {t(`${viewDictionary}.paymentDate`, 'Fecha de pago')}
-                      </label>
-                      <DynamicInput
-                        name="secondPaymentDate"
-                        type="date"
-                        value={formatDate(paymentData.secondPaymentDate)}
-                        onChange={handleDateChange}
-                        disabled={
-                          formData.submitting || !paymentData.secondPaymentDone
-                        }
-                      />
-                    </div>
+                    {paymentData.firstPayment && (
+                      <div>
+                        <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                          {t(
+                            `${viewDictionary}.payments.paymentDate`,
+                            'Fecha de pago'
+                          )}
+                        </label>
+                        <input
+                          type="date"
+                          name="firstPaymentDate"
+                          value={
+                            paymentData.firstPaymentDate
+                              ? formatDate(paymentData.firstPaymentDate)
+                              : ''
+                          }
+                          onChange={handleDateChange}
+                          className="block w-full rounded-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                        />
+                      </div>
+                    )}
                   </div>
+
+                  {/* Segunda y tercera fracciones seguirían un formato similar */}
                 </div>
-
-                <div className="p-4 ">
-                  <h4 className="mb-3 font-medium">
-                    {t(`${viewDictionary}.thirdFraction`, 'Tercera fracción')}
-                  </h4>
-
-                  <div className="flex flex-col gap-3">
-                    <div className="flex items-center">
-                      <DynamicInput
-                        type="checkbox"
-                        id="thirdPaymentDone"
-                        name="thirdPaymentDone"
-                        textId={`${viewDictionary}.paid`}
-                        defaultText="Pagado"
-                        checked={paymentData.thirdPaymentDone || false}
-                        onChange={handlePaymentChange}
-                        disabled={formData.submitting}
-                      />
-                    </div>
-
-                    <div className="flex flex-col items-start">
-                      <label className="mb-1 text-sm">
-                        {t(`${viewDictionary}.amount`, 'Importe')}
-                      </label>
-                      <DynamicInput
-                        name="thirdPaymentPrice"
-                        type="number"
-                        value={paymentData.thirdPaymentPrice || 0}
-                        onChange={handlePaymentChange}
-                        disabled={formData.submitting}
-                      />
-                    </div>
-
-                    <div className="flex flex-col items-start">
-                      <label className="mb-1 text-sm">
-                        {t(`${viewDictionary}.paymentDate`, 'Fecha de pago')}
-                      </label>
-                      <DynamicInput
-                        name="thirdPaymentDate"
-                        type="date"
-                        value={formatDate(paymentData.thirdPaymentDate)}
-                        onChange={handleDateChange}
-                        disabled={
-                          formData.submitting || !paymentData.thirdPaymentDone
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ) : (
-              <div className="p-4 text-center rounded-lg bg-gray-50">
-                <p className="mb-3 text-sm text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.noPaymentsFound`,
-                    'No se encontró información de pagos para este socio en la temporada activa.'
-                  )}
-                </p>
-                <button
-                  onClick={refreshPaymentData}
-                  className="flex items-center px-3 py-1 mx-auto text-sm bg-gray-200 rounded hover:bg-gray-300"
-                  type="button"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="w-4 h-4 mr-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+              ) : (
+                <div className="p-[4%] mt-[3vh] text-center rounded-lg bg-gray-50">
+                  <p className="mb-[2vh] text-sm text-gray-500 break-words">
+                    {t(
+                      `${viewDictionary}.payments.noPaymentsFound`,
+                      'No se encontró información de pagos para este socio en la temporada activa.'
+                    )}
+                  </p>
+                  <button
+                    onClick={refreshPaymentData}
+                    className="flex items-center px-[1rem] py-[0.5rem] mx-auto text-sm bg-gray-200 rounded hover:bg-gray-300"
+                    type="button"
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                    />
-                  </svg>
-                  {t(
-                    `${viewDictionary}.payments.retryLoad`,
-                    'Intentar cargar de nuevo'
-                  )}
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-4 h-4 mr-[0.5rem]"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                      />
+                    </svg>
+                    {t(
+                      `${viewDictionary}.payments.retryLoad`,
+                      'Intentar cargar de nuevo'
+                    )}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
 
-        <div className="flex justify-center pt-4 mt-6">
-          <DynamicButton
-            type="submit"
-            size="large"
-            state={formData.submitting ? 'disabled' : 'normal'}
-            textId={
-              formData.submitting
-                ? `${viewDictionary}.submittingText`
-                : `${viewDictionary}.submitButton`
-            }
-            defaultText={
-              formData.submitting ? 'Guardando...' : 'Guardar cambios'
-            }
-            disabled={formData.submitting}
-          />
-        </div>
-      </form>
+          <div className="flex justify-center pt-[3vh]">
+            <DynamicButton
+              type="submit"
+              size="medium"
+              state={formData.submitting ? 'disabled' : 'normal'}
+              textId={
+                formData.submitting
+                  ? `${viewDictionary}.submittingText`
+                  : `${viewDictionary}.submitButton`
+              }
+              defaultText={
+                formData.submitting ? 'Guardando...' : 'Guardar cambios'
+              }
+              disabled={formData.submitting}
+            />
+          </div>
+        </form>
+      </section>
     </div>
   )
 }

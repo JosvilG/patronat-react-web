@@ -591,6 +591,7 @@
         "collaboratorsSelectedLabel": "Colaboradores Seleccionados",
         "tagsLabel": "Seleccione etiquetas",
         "organizerLabel": "Añade un organizador",
+        "searchOrganizerLabel": "Buscar organizador",
         "allowCarsLabel": "¿Se permiten carros?",
         "categoryLabel": "Seleccione una categoría",
         "hasBarLabel": "¿Hay Barra?",
@@ -688,6 +689,20 @@
         "optimizationErrorText": "Error al optimizar la imagen.",
         "fileRequired": "Por favor selecciona un archivo.",
         "popups": {
+          "delete": {
+            "title": "¿Estás seguro?",
+            "text": "¿Realmente deseas eliminar el archivo? Esta acción no se puede deshacer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Archivo eliminado",
+            "text": "El archivo ha sido eliminado correctamente."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo eliminar el archivo. Por favor, inténtalo de nuevo."
+          },
           "successTitle": "¡Éxito!",
           "successText": "El archivo se subió correctamente.",
           "successButtonText": "Guardar",
@@ -699,7 +714,28 @@
         "title": "Lista de archivos",
         "fileLabel": "Selecciona una archivo",
         "searchPlaceholder": "Buscar archivo...",
-        "loadingText": "Cargando archivos..."
+        "loadingText": "Cargando archivos...",
+        "popups": {
+          "delete": {
+            "title": "¿Estás seguro?",
+            "text": "¿Realmente deseas eliminar el archivo? Esta acción no se puede deshacer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Archivo eliminado",
+            "text": "El archivo ha sido eliminado correctamente."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo eliminar el archivo. Por favor, inténtalo de nuevo."
+          },
+          "successTitle": "¡Éxito!",
+          "successText": "El archivo se subió correctamente.",
+          "successButtonText": "Guardar",
+          "errorTitle": "¡Error!",
+          "errorText": "Hubo un problema al subir el archivo. Inténtalo nuevamente."
+        }
       }
     },
     "gallery": {
@@ -911,6 +947,7 @@
         "title": "Modificar un colaborador",
         "fileLabel": "Modifica el nombre y la imagen del colaborador",
         "nameLabel": "Nuevo nombre del colaborador",
+        "emailLabel": "Email del colaborador",
         "imageLabel": "Nueva imagen del colaborador",
         "oldImageTitle": "Logo actual",
         "newImageTitle": "Nuevo logo",
@@ -993,7 +1030,23 @@
         "addNewButton": "Añadir",
         "modifyButton": "Modificar",
         "deleteButton": "Eliminar",
-        "loadingText": "Cargando participantes..."
+        "loadingText": "Cargando participantes...",
+        "popups": {
+          "delete": {
+            "title": "¿Estás seguro?",
+            "text": "¿Realmente deseas eliminar a \"{{fileName}}\"? Esta acción no se puede deshacer.",
+            "confirmButton": "Sí, eliminar",
+            "cancelButton": "Cancelar"
+          },
+          "success": {
+            "title": "Eliminado",
+            "text": "El participante ha sido eliminado correctamente."
+          },
+          "error": {
+            "title": "Error",
+            "text": "No se pudo eliminar el participante. Por favor, inténtalo de nuevo."
+          }
+        }
       }
     },
     "partners": {
@@ -1224,7 +1277,8 @@
         "activeSeasonExistsError": "Ya existe una temporada activa para este año.",
         "databaseConnectionError": "Error de conexión a la base de datos.",
         "sessionExpiredError": "Tu sesión ha caducado. Por favor, inicia sesión de nuevo."
-      }
+      },
+      "seasonList": {}
     },
     "userRegister": {
       "title": "Registro de usuario",
@@ -1257,6 +1311,123 @@
       "description": "Por favor, rellena los campos para completar tu cambio de contraseña",
       "newPassword": "Introduce tu nueva contraseña",
       "confirmPassword": "Repite la contraseña"
+    },
+    "contact": {
+      "form": {
+        "title": "Contacta con nosotros",
+        "description": "Si tienes cualquier duda o sugerencia, rellena el formulario y nos pondremos en contacto contigo.",
+        "name": "Nombre",
+        "email": "Correo electrónico",
+        "message": "Mensaje",
+        "phone": "Teléfono",
+        "subject": "Asunto",
+        "sending": "Enviando mensaje",
+        "submitButton": "Enviar",
+        "success": "Tu mensaje se ha enviado correctamente. Nos pondremos en contacto contigo pronto.",
+        "successMessage": "Tu mensaje se ha enviado correctamente. Nos pondremos en contacto contigo pronto.",
+        "errorMessage": "Ha habido un error al enviar el mensaje. Vuelve a intentarlo más tarde.",
+        "validation": {
+          "requiredFields": "Por favor, completa todos los campos obligatorios.",
+          "invalidEmail": "Por favor, introduce una dirección de correo electrónico válida.",
+          "fieldTooLong": "El nombre no puede exceder los 100 caracteres y el mensaje no puede exceder los 5000 caracteres.",
+          "captchaRequired": "Por favor, verifica que no eres un robot."
+        },
+        "tooManyRequests": "Has realizado demasiadas solicitudes. Por favor, espera unos minutos antes de intentarlo de nuevo.",
+        "error": "Ha habido un error al enviar el mensaje. Por favor, inténtalo de nuevo más tarde.",
+        "info": {
+          "title": "Información de contacto",
+          "address": "Dirección",
+          "phone": "Teléfono",
+          "email": "Correo electrónico",
+          "hours": "Horario"
+        },
+        "chatNow": "Chatea ahora",
+        "chat": {
+          "title": "Chat en vivo",
+          "welcome": "¡Bienvenido a nuestro chat en vivo!",
+          "howCanWeHelp": "¿En qué podemos ayudarte?",
+          "typePlaceholder": "Escribe tu mensaje aquí...",
+          "send": "Enviar"
+        }
+      },
+      "menu": {
+        "title": "Enviar mensaje masivo",
+        "description": "Utiliza este formulario para enviar un mensaje a todos los socios o responsables de peñas.",
+        "recipientTypeLabel": "Selecciona los destinatarios",
+        "partners": "Socios",
+        "crews": "Peñas",
+        "loadingRecipients": "Cargando destinatarios...",
+        "recipientsDetails": "Detalles de los destinatarios",
+        "partnersSelectedCount": "{{valid}} de {{total}} socios tienen correo electrónico",
+        "notAllHaveEmail": "Algunos socios no tienen correo electrónico registrado",
+        "crewsSelectedCount": "{{validResponsibles}} responsables de {{totalCrews}} peñas tienen correo electrónico",
+        "notAllResponsiblesHaveEmail": "Algunos responsables no tienen correo electrónico registrado",
+        "emailWillBeSentTo": "El correo se enviará a {{count}} destinatarios",
+        "subject": "Asunto",
+        "message": "Mensaje",
+        "submitButton": "Enviar mensaje",
+        "noRecipients": "No hay destinatarios disponibles para el tipo seleccionado",
+        "successMessage": "Tu mensaje se ha enviado correctamente a todos los destinatarios",
+        "errorMessage": "Ha habido un error al enviar los mensajes. Inténtalo de nuevo más tarde.",
+        "errorFetchingRecipients": "Error al cargar los destinatarios. Por favor, inténtalo de nuevo.",
+        "confirmSend": "¿Estás seguro de querer enviar este mensaje a {{count}} destinatarios?",
+        "cancelButton": "Cancelar",
+        "confirmButton": "Confirmar envío",
+        "sendingProgress": "Enviando mensajes... ({{sent}}/{{total}})",
+        "allCrews": "Todas las peñas",
+        "allPartners": "Todos los socios",
+        "emailPreview": "Vista previa del correo",
+        "selectCrews": "Selecciona las peñas",
+        "selectAll": "Seleccionar todas",
+        "deselectAll": "Deseleccionar todas",
+        "loadingCrews": "Cargando peñas...",
+        "confirmTitle": "Confirmar envío",
+        "successTitle": "Mensaje enviado",
+        "errorTitle": "Error",
+        "okButton": "Aceptar"
+      },
+      "liveChat": {
+        "title": "Chat de soporte",
+        "loading": "Cargando mensajes...",
+        "inputPlaceholder": "Escribe un mensaje...",
+        "sendButton": "Enviar",
+        "welcomeMessage": "¡Hola {name}! ¿En qué podemos ayudarte hoy?",
+        "authRequired": {
+          "title": "Autenticación requerida",
+          "text": "Para utilizar el chat de soporte, necesitas iniciar sesión en tu cuenta."
+        },
+        "notification": {
+          "newMessage": "Tienes un nuevo mensaje"
+        }
+      },
+      "adminChatPanel": {
+        "title": "Panel de Administración de Chat",
+        "activeChats": "Conversaciones activas ({{count}})",
+        "backButton": "Volver",
+        "loading": {
+          "chats": "Cargando chats...",
+          "messages": "Cargando mensajes...",
+          "page": "Cargando..."
+        },
+        "noChats": "No hay conversaciones activas",
+        "userPlaceholders": {
+          "name": "Usuario",
+          "email": "Sin email"
+        },
+        "selectChatPrompt": "Selecciona un chat para comenzar",
+        "messageInput": {
+          "placeholder": "Escribe un mensaje..."
+        },
+        "buttons": {
+          "send": "Enviar",
+          "closeChat": "Cerrar chat"
+        },
+        "accessDenied": "Acceso denegado",
+        "status": {
+          "read": "Leído",
+          "sent": "Enviado"
+        }
+      }
     }
   },
   "common": {
@@ -1264,6 +1435,11 @@
       "title": "¡Únete a nuestras Peñas!",
       "text": "Para gestionar tus peñas, necesitas iniciar sesión o registrarte.",
       "crewViewInfo": "Participa en las fiestas con tu peña y compite por los mejores premios."
+    },
+    "authRequiredEvents": {
+      "title": "¡Debes registrarte!",
+      "text": "Para poder inscribirte en eventos, necesitas iniciar sesión o registrarte.",
+      "eventViewInfo": "Participa en los eventos y disfruta de la experiencia al máximo."
     },
     "register": "Registrarse",
     "login": "Iniciar sesión",
@@ -1279,6 +1455,7 @@
       "whoWeAreTitle": "Nosotros",
       "dashboardTitle": "Panel de control",
       "profileTitle": "Perfil",
+      "contactTitle": "Contacto",
       "shopTitle": "Tienda",
       "settingsTitle": "Configuración",
       "signOutTitle": "Cerrar Sesión",
@@ -1437,7 +1614,8 @@
         "description": "Gestiona los mensajes y conversaciones.",
         "actions": {
           "inbox": "Bandeja de Entrada",
-          "live": "Chat en Vivo"
+          "live": "Chat en Vivo",
+          "sendMessages": "Enviar correo"
         }
       },
       "reports": {
