@@ -1386,6 +1386,48 @@
         "successTitle": "Missatge enviat",
         "errorTitle": "Error",
         "okButton": "Acceptar"
+      },
+      "liveChat": {
+        "title": "Xat de suport",
+        "loading": "Carregant missatges...",
+        "inputPlaceholder": "Escriu un missatge...",
+        "sendButton": "Enviar",
+        "welcomeMessage": "Hola {name}! En què podem ajudar-te avui?",
+        "authRequired": {
+          "title": "Autenticació requerida",
+          "text": "Per utilitzar el xat de suport, necessites iniciar sessió al teu compte."
+        },
+        "notification": {
+          "newMessage": "Tens un nou missatge"
+        }
+      },
+      "adminChatPanel": {
+        "title": "Panell d'Administració de Xat",
+        "activeChats": "Converses actives ({{count}})",
+        "backButton": "Tornar",
+        "loading": {
+          "chats": "Carregant xats...",
+          "messages": "Carregant missatges...",
+          "page": "Carregant..."
+        },
+        "noChats": "No hi ha converses actives",
+        "userPlaceholders": {
+          "name": "Usuari",
+          "email": "Sense correu"
+        },
+        "selectChatPrompt": "Selecciona un xat per començar",
+        "messageInput": {
+          "placeholder": "Escriu un missatge..."
+        },
+        "buttons": {
+          "send": "Enviar",
+          "closeChat": "Tancar xat"
+        },
+        "accessDenied": "Accés denegat",
+        "status": {
+          "read": "Llegit",
+          "sent": "Enviat"
+        }
       }
     }
   },

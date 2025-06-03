@@ -14,12 +14,14 @@ import {
 import { AuthContext } from '../../contexts/AuthContext'
 import { useTranslation } from 'react-i18next'
 import DynamicButton from '../../components/Buttons'
+import DynamicInput from '../../components/Inputs'
 
 const LiveChat = () => {
   const { user, userData, loading: authLoading } = useContext(AuthContext)
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const { t } = useTranslation()
+  const viewDictionary = 'pages.contact.liveChat'
   const [isOpen, setIsOpen] = useState(false)
   const [chatId, setChatId] = useState(null)
   const [loading, setLoading] = useState(false)
@@ -36,7 +38,13 @@ const LiveChat = () => {
     : null
 
   useEffect(() => {
-    if (isOpen && !chatId && !authLoading && user) {
+    if (
+      isOpen &&
+      !chatId &&
+      !authLoading &&
+      user &&
+      userData?.role !== 'admin'
+    ) {
       const generateChatId = async () => {
         const userChatsQuery = query(
           collection(db, 'chats'),
@@ -56,9 +64,11 @@ const LiveChat = () => {
 
       generateChatId()
     }
-  }, [isOpen, chatId, userId, authLoading])
+  }, [isOpen, chatId, userId, authLoading, userData?.role])
 
   const createNewChat = async () => {
+    if (userData?.role === 'admin') return
+
     try {
       const chatRef = await addDoc(collection(db, 'chats'), {
         userId,
@@ -69,7 +79,7 @@ const LiveChat = () => {
       setChatId(chatRef.id)
 
       await addDoc(collection(db, `chats/${chatRef.id}/messages`), {
-        text: `¡Hola ${userInfo.name}! ¿En qué podemos ayudarte hoy?`,
+        text: t(`${viewDictionary}.welcomeMessage`, { name: userInfo.name }),
         sender: 'support',
         createdAt: serverTimestamp(),
         isRead: false,
@@ -187,12 +197,21 @@ const LiveChat = () => {
     window.location.href = '/login'
   }
 
+  const handleChangeMessage = (e) => {
+    setNewMessage(e.target.value)
+  }
+
+  // Si el usuario es administrador, no mostrar nada pero después de declarar todos los hooks
+  if (userData?.role === 'admin') {
+    return null
+  }
+
   return (
-    <div className="fixed bottom-[20px] right-[20px] z-[1000] font-sans">
+    <div className="fixed bottom-[15px] md:bottom-[20px] right-[15px] md:right-[20px] z-[1000] font-sans">
       {!user && isOpen ? (
-        <div className="w-[320px] sm:w-[350px] bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out">
-          <div className=" text-black p-[10px] flex justify-between items-center">
-            <h3 className="m-0 t16b">Chat de soporte</h3>
+        <div className="w-[90vw] max-w-[320px] sm:w-[350px] bg-white bg-opacity-75 backdrop-blur-lg backdrop-saturate-[180%] rounded-xl shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out">
+          <div className="text-black p-[10px] flex justify-between items-center">
+            <h3 className="m-0 t16b">{t(`${viewDictionary}.title`)}</h3>
             <button
               className="text-2xl leading-none text-black bg-transparent border-none cursor-pointer hover:text-gray-200 focus:outline-none"
               onClick={toggleChat}
@@ -201,16 +220,13 @@ const LiveChat = () => {
               ×
             </button>
           </div>
-          <div className="p-[20px] flex flex-col items-center text-center">
-            <h2 className="mb-3 text-xl font-bold text-gray-800">
-              {t('common.authRequired.title') || 'Autenticación requerida'}
+          <div className="p-[15px] md:p-[20px] flex flex-col items-center text-center">
+            <h2 className="mb-3 text-lg font-bold text-gray-800 md:text-xl">
+              {t(`${viewDictionary}.authRequired.title`)}
             </h2>
 
-            <div className="mb-4 text-base">
-              <p className="mb-2">
-                {t('common.authRequired.text') ||
-                  'Para utilizar el chat de soporte, necesitas iniciar sesión en tu cuenta.'}
-              </p>
+            <div className="mb-4 text-sm md:text-base">
+              <p className="mb-2">{t(`${viewDictionary}.authRequired.text`)}</p>
             </div>
 
             <div className="flex flex-col justify-center w-full space-y-3 sm:w-auto sm:flex-row sm:space-y-0 sm:space-x-3">
@@ -232,36 +248,41 @@ const LiveChat = () => {
           </div>
         </div>
       ) : isOpen ? (
-        <div className="w-[320px] sm:w-[350px] h-[450px] bg-white rounded-lg shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out">
-          <div className="bg-black text-white p-[10px] flex justify-between items-center">
-            <h3 className="m-0 t16b">Chat de soporte</h3>
-            <button
-              className="text-2xl leading-none text-white bg-transparent border-none cursor-pointer hover:text-gray-200 focus:outline-none"
+        <div className="w-[95vw] max-w-[350px] h-[70vh] max-h-[450px] bg-white rounded-lg shadow-lg flex flex-col overflow-hidden transition-all duration-300 ease-in-out">
+          <div className="bg-[#8BE484] text-white p-[10px] flex justify-between items-center">
+            <h3 className="m-0 truncate t16b">
+              {t(`${viewDictionary}.title`)}
+            </h3>
+            <DynamicButton
+              size="x-small"
+              state="normal"
+              type="cancel"
               onClick={toggleChat}
+              className="!bg-transparent !w-auto !h-auto"
               aria-label="Cerrar chat"
-            >
-              ×
-            </button>
+            />
           </div>
 
           <div className="flex-1 p-[10px] overflow-y-auto bg-gray-50">
             {authLoading || loading ? (
               <div className="flex items-center justify-center h-full text-gray-500 t14r">
-                Cargando mensajes...
+                {t(`${viewDictionary}.loading`)}
               </div>
             ) : (
               <div className="space-y-[10px]">
                 {messages.map((message) => (
                   <div
                     key={message.id}
-                    className={`max-w-[80%] clear-both ${
+                    className={`max-w-[85%] clear-both ${
                       message.sender === 'user'
                         ? 'float-right bg-blue-100 rounded-tl-lg rounded-tr-lg rounded-bl-lg ml-auto'
                         : 'float-left bg-gray-200 rounded-tr-lg rounded-tl-lg rounded-br-lg mr-auto'
-                    } p-[10px] relative`}
+                    } p-[8px] md:p-[10px] relative`}
                   >
-                    <div className="t14r">{message.text}</div>
-                    <div className="t10r text-gray-500 text-right mt-[3px]">
+                    <div className="text-sm break-words md:t14r">
+                      {message.text}
+                    </div>
+                    <div className="text-[8px] md:t10r text-gray-500 text-right mt-[3px]">
                       {formatTime(message.createdAt)}
                     </div>
                   </div>
@@ -272,43 +293,38 @@ const LiveChat = () => {
           </div>
 
           <form
-            className="p-[10px] border-t border-gray-200 bg-white flex gap-[10px]"
+            className="p-[8px] md:p-[10px] border-t border-gray-200 bg-white flex gap-[8px] md:gap-[10px] items-center"
             onSubmit={handleSubmit}
           >
-            <input
-              type="text"
-              placeholder="Escribe un mensaje..."
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              className="flex-1 p-[8px] border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-300"
+            <div className="flex-1">
+              <DynamicInput
+                type="text"
+                name="message"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder={t(`${viewDictionary}.inputPlaceholder`)}
+                disabled={authLoading || loading}
+              />
+            </div>
+            <DynamicButton
+              size="x-small"
+              state={authLoading || loading ? 'disabled' : 'normal'}
+              type="submit"
+              onClick={handleSubmit}
               disabled={authLoading || loading}
             />
-            <button
-              type="submit"
-              className={`bg-black text-white px-[15px] py-[8px] rounded-md t14b ${
-                authLoading || loading
-                  ? 'opacity-50 cursor-not-allowed'
-                  : ' transition-colors'
-              }`}
-              disabled={authLoading || loading}
-            >
-              Enviar
-            </button>
           </form>
         </div>
       ) : (
-        <button
-          className={`w-[60px] h-[60px] bg-black text-white rounded-full shadow-lg flex items-center justify-center text-2xl chat-toggle-button ${
-            authLoading
-              ? 'opacity-50 cursor-not-allowed'
-              : ' transition-all duration-300 hover:scale-105'
-          }`}
+        <DynamicButton
+          size="x-small"
+          state={authLoading ? 'disabled' : 'normal'}
           onClick={toggleChat}
           disabled={authLoading}
-          aria-label="Abrir chat"
+          aria-label={t(`${viewDictionary}.title`)}
         >
           💬
-        </button>
+        </DynamicButton>
       )}
     </div>
   )

@@ -1385,6 +1385,48 @@
         "successTitle": "Mensaje enviado",
         "errorTitle": "Error",
         "okButton": "Aceptar"
+      },
+      "liveChat": {
+        "title": "Chat de soporte",
+        "loading": "Cargando mensajes...",
+        "inputPlaceholder": "Escribe un mensaje...",
+        "sendButton": "Enviar",
+        "welcomeMessage": "¡Hola {name}! ¿En qué podemos ayudarte hoy?",
+        "authRequired": {
+          "title": "Autenticación requerida",
+          "text": "Para utilizar el chat de soporte, necesitas iniciar sesión en tu cuenta."
+        },
+        "notification": {
+          "newMessage": "Tienes un nuevo mensaje"
+        }
+      },
+      "adminChatPanel": {
+        "title": "Panel de Administración de Chat",
+        "activeChats": "Conversaciones activas ({{count}})",
+        "backButton": "Volver",
+        "loading": {
+          "chats": "Cargando chats...",
+          "messages": "Cargando mensajes...",
+          "page": "Cargando..."
+        },
+        "noChats": "No hay conversaciones activas",
+        "userPlaceholders": {
+          "name": "Usuario",
+          "email": "Sin email"
+        },
+        "selectChatPrompt": "Selecciona un chat para comenzar",
+        "messageInput": {
+          "placeholder": "Escribe un mensaje..."
+        },
+        "buttons": {
+          "send": "Enviar",
+          "closeChat": "Cerrar chat"
+        },
+        "accessDenied": "Acceso denegado",
+        "status": {
+          "read": "Leído",
+          "sent": "Enviado"
+        }
       }
     }
   },

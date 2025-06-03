@@ -14,8 +14,13 @@ import {
   getDocs,
 } from 'firebase/firestore'
 import { AuthContext } from '../../contexts/AuthContext'
+import { useTranslation } from 'react-i18next'
+import DynamicButton from '../../components/Buttons'
+import DynamicInput from '../../components/Inputs'
 
 const AdminChatPanel = () => {
+  const { t } = useTranslation()
+  const viewDictionary = 'pages.contact.adminChatPanel'
   const { user, userData, loading: authLoading } = useContext(AuthContext)
   const [activeChats, setActiveChats] = useState([])
   const [selectedChat, setSelectedChat] = useState(null)
@@ -170,9 +175,37 @@ const AdminChatPanel = () => {
     }
   }
 
-  // Auto-scroll al último mensaje
+  // Auto-scroll inteligente al último mensaje
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+    // Función para determinar si el usuario estaba cerca del fondo antes de que llegaran nuevos mensajes
+    const shouldAutoScroll = () => {
+      if (!messagesEndRef.current) return false
+
+      const container = messagesEndRef.current.parentElement
+      if (!container) return false
+
+      // Consideramos "cerca del fondo" si el usuario está a menos de 200px del final
+      const { scrollTop, scrollHeight, clientHeight } = container
+      const distanceFromBottom = scrollHeight - scrollTop - clientHeight
+
+      // Auto-scroll solo si ya estaba cerca del fondo o si el último mensaje es del usuario actual (soporte)
+      return (
+        distanceFromBottom < 200 ||
+        (messages.length > 0 &&
+          messages[messages.length - 1]?.sender === 'support')
+      )
+    }
+
+    // Solo hacer scroll si es apropiado
+    if (shouldAutoScroll()) {
+      // Usar setTimeout para asegurar que los elementos del DOM se hayan renderizado
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'end', // Esto es más suave que el comportamiento predeterminado
+        })
+      }, 100)
+    }
   }, [messages])
 
   // Enviar mensaje como soporte
@@ -229,34 +262,58 @@ const AdminChatPanel = () => {
   }
 
   if (authLoading) {
-    return <div className="p-4">Cargando...</div>
+    return <div className="p-4">{t(`${viewDictionary}.loading.page`)}</div>
   }
 
   if (userData?.role !== 'admin') {
-    return <div className="p-4 text-red-500">Acceso denegado</div>
+    return (
+      <div className="p-4 text-red-500">
+        {t(`${viewDictionary}.accessDenied`)}
+      </div>
+    )
   }
 
   return (
-    <div className="h-auto w-[92%] mx-auto pb-[4vh] sm:pb-[6vh]">
-      <h1 className="mb-[5vh] sm:mb-[8vh] overflow-hidden text-center sm:t64b t40b whitespace-break-spaces">
-        Panel de Administración de Chat
+    <div className="h-auto w-[96%] sm:w-[92%] mx-auto pb-[4vh] sm:pb-[6vh]">
+      <h1 className="mb-4 sm:mb-[5vh] overflow-hidden text-center t24b sm:t40b md:t64b whitespace-break-spaces">
+        {t(`${viewDictionary}.title`)}
       </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-[1.5rem] justify-items-center md:justify-items-start">
-        {/* Lista de chats activos */}
-        <div className="md:col-span-2 w-full max-w-[90vw] md:max-w-full">
-          <div className="space-y-[1rem] bg-[#D9D9D9] rounded-[2rem] sm:rounded-[3rem] h-fit w-full mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
-            <h3 className="pt-[1rem] pl-[1.5rem] sm:pl-[2rem] t36b sm:t40b">
-              Conversaciones activas ({activeChats.length})
-            </h3>
-            <div className="px-[0.5rem] pb-[1rem] h-[calc(70vh-200px)] overflow-y-auto">
+      <div
+        className={`grid grid-cols-1 md:grid-cols-5 gap-3 sm:gap-[1.5rem] ${selectedChat ? 'md:grid-rows-[auto]' : ''}`}
+      >
+        {/* Lista de chats activos - En móviles se muestra condicionalmente */}
+        <div
+          className={`md:col-span-2 w-full max-w-full ${selectedChat ? 'hidden md:block' : 'block'}`}
+        >
+          <div className="space-y-2 sm:space-y-[1rem] bg-[#D9D9D9] rounded-[1rem] sm:rounded-[2rem] md:rounded-[3rem] h-fit w-full mb-3 sm:mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+            <div className="flex items-center justify-between">
+              <h3 className="pt-3 sm:pt-[1rem] pl-4 sm:pl-[1.5rem] md:pl-[2rem] t24b">
+                {t(`${viewDictionary}.activeChats`, {
+                  count: activeChats.length,
+                })}
+              </h3>
+              {/* Botón para volver al chat en móviles */}
+              {selectedChat && (
+                <div className="mt-3 mr-4 md:hidden">
+                  <DynamicButton
+                    size="x-small"
+                    state="normal"
+                    type="view"
+                    onClick={() => setSelectedChat(null)}
+                    textId={`${viewDictionary}.backButton`}
+                  />
+                </div>
+              )}
+            </div>
+            <div className="px-3 sm:px-[0.5rem] pb-3 sm:pb-[1rem] h-[50vh] md:h-[calc(70vh-200px)] overflow-y-auto">
               {loading && activeChats.length === 0 ? (
-                <div className="p-4 text-center text-gray-500 t18r">
-                  Cargando chats...
+                <div className="p-4 text-center text-gray-500 t16r sm:t18r">
+                  {t(`${viewDictionary}.loading.chats`)}
                 </div>
               ) : activeChats.length === 0 ? (
-                <div className="p-4 text-center text-gray-500 t18r">
-                  No hay conversaciones activas
+                <div className="p-4 text-center text-gray-500 t16r sm:t18r">
+                  {t(`${viewDictionary}.noChats`)}
                 </div>
               ) : (
                 <ul className="space-y-[0.5rem]">
@@ -264,27 +321,29 @@ const AdminChatPanel = () => {
                     <li
                       key={chat.id}
                       onClick={() => setSelectedChat(chat)}
-                      className={`p-4 cursor-pointer hover:bg-gray-100 transition-colors duration-200 rounded-[1rem] ${
+                      className={`p-3 sm:p-4 cursor-pointer hover:bg-gray-100 transition-colors duration-200 rounded-[0.8rem] sm:rounded-[1rem] ${
                         selectedChat?.id === chat.id
                           ? 'bg-blue-50 shadow-md'
                           : 'bg-white bg-opacity-50'
                       } relative`}
                     >
                       <div className="flex items-center justify-between">
-                        <div className="flex items-center t20b">
-                          {chat.userInfo?.name || 'Usuario'}
+                        <div className="flex items-center t18b sm:t20b truncate max-w-[70%]">
+                          {chat.userInfo?.name ||
+                            t(`${viewDictionary}.userPlaceholders.name`)}
                           {unreadCounts[chat.id] > 0 && (
-                            <span className="inline-flex items-center justify-center px-2 py-1 ml-2 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
+                            <span className="inline-flex items-center justify-center min-w-[1.25rem] px-1.5 py-0.5 ml-2 text-xs font-bold leading-none text-white bg-red-500 rounded-full">
                               {unreadCounts[chat.id]}
                             </span>
                           )}
                         </div>
-                        <div className="text-sm text-gray-500">
+                        <div className="ml-1 text-xs text-gray-500 sm:text-sm whitespace-nowrap">
                           {formatDate(chat.createdAt)}
                         </div>
                       </div>
-                      <div className="mt-1 text-gray-600 t14r">
-                        {chat.userInfo?.email || 'Sin email'}
+                      <div className="mt-1 text-gray-600 truncate t12r sm:t14r">
+                        {chat.userInfo?.email ||
+                          t(`${viewDictionary}.userPlaceholders.email`)}
                       </div>
                     </li>
                   ))}
@@ -294,76 +353,110 @@ const AdminChatPanel = () => {
           </div>
         </div>
 
-        {/* Panel de chat */}
-        <div className="md:col-span-3 w-full max-w-[90vw] md:max-w-full">
-          <div className="bg-[#D9D9D9] rounded-[2rem] sm:rounded-[3rem] h-full w-full mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] flex flex-col">
+        {/* Panel de chat - En móviles se muestra condicionalmente */}
+        <div
+          className={`md:col-span-3 w-full max-w-full ${selectedChat ? 'block' : 'hidden md:block'}`}
+        >
+          <div className="bg-[#D9D9D9] rounded-[1rem] sm:rounded-[2rem] md:rounded-[3rem] h-full w-full mb-3 sm:mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] flex flex-col">
             {selectedChat ? (
               <>
-                <div className="flex items-center justify-between p-4 border-b bg-white bg-opacity-30 rounded-t-[2rem] sm:rounded-t-[3rem]">
-                  <div>
-                    <h2 className="t24b">
-                      {selectedChat.userInfo?.name || 'Usuario'}
-                    </h2>
-                    <div className="text-gray-600 t16r">
-                      {selectedChat.userInfo?.email || 'Sin email'}
+                <div className="flex items-center justify-between p-3 sm:p-4 border-b bg-white bg-opacity-30 rounded-t-[1rem] sm:rounded-t-[2rem] md:rounded-t-[3rem]">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center">
+                      {/* Botón de volver a lista */}
+                      <div className="mr-2 md:hidden">
+                        <DynamicButton
+                          size="x-small"
+                          state="normal"
+                          onClick={() => setSelectedChat(null)}
+                        >
+                          ←
+                        </DynamicButton>
+                      </div>
+                      <div className="truncate">
+                        <h2 className="truncate t20b sm:t24b">
+                          {selectedChat.userInfo?.name ||
+                            t(`${viewDictionary}.userPlaceholders.name`)}
+                        </h2>
+                        <div className="text-gray-600 truncate t14r sm:t16r">
+                          {selectedChat.userInfo?.email ||
+                            t(`${viewDictionary}.userPlaceholders.email`)}
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <button
+                  {/* Botón de cerrar chat */}
+                  <DynamicButton
+                    size="x-small"
+                    state="normal"
+                    type="delete"
                     onClick={() => closeChat(selectedChat.id)}
-                    className="px-4 py-2 text-white transition-colors bg-red-500 rounded-full hover:bg-red-600 t14b"
-                  >
-                    Cerrar chat
-                  </button>
+                  />
                 </div>
 
-                <div className="flex-grow p-4 overflow-y-auto bg-white bg-opacity-30 h-[calc(70vh-280px)]">
+                <div className="flex-grow p-3 sm:p-4 overflow-y-auto bg-white bg-opacity-30 h-[40vh] sm:h-[50vh] md:h-[calc(70vh-280px)]">
                   {loading ? (
-                    <div className="text-center text-gray-500 t18r">
-                      Cargando mensajes...
+                    <div className="text-center text-gray-500 t16r sm:t18r">
+                      {t(`${viewDictionary}.loading.messages`)}
                     </div>
                   ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                       {messages.map((message) => (
                         <div
                           key={message.id}
-                          className={`max-w-[80%] clear-both ${
+                          className={`max-w-[85%] sm:max-w-[80%] clear-both ${
                             message.sender === 'support'
-                              ? 'float-right bg-blue-100 rounded-tl-[1rem] rounded-tr-[1rem] rounded-bl-[1rem] ml-auto'
-                              : 'float-left bg-gray-100 rounded-tr-[1rem] rounded-tl-[1rem] rounded-br-[1rem] mr-auto'
-                          } p-3 relative shadow-sm`}
+                              ? 'float-right bg-[#8be484] rounded-tl-[0.75rem] sm:rounded-tl-[1rem] rounded-tr-[0.75rem] sm:rounded-tr-[1rem] rounded-bl-[0.75rem] sm:rounded-bl-[1rem] ml-auto'
+                              : 'float-left bg-gray-100 rounded-tr-[0.75rem] sm:rounded-tr-[1rem] rounded-tl-[0.75rem] sm:rounded-tl-[1rem] rounded-br-[0.75rem] sm:rounded-br-[1rem] mr-auto'
+                          } p-2.5 sm:p-3 relative shadow-sm`}
                         >
-                          <div className="t18r">{message.text}</div>
-                          <div className="flex items-center justify-end mt-1 space-x-1 text-xs text-gray-500">
+                          <div className="break-words t16r sm:t18r">
+                            {message.text}
+                          </div>
+                          <div className="flex items-center justify-end mt-1 space-x-1 text-[10px] sm:text-xs text-gray-500">
                             <span>{formatTime(message.createdAt)}</span>
                             {message.sender === 'support' && (
-                              <span className="ml-1">
+                              <span
+                                className="ml-1"
+                                title={
+                                  message.isRead
+                                    ? t(`${viewDictionary}.status.read`)
+                                    : t(`${viewDictionary}.status.sent`)
+                                }
+                              >
                                 {message.isRead ? (
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
+                                    width="12"
+                                    height="12"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
-                                    strokeWidth="2"
+                                    strokeWidth="6"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="text-blue-500"
+                                    className="text-blue-500 sm:w-4 sm:h-4"
+                                    aria-label={t(
+                                      `${viewDictionary}.status.read`
+                                    )}
                                   >
                                     <path d="M18 6L7 17L2 12" />
                                   </svg>
                                 ) : (
                                   <svg
                                     xmlns="http://www.w3.org/2000/svg"
-                                    width="16"
-                                    height="16"
+                                    width="12"
+                                    height="12"
                                     viewBox="0 0 24 24"
                                     fill="none"
                                     stroke="currentColor"
-                                    strokeWidth="2"
+                                    strokeWidth="6"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="text-gray-400"
+                                    className="text-gray-400 sm:w-4 sm:h-4"
+                                    aria-label={t(
+                                      `${viewDictionary}.status.sent`
+                                    )}
                                   >
                                     <path d="M5 12h14" />
                                   </svg>
@@ -382,30 +475,37 @@ const AdminChatPanel = () => {
                 </div>
 
                 <form
-                  className="p-4 bg-white bg-opacity-50 border-t rounded-b-[2rem] sm:rounded-b-[3rem]"
+                  className="p-3 sm:p-4 bg-white bg-opacity-50 border-t rounded-b-[1rem] sm:rounded-b-[2rem] md:rounded-b-[3rem]"
                   onSubmit={handleSubmit}
                 >
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      placeholder="Escribe un mensaje..."
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      className="flex-1 p-3 border-2 border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-300 t16r"
-                    />
-                    <button
+                  <div className="flex flex-row items-center gap-2">
+                    {/* Input de mensaje */}
+                    <div className="flex-1">
+                      <DynamicInput
+                        type="text"
+                        name="message"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                        placeholder={t(
+                          `${viewDictionary}.messageInput.placeholder`
+                        )}
+                        disabled={loading}
+                      />
+                    </div>
+                    {/* Botón de envío */}
+                    <DynamicButton
+                      size="x-small"
+                      state={loading ? 'disabled' : 'normal'}
                       type="submit"
-                      className="bg-[#0078d7] text-white px-6 py-3 rounded-full hover:bg-[#005fa3] transition-colors t16b shadow-md hover:shadow-lg"
+                      onClick={handleSubmit}
                       disabled={loading}
-                    >
-                      Enviar
-                    </button>
+                    />
                   </div>
                 </form>
               </>
             ) : (
-              <div className="flex items-center justify-center h-[70vh] text-gray-500 t24r">
-                Selecciona un chat para comenzar
+              <div className="flex items-center justify-center h-[50vh] md:h-[70vh] text-gray-500 t20r sm:t24r">
+                {t(`${viewDictionary}.selectChatPrompt`)}
               </div>
             )}
           </div>
