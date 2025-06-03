@@ -30,7 +30,7 @@ Ejecutamos el comando `bun run start` para iniciar el proyecto.
 
 - 🔑 Autenticación completa (login, registro, recuperación de contraseña)
 
-- 🎛️ Dashboard exclusivo para miembros de la asociación para gestionar la web y la base de datos
+- 🎛️ Dashboard exclusivo para miembros de la asociación para gestionar la web y la base de datos.
 
 ## 🛠️ Tecnologías Usadas
 
