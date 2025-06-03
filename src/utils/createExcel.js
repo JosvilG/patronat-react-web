@@ -206,7 +206,6 @@ export const exportPartnerToExcel = async (
       confirmButtonText: tFn('components.popup.confirmButtonText', 'Aceptar'),
     })
   } catch (error) {
-    console.error('Error al exportar datos del socio a Excel:', error)
     await showPopupFn({
       title: tFn(`${viewDictionary}.errorPopup.title`, 'Error'),
       text: tFn(
@@ -431,7 +430,6 @@ export const exportAllPartnersToExcel = async (
       confirmButtonText: tFn('components.popup.confirmButtonText', 'Aceptar'),
     })
   } catch (error) {
-    console.error('Error al exportar datos de todos los socios a Excel:', error)
     await showPopupFn({
       title: tFn(`${viewDictionary}.errorPopup.title`, 'Error'),
       text: tFn(

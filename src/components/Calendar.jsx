@@ -84,7 +84,7 @@ const Calendar = () => {
         })
         setGames(gamesList)
       } catch (error) {
-        console.error('Error al obtener juegos:', error)
+        return
       }
     }
 

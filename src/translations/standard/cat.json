@@ -1300,7 +1300,8 @@
       "passwordInput": "Introdueix la teva contrasenya",
       "forgotPassword": "Has oblidat la contrasenya?",
       "noAccount": "No tens un compte? ",
-      "register": "Registra’t"
+      "register": "Registra’t",
+      "errorLogin": "Error a l'iniciar sessió. Si us plau, verifica les teves credencials i torna-ho a intentar."
     },
     "recoverPage": {
       "title": "Recuperar contrasenya",

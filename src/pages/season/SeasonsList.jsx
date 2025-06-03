@@ -41,7 +41,6 @@ function SeasonsList() {
         setSeasons(sortedSeasons)
         setFilteredSeasons(sortedSeasons)
       } catch (error) {
-        console.error('Error al cargar temporadas:', error)
         await showPopup({
           title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
           text: t(
@@ -122,7 +121,6 @@ function SeasonsList() {
         })
       }
     } catch (error) {
-      console.error('Error al eliminar temporada:', error)
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text: t(

@@ -85,7 +85,7 @@ function CrewMainPage() {
 
         setUserCrews(Array.from(crewMap.values()))
       } catch (error) {
-        console.error('Error fetching crews:', error)
+        // Error fetching crews
       } finally {
         setLoading(false)
       }
@@ -189,7 +189,7 @@ function CrewMainPage() {
         setCrewsRanking(crewsWithPoints)
         setRankingLoading(false)
       } catch (error) {
-        console.error('Error al obtener ranking de peñas:', error)
+        // Error al obtener ranking de peñas
         setRankingLoading(false)
       }
     }
@@ -285,7 +285,7 @@ function CrewMainPage() {
 
         setUpcomingGames(gamesList)
       } catch (error) {
-        console.error('Error al obtener próximos juegos:', error)
+        // Error al obtener próximos juegos
       } finally {
         setLoadingGames(false)
       }
@@ -347,7 +347,7 @@ function CrewMainPage() {
 
         setCrewMessages(messagesMap)
       } catch (error) {
-        console.error('Error al cargar mensajes de las peñas:', error)
+        // Error al cargar mensajes de las peñas
       }
     }
 

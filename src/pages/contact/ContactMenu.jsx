@@ -88,8 +88,8 @@ const ContactMenu = () => {
               }
               return null
             })
-            .catch((error) => {
-              console.error(`Error al cargar usuario ${userId}:`, error)
+            .catch(() => {
+              // Error al cargar usuario
               return null
             })
         )
@@ -108,7 +108,7 @@ const ContactMenu = () => {
         updateSelectedCrewRecipients(crews, usersMap, selectedCrewIds)
       }
     } catch (error) {
-      console.error('Error fetching recipients:', error)
+      // Error fetching recipients
       setFormStatus({
         type: 'error',
         message: t('pages.contact.menu.errorFetchingRecipients'),
@@ -224,7 +224,7 @@ const ContactMenu = () => {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}))
-        console.error('Error en envío masivo:', errorData)
+        // Error en envío masivo
         throw new Error(errorData.error || 'Error en el envío de los correos')
       }
 
@@ -245,7 +245,7 @@ const ContactMenu = () => {
 
       setFormStatus(null)
     } catch (error) {
-      console.error('Error en envío de correos:', error)
+      // Error en envío de correos
 
       showPopup({
         title: t('pages.contact.menu.errorTitle'),
@@ -253,7 +253,6 @@ const ContactMenu = () => {
         icon: 'error',
         confirmButtonText: t('pages.contact.menu.okButton'),
       })
-
       setFormStatus(null)
     }
   }

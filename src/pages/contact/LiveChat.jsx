@@ -85,7 +85,7 @@ const LiveChat = () => {
         isRead: false,
       })
     } catch (error) {
-      console.error('Error al crear chat:', error)
+      // Error al crear chat
     }
   }
 
@@ -93,29 +93,20 @@ const LiveChat = () => {
     if (!isOpen || !chatId) return
 
     setLoading(true)
-    console.log(`Escuchando mensajes para chat ${chatId}`)
 
     const messagesQuery = query(
       collection(db, `chats/${chatId}/messages`),
       orderBy('createdAt', 'asc')
     )
 
-    const unsubscribe = onSnapshot(
-      messagesQuery,
-      (snapshot) => {
-        const messagesList = []
-        snapshot.forEach((doc) => {
-          messagesList.push({ id: doc.id, ...doc.data() })
-        })
-        console.log(`Recibidos ${messagesList.length} mensajes`)
-        setMessages(messagesList)
-        setLoading(false)
-      },
-      (error) => {
-        console.error('Error al obtener mensajes:', error)
-        setLoading(false)
-      }
-    )
+    const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+      const messagesList = []
+      snapshot.forEach((doc) => {
+        messagesList.push({ id: doc.id, ...doc.data() })
+      })
+      setMessages(messagesList)
+      setLoading(false)
+    })
 
     return () => unsubscribe()
   }, [chatId, isOpen])
@@ -140,7 +131,7 @@ const LiveChat = () => {
 
       setNewMessage('')
     } catch (error) {
-      console.error('Error al enviar mensaje:', error)
+      // Error al enviar mensaje
     }
   }
 
@@ -180,7 +171,7 @@ const LiveChat = () => {
             const messageRef = doc(db, `chats/${chatId}/messages`, message.id)
             await updateDoc(messageRef, { isRead: true })
           } catch (error) {
-            console.error('Error al marcar mensaje como leído:', error)
+            // Error al marcar mensaje como leído
           }
         }
       }

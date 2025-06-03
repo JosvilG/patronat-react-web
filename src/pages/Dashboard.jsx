@@ -30,7 +30,7 @@ export default function Dashboard() {
         const querySnapshot = await getDocs(q)
         setPendingCrews(querySnapshot.size)
       } catch (error) {
-        console.error('Error al buscar peñas pendientes:', error)
+        // Error al buscar peñas pendientes
       }
     }
 
@@ -42,8 +42,6 @@ export default function Dashboard() {
     // Solo ejecutar si el usuario es administrador
     if (userData?.role !== 'admin') return
 
-    console.log('Iniciando escucha de chats no leídos...')
-
     // Crear consulta para chats activos
     const activeChatsQuery = query(
       collection(db, 'chats'),
@@ -51,65 +49,55 @@ export default function Dashboard() {
     )
 
     // Establecer listener en tiempo real para chats activos
-    const unsubscribeActiveChats = onSnapshot(
-      activeChatsQuery,
-      (snapshot) => {
-        console.log(`Detectados ${snapshot.size} chats activos`)
+    const unsubscribeActiveChats = onSnapshot(activeChatsQuery, (snapshot) => {
+      // Para cada chat activo, necesitamos un listener para sus mensajes no leídos
+      let activeSubscriptions = []
+      let unreadChatsCount = 0
 
-        // Para cada chat activo, necesitamos un listener para sus mensajes no leídos
-        let activeSubscriptions = []
-        let unreadChatsCount = 0
-
-        // Si no hay chats activos, actualizar el contador a 0
-        if (snapshot.empty) {
-          setUnreadChats(0)
-          return
-        }
-
-        // Para cada chat, configurar un listener de mensajes no leídos
-        snapshot.forEach((chatDoc) => {
-          const chatId = chatDoc.id
-
-          // Consulta para mensajes no leídos del usuario
-          const unreadMessagesQuery = query(
-            collection(db, `chats/${chatId}/messages`),
-            where('sender', '==', 'user'),
-            where('isRead', '==', false)
-          )
-
-          // Listener para mensajes no leídos de este chat
-          const unsubscribeMessages = onSnapshot(
-            unreadMessagesQuery,
-            (messagesSnapshot) => {
-              // Si este chat tiene mensajes no leídos y no está ya contado
-              if (messagesSnapshot.size > 0) {
-                unreadChatsCount++
-              }
-
-              // Actualizar el contador global de chats no leídos
-              setUnreadChats(unreadChatsCount)
-              console.log(`Chats no leídos actualizados: ${unreadChatsCount}`)
-            }
-          )
-
-          // Guardar la función para cancelar la suscripción después
-          activeSubscriptions.push(unsubscribeMessages)
-        })
-
-        // Devolver función para limpiar todas las suscripciones
-        return () => {
-          activeSubscriptions.forEach((unsubscribe) => unsubscribe())
-        }
-      },
-      (error) => {
-        console.error('Error al observar chats activos:', error)
+      // Si no hay chats activos, actualizar el contador a 0
+      if (snapshot.empty) {
+        setUnreadChats(0)
+        return
       }
-    )
+
+      // Para cada chat, configurar un listener de mensajes no leídos
+      snapshot.forEach((chatDoc) => {
+        const chatId = chatDoc.id
+
+        // Consulta para mensajes no leídos del usuario
+        const unreadMessagesQuery = query(
+          collection(db, `chats/${chatId}/messages`),
+          where('sender', '==', 'user'),
+          where('isRead', '==', false)
+        )
+
+        // Listener para mensajes no leídos de este chat
+        const unsubscribeMessages = onSnapshot(
+          unreadMessagesQuery,
+          (messagesSnapshot) => {
+            // Si este chat tiene mensajes no leídos y no está ya contado
+            if (messagesSnapshot.size > 0) {
+              unreadChatsCount++
+            }
+
+            // Actualizar el contador global de chats no leídos
+            setUnreadChats(unreadChatsCount)
+          }
+        )
+
+        // Guardar la función para cancelar la suscripción después
+        activeSubscriptions.push(unsubscribeMessages)
+      })
+
+      // Devolver función para limpiar todas las suscripciones
+      return () => {
+        activeSubscriptions.forEach((unsubscribe) => unsubscribe())
+      }
+    })
 
     // Limpiar la suscripción principal cuando el componente se desmonte
     return () => {
       unsubscribeActiveChats()
-      console.log('Escucha de chats terminada')
     }
   }, [userData])
 

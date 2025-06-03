@@ -92,9 +92,7 @@ const CrewPoints = () => {
         setPointsData(initialPointsData)
         setLoading(false)
       } catch (error) {
-        console.error('Error al cargar peñas y juegos:', error)
         setLoading(false)
-
         showPopup({
           title: 'Error',
           text: 'No se pudieron cargar los datos. Por favor, inténtalo de nuevo.',
@@ -162,8 +160,6 @@ const CrewPoints = () => {
         showConfirmButton: false,
       })
     } catch (error) {
-      console.error('Error al guardar puntos:', error)
-
       showPopup({
         title: 'Error',
         text: 'No se pudieron guardar los puntos. Por favor, inténtalo de nuevo.',
@@ -223,8 +219,6 @@ const CrewPoints = () => {
         icon: 'success',
       })
     } catch (error) {
-      console.error('Error al guardar todos los puntos:', error)
-
       showPopup({
         title: 'Error',
         text: 'No se pudieron guardar todos los puntos. Por favor, inténtalo de nuevo.',

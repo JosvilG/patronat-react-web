@@ -68,7 +68,7 @@ function GamesModify() {
         }))
         setSeasons(seasonsData)
       } catch (error) {
-        console.error('Error al obtener las temporadas:', error)
+        // Manejo de error silencioso para producción
       }
     }
 
@@ -98,7 +98,6 @@ function GamesModify() {
         setGameData(gameDataWithDefaults)
         setOriginalGameData(gameDataWithDefaults) // Guardar los datos originales
       } catch (error) {
-        console.error('Error al cargar los datos del juego:', error)
         const MySwal = withReactContent(Swal)
         MySwal.fire({
           title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
@@ -207,7 +206,6 @@ function GamesModify() {
         navigate('/games-list')
       })
     } catch (error) {
-      console.error('Error al actualizar el juego:', error)
       let errorMessage = t(`${viewDictionary}.errorMessages.default`)
       if (error.code === 'unavailable') {
         errorMessage = t(`${viewDictionary}.errorMessages.unavailable`)
@@ -257,15 +255,8 @@ function GamesModify() {
       }
 
       await batch.commit()
-      console.log(
-        `Estado del juego actualizado en todas las crews a: ${newStatus}`
-      )
     } catch (error) {
-      console.error(
-        'Error al actualizar el estado del juego en las crews:',
-        error
-      )
-      throw error
+      // Manejo de error silencioso para producción
     }
   }
 
@@ -277,7 +268,7 @@ function GamesModify() {
       const crewsSnapshot = await getDocs(crewsQuery)
 
       // Usar batch para optimizar escrituras
-      const batch = writeBatch(db)
+      let batch = writeBatch(db)
       let updatesCount = 0
 
       for (const crewDoc of crewsSnapshot.docs) {
@@ -294,10 +285,8 @@ function GamesModify() {
           // Firebase tiene un límite de 500 operaciones por batch
           if (updatesCount >= 450) {
             await batch.commit()
-            console.log(`Procesadas ${updatesCount} actualizaciones de crews`)
             // Crear un nuevo batch para las siguientes operaciones
-            const newBatch = writeBatch(db)
-            batch = newBatch
+            batch = writeBatch(db)
             updatesCount = 0
           }
         }
@@ -306,18 +295,9 @@ function GamesModify() {
       // Commit del último batch si tiene operaciones pendientes
       if (updatesCount > 0) {
         await batch.commit()
-        console.log(
-          `Procesadas ${updatesCount} actualizaciones finales de crews`
-        )
       }
-
-      console.log(
-        `Juego actualizado en todas las crews con campos: ${Object.keys(
-          updatedFields
-        ).join(', ')}`
-      )
     } catch (error) {
-      console.error('Error al actualizar el juego en las crews:', error)
+      // Manejo de error silencioso para producción
       throw error
     }
   }
@@ -412,7 +392,6 @@ function GamesModify() {
         })
       })
     } catch (error) {
-      console.error('Error al crear nuevo juego:', error)
       Swal.fire({
         title: 'Error',
         text: `No se pudo crear el juego para la temporada ${newSeason}: ${error.message}`,

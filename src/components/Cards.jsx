@@ -53,7 +53,6 @@ const DynamicCard = ({
       /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/
 
     if (!url || !urlPattern.test(url)) {
-      console.error('URL inválida detectada:', url)
       return
     }
 

@@ -70,7 +70,6 @@ function PartnerList() {
         setPartners(partnerData)
         setFilteredPartners(partnerData)
       } catch (error) {
-        console.error('Error al obtener los socios:', error)
         await showPopup({
           title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
           text: t(
@@ -129,7 +128,6 @@ function PartnerList() {
           setLoadingPayments(false)
         },
         (error) => {
-          console.error('Error en listener de pagos:', error)
           setLoadingPayments(false)
         }
       )
@@ -143,7 +141,6 @@ function PartnerList() {
           setLoadingHistory(false)
         },
         (error) => {
-          console.error('Error en listener de historial:', error)
           setLoadingHistory(false)
         }
       )
@@ -232,7 +229,7 @@ function PartnerList() {
           userId = currentUser.uid
         }
       } catch (authError) {
-        console.log('No se pudo obtener el usuario actual:', authError)
+        return
       }
 
       const partnerRef = doc(db, 'partners', id)
@@ -266,13 +263,9 @@ function PartnerList() {
         }
 
         try {
-          console.log(
-            `Creando registro de pago para socio ${id} en temporada ${currentActiveSeason.seasonYear}`
-          )
           await createPaymentForPartner(id, newPaymentData, userId)
-          console.log('Registro de pago creado con éxito')
         } catch (paymentError) {
-          console.error('Error al crear registro de pago:', paymentError)
+          return
         }
       }
 
@@ -301,7 +294,6 @@ function PartnerList() {
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
     } catch (error) {
-      console.error('Error al aprobar el socio:', error)
       await showPopup({
         title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
         text: t(
@@ -342,7 +334,6 @@ function PartnerList() {
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
     } catch (error) {
-      console.error('Error al rechazar el socio:', error)
       showPopup({
         title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
         text: t(
@@ -391,10 +382,6 @@ function PartnerList() {
           batch.delete(doc(db, 'payments', paymentDoc.id))
         })
         await batch.commit()
-
-        console.log(
-          `Eliminados ${paymentsSnapshot.size} documentos de pagos del socio ${id}`
-        )
       }
 
       await deleteDoc(doc(db, 'partners', id))
@@ -413,7 +400,6 @@ function PartnerList() {
         confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
       })
     } catch (error) {
-      console.error('Error al eliminar el socio y sus datos:', error)
       await showPopup({
         title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
         text: t(
@@ -461,23 +447,11 @@ function PartnerList() {
               )
               history = historyData || []
             }
-            console.log('Datos para exportación:', {
-              partner,
-              payments,
-              history,
-            })
           } catch (error) {
-            console.error('Error obteniendo datos de pago:', error)
+            // Manejo silencioso, no mostrar error en consola
           }
         }
       }
-
-      console.log('Iniciando exportación con:', {
-        partner,
-        season: currentActiveSeason,
-        payments,
-        history,
-      })
 
       await exportPartnerToExcel(
         partner,
@@ -489,7 +463,6 @@ function PartnerList() {
         'pages.partners.listPartners'
       )
     } catch (error) {
-      console.error('Error al exportar datos del socio:', error)
       await showPopup({
         title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
         text: t(
@@ -523,7 +496,6 @@ function PartnerList() {
         'pages.partners.listPartners'
       )
     } catch (error) {
-      console.error('Error al exportar datos de todos los socios:', error)
       await showPopup({
         title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
         text: t(
@@ -548,7 +520,7 @@ function PartnerList() {
     try {
       await fetchActiveSeason()
     } catch (error) {
-      console.error('Error al abrir el panel lateral:', error)
+      // Manejo silencioso, no mostrar error en consola
     }
   }
 
@@ -573,7 +545,6 @@ function PartnerList() {
       setActiveSeason(season)
       return season
     } catch (error) {
-      console.error('Error al obtener la temporada activa:', error)
       setActiveSeason(null)
       return null
     } finally {

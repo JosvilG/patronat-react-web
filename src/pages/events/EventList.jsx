@@ -92,7 +92,7 @@ function EventList() {
               icon: 'success',
             })
           } catch (error) {
-            console.error('Error al eliminar el evento:', error)
+            // Error al eliminar el evento
             showPopup({
               title: 'Error',
               text: 'No se pudo eliminar el evento. Por favor, inténtalo de nuevo.',
@@ -102,7 +102,7 @@ function EventList() {
         },
       })
     } catch (error) {
-      console.error('Error al mostrar el diálogo de confirmación:', error)
+      // Error al mostrar el diálogo de confirmación
     }
   }
 

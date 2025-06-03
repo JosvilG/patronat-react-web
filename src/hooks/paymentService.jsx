@@ -40,7 +40,6 @@ const withRetry = async (
       }
       return await operation()
     } catch (error) {
-      console.error(`Error en intento ${attempt}:`, error)
       lastError = error
     }
   }
@@ -60,12 +59,9 @@ export const listenPartnerPaymentForSeason = (
   partnerId,
   seasonYear,
   onNext,
-  onError = console.error
+  onError = () => {}
 ) => {
   if (!partnerId || !seasonYear) {
-    console.warn(
-      'listenPartnerPaymentForSeason: partnerId y seasonYear obligatorios'
-    )
     return () => {}
   }
 
@@ -100,10 +96,9 @@ export const listenPartnerPaymentHistory = (
   partnerId,
   activeSeasonYear,
   onNext,
-  onError = console.error
+  onError = () => {}
 ) => {
   if (!partnerId) {
-    console.warn('listenPartnerPaymentHistory: partnerId obligatorio')
     return () => {}
   }
 
@@ -138,13 +133,10 @@ export const getPartnerPaymentsForSeason = async (
   fallbackToAll = true
 ) => {
   if (!partnerId) {
-    console.warn('getPartnerPaymentsForSeason: Se requiere ID de socio')
     return null
   }
 
   if (!seasonYear) {
-    console.warn('getPartnerPaymentsForSeason: Se requiere año de temporada')
-
     if (!fallbackToAll) return null
 
     // Si no hay año de temporada pero se permite fallback, buscar el pago más reciente
@@ -178,18 +170,13 @@ export const getPartnerPaymentsForSeason = async (
       return null
     })
   } catch (error) {
-    console.error('Error al obtener pagos del socio:', error)
-
     // Último recurso: intentar obtener cualquier pago si fallbackToAll es true
     if (fallbackToAll) {
       try {
         const allPayments = await getAllPartnerPayments(partnerId)
         return allPayments.length > 0 ? allPayments[0] : null
       } catch (fallbackError) {
-        console.error(
-          'Error en la recuperación de último recurso:',
-          fallbackError
-        )
+        return
       }
     }
 
@@ -226,7 +213,6 @@ export const getMostRecentPayment = async (partnerId) => {
 
     return null
   } catch (error) {
-    console.error('Error al obtener el pago más reciente:', error)
     return null
   }
 }
@@ -248,7 +234,6 @@ export const getAllPartnerPayments = async (partnerId) => {
       ...doc.data(),
     }))
   } catch (error) {
-    console.error('Error al obtener todos los pagos:', error)
     return []
   }
 }
@@ -264,7 +249,6 @@ export const getPartnerPaymentHistory = async (
   currentSeasonYear
 ) => {
   if (!partnerId) {
-    console.warn('getPartnerPaymentHistory: Se requiere ID de socio')
     return []
   }
 
@@ -337,7 +321,6 @@ export const getPartnerPaymentHistory = async (
       return historicalPayments
     })
   } catch (error) {
-    console.error('Error al obtener historial de pagos:', error)
     return []
   }
 }
@@ -408,8 +391,7 @@ export const createPaymentForPartner = async (
       payment: { id: createdDoc.id, ...createdDoc.data() },
     }
   } catch (error) {
-    console.error('Error al crear pago:', error)
-    throw error
+    return
   }
 }
 
@@ -442,7 +424,6 @@ export const updatePartnerPayment = async (
 
     return true
   } catch (error) {
-    console.error('Error al actualizar pago:', error)
     throw error
   }
 }
@@ -471,15 +452,9 @@ export const normalizePaymentDates = (paymentData) => {
               if (!isNaN(date.getTime())) {
                 normalizedData[field] = date
               } else {
-                console.warn(
-                  `Fecha inválida para ${field}: "${normalizedData[field]}"`
-                )
                 normalizedData[field] = null
               }
             } catch (error) {
-              console.warn(
-                `Error al convertir fecha ${field}: ${error.message}`
-              )
               normalizedData[field] = null
             }
           }
@@ -555,7 +530,7 @@ export const formatDateForUI = (dateValue, format = 'display') => {
       }
     }
   } catch (error) {
-    console.error('Error al formatear fecha:', error)
+    // Error silencioso en producción
   }
 
   return ''
@@ -581,7 +556,6 @@ export const diagnoseSeasonYearIssue = async (partnerId) => {
 
     return diagnosisResults
   } catch (error) {
-    console.error('Error en diagnóstico:', error)
     return null
   }
 }
@@ -610,7 +584,6 @@ export const getActiveSeason = async () => {
       }
     })
   } catch (error) {
-    console.error('Error al obtener temporada activa:', error)
     return null
   }
 }
@@ -664,7 +637,6 @@ export const getAllSeasons = async () => {
       return { active, historical, future }
     })
   } catch (error) {
-    console.error('Error al obtener todas las temporadas:', error)
     return { active: null, historical: [], future: [] }
   }
 }
@@ -695,7 +667,6 @@ export const getApprovedPartners = async () => {
       return partners
     })
   } catch (error) {
-    console.error('Error al obtener socios aprobados:', error)
     return []
   }
 }
@@ -707,7 +678,6 @@ export const getApprovedPartners = async () => {
  */
 export const getPartnerPaymentsByStatus = async (partnerId) => {
   if (!partnerId) {
-    console.warn('getPartnerPaymentsByStatus: Se requiere ID de socio')
     return { current: null, historical: [] }
   }
 
@@ -771,7 +741,6 @@ export const getPartnerPaymentsByStatus = async (partnerId) => {
       }
     })
   } catch (error) {
-    console.error('Error al obtener pagos clasificados del socio:', error)
     return { current: null, historical: [] }
   }
 }
@@ -808,7 +777,6 @@ export const getAllApprovedPartnersWithPayments = async () => {
 
     return partnersWithPayments
   } catch (error) {
-    console.error('Error al obtener todos los socios con pagos:', error)
     return []
   }
 }

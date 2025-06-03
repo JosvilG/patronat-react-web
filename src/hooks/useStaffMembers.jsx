@@ -52,7 +52,6 @@ const useStaffMembers = () => {
 
         setStaffMembers(sortedStaffList)
       } catch (err) {
-        console.error('Error al obtener miembros del staff:', err)
         setError(err.message)
       } finally {
         setLoading(false)

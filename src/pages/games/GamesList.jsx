@@ -59,7 +59,7 @@ function GamesList() {
         updateItems(sortedGameData)
         setGames(sortedGameData)
       } catch (error) {
-        console.error('Error al obtener los juegos:', error)
+        // Error al obtener los juegos, manejo silencioso
       }
     }
 
@@ -106,7 +106,6 @@ function GamesList() {
         'success'
       )
     } catch (error) {
-      console.error('Error al eliminar el juego:', error)
       Swal.fire(
         'Error',
         'No se pudo eliminar el juego. Por favor, inténtalo de nuevo.',
@@ -161,7 +160,6 @@ function GamesList() {
         'success'
       )
     } catch (error) {
-      console.error('Error al cambiar el estado del juego:', error)
       Swal.fire(
         'Error',
         'No se pudo cambiar el estado del juego. Por favor, inténtalo de nuevo.',
@@ -197,7 +195,6 @@ function GamesList() {
           // Firebase tiene un límite de 500 operaciones por batch
           if (updatesCount >= 450) {
             await batch.commit()
-            console.log(`Procesadas ${updatesCount} actualizaciones de crews`)
             // Crear un nuevo batch para las siguientes operaciones
             const newBatch = writeBatch(db)
             batch = newBatch
@@ -209,15 +206,8 @@ function GamesList() {
       // Commit del último batch si tiene operaciones pendientes
       if (updatesCount > 0) {
         await batch.commit()
-        console.log(
-          `Procesadas ${updatesCount} actualizaciones finales de crews`
-        )
       }
     } catch (error) {
-      console.error(
-        'Error al actualizar el estado del juego en las crews:',
-        error
-      )
       throw error
     }
   }
@@ -275,7 +265,6 @@ function GamesList() {
         'success'
       )
     } catch (error) {
-      console.error('Error al marcar el juego como completado:', error)
       Swal.fire(
         'Error',
         'No se pudo marcar el juego como completado. Por favor, inténtalo de nuevo.',

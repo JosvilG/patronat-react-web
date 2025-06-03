@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import Loader from '../../components/Loader'
-import ReCAPTCHA from 'react-google-recaptcha'
 import { getCsrfToken } from '../../utils/security'
 
 const ContactMain = () => {
@@ -42,10 +41,6 @@ const ContactMain = () => {
       ...prevData,
       [name]: value,
     }))
-  }
-
-  const handleCaptchaChange = (token) => {
-    setCaptchaToken(token)
   }
 
   const handleSubmit = async (e) => {
@@ -227,16 +222,6 @@ const ContactMain = () => {
                 onChange={handleChange}
               />
             </div>
-
-            {(!IS_DEVELOPMENT || !DISABLE_RECAPTCHA) && (
-              <div className="flex justify-center w-full my-4">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
-                  onChange={handleCaptchaChange}
-                />
-              </div>
-            )}
 
             <div className="flex justify-center w-full">
               {formStatus && formStatus.type !== 'loading' && (

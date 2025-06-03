@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import log from 'loglevel'
 import { doc, getDoc } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
 import Loader from '../../components/Loader'
@@ -60,7 +59,6 @@ function PartnerInfo() {
           }
         }
       } catch (err) {
-        log.error(err)
         setError('No se pudieron cargar los datos del socio')
         await showPopup({
           title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
@@ -124,7 +122,6 @@ function PartnerInfo() {
         setLoadingPayments(false)
       },
       (error) => {
-        console.error('Error en listener de pagos:', error)
         setLoadingPayments(false)
       }
     )
@@ -139,7 +136,6 @@ function PartnerInfo() {
         setLoadingHistory(false)
       },
       (error) => {
-        console.error('Error en listener de historial:', error)
         setLoadingHistory(false)
       }
     )
@@ -151,7 +147,6 @@ function PartnerInfo() {
       const season = await getActiveSeason()
       setActiveSeason(season)
     } catch (error) {
-      console.error('Error al obtener la temporada activa:', error)
       setActiveSeason(null)
     } finally {
       setLoadingSeason(false)
@@ -172,7 +167,6 @@ function PartnerInfo() {
         viewDictionary
       )
     } catch (error) {
-      console.error('Error al exportar datos del socio:', error)
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text: t(

@@ -83,7 +83,6 @@ function EventsParticipants() {
         setFilteredParticipants(participantsData)
         setLoading(false)
       } catch (error) {
-        console.error('Error al obtener participantes:', error)
         setError(t(`${viewDictionary}.loadingError`))
         setLoading(false)
       }
@@ -146,10 +145,6 @@ function EventsParticipants() {
 
       setIsUpdating(false)
     } catch (error) {
-      console.error(
-        `Error al ${newStatus === 'aprobado' ? 'aprobar' : 'rechazar'} participante:`,
-        error
-      )
       setIsUpdating(false)
     }
   }

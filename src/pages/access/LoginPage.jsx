@@ -50,7 +50,9 @@ function LoginPage() {
           className="max-w-md mx-auto mt-[5vh] mb-0 space-y-[3vh] flex flex-col items-center sm:items-stretch"
         >
           {loginError && (
-            <p className="mb-[2vh] text-center text-red-500">{loginError}</p>
+            <p className="mb-[2vh] text-center text-red-500 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl px-4 py-3">
+              {t('pages.login.errorLogin')}
+            </p>
           )}
 
           <DynamicInput

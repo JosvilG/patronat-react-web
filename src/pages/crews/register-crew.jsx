@@ -140,7 +140,7 @@ function RegisterCrew() {
 
         setIsAlreadyResponsable(!querySnapshot.empty)
       } catch (error) {
-        console.error('Error checking responsable status:', error)
+        // Error checking responsable status
       } finally {
         setCheckingResponsableStatus(false)
       }

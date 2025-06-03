@@ -49,7 +49,7 @@ const calculateAge = (birthDate) => {
 
     return age
   } catch (error) {
-    console.error('Error calculando edad:', error)
+    // Manejo silencioso para producción
     return null
   }
 }
@@ -121,7 +121,6 @@ function PartnerModifyForm() {
         setActiveSeason(null)
       }
     } catch (error) {
-      console.error('Error al obtener la temporada activa:', error)
       setActiveSeason(null)
     } finally {
       setLoadingSeason(false)
@@ -133,12 +132,9 @@ function PartnerModifyForm() {
 
     setLoadingPayments(true)
     try {
-      console.log(`Cargando pagos para el socio ${id}...`)
-
       const paymentInfo = await getPartnerPaymentsByStatus(id)
 
       if (paymentInfo && paymentInfo.current) {
-        console.log('Pago de temporada actual encontrado:', paymentInfo.current)
         setPaymentId(paymentInfo.current.id)
         setPaymentData({
           ...paymentInfo.current,
@@ -148,7 +144,6 @@ function PartnerModifyForm() {
             'adult',
         })
       } else {
-        console.log('No se encontraron pagos para la temporada actual')
         setPaymentData(null)
         setPaymentId(null)
       }
@@ -157,7 +152,6 @@ function PartnerModifyForm() {
         await fetchActiveSeason()
       }
     } catch (error) {
-      console.error('Error al cargar pagos:', error)
       setPaymentData(null)
       setPaymentId(null)
     } finally {
@@ -239,7 +233,6 @@ function PartnerModifyForm() {
           setError('No se encontró el socio especificado.')
         }
       } catch (error) {
-        console.error('Error al cargar datos del socio:', error)
         setError('Ocurrió un error al cargar los datos del socio.')
       } finally {
         setLoading(false)
@@ -349,7 +342,6 @@ function PartnerModifyForm() {
 
       navigate('/partners-list')
     } catch (error) {
-      console.error('Error al actualizar socio:', error)
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text: t(

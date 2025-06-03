@@ -77,12 +77,6 @@ function CrewModify() {
             !crewData.responsable.includes(user.uid) &&
             userData?.role !== 'admin'
           ) {
-            console.log('Acceso denegado:', {
-              responsables: crewData.responsable,
-              userUid: user.uid,
-              userRole: userData?.role,
-            })
-
             showPopup({
               title: 'Acceso denegado',
               text: 'Solo los responsables y administradores pueden editar esta peña',
@@ -101,7 +95,7 @@ function CrewModify() {
           navigate('/crews')
         }
       } catch (error) {
-        console.error('Error al obtener la crew:', error)
+        // Error al obtener la crew
         navigate('/crews')
       } finally {
         setLoading(false)

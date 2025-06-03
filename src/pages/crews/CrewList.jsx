@@ -48,7 +48,7 @@ function CrewList() {
         setCrews(nonPendingCrews)
         setFilteredCrews(nonPendingCrews)
       } catch (error) {
-        console.error('Error al obtener las crews:', error)
+        // Error al obtener las crews
       }
     }
 
@@ -90,7 +90,6 @@ function CrewList() {
           let deletedMessagesCount = 0
 
           try {
-            console.log(`Buscando mensajes de rechazo para la peña ID: ${id}`)
             const messagesQuery = query(
               collection(db, 'messages'),
               where('crewId', '==', id),
@@ -98,17 +97,11 @@ function CrewList() {
             )
 
             messagesSnapshot = await getDocs(messagesQuery)
-            console.log(
-              `Encontrados ${messagesSnapshot.size} mensajes para eliminar`
-            )
 
             if (!messagesSnapshot.empty) {
               const deletePromises = []
 
               messagesSnapshot.forEach((messageDoc) => {
-                console.log(
-                  `Preparando eliminación del mensaje: ${messageDoc.id}`
-                )
                 deletePromises.push(
                   deleteDoc(doc(db, 'messages', messageDoc.id))
                 )
@@ -117,13 +110,10 @@ function CrewList() {
               if (deletePromises.length > 0) {
                 await Promise.all(deletePromises)
                 deletedMessagesCount = deletePromises.length
-                console.log(
-                  `${deletePromises.length} mensajes eliminados correctamente`
-                )
               }
             }
           } catch (msgError) {
-            console.error('Error al eliminar mensajes de rechazo:', msgError)
+            // Error al eliminar mensajes de rechazo
           }
 
           const gamesQuery = query(
@@ -205,7 +195,7 @@ function CrewList() {
         },
       })
     } catch (error) {
-      console.error('Error al aprobar la peña:', error)
+      // Error al aprobar la peña
       showPopup({
         title: t('common.error'),
         text: t(`${viewDictionary}.approveErrorMessage`),
@@ -290,7 +280,7 @@ function CrewList() {
         },
       })
     } catch (error) {
-      console.error('Error al rechazar la peña:', error)
+      // Error al rechazar la peña
       showPopup({
         title: 'Error',
         text: t(`${viewDictionary}.rejectErrorMessage`),
@@ -330,9 +320,9 @@ function CrewList() {
         icon: 'success',
       })
     } catch (error) {
-      console.error('Error al eliminar la crew:', error)
+      // Error al eliminar la crew
       showPopup({
-        title: 'Error',
+        title: t(`${viewDictionary}.deleteErrorTitle`, 'Error'),
         text: t(`${viewDictionary}.deleteErrorMessage`),
         icon: 'error',
       })
@@ -408,7 +398,7 @@ function CrewList() {
         },
       })
     } catch (error) {
-      console.error('Error al cambiar el estado de la peña:', error)
+      // Error al cambiar el estado de la peña
       showPopup({
         title: 'Error',
         text: t(`${viewDictionary}.toggleStatusErrorMessage`),

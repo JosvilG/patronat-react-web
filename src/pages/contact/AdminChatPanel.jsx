@@ -33,16 +33,8 @@ const AdminChatPanel = () => {
   // Verificar si el usuario es administrador
   useEffect(() => {
     if (!authLoading) {
-      console.log('Estado de usuario:', {
-        isAdmin: userData?.role === 'admin',
-        role: userData?.role,
-        uid: user?.uid,
-      })
-
       if (userData?.role !== 'admin') {
-        console.error(
-          'Acceso denegado: Necesitas ser administrador para acceder a este panel'
-        )
+        // Acceso denegado: Necesitas ser administrador para acceder a este panel
       }
     }
   }, [userData, authLoading, user])
@@ -51,7 +43,6 @@ const AdminChatPanel = () => {
   useEffect(() => {
     if (authLoading || userData?.role !== 'admin') return
 
-    console.log('Iniciando carga de chats activos como admin')
     setLoading(true)
 
     try {
@@ -60,34 +51,22 @@ const AdminChatPanel = () => {
         where('isActive', '==', true)
       )
 
-      console.log('Ejecutando consulta de chats activos')
+      const unsubscribe = onSnapshot(chatsQuery, (snapshot) => {
+        const chatsList = []
+        snapshot.forEach((doc) => {
+          chatsList.push({ id: doc.id, ...doc.data() })
 
-      const unsubscribe = onSnapshot(
-        chatsQuery,
-        (snapshot) => {
-          console.log(`Recibidos ${snapshot.docs.length} chats activos`)
+          // Contar mensajes no leídos para este chat
+          fetchUnreadCount(doc.id)
+        })
 
-          const chatsList = []
-          snapshot.forEach((doc) => {
-            chatsList.push({ id: doc.id, ...doc.data() })
-            console.log('Chat encontrado:', doc.id, doc.data().userInfo?.name)
-
-            // Contar mensajes no leídos para este chat
-            fetchUnreadCount(doc.id)
-          })
-
-          setActiveChats(chatsList)
-          setLoading(false)
-        },
-        (error) => {
-          console.error('Error al cargar chats:', error)
-          setLoading(false)
-        }
-      )
+        setActiveChats(chatsList)
+        setLoading(false)
+      })
 
       return () => unsubscribe()
     } catch (error) {
-      console.error('Error al configurar la consulta de chats:', error)
+      // Error al configurar la consulta de chats
       setLoading(false)
     }
   }, [authLoading, userData, user])
@@ -107,10 +86,7 @@ const AdminChatPanel = () => {
         [chatId]: snapshot.size,
       }))
     } catch (error) {
-      console.error(
-        `Error al contar mensajes no leídos para chat ${chatId}:`,
-        error
-      )
+      // Error al contar mensajes no leídos para chat
     }
   }
 
@@ -124,24 +100,17 @@ const AdminChatPanel = () => {
       orderBy('createdAt', 'asc')
     )
 
-    const unsubscribe = onSnapshot(
-      messagesQuery,
-      (snapshot) => {
-        const messagesList = []
-        snapshot.forEach((doc) => {
-          messagesList.push({ id: doc.id, ...doc.data() })
-        })
-        setMessages(messagesList)
-        setLoading(false)
+    const unsubscribe = onSnapshot(messagesQuery, (snapshot) => {
+      const messagesList = []
+      snapshot.forEach((doc) => {
+        messagesList.push({ id: doc.id, ...doc.data() })
+      })
+      setMessages(messagesList)
+      setLoading(false)
 
-        // Marcar mensajes del usuario como leídos al verlos
-        markUserMessagesAsRead(selectedChat.id, messagesList)
-      },
-      (error) => {
-        console.error('Error al cargar mensajes:', error)
-        setLoading(false)
-      }
-    )
+      // Marcar mensajes del usuario como leídos al verlos
+      markUserMessagesAsRead(selectedChat.id, messagesList)
+    })
 
     return () => unsubscribe()
   }, [selectedChat])
@@ -162,7 +131,6 @@ const AdminChatPanel = () => {
 
       if (hasUnreadMessages) {
         await batch.commit()
-        console.log('Mensajes marcados como leídos')
 
         // Actualizar contador de no leídos
         setUnreadCounts((prev) => ({
@@ -171,7 +139,7 @@ const AdminChatPanel = () => {
         }))
       }
     } catch (error) {
-      console.error('Error al marcar mensajes como leídos:', error)
+      // Error al marcar mensajes como leídos
     }
   }
 
@@ -223,7 +191,7 @@ const AdminChatPanel = () => {
 
       setNewMessage('')
     } catch (error) {
-      console.error('Error al enviar mensaje:', error)
+      // Error al enviar mensaje
     }
   }
 
@@ -238,7 +206,7 @@ const AdminChatPanel = () => {
         setSelectedChat(null)
       }
     } catch (error) {
-      console.error('Error al cerrar chat:', error)
+      // Error al cerrar chat
     }
   }
 

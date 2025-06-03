@@ -103,7 +103,6 @@ ${safeMessageText}
       await transporter.sendMail(mailOptions)
       return res.status(200).send({ success: true })
     } catch (error) {
-      console.error('Error al enviar el correo:', error)
       return res
         .status(500)
         .send({ success: false, error: 'Error interno al enviar correo' })
@@ -189,13 +188,11 @@ exports.sendBulkEmails = functions.https.onRequest((req, res) => {
 
     try {
       await transporter.sendMail(mailOptions)
-      console.log(`Correo enviado a ${bccList.length} destinatarios`)
       return res.status(200).send({
         success: true,
         message: `Correo enviado con éxito a ${bccList.length} destinatarios`,
       })
     } catch (error) {
-      console.error('Error al enviar correos masivos:', error)
       return res.status(500).send({
         success: false,
         error: 'Error interno al enviar correos masivos',

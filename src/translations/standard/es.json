@@ -1299,7 +1299,8 @@
       "passwordInput": "Introduce tu contraseña",
       "forgotPassword": "¿Has olvidado tu contraseña?",
       "noAccount": "¿No tienes una cuenta? ",
-      "register": "Regístrate"
+      "register": "Regístrate",
+      "errorLogin": "Error al iniciar sesión. Por favor, verifica tus credenciales e inténtalo de nuevo."
     },
     "recoverPage": {
       "title": "Recuperar contraseña",

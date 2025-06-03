@@ -39,11 +39,9 @@ const GamesDetails = () => {
         if (gameDoc) {
           setGameId(gameDoc.id)
         } else {
-          console.error('Juego no encontrado')
           navigate('/games-list')
         }
       } catch (error) {
-        console.error('Error al buscar juego por slug:', error)
         navigate('/games-list')
       }
     }
@@ -61,7 +59,6 @@ const GamesDetails = () => {
         const gameDoc = await getDoc(doc(db, 'games', gameId))
 
         if (!gameDoc.exists()) {
-          console.error('El juego no existe')
           navigate('/games-list')
           return
         }
@@ -116,7 +113,7 @@ const GamesDetails = () => {
 
         setCrews(crewsWithGameStatus)
       } catch (error) {
-        console.error('Error al cargar el juego:', error)
+        // Error al cargar el juego, navegación o manejo silencioso
       } finally {
         setLoading(false)
       }

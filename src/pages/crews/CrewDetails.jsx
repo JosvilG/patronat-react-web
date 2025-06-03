@@ -42,7 +42,7 @@ const logAction = async (userId, action, details) => {
       timestamp: serverTimestamp(),
     })
   } catch (error) {
-    console.error('Error logging action:', error)
+    // Error logging action
   }
 }
 
@@ -169,11 +169,11 @@ const CrewDetails = () => {
                 })
               }
             } catch (error) {
-              console.error('Error al obtener responsable:', error)
+              // Error al obtener responsable
             }
-          }
 
-          setResponsables(responsablesData)
+            setResponsables(responsablesData)
+          }
         }
 
         try {
@@ -205,10 +205,7 @@ const CrewDetails = () => {
                   })
                 }
               } catch (error) {
-                console.error(
-                  `Error al obtener detalles del juego ${gameDoc.id}:`,
-                  error
-                )
+                // Error al obtener detalles del juego
               }
 
               gamesData.push(gameData)
@@ -239,12 +236,12 @@ const CrewDetails = () => {
             setCrewGames(sortedGames)
           }
         } catch (gameError) {
-          console.error('Error al cargar juegos:', gameError)
+          // Error al cargar juegos
         }
 
         setLoading(false)
       } catch (error) {
-        console.error('Error al cargar datos de la peña:', error)
+        // Error al cargar datos de la peña
         setError('No se pudieron cargar los datos de la peña')
         setLoading(false)
         logAction(user?.uid || 'anonymous', 'error_loading_crew', {
@@ -424,21 +421,18 @@ const CrewDetails = () => {
           onConfirm: () => window.location.reload(),
         })
       } catch (innerError) {
-        console.error('Error en proceso post-aprobación:', innerError)
-
+        // Error en proceso post-aprobación
         await logAction(user.uid, 'crew_post_approval_error', {
           crewId: crew.id,
           error: innerError.message,
         })
       }
     } catch (error) {
-      console.error('Error al aprobar la peña:', error)
-
+      // Error al aprobar la peña
       await logAction(user.uid, 'crew_approval_failed', {
         crewId: crew.id,
         error: error.message,
       })
-
       showPopup({
         title: 'Error',
         text: 'No se pudo aprobar la peña. Por favor, inténtalo de nuevo.',
@@ -561,13 +555,11 @@ const CrewDetails = () => {
               icon: 'info',
             })
           } catch (error) {
-            console.error('Error al rechazar la peña:', error)
-
+            // Error al rechazar la peña
             await logAction(user.uid, 'crew_rejection_failed', {
               crewId: crew.id,
               error: error.message,
             })
-
             showPopup({
               title: t(`${viewDictionary}.errorTitle`, 'Error'),
               text: t(
@@ -582,7 +574,7 @@ const CrewDetails = () => {
         },
       })
     } catch (error) {
-      console.error('Error al preparar rechazo:', error)
+      // Error al preparar rechazo
       showPopup({
         title: t(`${viewDictionary}.errorTitle`, 'Error'),
         text: t(

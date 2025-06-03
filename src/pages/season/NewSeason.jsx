@@ -36,7 +36,7 @@ export const formatDate = (dateValue) => {
       return new Date(dateValue).toLocaleDateString()
     }
   } catch (error) {
-    console.error('Error formateando fecha:', error)
+    // Manejo silencioso para producción
   }
 
   return ''
@@ -66,7 +66,7 @@ const calculateAge = (birthDate) => {
 
     return age
   } catch (error) {
-    console.error('Error calculando edad:', error)
+    // Manejo silencioso para producción
     return null
   }
 }
@@ -144,7 +144,7 @@ function NewSeason() {
       const querySnapshot = await getDocs(seasonYearQuery)
       return !querySnapshot.empty
     } catch (error) {
-      log.error('Error al comprobar años de temporada existentes:', error)
+      // Manejo silencioso para producción
       return false
     }
   }
@@ -209,7 +209,7 @@ function NewSeason() {
           )
         }
       } catch (error) {
-        console.error('Error al verificar año:', error)
+        // Manejo silencioso para producción
       } finally {
         setCheckingYear(false)
       }
@@ -371,7 +371,7 @@ function NewSeason() {
         })
         log.info('Nueva temporada creada con ID:', newSeasonDocRef.id)
       } catch (addError) {
-        log.error('Error al crear nueva temporada:', addError)
+        // Manejo silencioso para producción
         throw new Error(
           t(
             `${viewDictionary}.errorPopup.createSeasonError`,
@@ -390,7 +390,7 @@ function NewSeason() {
         approvedPartnersSnapshot = await getDocs(approvedPartnersQuery)
         log.info('Socios aprobados encontrados:', approvedPartnersSnapshot.size)
       } catch (queryError) {
-        log.error('Error al consultar socios aprobados:', queryError)
+        // Manejo silencioso para producción
         throw new Error(
           'Error al consultar socios aprobados: ' + queryError.message
         )
@@ -464,7 +464,7 @@ function NewSeason() {
                 skippedCount++
               }
             } catch (error) {
-              log.error(`Error procesando pago para socio ${partnerId}:`, error)
+              // Manejo silencioso para producción
               throw error
             }
           }
@@ -515,8 +515,6 @@ function NewSeason() {
       navigate('/dashboard')
       resetForm()
     } catch (error) {
-      log.error('Error general en el proceso:', error)
-
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
         text:
