@@ -26,7 +26,7 @@ const RecoverPassword = () => {
 
     const auth = getAuth()
     const actionCodeSettings = {
-      url: `${window.location.origin}/reset-password`,
+      url: `${process.env.REACT_APP_PASSWORD_RESET_URL || window.location.origin}/reset-password`,
       handleCodeInApp: true,
     }
 
@@ -55,18 +55,16 @@ const RecoverPassword = () => {
 
   return (
     <div className="grid items-center min-h-dvh mx-auto bg-center bg-cover md:grid-cols-3 sm:grid-cols-1 justify-items-center px-[4%] sm:px-[5%] lg:px-[6%]">
-      <div className="sm:mb-[50%] relative z-10 rounded-lg p-[5%] sm:p-[4%] grid-col-3 w-fit sm:translate-y-[-10vh] md:translate-y-0">
-        <div className="mx-auto text-center">
-          <h1 className="text-black t40b sm:t64b">
-            {t('pages.recoverPage.title')}
-          </h1>
-          <p className="mt-[3vh] text-black t16r whitespace-break-spaces max-w-full sm:max-w-none pb-[4vh] sm:pb-[2vh]">
+      <div className="sm:mb-[50%] relative z-10 rounded-lg md:p-[5%] sm:p-[4%] p-[6%] grid-col-3 w-fit sm:translate-y-[-10vh] md:translate-y-0">
+        <div className="max-w-lg mx-auto text-center">
+          <h1 className="text-black t40b">{t('pages.recoverPage.title')}</h1>
+          <p className="mt-[3vh] text-black t16r whitespace-break-spaces">
             {t('pages.recoverPage.description')}
           </p>
         </div>
         <form
           onSubmit={handleSubmit}
-          className="flex flex-col items-center w-full gap-[3vh]"
+          className="max-w-md mx-auto mt-[5vh] mb-0 space-y-[3vh] flex flex-col items-center sm:items-stretch"
         >
           <DynamicInput
             name="email"
@@ -77,13 +75,15 @@ const RecoverPassword = () => {
             required
           />
 
-          <DynamicButton
-            size="medium"
-            state={loading ? 'disabled' : 'normal'}
-            textId={t('components.buttons.recover')}
-            type="submit"
-            disabled={loading}
-          />
+          <div className="flex flex-row items-center justify-center">
+            <DynamicButton
+              size="medium"
+              state={loading ? 'disabled' : 'normal'}
+              textId={t('components.buttons.recover')}
+              type="submit"
+              disabled={loading}
+            />
+          </div>
         </form>
       </div>
 
@@ -107,7 +107,7 @@ const RecoverPassword = () => {
                 object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 
                 lg:w-[80%] mg:w-[90%] sm:w-full h-full
                 transition-opacity duration-1000 ease-in-out
-                ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+                ${imageLoaded ? 'opacity-50' : 'opacity-0'}
               `}
               onLoad={handleImageLoad}
               onError={handleImageError}
@@ -120,7 +120,7 @@ const RecoverPassword = () => {
               initial={{ scale: 1.02 }}
               animate={{
                 scale: 1.02,
-                opacity: imageLoaded ? 1 : 0,
+                opacity: imageLoaded ? 0.5 : 0,
               }}
               transition={{
                 opacity: { duration: 0.8, ease: 'easeInOut' },

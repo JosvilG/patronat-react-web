@@ -1475,7 +1475,8 @@
       "infoTitle": "INFO",
       "warningTitle": "CUIDADO",
       "goToEventButton": "Ir al evento",
-      "recoverSuccess": "Correo enviado correctamente"
+      "recoverSuccess": "Correo enviado correctamente",
+      "passwordResetSuccess": "Contraseña restablecida correctamente"
     },
     "buttons": {
       "accept": "Aceptar",

@@ -88,9 +88,7 @@ const FullEventsPage = () => {
 
       {filteredEvents.length === 0 && (
         <div className="w-full text-center py-[5vh]">
-          <p className="text-gray-500">
-            No se encontraron eventos que coincidan con tu búsqueda.
-          </p>
+          <p className="t16r">{t(`${viewDictionary}.noEvents`)}</p>
         </div>
       )}
     </div>

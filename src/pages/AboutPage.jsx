@@ -73,7 +73,7 @@ function AboutPage() {
         )}
 
         {!loading && !error && staffMembers.length === 0 && (
-          <p className="text-center sm:t24r t16r">
+          <p className="text-center t16r">
             {t(
               `${viewDictionary}.noStaffMembers`,
               'No se encontraron miembros del staff.'

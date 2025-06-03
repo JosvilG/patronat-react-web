@@ -148,8 +148,8 @@ const GalleryPage = () => {
           ))
         ) : (
           // No results message when filtered items are empty
-          <div className="col-span-3 py-[3vh] text-center text-gray-500">
-            <p className="t24b">{t(`${viewDictionary}.noImagesFound`)}</p>
+          <div className="col-span-3 py-[3vh] text-center">
+            <p className="t16r">{t(`${viewDictionary}.noImagesFound`)}</p>
           </div>
         )}
       </div>

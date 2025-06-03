@@ -54,6 +54,7 @@
         "roleMember": "Membre",
         "roleResponsable": "Responsable",
         "responsables": "Responsables",
+        "noUpcomingGames": "No hi ha proves programades",
         "noResponsables": "No hi ha responsables assignats",
         "members": "Membres",
         "noMembers": "Aquesta colla no té membres",
@@ -1475,7 +1476,8 @@
       "infoTitle": "INFO",
       "warningTitle": "AVÍS",
       "goToEventButton": "Anar a l'esdeveniment",
-      "recoverSuccess": "Correu enviat correctament"
+      "recoverSuccess": "Correu enviat correctament",
+      "passwordResetSuccess": "Contrasenya modificada correctament"
     },
     "buttons": {
       "accept": "Acceptar",

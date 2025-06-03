@@ -73,16 +73,21 @@ function LoginPage() {
             required
           />
 
-          <div className="flex items-center justify-between w-full mt-0">
+          <div className="flex items-center justify-between w-full !mt-0">
             <p className="text-black">
               <Link className="t12s" to="/recover-password">
                 {t('pages.login.forgotPassword')}
               </Link>
             </p>
           </div>
-          <DynamicButton size="medium" state="normal" type="submit">
-            {t('components.buttons.login')}
-          </DynamicButton>
+          <div className="flex flex-row items-center justify-center">
+            <DynamicButton
+              size="medium"
+              state="normal"
+              type="submit"
+              textId={t('components.buttons.login')}
+            ></DynamicButton>
+          </div>
         </form>
 
         <div className="flex items-center justify-center mt-[3vh]">
@@ -114,7 +119,7 @@ function LoginPage() {
                 object-cover max-sm:absolute -z-10 max-sm:top-0 max-sm:right-0 max-sm:opacity-10 
                 lg:w-[80%] mg:w-[90%] sm:w-full h-full
                 transition-opacity duration-1000 ease-in-out
-                ${imageLoaded ? 'opacity-100' : 'opacity-0'}
+                ${imageLoaded ? 'opacity-50' : 'opacity-0'}
               `}
               onLoad={handleImageLoad}
               onError={handleImageError}
@@ -127,7 +132,7 @@ function LoginPage() {
               initial={{ scale: 1.02 }}
               animate={{
                 scale: 1.02,
-                opacity: imageLoaded ? 1 : 0,
+                opacity: imageLoaded ? 0.5 : 0,
               }}
               transition={{
                 opacity: { duration: 0.8, ease: 'easeInOut' },
