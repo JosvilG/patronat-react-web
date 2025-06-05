@@ -1,21 +1,16 @@
 {
   "short_name": "Web Patronat",
-  "name": "Web Patronat Festes de Roquetes",
+  "name": "Web del Patronat Festes de Roquetes",
   "icons": [
-    {
-      "src": "favicon.webp",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
     {
       "src": "./../src/assets/logos/Patronat_color_256x256.webp",
       "type": "image/webp",
       "sizes": "256x256"
     },
     {
-      "src": "./../src/assets/logos/Patronat_color_512x512.webp",
+      "src": "./../src/assets/logos/Patronat_color_1024x1024.webp",
       "type": "image/webp",
-      "sizes": "512x512"
+      "sizes": "1024x1024"
     }
   ],
   "start_url": ".",
