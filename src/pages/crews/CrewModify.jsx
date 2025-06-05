@@ -17,7 +17,6 @@ import { showPopup } from '../../services/popupService'
 
 function CrewModify() {
   const { t } = useTranslation()
-  const viewDictionary = 'pages.crew.modifyCrew'
   const navigate = useNavigate()
   const location = useLocation()
   const { slug } = useParams()
@@ -25,6 +24,7 @@ function CrewModify() {
   const { user, userData, loading: authLoading } = useContext(AuthContext)
   const { users, loading: usersLoading } = useFetchUsers()
   const { generateSlug, slugToTitle } = useSlug()
+  const viewDictionary = 'pages.crew.modifyCrew'
 
   const [crewData, setCrewData] = useState({
     title: '',
@@ -49,8 +49,8 @@ function CrewModify() {
     const fetchCrew = async () => {
       if (!crewId) {
         showPopup({
-          title: 'Error',
-          text: 'No se encontró el ID de la peña',
+          title: t(`${viewDictionary}.errorPopup.title`),
+          text: t(`${viewDictionary}.errorPopup.idErrorMessage`),
           icon: 'error',
           onConfirm: () => navigate('/crews'),
         })
@@ -78,10 +78,11 @@ function CrewModify() {
             userData?.role !== 'admin'
           ) {
             showPopup({
-              title: 'Acceso denegado',
-              text: 'Solo los responsables y administradores pueden editar esta peña',
+              title: t(`${viewDictionary}.accessDeniedTitle`),
+              text: t(`${viewDictionary}.accessDeniedText`),
               icon: 'error',
-              confirmButtonText: 'Entendido',
+              confirmButtonText: t(`${viewDictionary}.confirmButton`),
+              confirmButtonColor: '#a3a3a3',
               onConfirm: () => navigate('/crews'),
             })
             return
@@ -95,7 +96,6 @@ function CrewModify() {
           navigate('/crews')
         }
       } catch (error) {
-        // Error al obtener la crew
         navigate('/crews')
       } finally {
         setLoading(false)
@@ -182,7 +182,8 @@ function CrewModify() {
         title: t(`${viewDictionary}.successPopup.title`),
         text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: 'Aceptar',
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
         onConfirm: () => {
           userData?.role === 'admin'
             ? navigate('/crews-list')
@@ -190,21 +191,19 @@ function CrewModify() {
         },
       })
     } catch (error) {
-      let errorMessage =
-        'Hubo un error al actualizar la crew. Por favor, intenta nuevamente.'
+      let errorMessage = t(`${viewDictionary}.errorMessages.default`)
       if (error.code === 'unavailable') {
-        errorMessage =
-          'No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.'
+        errorMessage = t(`${viewDictionary}.errorMessages.unavailable`)
       } else if (error.code === 'permission-denied') {
-        errorMessage =
-          'No tienes permisos suficientes para modificar esta crew.'
+        errorMessage = t(`${viewDictionary}.errorMessages.permission-denied`)
       }
 
       showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
         text: t(`${viewDictionary}.errorPopup.text \n`, { errorMessage }),
         icon: 'error',
-        confirmButtonText: 'Cerrar',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setSubmitting(false)
@@ -285,7 +284,7 @@ function CrewModify() {
                     icon: (
                       <button
                         type="button"
-                        className="p-[0.5rem]" // Área de toque ampliada
+                        className="p-[0.5rem]"
                         onClick={() => addResponsableToCrew(u.id)}
                       >
                         <AddIcon fontSize="small" />
@@ -314,7 +313,7 @@ function CrewModify() {
                             icon: (
                               <button
                                 type="button"
-                                className="p-[0.5rem]" // Área de toque ampliada
+                                className="p-[0.5rem]"
                                 onClick={() =>
                                   removeResponsableFromCrew(responsableId)
                                 }
@@ -355,7 +354,7 @@ function CrewModify() {
                     icon: (
                       <button
                         type="button"
-                        className="p-[0.5rem]" // Área de toque ampliada
+                        className="p-[0.5rem]"
                         onClick={() => addMemberToCrew(u.name)}
                       >
                         <AddIcon fontSize="small" />
@@ -379,7 +378,7 @@ function CrewModify() {
                       icon: (
                         <button
                           type="button"
-                          className="p-[0.5rem]" // Área de toque ampliada
+                          className="p-[0.5rem]"
                           onClick={() => removeMemberFromCrew(memberName)}
                         >
                           <DeleteIcon fontSize="small" />
@@ -403,7 +402,7 @@ function CrewModify() {
             onClick={handleCancel}
             size="small"
             state="normal"
-            textId="components.buttons.cancel"
+            textId={t('components.buttons.cancel')}
             className="mr-4"
           />
 

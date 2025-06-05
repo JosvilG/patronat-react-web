@@ -21,12 +21,11 @@ const LiveChat = () => {
   const [messages, setMessages] = useState([])
   const [newMessage, setNewMessage] = useState('')
   const { t } = useTranslation()
-  const viewDictionary = 'pages.contact.liveChat'
   const [isOpen, setIsOpen] = useState(false)
   const [chatId, setChatId] = useState(null)
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef(null)
-
+  const viewDictionary = 'pages.contact.liveChat'
   const userId = user ? user.uid : null
   const userInfo = user
     ? {
@@ -91,9 +90,7 @@ const LiveChat = () => {
 
   useEffect(() => {
     if (!isOpen || !chatId) return
-
     setLoading(true)
-
     const messagesQuery = query(
       collection(db, `chats/${chatId}/messages`),
       orderBy('createdAt', 'asc')
@@ -128,7 +125,6 @@ const LiveChat = () => {
         createdAt: serverTimestamp(),
         isRead: false,
       })
-
       setNewMessage('')
     } catch (error) {
       // Error al enviar mensaje
@@ -192,7 +188,6 @@ const LiveChat = () => {
     setNewMessage(e.target.value)
   }
 
-  // Si el usuario es administrador, no mostrar nada pero después de declarar todos los hooks
   if (userData?.role === 'admin') {
     return null
   }
@@ -226,14 +221,14 @@ const LiveChat = () => {
                 state="normal"
                 type="personAdd"
                 onClick={navigateToRegister}
-                textId="common.register"
+                textId={t('common.register')}
               />
 
               <DynamicButton
                 size="small"
                 state="highlighted"
                 onClick={navigateToLogin}
-                textId="common.login"
+                textId={t('common.login')}
               />
             </div>
           </div>
@@ -249,7 +244,6 @@ const LiveChat = () => {
               state="normal"
               type="cancel"
               onClick={toggleChat}
-              className="!bg-transparent !w-auto !h-auto"
               aria-label="Cerrar chat"
             />
           </div>

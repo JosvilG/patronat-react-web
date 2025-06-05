@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useParams, useLocation } from 'react-router-dom'
-import log from 'loglevel'
 import { AuthContext } from '../contexts/AuthContext'
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { db } from '../firebase/firebase'
@@ -28,17 +27,14 @@ function ProfilePage() {
     const fetchUserData = async () => {
       setLoading(true)
       try {
-        // Si tenemos el userId del state, lo usamos directamente
         if (userId) {
           const userDoc = await getDoc(doc(db, 'users', userId))
           if (userDoc.exists()) {
             setProfileData({ id: userDoc.id, ...userDoc.data() })
           } else {
-            setError('Usuario no encontrado')
+            setError(t(`${viewDictionary}.errorMessage.userNotFound`))
           }
-        }
-        // Si no tenemos userId pero sí un slug, buscamos por slug
-        else if (slug) {
+        } else if (slug) {
           const usersSnapshot = await getDocs(collection(db, 'users'))
           let found = false
 
@@ -56,16 +52,13 @@ function ProfilePage() {
           }
 
           if (!found) {
-            setError('Usuario no encontrado')
+            setError(t(`${viewDictionary}.errorMessage.userNotFound`))
           }
-        }
-        // Sin userId ni slug, usamos el usuario autenticado
-        else {
+        } else {
           setProfileData(authUserData)
         }
       } catch (err) {
-        log.error('Error al cargar datos del perfil:', err)
-        setError('No se pudieron cargar los datos del usuario')
+        setError(t(`${viewDictionary}.errorMessage.userLoadingError`))
       } finally {
         setLoading(false)
       }
@@ -75,12 +68,7 @@ function ProfilePage() {
   }, [slug, userId, authUserData, authLoading])
 
   if (loading || authLoading) {
-    return (
-      <Loader
-        loading={true}
-        text={t(`${viewDictionary}.loading`, 'Cargando perfil de usuario...')}
-      />
-    )
+    return <Loader loading={true} text={t(`${viewDictionary}.loading`)} />
   }
 
   if (error) {
@@ -96,7 +84,7 @@ function ProfilePage() {
   return (
     <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
-        {t(`${viewDictionary}.title`, 'Perfil de Usuario')}
+        {t(`${viewDictionary}.title`)}
       </h1>
 
       {userData ? (
@@ -104,111 +92,82 @@ function ProfilePage() {
           <div className="grid grid-cols-1 gap-[4vh] md:grid-cols-2">
             <div>
               <h2 className="mb-[2vh] t24b">
-                {t(
-                  `${viewDictionary}.personalInformation.title`,
-                  'Información Personal'
-                )}
+                {t(`${viewDictionary}.personalInformation.title`)}
               </h2>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(`${viewDictionary}.personalInformation.name`, 'Nombre:')}
-                </span>{' '}
+                  {t(`${viewDictionary}.personalInformation.name`)}
+                </span>
                 {userData.firstName} {userData.lastName}
               </p>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(
-                    `${viewDictionary}.personalInformation.email`,
-                    'Correo Electrónico:'
-                  )}
-                </span>{' '}
+                  {t(`${viewDictionary}.personalInformation.email`)}
+                </span>
                 {userData.email}
               </p>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(`${viewDictionary}.personalInformation.dni`, 'DNI:')}
-                </span>{' '}
+                  {t(`${viewDictionary}.personalInformation.dni`)}
+                </span>
                 {userData.dni}
               </p>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(
-                    `${viewDictionary}.personalInformation.phoneNumber`,
-                    'Teléfono:'
-                  )}
-                </span>{' '}
+                  {t(`${viewDictionary}.personalInformation.phone`)}
+                </span>
                 {userData.phoneNumber}
               </p>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(
-                    `${viewDictionary}.personalInformation.birthDate`,
-                    'Fecha de Nacimiento:'
-                  )}
-                </span>{' '}
+                  {t(`${viewDictionary}.personalInformation.birthDate`)}
+                </span>
                 {userData.birthDate}
               </p>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(`${viewDictionary}.personalInformation.age`, 'Edad:')}
-                </span>{' '}
-                {userData.age} años
+                  {t(`${viewDictionary}.personalInformation.age`, {
+                    age: userData.age,
+                  })}
+                </span>
               </p>
             </div>
 
             {userData.isStaff && (
               <div>
                 <h2 className="mb-[2vh] t24b">
-                  {t(
-                    `${viewDictionary}.staffInformation.title`,
-                    'Información de Staff'
-                  )}
+                  {t(`${viewDictionary}.staffInformation.title`)}
                 </h2>
                 <p className="mb-[1vh] t16r">
                   <span className="font-bold">
-                    {t(
-                      `${viewDictionary}.staffInformation.position`,
-                      'Posición:'
-                    )}
-                  </span>{' '}
+                    {t(`${viewDictionary}.staffInformation.position`)}
+                  </span>
                   {userData.position}
                 </p>
                 <p className="mb-[1vh] t16r">
                   <span className="font-bold">
-                    {t(
-                      `${viewDictionary}.staffInformation.startDate`,
-                      'Fecha de Incorporación:'
-                    )}
-                  </span>{' '}
+                    {t(`${viewDictionary}.staffInformation.startDate`)}
+                  </span>
                   {userData.startDate}
                 </p>
                 {userData.endDate && (
                   <p className="mb-[1vh] t16r">
                     <span className="font-bold">
-                      {t(
-                        `${viewDictionary}.staffInformation.endDate`,
-                        'Fecha de Finalización:'
-                      )}
-                    </span>{' '}
+                      {t(`${viewDictionary}.staffInformation.endDate`)}
+                    </span>
                     {userData.endDate}
                   </p>
                 )}
                 <p className="mb-[1vh] t16r">
                   <span className="font-bold">
-                    {t(
-                      `${viewDictionary}.staffInformation.description`,
-                      'Descripción:'
-                    )}
-                  </span>{' '}
+                    {t(`${viewDictionary}.staffInformation.description`)}
+                  </span>
                   {userData.description}
                 </p>
                 {userData.documentUrl && (
                   <div className="mt-[2vh]">
                     <p className="mb-[1vh] font-bold t16r">
-                      {t(
-                        `${viewDictionary}.staffInformation.document`,
-                        'Documento:'
-                      )}
+                      {t(`${viewDictionary}.staffInformation.document`)}
                     </p>
                     <DynamicButton
                       size="medium"
@@ -228,18 +187,12 @@ function ProfilePage() {
           {userData.preferredLanguage && (
             <div className="mt-[3vh]">
               <h2 className="mb-[2vh] t24b">
-                {t(
-                  `${viewDictionary}.preferences.title`,
-                  'Preferencias de Usuario'
-                )}
+                {t(`${viewDictionary}.preferences.title`)}
               </h2>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(
-                    `${viewDictionary}.preferences.language`,
-                    'Idioma preferido:'
-                  )}
-                </span>{' '}
+                  {t(`${viewDictionary}.preferences.language`)}
+                </span>
                 {userData.preferredLanguage === 'es'
                   ? 'Español'
                   : userData.preferredLanguage === 'cat'
@@ -248,14 +201,11 @@ function ProfilePage() {
               </p>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
-                  {t(
-                    `${viewDictionary}.preferences.notifications`,
-                    'Notificaciones por correo:'
-                  )}
-                </span>{' '}
+                  {t(`${viewDictionary}.preferences.notifications`)}
+                </span>
                 {userData.emailNotifications
-                  ? t(`${viewDictionary}.preferences.enabled`, 'Activadas')
-                  : t(`${viewDictionary}.preferences.disabled`, 'Desactivadas')}
+                  ? t(`${viewDictionary}.preferences.enabled`)
+                  : t(`${viewDictionary}.preferences.disabled`)}
               </p>
             </div>
           )}
@@ -263,22 +213,14 @@ function ProfilePage() {
           {userData.createdAt && (
             <p className="mt-[3vh] text-sm text-gray-500">
               <span className="font-bold">
-                {t(
-                  `${viewDictionary}.accountInformation.registrationDate`,
-                  'Fecha de Registro:'
-                )}
-              </span>{' '}
+                {t(`${viewDictionary}.accountInformation.registrationDate`)}
+              </span>
               {new Date(userData.createdAt.seconds * 1000).toLocaleDateString()}
             </p>
           )}
         </div>
       ) : (
-        <p>
-          {t(
-            `${viewDictionary}.notFound`,
-            'No se encontraron datos del usuario.'
-          )}
-        </p>
+        <p>{t(`${viewDictionary}.notFound`)}</p>
       )}
     </div>
   )

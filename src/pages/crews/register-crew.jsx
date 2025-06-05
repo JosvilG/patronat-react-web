@@ -24,24 +24,24 @@ function RegisterCrew() {
     title: t(`${viewDictionary}.errorPopup.title`),
     text: t(`${viewDictionary}.errorPopup.text`),
     icon: 'error',
-    confirmButtonText: t('components.popup.closeButtonText'),
-    confirmButtonColor: '#3085d6',
+    confirmButtonText: t('components.buttons.cancel'),
+    confirmButtonColor: '#a3a3a3',
   }
 
   const registerCrewPopupContext = {
     title: t(`${viewDictionary}.successPopup.title`),
     text: t(`${viewDictionary}.successPopup.text`),
     icon: 'success',
-    confirmButtonText: t('components.popup.confirmButtonText'),
-    confirmButtonColor: '#3085d6',
+    confirmButtonText: t('components.buttons.confirm'),
+    confirmButtonColor: '#8be484',
   }
 
   const alreadyResponsablePopupContext = {
     title: t(`${viewDictionary}.alreadyResponsablePopup.title`),
     text: t(`${viewDictionary}.alreadyResponsablePopup.text`),
     icon: 'warning',
-    confirmButtonText: t('components.popup.closeButtonText'),
-    confirmButtonColor: '#3085d6',
+    confirmButtonText: t('components.buttons.cancel'),
+    confirmButtonColor: '#8be484',
   }
 
   const {
@@ -124,7 +124,6 @@ function RegisterCrew() {
       try {
         setCheckingResponsableStatus(true)
 
-        // Cambiar esta línea para usar userData.role
         if (userData?.role === 'admin') {
           setIsAlreadyResponsable(false)
           setCheckingResponsableStatus(false)
@@ -147,7 +146,7 @@ function RegisterCrew() {
     }
 
     checkResponsableStatus()
-  }, [user, userData]) // Agregar userData a las dependencias
+  }, [user, userData])
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -189,7 +188,6 @@ function RegisterCrew() {
       return
     }
 
-    // Cambiar esta condición también
     if (isAlreadyResponsable && userData?.role !== 'admin') {
       showPopup(alreadyResponsablePopupContext)
       return
@@ -223,7 +221,6 @@ function RegisterCrew() {
     )
   }
 
-  // Si ya es responsable y NO es administrador, mostrar mensaje
   if (isAlreadyResponsable && userData?.role !== 'admin') {
     return (
       <div className="container px-3 py-4 mx-auto sm:py-8 md:py-16 sm:px-4">

@@ -106,7 +106,6 @@ function UserHistory() {
         updateItems(changesData)
         setPage(1)
       } catch (err) {
-        log.error('Error al cargar el historial de cambios:', err)
         setError(t(`${viewDictionary}.chargeHistoryFailure`))
       } finally {
         setLoading(false)
@@ -132,7 +131,6 @@ function UserHistory() {
   }
 
   const formatFieldChange = (field, change) => {
-    // Considerar password como dato sensible siempre
     if (
       field === 'password' ||
       field.toLowerCase().includes('password') ||
@@ -140,7 +138,7 @@ function UserHistory() {
     ) {
       return (
         <span className="italic text-gray-500">
-          {t(`${viewDictionary}.protectedData`, 'Datos protegidos')}
+          {t(`${viewDictionary}.protectedData`)}
         </span>
       )
     }
@@ -149,13 +147,13 @@ function UserHistory() {
       if (value === null || value === undefined)
         return (
           <span className="italic text-gray-500">
-            {t(`${viewDictionary}.noValue`, 'Sin valor')}
+            {t(`${viewDictionary}.noValue`)}
           </span>
         )
       if (value === '')
         return (
           <span className="italic text-gray-500">
-            {t(`${viewDictionary}.emptyString`, 'Cadena vacía')}
+            {t(`${viewDictionary}.emptyString`)}
           </span>
         )
       if (typeof value === 'object') return JSON.stringify(value)

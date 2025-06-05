@@ -49,7 +49,8 @@ function CollaboratorRegisterForm() {
           title: t(`${viewDictionary}.errorPopup.title`),
           text: validationError,
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t(`components.buttons.confirm`),
+          confirmButtonColor: '#a3a3a3',
         })
         setFormState((prev) => ({ ...prev, file: null, newImageUrl: null }))
         return
@@ -83,7 +84,8 @@ function CollaboratorRegisterForm() {
             title: t(`${viewDictionary}.errorPopup.title`),
             text: t(`${viewDictionary}.errorPopup.text`),
             icon: 'error',
-            confirmButtonText: t('components.popup.confirmButtonText'),
+            confirmButtonText: t(`components.buttons.confirm`),
+            confirmButtonColor: '#a3a3a3',
           })
           setFormState((prev) => ({ ...prev, uploading: false }))
           reject(error)
@@ -107,7 +109,8 @@ function CollaboratorRegisterForm() {
           title: t(`${viewDictionary}.errorPopup.title`),
           text: validationError,
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t(`components.buttons.confirm`),
+          confirmButtonColor: '#a3a3a3',
         })
         setFormState((prev) => ({ ...prev, submitting: false }))
         return
@@ -118,7 +121,8 @@ function CollaboratorRegisterForm() {
           title: t(`${viewDictionary}.errorPopup.title`),
           text: t(`${viewDictionary}.authError`),
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t(`components.buttons.confirm`),
+          confirmButtonColor: '#a3a3a3',
         })
         setFormState((prev) => ({ ...prev, submitting: false }))
         return
@@ -137,7 +141,8 @@ function CollaboratorRegisterForm() {
           title: t(`${viewDictionary}.successPopup.title`),
           text: t(`${viewDictionary}.successPopup.text`),
           icon: 'success',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t(`components.buttons.confirm`),
+          confirmButtonColor: '#8be484',
         })
 
         navigate('/dashboard')

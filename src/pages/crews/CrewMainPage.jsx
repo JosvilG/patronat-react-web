@@ -21,7 +21,6 @@ import PaginationControl from '../../components/Pagination'
 
 function CrewMainPage() {
   const { t } = useTranslation()
-  const viewDictionary = 'pages.crew.mainPage'
   const navigate = useNavigate()
   const { user, userData, loading: authLoading } = useContext(AuthContext)
   const { users, loading: usersLoading } = useFetchUsers()
@@ -36,6 +35,7 @@ function CrewMainPage() {
   const [upcomingGames, setUpcomingGames] = useState([])
   const [loadingGames, setLoadingGames] = useState(true)
   const [currentGamePage, setCurrentGamePage] = useState(1)
+  const viewDictionary = 'pages.crew.mainPage'
   const gamesPerPage = 3
 
   const [crewMessages, setCrewMessages] = useState({})
@@ -189,7 +189,6 @@ function CrewMainPage() {
         setCrewsRanking(crewsWithPoints)
         setRankingLoading(false)
       } catch (error) {
-        // Error al obtener ranking de peñas
         setRankingLoading(false)
       }
     }
@@ -209,7 +208,7 @@ function CrewMainPage() {
     userCrews.forEach((crew) => {
       if (crew.responsable && Array.isArray(crew.responsable)) {
         responsableMap[crew.id] = crew.responsable
-          .map((id) => userMap[id] || t('common.unknownUser'))
+          .map((id) => userMap[id] || t(`${viewDictionary}.unknownUser`))
           .filter(Boolean)
       }
     })
@@ -439,7 +438,7 @@ function CrewMainPage() {
 
       <div className="mb-[6vh]">
         <h2 className="mb-[3vh] text-2xl font-bold text-center">
-          {t(`${viewDictionary}.upcomingGamesTitle`, 'Próximas Pruebas')}
+          {t(`${viewDictionary}.upcomingGamesTitle`)}
         </h2>
 
         {loadingGames ? (
@@ -455,8 +454,7 @@ function CrewMainPage() {
                   className="relative p-[5%] transition-all duration-300 overflow-hidden bg-white bg-opacity-75 rounded-lg sm:rounded-xl md:rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg hover:shadow-xl"
                 >
                   <div className="absolute top-0 right-0 px-[0.75rem] py-[0.25rem] text-sm font-medium text-white bg-green-500 rounded-bl-lg">
-                    {game.season ||
-                      t(`${viewDictionary}.noSeason`, 'Sin temporada')}
+                    {game.season || t(`${viewDictionary}.noSeason`)}
                   </div>
 
                   <h3 className="mb-[0.75rem] text-xl font-bold truncate">
@@ -527,11 +525,8 @@ function CrewMainPage() {
                           <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                         </svg>
                         <span>
-                          {t(
-                            `${viewDictionary}.minParticipants`,
-                            'Mín. participantes'
-                          )}{' '}
-                          : {game.minParticipants}
+                          {t(`${viewDictionary}.minParticipants`)} :{' '}
+                          {game.minParticipants}
                         </span>
                       </div>
                     )}
@@ -576,12 +571,7 @@ function CrewMainPage() {
           </div>
         ) : (
           <div className="p-[5%] text-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-lg sm:rounded-xl md:rounded-2xl">
-            <p className="t18r">
-              {t(
-                `${viewDictionary}.noUpcomingGames`,
-                'No hay próximas pruebas programadas'
-              )}
-            </p>
+            <p className="t18r">{t(`${viewDictionary}.noUpcomingGames`)}</p>
           </div>
         )}
       </div>
@@ -591,6 +581,10 @@ function CrewMainPage() {
           <div className="flex items-center justify-center h-[30vh] sm:h-[20vh]">
             <Loader loading={true} />
           </div>
+        ) : seasons.length === 0 ? (
+          <div className="backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-lg sm:rounded-xl md:rounded-2xl p-[5%] text-center">
+            <p className="t18r">{t(`${viewDictionary}.noSeasons`)}</p>
+          </div>
         ) : (
           <div
             className="backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-lg sm:rounded-xl md:rounded-2xl p-[5%]"
@@ -598,8 +592,7 @@ function CrewMainPage() {
           >
             <div className="flex flex-col sm:flex-row justify-between mb-[1rem] sm:items-center">
               <h3 className="mb-[1rem] sm:mb-0 t24b">
-                {t(`${viewDictionary}.rankingSubtitle`, 'Clasificación')} -{' '}
-                {selectedSeason}
+                {t(`${viewDictionary}.rankingSubtitle`)} - {selectedSeason}
               </h3>
               <div className="w-full sm:w-auto">
                 <DynamicInput
@@ -619,26 +612,22 @@ function CrewMainPage() {
 
             {sortedCrews.length > 0 ? (
               <>
-                {/* Vista de tabla para pantallas sm y superiores */}
                 <div className="relative hidden w-full overflow-x-auto sm:block">
                   <table className="w-full border-collapse min-w-[600px]">
                     <thead>
                       <tr className="text-left border-b-2 border-gray-200">
                         <th className="px-[1rem] py-[0.75rem] t16b">#</th>
                         <th className="px-[1rem] py-[0.75rem] t16b">
-                          {t(`${viewDictionary}.crew`, 'Peña')}
+                          {t(`${viewDictionary}.crew`)}
                         </th>
                         <th className="px-[1rem] py-[0.75rem] text-center t16b">
-                          {t(`${viewDictionary}.points`, 'Puntos')}
+                          {t(`${viewDictionary}.points`)}
                         </th>
                         <th className="px-[1rem] py-[0.75rem] text-center t16b">
-                          {t(`${viewDictionary}.played`, 'Juegos')}
+                          {t(`${viewDictionary}.played`)}
                         </th>
                         <th className="px-[1rem] py-[0.75rem] text-center t16b">
-                          {t(
-                            `${viewDictionary}.participation`,
-                            'Participación'
-                          )}
+                          {t(`${viewDictionary}.participation`)}
                         </th>
                       </tr>
                     </thead>
@@ -704,12 +693,9 @@ function CrewMainPage() {
                     </tbody>
                   </table>
                 </div>
-
-                {/* Vista de cards para móviles */}
                 <div className="block sm:hidden space-y-[1rem]">
                   {sortedCrews.map((crew, index) => {
                     const stats = calculateStats(crew)
-
                     return (
                       <div
                         key={crew.id}
@@ -751,7 +737,7 @@ function CrewMainPage() {
                         <div className="space-y-2">
                           <div>
                             <span className="text-sm text-gray-600">
-                              {t(`${viewDictionary}.played`, 'Juegos')}:
+                              {t(`${viewDictionary}.played`)}:
                             </span>
                             <span className="ml-2 font-medium">
                               {stats.playedGames} / {stats.totalGames}
@@ -761,11 +747,7 @@ function CrewMainPage() {
                           <div>
                             <div className="flex items-center justify-between mb-1">
                               <span className="text-sm text-gray-600">
-                                {t(
-                                  `${viewDictionary}.participation`,
-                                  'Participación'
-                                )}
-                                :
+                                {t(`${viewDictionary}.participation`)}:
                               </span>
                               <span className="font-medium">
                                 {stats.participation}%
@@ -787,10 +769,7 @@ function CrewMainPage() {
             ) : (
               <div className="text-center mt-[2rem]">
                 <p className="t18r">
-                  {t(
-                    `${viewDictionary}.noCrewsForSeason`,
-                    'No hay peñas con puntuación para esta temporada'
-                  )}
+                  {t(`${viewDictionary}.noCrewsForSeason`)}
                 </p>
               </div>
             )}
@@ -835,7 +814,6 @@ function CrewMainPage() {
                         <h2 className="text-xl font-bold sm:text-2xl">
                           {crew.title}
                         </h2>
-
                         <span
                           className={`ml-[0.75rem] px-[0.75rem] py-[0.25rem] text-sm font-medium rounded-full 
                           ${
@@ -846,11 +824,7 @@ function CrewMainPage() {
                                 : 'bg-gray-100 text-gray-800'
                           }`}
                         >
-                          {crew.status ||
-                            t(
-                              `${viewDictionary}.statusUnknown`,
-                              'Estado desconocido'
-                            )}
+                          {crew.status || t(`${viewDictionary}.statusUnknown`)}
                         </span>
                       </div>
                       <span
@@ -911,7 +885,7 @@ function CrewMainPage() {
                       crewMessages[crew.id].length > 0 && (
                         <div className="mt-[1.5rem]">
                           <h3 className="mb-[0.75rem] font-semibold t16b">
-                            {t(`${viewDictionary}.messages`, 'Mensajes')}
+                            {t(`${viewDictionary}.messages`)}
                           </h3>
                           <div className="space-y-[0.75rem]">
                             {crewMessages[crew.id].map((message) => (

@@ -15,9 +15,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from 'firebase/storage'
-import withReactContent from 'sweetalert2-react-content'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
-import Swal from 'sweetalert2'
 import log from 'loglevel'
 import { db, storage } from '../../firebase/firebase'
 import { createEventModel } from '../../models/eventData'
@@ -33,6 +31,7 @@ import DynamicButton from '../../components/Buttons'
 import DynamicCard from '../../components/Cards'
 import { validateFile } from '../../utils/fileValidator'
 import useSlug from '../../hooks/useSlug'
+import { showPopup } from '../../services/popupService'
 
 const createEventModelWithParticipants = () => {
   const baseModel = createEventModel()
@@ -123,7 +122,7 @@ function EventModify() {
     const fetchEventDataBySlug = async () => {
       try {
         if (!slug) {
-          setError('No se proporcionó un identificador de evento')
+          setError(t(`${viewDictionary}.noIdError`))
           setLoading(false)
           return
         }
@@ -148,13 +147,11 @@ function EventModify() {
         }
 
         if (!found) {
-          setError(
-            'No se encontró el evento con el identificador proporcionado'
-          )
+          setError(t(`${viewDictionary}.noIdError`))
           setLoading(false)
         }
       } catch (error) {
-        setError('Error al cargar el evento')
+        setError(t(`${viewDictionary}.errorChargingEvent`))
         setLoading(false)
       }
     }
@@ -188,18 +185,17 @@ function EventModify() {
           setSelectedFormFields(data.formFieldsIds || [])
           setLoading(false)
         } else {
-          setError('No se encontró el evento')
+          setError(t(`${viewDictionary}.errorNotFoundEvent`))
           setLoading(false)
         }
       } catch (error) {
-        setError('Error al cargar el evento')
+        setError(t(`${viewDictionary}.errorChargingEvent`))
         setLoading(false)
       }
     }
 
     const fetchCollaborators = async () => {
       try {
-        log.debug('Fetching collaborators...')
         const collaboratorsSnap = await getDocs(collection(db, 'collaborators'))
         const collaboratorsList = collaboratorsSnap.docs.map((docSnap) => ({
           id: docSnap.id,
@@ -214,7 +210,6 @@ function EventModify() {
 
     const fetchParticipants = async () => {
       try {
-        log.debug('Fetching participants...')
         const participantsSnap = await getDocs(collection(db, 'participants'))
         const participantsList = participantsSnap.docs.map((docSnap) => ({
           id: docSnap.id,
@@ -336,7 +331,6 @@ function EventModify() {
             progressSetter(progressPercent)
           },
           (error) => {
-            log.error('Error al subir el archivo:', error)
             reject(error)
           },
           async () => {
@@ -370,9 +364,6 @@ function EventModify() {
           }
         )
       })
-    } catch (error) {
-      log.error('Error al subir el archivo:', error)
-      throw error
     } finally {
       setUploading(false)
     }
@@ -388,8 +379,7 @@ function EventModify() {
 
     const validationError = validateFile(selectedFile, t)
     if (validationError) {
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
         text: validationError,
         icon: 'error',
@@ -406,11 +396,9 @@ function EventModify() {
       setFile(webpFile)
       setNewImageUrl(URL.createObjectURL(webpFile))
     } catch (error) {
-      log.error('Error al convertir la imagen:', error)
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: 'Error al procesar la imagen',
+        text: t(`${viewDictionary}.errorPopup.errorImageProcessing`),
         icon: 'error',
       })
     }
@@ -418,7 +406,7 @@ function EventModify() {
 
   const validateDates = () => {
     if (!eventData.startDate || !eventData.startTime) {
-      return 'La fecha y hora de inicio son obligatorias'
+      return t(`${viewDictionary}.errorMandatoryData`)
     }
 
     return null
@@ -433,10 +421,9 @@ function EventModify() {
     setSubmitting(true)
 
     if (!eventData.title?.trim()) {
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: 'El título del evento es obligatorio',
+        text: t(`${viewDictionary}.errorPopup.errorMandatoryTitle`),
         icon: 'error',
       })
       setSubmitting(false)
@@ -446,8 +433,7 @@ function EventModify() {
 
     const dateError = validateDates()
     if (dateError) {
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
         text: dateError,
         icon: 'error',
@@ -458,10 +444,9 @@ function EventModify() {
     }
 
     if (!eventId) {
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: 'No se pudo identificar el evento a actualizar',
+        text: t(`${viewDictionary}.noIdError`),
         icon: 'error',
       })
       setSubmitting(false)
@@ -526,32 +511,28 @@ function EventModify() {
         )
       }
 
-      const MySwal = withReactContent(Swal)
-      await MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.successPopup.title`),
         text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: 'Aceptar',
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
+        onConfirm: () => navigate('/events-list'),
       })
-
-      navigate('/events-control-list')
     } catch (error) {
-      let errorMessage =
-        'Hubo un error al actualizar el evento. Por favor, intenta nuevamente.'
+      let errorMessage = t(`${viewDictionary}.errorMessages.unavailable`)
       if (error.code === 'unavailable') {
-        errorMessage =
-          'No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.'
+        errorMessage = t(`${viewDictionary}.errorMessages.server-error`)
       } else if (error.code === 'permission-denied') {
-        errorMessage =
-          'No tienes permisos suficientes para modificar este evento.'
+        errorMessage = t(`${viewDictionary}.errorMessages.permission-denied`)
       }
 
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
         text: `${t(`${viewDictionary}.errorPopup.text`)} ${errorMessage}`,
         icon: 'error',
-        confirmButtonText: 'Cerrar',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setSubmitting(false)
@@ -584,7 +565,7 @@ function EventModify() {
           onClick={() => navigate('/events-control-list')}
           size="medium"
           state="normal"
-          textId="Volver a la lista de eventos"
+          textId={t(`${viewDictionary}.backToEventList`)}
         />
       </div>
     )
@@ -602,7 +583,6 @@ function EventModify() {
           {t(`${viewDictionary}.title`)}
         </h1>
 
-        {/* Sección de información básica */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
@@ -667,7 +647,7 @@ function EventModify() {
 
                 <div>
                   <h4 className="mb-[2vh] text-gray-700 t16r">
-                    {t(`${viewDictionary}.organizerLabel`)}{' '}
+                    {t(`${viewDictionary}.organizerLabel`)}
                   </h4>
                   <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                     {eventData.organizer ? (
@@ -697,7 +677,7 @@ function EventModify() {
                       />
                     ) : (
                       <p className="p-[3%] text-gray-500">
-                        {t(`${viewDictionary}.anyOrganizerLabel`)}{' '}
+                        {t(`${viewDictionary}.anyOrganizerLabel`)}
                       </p>
                     )}
                   </div>
@@ -717,7 +697,6 @@ function EventModify() {
           </div>
         </div>
 
-        {/* Sección de fechas y horarios */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.dateInfoTitle`)}
@@ -768,7 +747,6 @@ function EventModify() {
           </div>
         </div>
 
-        {/* Sección de detalles del evento */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.detailsInfoTitle`)}
@@ -854,7 +832,6 @@ function EventModify() {
           </div>
         )}
 
-        {/* Sección de imágenes */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.galleryInfoTitle`)}
@@ -893,14 +870,15 @@ function EventModify() {
             </div>
           </div>
 
-          {/* Visualización de imágenes actuales y nuevas */}
           <div className="grid grid-cols-1 gap-[3vh] mt-[3vh] sm:grid-cols-2 sm:gap-[3vh]">
             {eventData.eventURL && (
               <div>
-                <h4 className="mb-[2vh] t16r">Imagen actual</h4>
+                <h4 className="mb-[2vh] t16r">
+                  {t(`${viewDictionary}.actualImage`)}
+                </h4>
                 <DynamicCard
                   type="gallery"
-                  title="Imagen actual"
+                  title={t(`${viewDictionary}.actualImage`)}
                   imageUrl={eventData.eventURL}
                 />
               </div>
@@ -908,10 +886,12 @@ function EventModify() {
 
             {newImageUrl && (
               <div>
-                <h4 className="mb-[2vh] t16r">Nueva imagen</h4>
+                <h4 className="mb-[2vh] t16r">
+                  {t(`${viewDictionary}.newImage`)}
+                </h4>
                 <DynamicCard
                   type="gallery"
-                  title="Nueva imagen"
+                  title={t(`${viewDictionary}.newImage`)}
                   imageUrl={newImageUrl}
                 />
               </div>
@@ -919,15 +899,16 @@ function EventModify() {
           </div>
         </div>
 
-        {/* Nueva sección para documento de autorización */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
-            Documento de Autorización
+            {t(`${viewDictionary}.authorizationDocumentTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 gap-[3vh]">
             <div>
-              <h4 className="t16r">Subir documento de autorización</h4>
+              <h4 className="t16r">
+                {t(`${viewDictionary}.uploadAutDocument`)}
+              </h4>
               <DynamicInput
                 name="authDocument"
                 type="document"
@@ -935,19 +916,21 @@ function EventModify() {
               />
               {authDocument && (
                 <p className="mt-[2vh] text-sm text-gray-600">
-                  Documento seleccionado: {authDocument.name}
+                  {t(`${viewDictionary}.selectedDocument`, {
+                    name: authDocument.name,
+                  })}
                 </p>
               )}
               {eventData.authDocumentURL && !authDocument && (
                 <p className="mt-[2vh] text-sm text-gray-600">
-                  Documento actual:
+                  {t(`${viewDictionary}.actualDocument`)}
                   <a
                     href={eventData.authDocumentURL}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="ml-1 text-blue-600 hover:text-blue-800"
                   >
-                    Ver documento
+                    {t(`${viewDictionary}.seeDocument`)}
                   </a>
                 </p>
               )}
@@ -965,7 +948,6 @@ function EventModify() {
           </div>
         </div>
 
-        {/* Sección de etiquetas */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.tagsInfoTitle`)}
@@ -990,7 +972,6 @@ function EventModify() {
           </div>
         </div>
 
-        {/* Sección de colaboradores */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.collaboratorsInfoTitle`)}
@@ -1068,7 +1049,6 @@ function EventModify() {
           </div>
         </div>
 
-        {/* Nueva sección de participantes */}
         <div className="p-[4%]  rounded-lg">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.participantsTitle`)}
@@ -1111,7 +1091,7 @@ function EventModify() {
 
               <div>
                 <h4 className="mb-[2vh] text-gray-700 t16r">
-                  {t(`${viewDictionary}.participantsSelectedTitle`)}{' '}
+                  {t(`${viewDictionary}.participantsSelectedTitle`)}
                 </h4>
                 <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
                   <DynamicItems

@@ -95,8 +95,8 @@ function UploadList() {
       showCancelButton: true,
       confirmButtonText: t(`${viewDictionary}.popups.delete.confirmButton`),
       cancelButtonText: t(`${viewDictionary}.popups.delete.cancelButton`),
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonColor: '#8be484',
+      cancelButtonColor: '#a3a3a3',
       onConfirm: async () => {
         try {
           const storage = getStorage()
@@ -137,7 +137,6 @@ function UploadList() {
     return (
       <Loader
         loading={true}
-        size="10vmin"
         color="rgb(21, 100, 46)"
         text={t(`${viewDictionary}.loadingText`)}
       />

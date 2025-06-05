@@ -73,8 +73,8 @@ function CrewList() {
         text: DOMPurify.sanitize(t(`${viewDictionary}.approveCrewDescription`)),
         icon: 'success',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
         confirmButtonText: t(`${viewDictionary}.activateButtonTitle`),
         cancelButtonText: t(`${viewDictionary}.cancelButton`),
         onConfirm: async () => {
@@ -195,9 +195,8 @@ function CrewList() {
         },
       })
     } catch (error) {
-      // Error al aprobar la peña
       showPopup({
-        title: t('common.error'),
+        title: t(`${viewDictionary}.deleteErrorTitle`),
         text: t(`${viewDictionary}.approveErrorMessage`),
         icon: 'error',
       })
@@ -208,7 +207,6 @@ function CrewList() {
 
   const handleReject = async (id) => {
     try {
-      // Sanitizamos el contenido HTML
       const sanitizedConfirmMessage = DOMPurify.sanitize(
         `<p>${t(`${viewDictionary}.confirmRejectMessage`)}</p><textarea class="swal2-textarea" aria-label="Motivo de rechazo" required></textarea>`
       )
@@ -218,8 +216,8 @@ function CrewList() {
         text: sanitizedConfirmMessage,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
         confirmButtonText: t(`${viewDictionary}.confirmRejectButton`),
         cancelButtonText: t(`${viewDictionary}.cancelButton`),
         preConfirm: () => {
@@ -227,7 +225,6 @@ function CrewList() {
           if (!textarea || !textarea.value.trim()) {
             return false
           }
-          // Sanitizamos el valor del textarea para evitar cualquier código malicioso
           return DOMPurify.sanitize(textarea.value)
         },
       }
@@ -240,7 +237,6 @@ function CrewList() {
             return
           }
 
-          // Sanitizamos el motivo de rechazo antes de guardarlo
           const rejectReason = DOMPurify.sanitize(textarea.value)
           setLoading && setLoading(true)
 
@@ -280,9 +276,8 @@ function CrewList() {
         },
       })
     } catch (error) {
-      // Error al rechazar la peña
       showPopup({
-        title: 'Error',
+        title: t(`${viewDictionary}.deleteErrorTitle`),
         text: t(`${viewDictionary}.rejectErrorMessage`),
         icon: 'error',
       })
@@ -298,8 +293,8 @@ function CrewList() {
         text: t(`${viewDictionary}.confirmDeleteMessage`),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
         confirmButtonText: t(`${viewDictionary}.confirmDeleteButton`),
         cancelButtonText: t(`${viewDictionary}.cancelButton`),
       })
@@ -320,9 +315,8 @@ function CrewList() {
         icon: 'success',
       })
     } catch (error) {
-      // Error al eliminar la crew
       showPopup({
-        title: t(`${viewDictionary}.deleteErrorTitle`, 'Error'),
+        title: t(`${viewDictionary}.deleteErrorTitle`),
         text: t(`${viewDictionary}.deleteErrorMessage`),
         icon: 'error',
       })
@@ -360,8 +354,8 @@ function CrewList() {
         text: DOMPurify.sanitize(t(`${viewDictionary}.${confirmTextKey}`)),
         icon: 'question',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
         confirmButtonText: t(`${viewDictionary}.toggleStatusButton`),
         cancelButtonText: t(`${viewDictionary}.cancelButton`),
         onConfirm: async () => {
@@ -398,9 +392,8 @@ function CrewList() {
         },
       })
     } catch (error) {
-      // Error al cambiar el estado de la peña
       showPopup({
-        title: 'Error',
+        title: t(`${viewDictionary}.deleteErrorTitle`),
         text: t(`${viewDictionary}.toggleStatusErrorMessage`),
         icon: 'error',
       })

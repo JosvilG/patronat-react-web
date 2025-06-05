@@ -38,7 +38,7 @@ function CollaboratorModifyForm() {
   useEffect(() => {
     const fetchCollaborator = async () => {
       if (!collaboratorId) {
-        setError('No se pudo cargar la información del colaborador.')
+        setError(t(`${viewDictionary}.errorMessages.noColabInfo`))
         setLoading(false)
         return
       }
@@ -60,10 +60,10 @@ function CollaboratorModifyForm() {
             newImageUrl: null,
           })
         } else {
-          setError('No se encontró el colaborador especificado.')
+          setError(t(`${viewDictionary}.errorMessages.noColabFound`))
         }
       } catch (error) {
-        setError('Ocurrió un error al cargar los datos del colaborador.')
+        setError(t(`${viewDictionary}.errorMessages.errorColabCharging`))
       } finally {
         setLoading(false)
       }

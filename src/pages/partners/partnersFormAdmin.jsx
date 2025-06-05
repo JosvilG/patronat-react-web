@@ -51,43 +51,28 @@ function AdminPartnersForm() {
       !formState.email ||
       !formState.dni
     ) {
-      return t(
-        `${viewDictionary}.validation.requiredFields`,
-        'Por favor, completa todos los campos requeridos.'
-      )
+      return t(`${viewDictionary}.validation.requiredFields`)
     }
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRx.test(formState.email)) {
-      return t(
-        `${viewDictionary}.validation.invalidEmail`,
-        'Por favor, introduce un email válido.'
-      )
+      return t(`${viewDictionary}.validation.invalidEmail`)
     }
     const dniRx = /^[0-9]{8}[A-Za-z]$/
     if (!dniRx.test(formState.dni)) {
-      return t(
-        `${viewDictionary}.validation.invalidDni`,
-        'Por favor, introduce un DNI válido (8 números y una letra).'
-      )
+      return t(`${viewDictionary}.validation.invalidDni`)
     }
 
     if (formState.accountNumber) {
       const ibanRx = /^ES[0-9]{22}$/
       if (!ibanRx.test(formState.accountNumber)) {
-        return t(
-          `${viewDictionary}.validation.invalidIban`,
-          'Por favor, introduce un IBAN válido (formato ES + 22 dígitos).'
-        )
+        return t(`${viewDictionary}.validation.invalidIban`)
       }
     }
 
     if (formState.birthDate) {
       const d = new Date(formState.birthDate)
       if (isNaN(d.getTime())) {
-        return t(
-          `${viewDictionary}.validation.invalidDate`,
-          'Por favor, introduce una fecha de nacimiento válida.'
-        )
+        return t(`${viewDictionary}.validation.invalidDate`)
       }
     }
     return null
@@ -100,30 +85,28 @@ function AdminPartnersForm() {
     const err = validateForm()
     if (err) {
       await showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error de validación'),
+        title: t(`${viewDictionary}.errorPopup.title`),
         text: err,
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormState((s) => ({ ...s, submitting: false }))
       return
     }
     if (!user) {
       await showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-        text: t(
-          `${viewDictionary}.authError`,
-          'Debes iniciar sesión para registrar un socio.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.authError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormState((s) => ({ ...s, submitting: false }))
       return
     }
 
     try {
-      // Crear un nuevo documento en la colección "partners"
       const partnersRef = collection(db, 'partners')
       const partnerData = {
         name: formState.name,
@@ -141,27 +124,22 @@ function AdminPartnersForm() {
 
       await addDoc(partnersRef, partnerData)
       await showPopup({
-        title: t(`${viewDictionary}.successPopup.title`, 'Registro exitoso'),
-        text: t(
-          `${viewDictionary}.successPopup.text`,
-          'El socio ha sido registrado correctamente y está pendiente de revisión.'
-        ),
+        title: t(`${viewDictionary}.successPopup.title`),
+        text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
       })
 
       navigate('/dashboard')
       resetForm()
     } catch (error) {
-      log.error('Error al registrar el socio:', error)
       await showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-        text: t(
-          `${viewDictionary}.errorPopup.text`,
-          'Ha ocurrido un error al registrar el socio. Por favor, inténtalo de nuevo.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.text`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setFormState((s) => ({ ...s, submitting: false }))
@@ -177,79 +155,62 @@ function AdminPartnersForm() {
     <div className="pb-[4vh] bg-transparent min-h-dvh w-full">
       <section className="w-[92%] mx-auto md:w-auto md:max-w-[90%]">
         <h2 className="mb-[4vh] text-center sm:t64b t40b">
-          {t(`${viewDictionary}.title`, 'Registro de Socio')}
+          {t(`${viewDictionary}.title`)}
         </h2>
 
-        <Loader loading={formState.submitting} size="10vmin" />
+        <Loader loading={formState.submitting} />
 
         <form onSubmit={handleSubmit} className="p-[4%] space-y-[3vh]">
           <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2 md:gap-[2vw] justify-items-center w-full">
             <DynamicInput
               name="name"
               textId={`${viewDictionary}.nameLabel`}
-              placeholder={t(`${viewDictionary}.namePlaceholder`, 'Nombre')}
+              placeholder={t(`${viewDictionary}.namePlaceholder`)}
               type="text"
               value={formState.name}
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-              className="w-full"
             />
             <DynamicInput
               name="lastName"
               textId={`${viewDictionary}.lastNameLabel`}
-              placeholder={t(
-                `${viewDictionary}.lastNamePlaceholder`,
-                'Apellidos'
-              )}
+              placeholder={t(`${viewDictionary}.lastNamePlaceholder`)}
               type="text"
               value={formState.lastName}
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-              className="w-full"
             />
             <DynamicInput
               name="address"
               textId={`${viewDictionary}.addressLabel`}
-              placeholder={t(
-                `${viewDictionary}.addressPlaceholder`,
-                'Dirección completa'
-              )}
+              placeholder={t(`${viewDictionary}.addressPlaceholder`)}
               type="text"
               value={formState.address}
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-              className="w-full"
             />
             <DynamicInput
               name="email"
               textId={`${viewDictionary}.emailLabel`}
-              placeholder={t(
-                `${viewDictionary}.emailPlaceholder`,
-                'Correo electrónico'
-              )}
+              placeholder={t(`${viewDictionary}.emailPlaceholder`)}
               type="email"
               value={formState.email}
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-              className="w-full"
             />
             <DynamicInput
               name="phone"
               textId={`${viewDictionary}.phoneLabel`}
-              placeholder={t(
-                `${viewDictionary}.phonePlaceholder`,
-                'Número de teléfono'
-              )}
+              placeholder={t(`${viewDictionary}.phonePlaceholder`)}
               type="phone"
               value={formState.phone}
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-              className="w-full"
             />
             <DynamicInput
               name="birthDate"
@@ -259,34 +220,25 @@ function AdminPartnersForm() {
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-              className="w-full"
             />
             <DynamicInput
               name="dni"
               textId={`${viewDictionary}.dniLabel`}
-              placeholder={t(
-                `${viewDictionary}.dniPlaceholder`,
-                'DNI (8 dígitos + letra)'
-              )}
+              placeholder={t(`${viewDictionary}.dniPlaceholder`)}
               type="text"
               value={formState.dni}
               onChange={handleInputChange}
               disabled={formState.submitting}
               required
-              className="w-full"
             />
             <DynamicInput
               name="accountNumber"
               textId={`${viewDictionary}.accountNumberLabel`}
-              placeholder={t(
-                `${viewDictionary}.accountNumberPlaceholder`,
-                'IBAN (ES + 22 dígitos)'
-              )}
+              placeholder={t(`${viewDictionary}.accountNumberLabel`)}
               type="text"
               value={formState.accountNumber}
               onChange={handleInputChange}
               disabled={formState.submitting}
-              className="w-full"
             />
           </div>
           <div className="flex justify-center pt-[3vh]">

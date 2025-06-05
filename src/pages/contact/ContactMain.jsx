@@ -141,11 +141,8 @@ const ContactMain = () => {
         recaptchaRef.current.reset()
       }
       setCaptchaToken(null)
-
-      // Incrementar contador de envíos
       setSubmissionCount((prev) => prev + 1)
       setLastSubmission(now)
-
       setTimeout(() => setFormStatus(null), 5000)
     } catch (error) {
       setFormStatus({

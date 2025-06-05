@@ -39,25 +39,19 @@ function PartnerList() {
   const [filteredPartners, setFilteredPartners] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const viewDictionary = 'pages.partners.listPartners'
-
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [selectedPartner, setSelectedPartner] = useState(null)
-
   const [activeSeason, setActiveSeason] = useState(null)
   const [loadingSeason, setLoadingSeason] = useState(false)
-
   const [partnerPayments, setPartnerPayments] = useState(null)
   const [loadingPayments, setLoadingPayments] = useState(false)
-
   const [paymentHistory, setPaymentHistory] = useState([])
   const [loadingHistory, setLoadingHistory] = useState(false)
-
   const [exportingToExcel, setExportingToExcel] = useState(false)
   const [exportingAllToExcel, setExportingAllToExcel] = useState(false)
-
   const paymentListenerRef = useRef(null)
   const historyListenerRef = useRef(null)
+  const viewDictionary = 'pages.partners.listPartners'
 
   useEffect(() => {
     const fetchPartners = async () => {
@@ -71,13 +65,11 @@ function PartnerList() {
         setFilteredPartners(partnerData)
       } catch (error) {
         await showPopup({
-          title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
-          text: t(
-            'pages.partners.listPartners.errorPopup.fetchError',
-            'Ha ocurrido un error al obtener los datos de los socios.'
-          ),
+          title: t(`${viewDictionary}.errorPopup.title`),
+          text: t(`${viewDictionary}.errorPopup.text`),
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#a3a3a3',
         })
       } finally {
         setLoading(false)
@@ -177,12 +169,12 @@ function PartnerList() {
   const getStatusText = (status) => {
     switch (status) {
       case 'approved':
-        return t('pages.partners.listPartners.status.approved', 'Alta')
+        return t(`${viewDictionary}.status.approved`)
       case 'rejected':
-        return t('pages.partners.listPartners.status.rejected', 'Baja')
+        return t(`${viewDictionary}.status.rejected`)
       case 'pending':
       default:
-        return t('pages.partners.listPartners.status.pending', 'Pendiente')
+        return t(`${viewDictionary}.status.pending`)
     }
   }
 
@@ -208,16 +200,11 @@ function PartnerList() {
 
       if (!currentActiveSeason) {
         await showPopup({
-          title: t(
-            'pages.partners.listPartners.warningPopup.title',
-            'Advertencia'
-          ),
-          text: t(
-            'pages.partners.listPartners.warningPopup.noActiveSeason',
-            'No hay una temporada activa configurada. El socio será aprobado pero no se crearán registros de pago automáticamente.'
-          ),
+          title: t(`${viewDictionary}.warningPopup.title`),
+          text: t(`${viewDictionary}.warningPopup.noActiveSeason`),
           icon: 'warning',
-          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#8be484',
         })
       }
 
@@ -280,28 +267,21 @@ function PartnerList() {
       )
 
       await showPopup({
-        title: t('pages.partners.listPartners.successPopup.title', 'Éxito'),
+        title: t(`${viewDictionary}.successPopup.title`),
         text: currentActiveSeason
-          ? t(
-              'pages.partners.listPartners.successPopup.approvedWithPayment',
-              'El socio ha sido aprobado y se ha creado su registro de pago para la temporada actual.'
-            )
-          : t(
-              'pages.partners.listPartners.successPopup.statusUpdateText',
-              'El socio ha sido aprobado correctamente.'
-            ),
+          ? t(`${viewDictionary}.successPopup.approvedWithPayment`)
+          : t(`${viewDictionary}.successPopup.statusUpdateText`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
       })
     } catch (error) {
       await showPopup({
-        title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
-        text: t(
-          'pages.partners.listPartners.errorPopup.statusUpdateError',
-          'Ha ocurrido un error al aprobar al socio.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.statusUpdateError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     }
   }
@@ -325,23 +305,19 @@ function PartnerList() {
       )
 
       showPopup({
-        title: t('pages.partners.listPartners.successPopup.title', 'Éxito'),
-        text: t(
-          'pages.partners.listPartners.successPopup.statusUpdateText',
-          'El socio ha sido rechazado correctamente.'
-        ),
+        title: t(`${viewDictionary}.successPopup.title`),
+        text: t(`${viewDictionary}.successPopup.statusUpdateText`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
       })
     } catch (error) {
       showPopup({
-        title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
-        text: t(
-          'pages.partners.listPartners.errorPopup.statusUpdateError',
-          'Ha ocurrido un error al rechazar al socio.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.statusUpdateError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     }
   }
@@ -349,18 +325,14 @@ function PartnerList() {
   const deletePartner = async (id) => {
     try {
       const confirmResult = await showPopup({
-        title: t(
-          'pages.partners.listPartners.confirmPopup.title',
-          'Confirmar eliminación'
-        ),
-        text: t(
-          'pages.partners.listPartners.confirmPopup.text',
-          '¿Está seguro de que desea eliminar este socio? Esta acción eliminará todos sus datos, incluyendo pagos e historial de pagos.'
-        ),
+        title: t(`${viewDictionary}.confirmPopup.title`),
+        text: t(`${viewDictionary}.confirmPopup.text`),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: t('components.popup.deleteButton', 'Eliminar'),
-        cancelButtonText: t('components.popup.cancelButton', 'Cancelar'),
+        confirmButtonText: t('components.buttons.delete'),
+        confirmButtonColor: '#8be484',
+        cancelButtonText: t('components.buttons.cancel'),
+        cancelButtonColor: '#a3a3a3',
       })
 
       if (!confirmResult.isConfirmed) {
@@ -391,23 +363,20 @@ function PartnerList() {
       setFilteredPartners(updatedPartners)
 
       await showPopup({
-        title: t('pages.partners.listPartners.successPopup.title', 'Éxito'),
-        text: t(
-          'pages.partners.listPartners.successPopup.deleteText',
-          'El socio y todos sus datos asociados han sido eliminados correctamente.'
-        ),
+        title: t(`${viewDictionary}.successPopup.title`),
+        text: t(`${viewDictionary}.successPopup.deleteText`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
       })
     } catch (error) {
+      if (error && error.isDismissed) return
       await showPopup({
-        title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
-        text: t(
-          'pages.partners.listPartners.errorPopup.deleteError',
-          'Ha ocurrido un error al eliminar el socio y sus datos.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.deleteError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setLoading(false)
@@ -464,13 +433,11 @@ function PartnerList() {
       )
     } catch (error) {
       await showPopup({
-        title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
-        text: t(
-          'pages.partners.listPartners.errorPopup.exportError',
-          'Ha ocurrido un error al exportar los datos del socio.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.exportError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setExportingToExcel(false)
@@ -497,13 +464,11 @@ function PartnerList() {
       )
     } catch (error) {
       await showPopup({
-        title: t('pages.partners.listPartners.errorPopup.title', 'Error'),
-        text: t(
-          'pages.partners.listPartners.errorPopup.exportAllError',
-          'Ha ocurrido un error al exportar los datos de todos los socios.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.exportAllError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setExportingAllToExcel(false)
@@ -553,48 +518,28 @@ function PartnerList() {
   }
 
   if (loading)
-    return (
-      <Loader
-        loading={true}
-        size="10vmin"
-        color="rgb(21, 100, 46)"
-        text={t(`${viewDictionary}.loadingText`, 'Cargando socios...')}
-      />
-    )
+    return <Loader loading={true} text={t(`${viewDictionary}.loadingText`)} />
 
   return (
     <div className="h-screen max-h-[75dvh] pb-[4vh] mx-auto w-[92%] md:w-auto md:max-w-[90%] overflow-y-auto relative flex flex-col items-center sm:flex-none">
       <Loader
         loading={exportingAllToExcel}
-        size="10vmin"
-        color="rgb(21, 100, 46)"
-        text={t(
-          `${viewDictionary}.exportingAllDataText`,
-          'Exportando datos de todos los socios...'
-        )}
+        text={t(`${viewDictionary}.exportingAllDataText`)}
       />
 
       <Loader
         loading={exportingToExcel}
-        size="10vmin"
-        color="rgb(21, 100, 46)"
-        text={t(
-          `${viewDictionary}.exportingDataText`,
-          'Exportando datos del socio...'
-        )}
+        text={t(`${viewDictionary}.exportingDataText`)}
       />
 
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
-        {t(`${viewDictionary}.title`, 'Listado de Socios')}
+        {t(`${viewDictionary}.title`)}
       </h1>
       <div className="grid items-center justify-start grid-cols-1 gap-[3vh] mb-[4vh] md:justify-items-start sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
-          placeholder={t(
-            `${viewDictionary}.searchPlaceholder`,
-            'Buscar por nombre, apellidos, email o DNI'
-          )}
+          placeholder={t(`${viewDictionary}.searchPlaceholder`)}
           value={searchQuery}
           onChange={handleSearchChange}
           className="w-full"
@@ -605,7 +550,7 @@ function PartnerList() {
             size="small"
             state="normal"
             type="download"
-            textId={t(`${viewDictionary}.exportAllToExcel`, 'Exportar')}
+            textId={t(`${viewDictionary}.exportAllToExcel`)}
           />
 
           <DynamicButton
@@ -613,7 +558,7 @@ function PartnerList() {
             size="small"
             state="normal"
             type="add"
-            textId={t(`${viewDictionary}.partners`, 'Añadir Socio')}
+            textId={t(`${viewDictionary}.addNewButton`)}
           />
         </div>
       </div>
@@ -623,7 +568,7 @@ function PartnerList() {
           <div className="w-full h-full max-w-md p-[4%] overflow-y-auto transition-transform duration-300 ease-in-out transform bg-white shadow-lg">
             <div className="flex items-center justify-between mb-[3vh]">
               <h2 className="text-center t24b">
-                {t(`${viewDictionary}.payments.title`, 'Gestión de pagos')}
+                {t(`${viewDictionary}.payments.title`)}
               </h2>
               <button
                 onClick={closeSidebar}
@@ -653,7 +598,7 @@ function PartnerList() {
                 {selectedPartner.email}
               </div>
               <div className="mt-[1vh] text-sm text-gray-600">
-                {t(`${viewDictionary}.payments.status`, 'Estado:')}
+                {t(`${viewDictionary}.payments.status`)}
                 <span
                   className={`ml-[0.5vw] ${getStatusBadgeClass(selectedPartner.status)}`}
                 >
@@ -664,90 +609,72 @@ function PartnerList() {
 
             <div className="pt-[3vh] mb-[3vh] border-t border-gray-200">
               <h3 className="mb-[2vh] font-medium">
-                {t(
-                  `${viewDictionary}.payments.activeSeason`,
-                  'Temporada Activa'
-                )}
+                {t(`${viewDictionary}.payments.activeSeason`)}
               </h3>
 
               {loadingSeason ? (
                 <p className="text-sm text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.loadingSeason`,
-                    'Cargando información de la temporada...'
-                  )}
+                  {t(`${viewDictionary}.payments.loadingSeason`)}
                 </p>
               ) : activeSeason ? (
                 <div className="p-[4%] rounded-lg bg-gray-50">
                   <div className="flex justify-between mb-[1.5vh]">
                     <span className="font-medium">
-                      {t(`${viewDictionary}.payments.seasonYear`, 'Año:')}
+                      {t(`${viewDictionary}.payments.seasonYear`, {
+                        year: activeSeason.seasonYear,
+                      })}
                     </span>
-                    <span>{activeSeason.seasonYear}</span>
                   </div>
 
                   <div className="flex justify-between mb-[1.5vh]">
                     <span className="font-medium">
-                      {t(
-                        `${viewDictionary}.payments.totalPrice`,
-                        'Precio total:'
-                      )}
+                      {t(`${viewDictionary}.payments.totalPrice`, {
+                        amount: activeSeason.totalPrice,
+                      })}
                     </span>
-                    <span>{activeSeason.totalPrice}€</span>
                   </div>
 
                   <div className="flex justify-between mb-[1.5vh]">
                     <span className="font-medium">
-                      {t(
-                        `${viewDictionary}.payments.numberOfFractions`,
-                        'Número de fracciones:'
-                      )}
+                      {t(`${viewDictionary}.payments.numberOfFractions`, {
+                        amount: activeSeason.numberOfFractions,
+                      })}
                     </span>
-                    <span>{activeSeason.numberOfFractions}</span>
                   </div>
 
                   {activeSeason.priceFirstFraction > 0 && (
                     <div className="flex justify-between mb-[1.5vh]">
                       <span className="font-medium">
-                        {t(
-                          `${viewDictionary}.payments.priceFirstFraction`,
-                          'Primera fracción:'
-                        )}
+                        {t(`${viewDictionary}.payments.priceFirstFraction`, {
+                          amount: activeSeason.priceFirstFraction,
+                        })}
                       </span>
-                      <span>{activeSeason.priceFirstFraction}€</span>
                     </div>
                   )}
 
                   {activeSeason.priceSeconFraction > 0 && (
                     <div className="flex justify-between mb-[1.5vh]">
                       <span className="font-medium">
-                        {t(
-                          `${viewDictionary}.payments.priceSecondFraction`,
-                          'Segunda fracción:'
-                        )}
+                        {t(`${viewDictionary}.payments.priceSecondFraction`, {
+                          amount: activeSeason.priceSeconFraction,
+                        })}
                       </span>
-                      <span>{activeSeason.priceSeconFraction}€</span>
                     </div>
                   )}
 
                   {activeSeason.priceThirdFraction > 0 && (
                     <div className="flex justify-between mb-[1.5vh]">
                       <span className="font-medium">
-                        {t(
-                          `${viewDictionary}.payments.priceThirdFraction`,
-                          'Tercera fracción:'
-                        )}
+                        {t(`${viewDictionary}.payments.priceThirdFraction`, {
+                          amount: activeSeason.priceThirdFraction,
+                        })}
                       </span>
-                      <span>{activeSeason.priceThirdFraction}€</span>
                     </div>
                   )}
                 </div>
               ) : (
                 <p className="text-sm text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.noActiveSeason`,
-                    'No hay temporada activa configurada.'
-                  )}
+                  {t(`${viewDictionary}.payments.noActiveSeason`)}
                 </p>
               )}
             </div>
@@ -755,35 +682,23 @@ function PartnerList() {
             {selectedPartner.status === 'approved' && (
               <div className="pt-[3vh] mb-[3vh] border-t border-gray-200">
                 <h3 className="mb-[2vh] font-medium">
-                  {t(
-                    `${viewDictionary}.payments.paymentStatus`,
-                    'Estado de Pagos'
-                  )}
+                  {t(`${viewDictionary}.payments.paymentStatus`)}
                 </h3>
 
                 {loadingPayments ? (
                   <p className="text-sm text-gray-500">
-                    {t(
-                      `${viewDictionary}.payments.loadingPayments`,
-                      'Cargando información de pagos...'
-                    )}
+                    {t(`${viewDictionary}.payments.loadingPayments`)}
                   </p>
                 ) : partnerPayments ? (
                   <div className="p-[4%] rounded-lg bg-gray-50">
                     <h4 className="mb-[2vh] text-sm font-medium">
-                      {t(
-                        `${viewDictionary}.payments.fractionsStatus`,
-                        'Estado de las fracciones'
-                      )}
+                      {t(`${viewDictionary}.payments.fractionsStatus`)}
                     </h4>
 
                     <div className="pb-[1.5vh] mb-[3vh] border-b border-gray-200">
                       <div className="flex items-center justify-between mb-[1.5vh]">
                         <span className="font-medium">
-                          {t(
-                            `${viewDictionary}.payments.firstFraction`,
-                            'Primera fracción'
-                          )}
+                          {t(`${viewDictionary}.payments.firstFraction`)}
                         </span>
                         <span
                           className={`px-[2vw] py-[1vh] rounded-full text-xs ${
@@ -793,20 +708,18 @@ function PartnerList() {
                           }`}
                         >
                           {partnerPayments.firstPayment
-                            ? t(`${viewDictionary}.payments.paid`, 'Pagado')
-                            : t(
-                                `${viewDictionary}.payments.pending`,
-                                'Pendiente'
-                              )}
+                            ? t(`${viewDictionary}.payments.paid`)
+                            : t(`${viewDictionary}.payments.pending`)}
                         </span>
                       </div>
 
                       {partnerPayments.firstPaymentPrice > 0 && (
                         <div className="flex justify-between text-sm">
                           <span>
-                            {t(`${viewDictionary}.payments.amount`, 'Importe')}:
+                            {t(`${viewDictionary}.payments.amount`, {
+                              amount: partnerPayments.firstPaymentPrice,
+                            })}
                           </span>
-                          <span>{partnerPayments.firstPaymentPrice}€</span>
                         </div>
                       )}
 
@@ -814,14 +727,11 @@ function PartnerList() {
                         partnerPayments.firstPaymentDate && (
                           <div className="flex justify-between text-sm">
                             <span>
-                              {t(
-                                `${viewDictionary}.payments.paymentDate`,
-                                'Fecha de pago'
-                              )}
-                              :
-                            </span>
-                            <span>
-                              {formatDate(partnerPayments.firstPaymentDate)}
+                              {t(`${viewDictionary}.payments.paymentDate`, {
+                                date: formatDate(
+                                  partnerPayments.firstPaymentDate
+                                ),
+                              })}
                             </span>
                           </div>
                         )}
@@ -831,10 +741,7 @@ function PartnerList() {
                       <div className="pb-[1.5vh] mb-[3vh] border-b border-gray-200">
                         <div className="flex items-center justify-between mb-[1.5vh]">
                           <span className="font-medium">
-                            {t(
-                              `${viewDictionary}.payments.secondFraction`,
-                              'Segunda fracción'
-                            )}
+                            {t(`${viewDictionary}.payments.secondFraction`)}
                           </span>
                           <span
                             className={`px-[2vw] py-[1vh] rounded-full text-xs ${
@@ -844,24 +751,18 @@ function PartnerList() {
                             }`}
                           >
                             {partnerPayments.secondPaymentDone
-                              ? t(`${viewDictionary}.payments.paid`, 'Pagado')
-                              : t(
-                                  `${viewDictionary}.payments.pending`,
-                                  'Pendiente'
-                                )}
+                              ? t(`${viewDictionary}.payments.paid`)
+                              : t(`${viewDictionary}.payments.pending`)}
                           </span>
                         </div>
 
                         {partnerPayments.secondPaymentPrice > 0 && (
                           <div className="flex justify-between text-sm">
                             <span>
-                              {t(
-                                `${viewDictionary}.payments.amount`,
-                                'Importe'
-                              )}
-                              :
+                              {t(`${viewDictionary}.payments.amount`, {
+                                amount: partnerPayments.secondPaymentPrice,
+                              })}
                             </span>
-                            <span>{partnerPayments.secondPaymentPrice}€</span>
                           </div>
                         )}
 
@@ -869,14 +770,11 @@ function PartnerList() {
                           partnerPayments.secondPaymentDate && (
                             <div className="flex justify-between text-sm">
                               <span>
-                                {t(
-                                  `${viewDictionary}.payments.paymentDate`,
-                                  'Fecha de pago'
-                                )}
-                                :
-                              </span>
-                              <span>
-                                {formatDate(partnerPayments.secondPaymentDate)}
+                                {t(`${viewDictionary}.payments.paymentDate`, {
+                                  date: formatDate(
+                                    partnerPayments.secondPaymentDate
+                                  ),
+                                })}
                               </span>
                             </div>
                           )}
@@ -887,10 +785,7 @@ function PartnerList() {
                       <div className="mb-[2vh]">
                         <div className="flex items-center justify-between mb-[1.5vh]">
                           <span className="font-medium">
-                            {t(
-                              `${viewDictionary}.payments.thirdFraction`,
-                              'Tercera fracción'
-                            )}
+                            {t(`${viewDictionary}.payments.thirdFraction`)}
                           </span>
                           <span
                             className={`px-[2vw] py-[1vh] rounded-full text-xs ${
@@ -900,24 +795,18 @@ function PartnerList() {
                             }`}
                           >
                             {partnerPayments.thirdPaymentDone
-                              ? t(`${viewDictionary}.payments.paid`, 'Pagado')
-                              : t(
-                                  `${viewDictionary}.payments.pending`,
-                                  'Pendiente'
-                                )}
+                              ? t(`${viewDictionary}.payments.paid`)
+                              : t(`${viewDictionary}.payments.pending`)}
                           </span>
                         </div>
 
                         {partnerPayments.thirdPaymentPrice > 0 && (
                           <div className="flex justify-between text-sm">
                             <span>
-                              {t(
-                                `${viewDictionary}.payments.amount`,
-                                'Importe'
-                              )}
-                              :
+                              {t(`${viewDictionary}.payments.amount`, {
+                                amount: partnerPayments.thirdPaymentPrice,
+                              })}
                             </span>
-                            <span>{partnerPayments.thirdPaymentPrice}€</span>
                           </div>
                         )}
 
@@ -925,14 +814,11 @@ function PartnerList() {
                           partnerPayments.thirdPaymentDate && (
                             <div className="flex justify-between text-sm">
                               <span>
-                                {t(
-                                  `${viewDictionary}.payments.paymentDate`,
-                                  'Fecha de pago'
-                                )}
-                                :
-                              </span>
-                              <span>
-                                {formatDate(partnerPayments.thirdPaymentDate)}
+                                {t(`${viewDictionary}.payments.paymentDate`, {
+                                  date: formatDate(
+                                    partnerPayments.thirdPaymentDate
+                                  ),
+                                })}
                               </span>
                             </div>
                           )}
@@ -942,10 +828,7 @@ function PartnerList() {
                 ) : (
                   <div className="p-[4%] rounded-lg bg-gray-50">
                     <p className="mb-[2vh] text-sm text-gray-500">
-                      {t(
-                        `${viewDictionary}.payments.noPaymentsFound`,
-                        'No se encontró información de pagos para este socio.'
-                      )}
+                      {t(`${viewDictionary}.payments.noPaymentsFound`)}
                     </p>
                   </div>
                 )}
@@ -954,15 +837,12 @@ function PartnerList() {
 
             <div className="pt-[3vh] border-t border-gray-200">
               <h3 className="mb-[2vh] font-medium">
-                {t(`${viewDictionary}.payments.history`, 'Historial de pagos')}
+                {t(`${viewDictionary}.payments.history`)}
               </h3>
 
               {loadingHistory ? (
                 <p className="text-sm text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.loadingHistory`,
-                    'Cargando historial de pagos...'
-                  )}
+                  {t(`${viewDictionary}.payments.loadingHistory`)}
                 </p>
               ) : paymentHistory.length > 0 ? (
                 <div className="space-y-[3vh]">
@@ -973,7 +853,9 @@ function PartnerList() {
                     >
                       <div className="flex items-center justify-between mb-[1.5vh]">
                         <span className="font-medium">
-                          Temporada {payment.seasonYear}
+                          {t(`${viewDictionary}.payments.season`, {
+                            season: payment.seasonYear,
+                          })}
                         </span>
                       </div>
 
@@ -981,7 +863,9 @@ function PartnerList() {
                         payment.firstPaymentPrice > 0) && (
                         <div className="pb-[1vh] mb-[1.5vh] border-b border-gray-200">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm">Primera fracción:</span>
+                            <span className="text-sm">
+                              {t(`${viewDictionary}.payments.firstFraction`)}
+                            </span>
                             <span
                               className={`px-[2vw] py-[0.5vh] rounded-full text-xs ${
                                 payment.firstPayment
@@ -990,24 +874,25 @@ function PartnerList() {
                               }`}
                             >
                               {payment.firstPayment
-                                ? t(`${viewDictionary}.payments.paid`, 'Pagado')
-                                : t(
-                                    `${viewDictionary}.payments.pending`,
-                                    'Pendiente'
-                                  )}
+                                ? t(`${viewDictionary}.payments.paid`)
+                                : t(`${viewDictionary}.payments.pending`)}
                             </span>
                           </div>
                           {payment.firstPaymentPrice > 0 && (
                             <div className="flex justify-between mt-[1vh] text-xs">
-                              <span>Importe:</span>
-                              <span>{payment.firstPaymentPrice}€</span>
+                              <span>
+                                {t(`${viewDictionary}.payments.amount`, {
+                                  amount: payment.firstPaymentPrice,
+                                })}
+                              </span>
                             </div>
                           )}
                           {payment.firstPayment && payment.firstPaymentDate && (
                             <div className="flex justify-between mt-[1vh] text-xs">
-                              <span>Fecha:</span>
                               <span>
-                                {formatDate(payment.firstPaymentDate)}
+                                {t(`${viewDictionary}.payments.paymentDate`, {
+                                  date: formatDate(payment.firstPaymentDate),
+                                })}
                               </span>
                             </div>
                           )}
@@ -1018,7 +903,9 @@ function PartnerList() {
                         payment.secondPaymentPrice > 0) && (
                         <div className="pb-[1vh] mb-[1.5vh] border-b border-gray-200">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm">Segunda fracción:</span>
+                            <span className="text-sm">
+                              {t(`${viewDictionary}.payments.secondFraction`)}
+                            </span>
                             <span
                               className={`px-[2vw] py-[0.5vh] rounded-full text-xs ${
                                 payment.secondPaymentDone
@@ -1027,25 +914,26 @@ function PartnerList() {
                               }`}
                             >
                               {payment.secondPaymentDone
-                                ? t(`${viewDictionary}.payments.paid`, 'Pagado')
-                                : t(
-                                    `${viewDictionary}.payments.pending`,
-                                    'Pendiente'
-                                  )}
+                                ? t(`${viewDictionary}.payments.paid`)
+                                : t(`${viewDictionary}.payments.pending`)}
                             </span>
                           </div>
                           {payment.secondPaymentPrice > 0 && (
                             <div className="flex justify-between mt-[1vh] text-xs">
-                              <span>Importe:</span>
-                              <span>{payment.secondPaymentPrice}€</span>
+                              <span>
+                                {t(`${viewDictionary}.payments.amount`, {
+                                  amount: payment.secondPaymentPrice,
+                                })}
+                              </span>
                             </div>
                           )}
                           {payment.secondPaymentDone &&
                             payment.secondPaymentDate && (
                               <div className="flex justify-between mt-[1vh] text-xs">
-                                <span>Fecha:</span>
                                 <span>
-                                  {formatDate(payment.secondPaymentDate)}
+                                  {t(`${viewDictionary}.payments.paymentDate`, {
+                                    date: formatDate(payment.secondPaymentDate),
+                                  })}
                                 </span>
                               </div>
                             )}
@@ -1056,7 +944,10 @@ function PartnerList() {
                         payment.thirdPaymentPrice > 0) && (
                         <div className="mb-[1vh]">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm">Tercera fracción:</span>
+                            <span className="text-sm">
+                              {' '}
+                              {t(`${viewDictionary}.payments.thirdFraction`)}
+                            </span>
                             <span
                               className={`px-[2vw] py-[0.5vh] rounded-full text-xs ${
                                 payment.thirdPaymentDone
@@ -1065,25 +956,28 @@ function PartnerList() {
                               }`}
                             >
                               {payment.thirdPaymentDone
-                                ? t(`${viewDictionary}.payments.paid`, 'Pagado')
-                                : t(
-                                    `${viewDictionary}.payments.pending`,
-                                    'Pendiente'
-                                  )}
+                                ? t(`${viewDictionary}.payments.paid`)
+                                : t(`${viewDictionary}.payments.pending`)}
                             </span>
                           </div>
                           {payment.thirdPaymentPrice > 0 && (
                             <div className="flex justify-between mt-[1vh] text-xs">
-                              <span>Importe:</span>
-                              <span>{payment.thirdPaymentPrice}€</span>
+                              <span>
+                                {' '}
+                                {t(`${viewDictionary}.payments.amount`, {
+                                  amount: payment.thirdPaymentPrice,
+                                })}
+                              </span>
                             </div>
                           )}
                           {payment.thirdPaymentDone &&
                             payment.thirdPaymentDate && (
                               <div className="flex justify-between mt-[1vh] text-xs">
-                                <span>Fecha:</span>
                                 <span>
-                                  {formatDate(payment.thirdPaymentDate)}
+                                  {' '}
+                                  {t(`${viewDictionary}.payments.paymentDate`, {
+                                    date: formatDate(payment.thirdPaymentDate),
+                                  })}
                                 </span>
                               </div>
                             )}
@@ -1094,10 +988,7 @@ function PartnerList() {
                 </div>
               ) : (
                 <p className="text-sm text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.noPaymentHistory`,
-                    'No hay pagos de temporadas anteriores.'
-                  )}
+                  {t(`${viewDictionary}.payments.noPaymentHistory`)}
                 </p>
               )}
             </div>
@@ -1108,15 +999,11 @@ function PartnerList() {
       {filteredPartners.length === 0 ? (
         <div className="p-[4%] mb-[3vh] text-sm text-blue-700 bg-blue-100 rounded-lg w-full">
           <p className="text-center text-gray-500">
-            {t(
-              `${viewDictionary}.noPartnersFound`,
-              'No se encontraron socios que coincidan con la búsqueda.'
-            )}
+            {t(`${viewDictionary}.noPartnersFound`)}
           </p>
         </div>
       ) : (
         <>
-          {/* Vista de tabla para pantallas medianas y grandes */}
           <div className="hidden w-full overflow-x-auto sm:block">
             <table className="min-w-full divide-y divide-gray-200 table-fixed">
               <thead className="bg-gray-50">
@@ -1125,40 +1012,37 @@ function PartnerList() {
                     scope="col"
                     className="p-[2%] text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-[20%]"
                   >
-                    {t(`${viewDictionary}.table.name`, 'Nombre')}
+                    {t(`${viewDictionary}.table.name`)}
                   </th>
                   <th
                     scope="col"
                     className="p-[2%] text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-[22%] max-w-[20rem]"
                   >
-                    {t(`${viewDictionary}.table.email`, 'Email')}
+                    {t(`${viewDictionary}.table.email`)}
                   </th>
                   <th
                     scope="col"
                     className="p-[2%] text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-[12%]"
                   >
-                    {t(`${viewDictionary}.table.phone`, 'Teléfono')}
+                    {t(`${viewDictionary}.table.phone`)}
                   </th>
                   <th
                     scope="col"
                     className="p-[2%] text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-[15%]"
                   >
-                    {t(
-                      `${viewDictionary}.table.createdAt`,
-                      'Fecha de registro'
-                    )}
+                    {t(`${viewDictionary}.table.createdAt`)}
                   </th>
                   <th
                     scope="col"
                     className="p-[2%] text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-[10%]"
                   >
-                    {t(`${viewDictionary}.table.status`, 'Estado')}
+                    {t(`${viewDictionary}.table.status`)}
                   </th>
                   <th
                     scope="col"
                     className="p-[2%] text-xs font-medium tracking-wider text-left text-gray-500 uppercase w-[21%]"
                   >
-                    {t(`${viewDictionary}.table.actions`, 'Acciones')}
+                    {t(`${viewDictionary}.table.actions`)}
                   </th>
                 </tr>
               </thead>
@@ -1245,10 +1129,7 @@ function PartnerList() {
                           size="x-small"
                           state="normal"
                           type="download"
-                          title={t(
-                            `${viewDictionary}.exportToExcel`,
-                            'Exportar a Excel'
-                          )}
+                          title={t(`${viewDictionary}.exportToExcel`)}
                         />
                         <DynamicButton
                           name="openModal"
@@ -1265,7 +1146,6 @@ function PartnerList() {
             </table>
           </div>
 
-          {/* Vista de tarjetas para móviles */}
           <div className="w-full sm:hidden">
             {filteredPartners.map((partner) => (
               <div
@@ -1284,10 +1164,26 @@ function PartnerList() {
                 </div>
 
                 <div className="mb-[1vh] text-sm text-gray-600">
-                  <div>DNI: {partner.dni || '-'}</div>
-                  <div>Email: {partner.email}</div>
-                  <div>Teléfono: {partner.phone || '-'}</div>
-                  <div>Registro: {formatDate(partner.createdAt)}</div>
+                  <div>
+                    {t(`${viewDictionary}.DNILabel`, {
+                      dni: partner.dni || '-',
+                    })}
+                  </div>
+                  <div>
+                    {t(`${viewDictionary}.emailLabel`, {
+                      email: partner.email || '-',
+                    })}
+                  </div>
+                  <div>
+                    {t(`${viewDictionary}.phoneLabel`, {
+                      phone: partner.phone || '-',
+                    })}
+                  </div>
+                  <div>
+                    {t(`${viewDictionary}.createdAtLabel`, {
+                      date: formatDate(partner.createdAt) || '-',
+                    })}
+                  </div>
                 </div>
 
                 <div className="flex flex-wrap gap-[2vw] pt-[2vh] mt-[2vh] border-t">

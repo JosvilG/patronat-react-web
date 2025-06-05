@@ -22,13 +22,10 @@ const ContactMenu = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [totalEntities, setTotalEntities] = useState(0)
   const [uniqueCrews, setUniqueCrews] = useState([])
-
   const [allCrews, setAllCrews] = useState([])
   const [selectedCrewIds, setSelectedCrewIds] = useState([])
-
   const [usersData, setUsersData] = useState({})
-
-  const viewDictionary = 'pages.contact.form'
+  const viewDictionary = 'pages.contact.menu'
 
   useEffect(() => {
     const fetchCsrfToken = async () => {
@@ -111,7 +108,7 @@ const ContactMenu = () => {
       // Error fetching recipients
       setFormStatus({
         type: 'error',
-        message: t('pages.contact.menu.errorFetchingRecipients'),
+        message: t(`${viewDictionary}.errorFetchingRecipients`),
       })
     } finally {
       setIsLoading(false)
@@ -229,12 +226,13 @@ const ContactMenu = () => {
       }
 
       showPopup({
-        title: t('pages.contact.menu.successTitle'),
-        text: t('pages.contact.menu.successMessage', {
+        title: t(`${viewDictionary}.successTitle`),
+        text: t(`${viewDictionary}.successMessage`, {
           count: recipients.length,
         }),
         icon: 'success',
-        confirmButtonText: t('pages.contact.menu.okButton'),
+        confirmButtonText: t(`${viewDictionary}.okButton`),
+        confirmButtonColor: '#8be484',
       })
 
       setFormData({
@@ -248,10 +246,11 @@ const ContactMenu = () => {
       // Error en envío de correos
 
       showPopup({
-        title: t('pages.contact.menu.errorTitle'),
-        text: t('pages.contact.menu.errorMessage'),
+        title: t(`${viewDictionary}.errorTitle`),
+        text: t(`${viewDictionary}.errorMessage`),
         icon: 'error',
-        confirmButtonText: t('pages.contact.menu.okButton'),
+        confirmButtonText: t(`${viewDictionary}.okButton`),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormStatus(null)
     }
@@ -279,22 +278,22 @@ const ContactMenu = () => {
     if (recipients.length === 0) {
       setFormStatus({
         type: 'error',
-        message: t('pages.contact.menu.noRecipients'),
+        message: t(`${viewDictionary}.noRecipients`),
       })
       return
     }
 
     showPopup({
-      title: t('pages.contact.menu.confirmTitle'),
-      text: t('pages.contact.menu.confirmSend', {
+      title: t(`${viewDictionary}.confirmTitle`),
+      text: t(`${viewDictionary}.confirmSend`, {
         count: recipients.length,
       }),
       icon: 'question',
       showCancelButton: true,
-      confirmButtonText: t('pages.contact.menu.confirmButton'),
-      confirmButtonColor: '#3085d6',
-      cancelButtonText: t('pages.contact.menu.cancelButton'),
-      cancelButtonColor: '#d33',
+      confirmButtonText: t(`${viewDictionary}.confirmButton`),
+      confirmButtonColor: '#8be484',
+      cancelButtonText: t(`${viewDictionary}.cancelButton`),
+      cancelButtonColor: '#a3a3a3',
       onConfirm: async () => {
         await sendEmails()
       },
@@ -304,10 +303,10 @@ const ContactMenu = () => {
   return (
     <div className="container px-4 py-8 mx-auto">
       <h1 className="mb-10 text-center sm:t64b t40b">
-        {t('pages.contact.menu.title')}
+        {t(`${viewDictionary}.title`)}
       </h1>
 
-      <p className="mb-8 text-center">{t('pages.contact.menu.description')}</p>
+      <p className="mb-8 text-center">{t(`${viewDictionary}.description`)}</p>
 
       <div className="flex flex-col items-center gap-10">
         <div className="p-6 bg-white bg-opacity-75 shadow-lg backdrop-blur-lg rounded-3xl w-[80%]">
@@ -317,7 +316,7 @@ const ContactMenu = () => {
           >
             <div className="w-full">
               <label className="block mb-2 text-sm font-medium">
-                {t('pages.contact.menu.recipientTypeLabel')}
+                {t(`${viewDictionary}.recipientTypeLabel`)}
               </label>
               <div className="flex gap-4">
                 {/* Usar DynamicInput para radio buttons */}
@@ -329,7 +328,7 @@ const ContactMenu = () => {
                   <DynamicInput
                     type="radio"
                     name="recipientType"
-                    textId="pages.contact.menu.partners"
+                    textId={t(`${viewDictionary}.partners`)}
                     checked={recipientType === 'partners'}
                     onChange={handleRecipientTypeChange}
                   />
@@ -342,7 +341,7 @@ const ContactMenu = () => {
                   <DynamicInput
                     type="radio"
                     name="recipientType"
-                    textId="pages.contact.menu.crews"
+                    textId={t(`${viewDictionary}.crews`)}
                     checked={recipientType === 'crew'}
                     onChange={handleRecipientTypeChange}
                   />
@@ -354,7 +353,7 @@ const ContactMenu = () => {
               <div className="w-full">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className="font-bold">
-                    {t('pages.contact.menu.selectCrews')}
+                    {t(`${viewDictionary}.selectCrews`)}
                   </h3>
                   <DynamicButton
                     type="button"
@@ -363,15 +362,15 @@ const ContactMenu = () => {
                     onClick={handleSelectAllCrews}
                     textId={
                       selectedCrewIds.length === allCrews.length
-                        ? 'pages.contact.menu.deselectAll'
-                        : 'pages.contact.menu.selectAll'
+                        ? `${viewDictionary}.deselectAll`
+                        : `${viewDictionary}.selectAll`
                     }
                   />
                 </div>
 
                 {isLoading ? (
                   <p className="py-4 text-center">
-                    {t('pages.contact.menu.loadingCrews')}
+                    {t(`${viewDictionary}.loadingCrews`)}
                   </p>
                 ) : (
                   <div className="grid grid-cols-1 gap-3 p-2 overflow-y-auto rounded-md md:grid-cols-2 lg:grid-cols-3 max-h-60">
@@ -397,7 +396,7 @@ const ContactMenu = () => {
             <DynamicInput
               type="text"
               name="subject"
-              textId="pages.contact.menu.subject"
+              textId={t(`${viewDictionary}.subject`)}
               value={formData.subject}
               onChange={handleChange}
               required
@@ -406,7 +405,7 @@ const ContactMenu = () => {
             <DynamicInput
               type="textarea"
               name="message"
-              textId="pages.contact.menu.message"
+              textId={t(`${viewDictionary}.message`)}
               value={formData.message}
               onChange={handleChange}
               rows={10}
@@ -417,7 +416,7 @@ const ContactMenu = () => {
               <DynamicInput
                 type="text"
                 name="website"
-                textId="Website"
+                textId={t(`${viewDictionary}.website`)}
                 value={formData.website}
                 onChange={handleChange}
               />
@@ -438,7 +437,6 @@ const ContactMenu = () => {
                 </div>
               )}
 
-              {/* Ya está utilizando DynamicButton */}
               <DynamicButton
                 type="submit"
                 size="medium"
@@ -447,7 +445,7 @@ const ContactMenu = () => {
                     ? 'disabled'
                     : 'normal'
                 }
-                textId="pages.contact.menu.submitButton"
+                textId={t(`${viewDictionary}.submitButton`)}
                 disabled={formStatus?.type === 'loading' || isLoading}
               />
             </div>

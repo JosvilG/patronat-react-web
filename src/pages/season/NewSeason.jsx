@@ -119,13 +119,11 @@ function NewSeason() {
       } catch (error) {
         log.error('Error al comprobar temporadas activas:', error)
         await showPopup({
-          title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-          text: t(
-            `${viewDictionary}.errorPopup.checkSeasonError`,
-            'Error al comprobar las temporadas activas.'
-          ),
+          title: t(`${viewDictionary}.errorPopup.title`),
+          text: t(`${viewDictionary}.errorPopup.checkSeasonError`),
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#a3a3a3',
         })
       } finally {
         setLoading(false)
@@ -201,11 +199,9 @@ function NewSeason() {
         const exists = await checkExistingSeasonYear(parsedValue)
         if (exists) {
           setYearValidationMessage(
-            t(
-              `${viewDictionary}.validation.seasonYearDuplicate`,
-              'Ya existe una temporada para el año {{year}}. No se permiten temporadas duplicadas.',
-              { year: parsedValue }
-            )
+            t(`${viewDictionary}.validation.seasonYearDuplicate`, {
+              year: parsedValue,
+            })
           )
         }
       } catch (error) {
@@ -220,41 +216,24 @@ function NewSeason() {
     const errors = []
 
     if (!formState.seasonYear) {
-      errors.push(
-        t(
-          `${viewDictionary}.validation.seasonYearRequired`,
-          'El año de la temporada es obligatorio'
-        )
-      )
+      errors.push(t(`${viewDictionary}.validation.seasonYearRequired`))
     }
 
     if (formState.seasonYear < new Date().getFullYear()) {
-      errors.push(
-        t(
-          `${viewDictionary}.validation.seasonYearInvalid`,
-          'El año de la temporada debe ser igual o posterior al año actual'
-        )
-      )
+      errors.push(t(`${viewDictionary}.validation.seasonYearInvalid`))
     }
 
     const seasonYearExists = await checkExistingSeasonYear(formState.seasonYear)
     if (seasonYearExists) {
       errors.push(
-        t(
-          `${viewDictionary}.validation.seasonYearDuplicate`,
-          'Ya existe una temporada para el año {{year}}. No se permiten temporadas duplicadas.',
-          { year: formState.seasonYear }
-        )
+        t(`${viewDictionary}.validation.seasonYearDuplicate`, {
+          year: formState.seasonYear,
+        })
       )
     }
 
     if (formState.totalPrice < 0) {
-      errors.push(
-        t(
-          `${viewDictionary}.validation.totalPricePositive`,
-          'El precio total para mayores de 16 años no puede ser negativo'
-        )
-      )
+      errors.push(t(`${viewDictionary}.validation.totalPricePositive`))
     }
 
     const fractionSum =
@@ -263,21 +242,11 @@ function NewSeason() {
       formState.priceThirdFraction
 
     if (fractionSum !== formState.totalPrice) {
-      errors.push(
-        t(
-          `${viewDictionary}.validation.fractionSumMismatch`,
-          'La suma de los precios de las fracciones para mayores de 16 años debe ser igual al precio total'
-        )
-      )
+      errors.push(t(`${viewDictionary}.validation.fractionSumMismatch`))
     }
 
     if (formState.totalPriceJunior < 0) {
-      errors.push(
-        t(
-          `${viewDictionary}.validation.totalPriceJuniorPositive`,
-          'El precio total para 14-16 años no puede ser negativo'
-        )
-      )
+      errors.push(t(`${viewDictionary}.validation.totalPriceJuniorPositive`))
     }
 
     const fractionSumJunior =
@@ -286,12 +255,7 @@ function NewSeason() {
       formState.priceThirdFractionJunior
 
     if (fractionSumJunior !== formState.totalPriceJunior) {
-      errors.push(
-        t(
-          `${viewDictionary}.validation.fractionSumJuniorMismatch`,
-          'La suma de los precios de las fracciones para 14-16 años debe ser igual al precio total'
-        )
-      )
+      errors.push(t(`${viewDictionary}.validation.fractionSumJuniorMismatch`))
     }
 
     return errors
@@ -299,59 +263,46 @@ function NewSeason() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    log.info('Iniciando envío del formulario de nueva temporada')
     setFormState((prev) => ({ ...prev, submitting: true }))
 
     try {
       if (!user) {
-        log.warn('Intento de crear temporada sin usuario autenticado')
         await showPopup({
-          title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-          text: t(
-            `${viewDictionary}.authError`,
-            'Debe iniciar sesión para realizar esta acción.'
-          ),
+          title: t(`${viewDictionary}.errorPopup.title`),
+          text: t(`${viewDictionary}.authError`),
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#a3a3a3',
         })
         return
       }
-      log.info('Usuario autenticado:', user.uid)
 
       const errors = await validateForm()
       if (errors.length > 0) {
-        log.warn('Errores de validación en el formulario:', errors)
         await showPopup({
-          title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
+          title: t(`${viewDictionary}.errorPopup.title`),
           text: errors.join('\n\n'),
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#a3a3a3',
         })
         setFormState((prev) => ({ ...prev, submitting: false }))
         return
       }
-      log.info('Formulario validado correctamente')
 
       if (formState.active && existingActiveSeason) {
-        log.info('Desactivando temporada actual:', existingActiveSeason.id)
         try {
           await updateDoc(doc(db, 'seasons', existingActiveSeason.id), {
             active: false,
             lastUpdateDate: serverTimestamp(),
           })
-          log.info('Temporada existente desactivada con éxito')
         } catch (updateError) {
-          log.error('Error al desactivar temporada existente:', updateError)
           throw new Error(
-            t(
-              `${viewDictionary}.errorPopup.deactivateSeasonError`,
-              'Error al desactivar la temporada existente.'
-            )
+            t(`${viewDictionary}.errorPopup.deactivateSeasonError`)
           )
         }
       }
 
-      log.info('Creando nueva temporada con datos:', { ...formState })
       let newSeasonDocRef
       try {
         newSeasonDocRef = await addDoc(collection(db, 'seasons'), {
@@ -369,18 +320,10 @@ function NewSeason() {
           createdAt: serverTimestamp(),
           userId: user.uid,
         })
-        log.info('Nueva temporada creada con ID:', newSeasonDocRef.id)
       } catch (addError) {
-        // Manejo silencioso para producción
-        throw new Error(
-          t(
-            `${viewDictionary}.errorPopup.createSeasonError`,
-            'Error al crear la temporada.'
-          )
-        )
+        throw new Error(t(`${viewDictionary}.errorPopup.createSeasonError`))
       }
 
-      log.info('Consultando socios aprobados')
       let approvedPartnersSnapshot
       try {
         const approvedPartnersQuery = query(
@@ -388,9 +331,7 @@ function NewSeason() {
           where('status', '==', 'approved')
         )
         approvedPartnersSnapshot = await getDocs(approvedPartnersQuery)
-        log.info('Socios aprobados encontrados:', approvedPartnersSnapshot.size)
       } catch (queryError) {
-        // Manejo silencioso para producción
         throw new Error(
           'Error al consultar socios aprobados: ' + queryError.message
         )
@@ -402,129 +343,91 @@ function NewSeason() {
         try {
           let createdCount = 0
           let skippedCount = 0
-          let juniorPricesCount = 0
-          let adultPricesCount = 0
 
           for (const partnerDoc of approvedPartnersSnapshot.docs) {
             const partnerId = partnerDoc.id
             const partnerData = partnerDoc.data()
 
-            try {
-              const age = calculateAge(partnerData.birthDate)
-              log.info(`Socio ${partnerId}: edad calculada ${age} años`)
+            const age = calculateAge(partnerData.birthDate)
 
-              let firstPaymentPrice, secondPaymentPrice, thirdPaymentPrice
+            let firstPaymentPrice, secondPaymentPrice, thirdPaymentPrice
 
-              if (age !== null && age >= 14 && age <= 16) {
-                firstPaymentPrice = formState.priceFirstFractionJunior
-                secondPaymentPrice = formState.priceSeconFractionJunior
-                thirdPaymentPrice = formState.priceThirdFractionJunior
-                juniorPricesCount++
-                log.info(
-                  `Aplicando tarifa junior para socio ${partnerId} (${age} años)`
-                )
-              } else {
-                firstPaymentPrice = formState.priceFirstFraction
-                secondPaymentPrice = formState.priceSeconFraction
-                thirdPaymentPrice = formState.priceThirdFraction
-                adultPricesCount++
-                log.info(
-                  `Aplicando tarifa estándar para socio ${partnerId} (${age} años)`
-                )
-              }
+            if (age !== null && age >= 14 && age <= 16) {
+              firstPaymentPrice = formState.priceFirstFractionJunior
+              secondPaymentPrice = formState.priceSeconFractionJunior
+              thirdPaymentPrice = formState.priceThirdFractionJunior
+            } else {
+              firstPaymentPrice = formState.priceFirstFraction
+              secondPaymentPrice = formState.priceSeconFraction
+              thirdPaymentPrice = formState.priceThirdFraction
+            }
 
-              const paymentData = {
-                seasonYear: formState.seasonYear,
-                firstPayment: false,
-                firstPaymentDone: false,
-                firstPaymentPrice: firstPaymentPrice,
-                firstPaymentDate: null,
-                secondPayment: false,
-                secondPaymentDone: false,
-                secondPaymentPrice: secondPaymentPrice,
-                secondPaymentDate: null,
-                thirdPayment: false,
-                thirdPaymentDone: false,
-                thirdPaymentPrice: thirdPaymentPrice,
-                thirdPaymentDate: null,
-                priceCategory:
-                  age !== null && age >= 14 && age <= 16 ? 'junior' : 'adult',
-                partnerAge: age || 'unknown',
-              }
+            const paymentData = {
+              seasonYear: formState.seasonYear,
+              firstPayment: false,
+              firstPaymentDone: false,
+              firstPaymentPrice: firstPaymentPrice,
+              firstPaymentDate: null,
+              secondPayment: false,
+              secondPaymentDone: false,
+              secondPaymentPrice: secondPaymentPrice,
+              secondPaymentDate: null,
+              thirdPayment: false,
+              thirdPaymentDone: false,
+              thirdPaymentPrice: thirdPaymentPrice,
+              thirdPaymentDate: null,
+              priceCategory:
+                age !== null && age >= 14 && age <= 16 ? 'junior' : 'adult',
+              partnerAge: age || 'unknown',
+            }
 
-              const result = await createPaymentForPartner(
-                partnerId,
-                paymentData,
-                user.uid
-              )
+            const result = await createPaymentForPartner(
+              partnerId,
+              paymentData,
+              user.uid
+            )
 
-              if (result.created) {
-                createdCount++
-              } else if (result.existing) {
-                skippedCount++
-              }
-            } catch (error) {
-              // Manejo silencioso para producción
-              throw error
+            if (result.created) {
+              createdCount++
+            } else if (result.existing) {
+              skippedCount++
             }
           }
 
-          // Mostrar resumen
           if (createdCount > 0) {
             await showPopup({
-              title: t(
-                `${viewDictionary}.paymentsCreatedTitle`,
-                'Documentos de pagos creados'
-              ),
-              text: t(
-                `${viewDictionary}.paymentsCreatedDetailedText`,
-                'Se han creado {{createdCount}} documentos de pagos para la nueva temporada ({{adultCount}} adultos, {{juniorCount}} junior). Se omitieron {{skippedCount}} socios que ya tenían pagos configurados.',
-                {
-                  createdCount,
-                  skippedCount,
-                  adultCount: adultPricesCount,
-                  juniorCount: juniorPricesCount,
-                }
-              ),
+              title: t(`${viewDictionary}.paymentsCreatedTitle`),
+              text: t(`${viewDictionary}.paymentsCreatedText`, {
+                createdCount,
+                skippedCount,
+              }),
               icon: 'success',
-              confirmButtonText: t(
-                'components.popup.confirmButtonText',
-                'Aceptar'
-              ),
+              confirmButtonText: t('components.buttons.confirm'),
+              confirmButtonColor: '#8be484',
             })
           }
-        } catch (error) {
-          throw error
         } finally {
           setCreatingPayments(false)
         }
       }
 
-      log.info('Proceso completado con éxito, mostrando mensaje final')
       await showPopup({
-        title: t(`${viewDictionary}.successPopup.title`, 'Éxito'),
-        text: t(
-          `${viewDictionary}.successPopup.text`,
-          'La temporada ha sido registrada correctamente.'
-        ),
+        title: t(`${viewDictionary}.successPopup.title`),
+        text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
       })
 
-      log.info('Redirigiendo a dashboard')
       navigate('/dashboard')
       resetForm()
     } catch (error) {
       await showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-        text:
-          error.message ||
-          t(
-            `${viewDictionary}.errorPopup.text`,
-            'Ha ocurrido un error al registrar la temporada.'
-          ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: error.message || t(`${viewDictionary}.errorPopup.text`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setFormState((prev) => ({ ...prev, submitting: false }))
@@ -534,31 +437,22 @@ function NewSeason() {
   }
 
   if (loading) {
-    return (
-      <Loader
-        loading={true}
-        size="10vmin"
-        color="rgb(21, 100, 46)"
-        text={t(`${viewDictionary}.loadingText`, 'Cargando...')}
-      />
-    )
+    return <Loader loading={true} text={t(`${viewDictionary}.loadingText`)} />
   }
 
   return (
     <div className="flex flex-col items-center w-[92%] md:w-auto pb-[4vh] mx-auto max-w-4xl">
       <Loader loading={formState.submitting || creatingPayments} />
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
-        {t(`${viewDictionary}.title`, 'Registrar Nueva Temporada')}
+        {t(`${viewDictionary}.title`)}
       </h1>
 
       {existingActiveSeason && (
         <div className="p-[4%] mb-[4vh] text-sm text-blue-700 bg-blue-100 rounded-lg w-full">
           <p>
-            {t(
-              `${viewDictionary}.activeSeasonNotice`,
-              'Ya existe una temporada activa para el año {{seasonYear}}. Si activa esta nueva temporada, la actual se desactivará automáticamente.',
-              { seasonYear: existingActiveSeason.seasonYear }
-            )}
+            {t(`${viewDictionary}.activeSeasonNotice`, {
+              seasonYear: existingActiveSeason.seasonYear,
+            })}
           </p>
         </div>
       )}
@@ -568,7 +462,6 @@ function NewSeason() {
           <DynamicInput
             name="seasonYear"
             textId={`${viewDictionary}.seasonYearLabel`}
-            defaultText="Año de temporada"
             type="text"
             value={formState.seasonYear}
             onChange={handleInputChange}
@@ -578,10 +471,7 @@ function NewSeason() {
 
           {checkingYear && (
             <p className="mt-[2vh] text-sm text-gray-500">
-              {t(
-                `${viewDictionary}.checkingYear`,
-                'Verificando disponibilidad del año...'
-              )}
+              {t(`${viewDictionary}.checkingYear`)}
             </p>
           )}
 
@@ -595,13 +485,12 @@ function NewSeason() {
         <div className="grid grid-cols-1 gap-[4vh] md:grid-cols-2 md:gap-[3vw]">
           <div className="p-[5%] space-y-[3vh] rounded-[30px] h-fit mb-[4vh] text-black">
             <h2 className="mb-[3vh] text-center t24b">
-              {t(`${viewDictionary}.adultPrices`, 'Mayores de 16 años')}
+              {t(`${viewDictionary}.adultPrices`)}
             </h2>
             <div className="flex flex-col items-center">
               <DynamicInput
                 name="totalPrice"
                 textId={`${viewDictionary}.totalPriceLabel`}
-                defaultText="Precio total"
                 type="text"
                 value={formState.totalPrice}
                 onChange={handleInputChange}
@@ -613,7 +502,6 @@ function NewSeason() {
               <DynamicInput
                 name="priceFirstFraction"
                 textId={`${viewDictionary}.priceFirstFractionLabel`}
-                defaultText="Precio primera fracción"
                 type="text"
                 value={formState.priceFirstFraction}
                 onChange={handleInputChange}
@@ -625,7 +513,6 @@ function NewSeason() {
               <DynamicInput
                 name="priceSeconFraction"
                 textId={`${viewDictionary}.priceSeconFractionLabel`}
-                defaultText="Precio segunda fracción"
                 type="text"
                 value={formState.priceSeconFraction}
                 onChange={handleInputChange}
@@ -637,7 +524,6 @@ function NewSeason() {
               <DynamicInput
                 name="priceThirdFraction"
                 textId={`${viewDictionary}.priceThirdFractionLabel`}
-                defaultText="Precio tercera fracción"
                 type="text"
                 value={formState.priceThirdFraction}
                 onChange={handleInputChange}
@@ -649,13 +535,12 @@ function NewSeason() {
 
           <div className="p-[5%] space-y-[3vh] rounded-[30px] h-fit mb-[4vh] text-black">
             <h2 className="mb-[3vh] text-center t24b">
-              {t(`${viewDictionary}.juniorPrices`, 'Precios para 14-16 años')}
+              {t(`${viewDictionary}.juniorPrices`)}
             </h2>
             <div className="flex flex-col items-center">
               <DynamicInput
                 name="totalPriceJunior"
                 textId={`${viewDictionary}.totalPriceLabel`}
-                defaultText="Precio total"
                 type="text"
                 value={formState.totalPriceJunior}
                 onChange={handleInputChange}
@@ -667,7 +552,6 @@ function NewSeason() {
               <DynamicInput
                 name="priceFirstFractionJunior"
                 textId={`${viewDictionary}.priceFirstFractionLabel`}
-                defaultText="Precio primera fracción"
                 type="text"
                 value={formState.priceFirstFractionJunior}
                 onChange={handleInputChange}
@@ -679,7 +563,6 @@ function NewSeason() {
               <DynamicInput
                 name="priceSeconFractionJunior"
                 textId={`${viewDictionary}.priceSeconFractionLabel`}
-                defaultText="Precio segunda fracción"
                 type="text"
                 value={formState.priceSeconFractionJunior}
                 onChange={handleInputChange}
@@ -691,7 +574,6 @@ function NewSeason() {
               <DynamicInput
                 name="priceThirdFractionJunior"
                 textId={`${viewDictionary}.priceThirdFractionLabel`}
-                defaultText="Precio tercera fracción"
                 type="text"
                 value={formState.priceThirdFractionJunior}
                 onChange={handleInputChange}
@@ -707,7 +589,6 @@ function NewSeason() {
             name="active"
             type="checkbox"
             textId={`${viewDictionary}.activeLabel`}
-            defaultText="Activar temporada"
             checked={formState.active}
             onChange={handleToggleActivation}
             disabled={formState.submitting}
@@ -745,7 +626,9 @@ function NewSeason() {
                 : `${viewDictionary}.submitButton`
             }
             defaultText={
-              formState.submitting ? 'Guardando...' : 'Guardar temporada'
+              formState.submitting
+                ? t(`${viewDictionary}.submittingText`)
+                : t('components.buttons.save')
             }
             disabled={formState.submitting}
           />

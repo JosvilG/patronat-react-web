@@ -73,9 +73,7 @@ function EventsParticipants() {
           return {
             id: doc.id,
             ...data,
-            createdAt:
-              data.createdAt?.toDate().toLocaleDateString() ||
-              'Fecha desconocida',
+            createdAt: data.createdAt?.toDate().toLocaleDateString(),
           }
         })
 
@@ -110,18 +108,15 @@ function EventsParticipants() {
     setFilteredParticipants(filtered)
   }
 
-  // Función para actualizar el estado de un participante
   const updateParticipantStatus = async (participantId, newStatus) => {
     try {
       setIsUpdating(true)
 
-      // Actualizar en Firestore
       const participantRef = doc(db, 'inscriptions', participantId)
       await updateDoc(participantRef, {
         status: newStatus,
       })
 
-      // Actualizar el estado local
       const updatedParticipants = participants.map((participant) =>
         participant.id === participantId
           ? { ...participant, status: newStatus }
@@ -149,7 +144,6 @@ function EventsParticipants() {
     }
   }
 
-  // Funciones para manejar los botones
   const handleApprove = (participantId) => {
     updateParticipantStatus(participantId, 'aprobado')
   }
@@ -172,7 +166,7 @@ function EventsParticipants() {
             onClick={() => navigate(-1)}
             size="small"
             state="normal"
-            textId="components.buttons.back"
+            textId={t('components.buttons.back')}
           />
         </div>
       </div>
@@ -190,7 +184,7 @@ function EventsParticipants() {
           onClick={() => navigate(-1)}
           size="small"
           state="normal"
-          textId="components.buttons.back"
+          textId={t('components.buttons.back')}
         />
       </div>
 

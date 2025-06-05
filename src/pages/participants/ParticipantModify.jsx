@@ -90,7 +90,8 @@ function ParticipantModifyForm() {
               title: t(`${viewDictionary}.notFoundTitle`),
               text: t(`${viewDictionary}.notFoundText`),
               icon: 'error',
-              confirmButtonText: t('components.popup.confirmButtonText'),
+              confirmButtonText: t('components.buttons.confirm'),
+              confirmButtonColor: '#a3a3a3',
             })
             navigate('/dashboard')
           }
@@ -126,18 +127,19 @@ function ParticipantModifyForm() {
           }
 
           if (!found) {
-            setError('No se encontró el participante especificado.')
+            setError(t(`${viewDictionary}.participantNotFound`))
             showPopup({
               title: t(`${viewDictionary}.notFoundTitle`),
               text: t(`${viewDictionary}.notFoundText`),
               icon: 'error',
-              confirmButtonText: t('components.popup.confirmButtonText'),
+              confirmButtonText: t('componentes.buttons.confirm'),
+              confirmButtonColor: '#a3a3a3',
             })
             navigate('/dashboard')
           }
         }
       } catch (error) {
-        setError('Ocurrió un error al cargar los datos del participante.')
+        setError(t(`${viewDictionary}.errorLoadingParticipant`))
         setLoading(false)
       }
     }
@@ -156,7 +158,8 @@ function ParticipantModifyForm() {
         title: t(`${viewDictionary}.errorPopup.title`),
         text: validationError,
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       return
     }
@@ -187,7 +190,8 @@ function ParticipantModifyForm() {
             title: t(`${viewDictionary}.errorPopup.title`),
             text: t(`${viewDictionary}.errorPopup.text`),
             icon: 'error',
-            confirmButtonText: t('components.popup.confirmButtonText'),
+            confirmButtonText: t('components.buttons.confirm'),
+            confirmButtonColor: '#a3a3a3',
           })
           setFormState((prev) => ({ ...prev, uploading: false }))
           reject(error)
@@ -219,9 +223,10 @@ function ParticipantModifyForm() {
     if (!formState.name.trim()) {
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: 'El nombre del participante es obligatorio',
+        text: t(`${viewDictionary}.errorParticipantMandatory`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormState((prev) => ({ ...prev, submitting: false }))
       return
@@ -232,9 +237,10 @@ function ParticipantModifyForm() {
     if (!idToUse) {
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: 'No se pudo identificar el participante a actualizar',
+        text: t(`${viewDictionary}.errorUpdatingParticipantId`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormState((prev) => ({ ...prev, submitting: false }))
       return
@@ -248,7 +254,8 @@ function ParticipantModifyForm() {
         title: t(`${viewDictionary}.errorPopup.title`),
         text: validationError,
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormState((prev) => ({ ...prev, submitting: false }))
       return
@@ -259,7 +266,8 @@ function ParticipantModifyForm() {
         title: t(`${viewDictionary}.errorPopup.title`),
         text: t(`${viewDictionary}.authError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormState((prev) => ({ ...prev, submitting: false }))
       return
@@ -294,16 +302,18 @@ function ParticipantModifyForm() {
         title: t(`${viewDictionary}.successPopup.title`),
         text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
       })
 
       navigate('/dashboard')
     } catch (error) {
       await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: 'Error al actualizar el participante',
+        text: t(`${viewDictionary}.errorPopup.text`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setFormState((prev) => ({ ...prev, submitting: false }))
@@ -319,7 +329,7 @@ function ParticipantModifyForm() {
   }, [formState.newImageUrl])
 
   if (loading) {
-    return <Loader loading={true} size="10vmin" color="rgb(21, 100, 46)" />
+    return <Loader loading={true} />
   }
 
   if (error) {
@@ -331,8 +341,7 @@ function ParticipantModifyForm() {
           onClick={() => navigate('/list-participant')}
           size="medium"
           state="normal"
-          textId="Volver a la lista de participantes"
-          className="mt-[3vh]"
+          textId={t(`${viewDictionary}.backToParticipantsList`)}
         />
       </div>
     )

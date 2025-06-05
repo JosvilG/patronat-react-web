@@ -14,8 +14,8 @@ const RecoverPassword = () => {
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const viewDictionary = 'pages.recoverPage'
 
-  // Usar los hooks personalizados
   const { moveX, moveY, handleMouseMove } = usePointerAnimation()
   const { backgroundImage, imageLoaded, handleImageLoad, handleImageError } =
     useTaggedImage('login', '/images/default-login.jpg')
@@ -34,10 +34,10 @@ const RecoverPassword = () => {
       await sendPasswordResetEmail(auth, email, actionCodeSettings)
       showPopup({
         title: t('components.popup.successTitle'),
-        text: t('components.popup.recoverSuccess'),
+        text: t(`${viewDictionary}.recoverSuccess`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText'),
-        confirmButtonColor: '#4CAF50',
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
         onConfirm: () => navigate('/login'),
       })
     } catch (error) {
@@ -45,8 +45,8 @@ const RecoverPassword = () => {
         title: t('components.popup.failTitle'),
         text: t('components.popup.failDecription'),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
-        confirmButtonColor: '#d33',
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setLoading(false)
@@ -57,9 +57,9 @@ const RecoverPassword = () => {
     <div className="grid items-center min-h-dvh mx-auto bg-center bg-cover md:grid-cols-3 sm:grid-cols-1 justify-items-center px-[4%] sm:px-[5%] lg:px-[6%]">
       <div className="sm:mb-[50%] relative z-10 rounded-lg md:p-[5%] sm:p-[4%] p-[6%] grid-col-3 w-fit sm:translate-y-[-10vh] md:translate-y-0">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.recoverPage.title')}</h1>
+          <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
           <p className="mt-[3vh] text-black t16r whitespace-break-spaces">
-            {t('pages.recoverPage.description')}
+            {t(`${viewDictionary}.description`)}
           </p>
         </div>
         <form
@@ -68,7 +68,7 @@ const RecoverPassword = () => {
         >
           <DynamicInput
             name="email"
-            textId={t('pages.recoverPage.email')}
+            textId={t(`${viewDictionary}.email`)}
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

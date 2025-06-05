@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { collection, addDoc, getDocs, Timestamp } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import withReactContent from 'sweetalert2-react-content'
 import { useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
 import log from 'loglevel'
 import { db, storage } from '../../firebase/firebase'
 import { createEventModel } from '../../models/eventData'
@@ -16,6 +14,7 @@ import DynamicItems from '../../components/Items'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DynamicButton from '../../components/Buttons'
+import { showPopup } from '../../services/popupService'
 
 const createEventModelWithParticipants = () => {
   const baseModel = createEventModel()
@@ -85,7 +84,6 @@ function EventForm() {
 
   useEffect(() => {
     const fetchCollaborators = async () => {
-      log.debug('Fetching collaborators...')
       const collaboratorsSnap = await getDocs(collection(db, 'collaborators'))
       const collaboratorsList = collaboratorsSnap.docs.map((docSnap) => ({
         id: docSnap.id,
@@ -96,7 +94,6 @@ function EventForm() {
     }
 
     const fetchParticipants = async () => {
-      log.debug('Fetching participants...')
       const participantsSnap = await getDocs(collection(db, 'participants'))
       const participantsList = participantsSnap.docs.map((docSnap) => ({
         id: docSnap.id,
@@ -210,7 +207,6 @@ function EventForm() {
             progressSetter(progressPercent)
           },
           (error) => {
-            log.error('Error al subir el archivo:', error)
             reject(error)
           },
           async () => {
@@ -307,31 +303,28 @@ function EventForm() {
         )
       }
 
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.successPopup.title`),
         text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
         confirmButtonText: 'Aceptar',
-      }).then(() => {
-        navigate('/dashboard')
+        confirmButtonColor: '#8be484',
+        onConfirm: () => navigate('/dashboard'),
       })
     } catch (error) {
-      let errorMessage =
-        'Hubo un error al registrar el evento. Por favor, intenta nuevamente.'
+      let errorMessage = t(`${viewDictionary}.errorMessages.default`)
       if (error.code === 'unavailable') {
-        errorMessage =
-          'No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.'
+        errorMessage = t(`${viewDictionary}.errorMessages.unavailable`)
       } else if (error.code === 'permission-denied') {
-        errorMessage = 'No tienes permisos suficientes para crear este evento.'
+        errorMessage = t(`${viewDictionary}.errorMessages.permission-denied`)
       }
 
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: t(`${viewDictionary}.errorPopup.text \n`, { errorMessage }),
+        text: t(`${viewDictionary}.errorPopup.text`, { errorMessage }),
         icon: 'error',
-        confirmButtonText: 'Cerrar',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setSubmitting(false)
@@ -350,7 +343,7 @@ function EventForm() {
           {t(`${viewDictionary}.title`)}
         </h1>
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
@@ -414,7 +407,6 @@ function EventForm() {
 
                 <div>
                   <h4 className="mb-[2vh] text-gray-700 t16r">
-                    Organizador Seleccionado{' '}
                     {t(`${viewDictionary}.selectedOrganizerLabel`)}
                   </h4>
                   <div className="p-[3%] overflow-y-auto max-h-[40vh] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
@@ -465,7 +457,7 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.dateInfoTitle`)}
           </h3>
@@ -515,7 +507,7 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.detailsInfoTitle`)}
           </h3>
@@ -584,7 +576,7 @@ function EventForm() {
         </div>
 
         {eventData.needForm && (
-          <div className="p-[4%] mb-[4vh] rounded-lg">
+          <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
             <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
               {t(`${viewDictionary}.inscriptionCampsForm`)}
             </h3>
@@ -604,7 +596,7 @@ function EventForm() {
           </div>
         )}
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.galleryInfoTitle`)}
           </h3>
@@ -642,7 +634,7 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.authorizationDocumentTitle`)}
           </h3>
@@ -676,7 +668,7 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.tagsInfoTitle`)}
           </h3>
@@ -700,7 +692,7 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.collaboratorsInfoTitle`)}
           </h3>
@@ -777,7 +769,7 @@ function EventForm() {
           </div>
         </div>
 
-        <div className="p-[4%] mb-[4vh] rounded-lg">
+        <div className="p-[4%] mb-[4vh] rounded-lg sm:w-full">
           <h3 className="mb-[2vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.participantTitle`)}
           </h3>

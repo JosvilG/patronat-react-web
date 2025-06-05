@@ -42,7 +42,6 @@ function UserList() {
       setPage(1)
     }
   }, [filteredUsers, page])
-  // Usamos el hook useSlug en lugar de la función local
 
   const navigateToUserEdit = (user) => {
     const fullName = `${user.firstName || ''} ${user.lastName || ''}`.trim()
@@ -55,8 +54,8 @@ function UserList() {
   const handleDelete = async (id) => {
     if (!auth.currentUser) {
       showPopup({
-        title: t('common.error', 'Error'),
-        text: t('common.notAuthenticated', 'No estás autenticado'),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.notAuthenticated`),
         icon: 'error',
       })
       return
@@ -71,7 +70,7 @@ function UserList() {
       const userDoc = await getDoc(doc(db, 'users', id))
 
       if (!userDoc.exists()) {
-        throw new Error('El usuario no existe')
+        throw new Error(t(`${viewDictionary}.errorMessages.noExistingUser`))
       }
 
       const userData = userDoc.data()
@@ -88,22 +87,16 @@ function UserList() {
         sensitiveFields: ['email', 'phoneNumber', 'dni'],
         onSuccess: () => {
           showPopup({
-            title: t(`${viewDictionary}.deleteSuccess`, 'Usuario eliminado'),
-            text: t(
-              `${viewDictionary}.userDeleted`,
-              'El usuario ha sido eliminado correctamente'
-            ),
+            title: t(`${viewDictionary}.deleteSuccess`),
+            text: t(`${viewDictionary}.userDeleted`),
             icon: 'success',
           })
           setPaginatedUsers(paginatedUsers.filter((user) => user.id !== id))
         },
         onError: (error) => {
           showPopup({
-            title: t(`${viewDictionary}.deleteSuccess`, 'Usuario eliminado'),
-            text: t(
-              `${viewDictionary}.userDeletedNoLog`,
-              'El usuario ha sido eliminado, pero hubo un error al registrar la acción'
-            ),
+            title: t(`${viewDictionary}.deleteSuccess`),
+            text: t(`${viewDictionary}.userDeletedNoLog`),
             icon: 'warning',
           })
           setPaginatedUsers(paginatedUsers.filter((user) => user.id !== id))
@@ -111,11 +104,8 @@ function UserList() {
       })
     } catch (error) {
       showPopup({
-        title: t('common.error', 'Error'),
-        text: t(
-          `${viewDictionary}.deleteError`,
-          'Hubo un error al eliminar el usuario'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.deleteError`),
         icon: 'error',
       })
     } finally {
@@ -147,8 +137,8 @@ function UserList() {
         color="rgb(21, 100, 46)"
         text={
           isTracking
-            ? t(`${viewDictionary}.trackingChanges`, 'Registrando cambios...')
-            : t(`${viewDictionary}.loadingText`, 'Cargando usuarios...')
+            ? t(`${viewDictionary}.trackingChanges`)
+            : t(`${viewDictionary}.loadingText`)
         }
       />
     )
@@ -161,16 +151,13 @@ function UserList() {
   return (
     <div className="flex flex-col items-center h-auto max-w-full pb-6 mx-auto min-h-dvh md:max-w-fit sm:flex-none">
       <h1 className="mb-4 text-center sm:t64b t40b">
-        {t(`${viewDictionary}.title`, 'Lista de Usuarios')}
+        {t(`${viewDictionary}.title`)}
       </h1>
       <div className="grid items-center justify-end grid-cols-1 gap-4 mb-4 md:justify-items-end sm:grid-cols-2 sm:justify-between">
         <DynamicInput
           name="search"
           type="text"
-          placeholder={t(
-            `${viewDictionary}.searchPlaceholder`,
-            'Buscar por nombre, apellido, email o DNI'
-          )}
+          placeholder={t(`${viewDictionary}.searchPlaceholder`)}
           value={search}
           onChange={handleSearchChange}
         />
@@ -242,11 +229,8 @@ function UserList() {
       ) : (
         <div className="p-4 text-center bg-gray-100 rounded-lg">
           {search
-            ? t(
-                `${viewDictionary}.noResultsFound`,
-                'No se encontraron usuarios que coincidan con la búsqueda.'
-              )
-            : t(`${viewDictionary}.noUsers`, 'No hay usuarios registrados.')}
+            ? t(`${viewDictionary}.noResultsFound`)
+            : t(`${viewDictionary}.noUsers`)}
         </div>
       )}
     </div>

@@ -203,7 +203,8 @@ export const exportPartnerToExcel = async (
         'Los datos del socio se han exportado correctamente.'
       ),
       icon: 'success',
-      confirmButtonText: tFn('components.popup.confirmButtonText', 'Aceptar'),
+      confirmButtonText: tFn('components.buttons.confirm', 'Aceptar'),
+      confirmButtonColor: '#8be484',
     })
   } catch (error) {
     await showPopupFn({
@@ -213,7 +214,8 @@ export const exportPartnerToExcel = async (
         'Ha ocurrido un error al exportar los datos del socio.'
       ),
       icon: 'error',
-      confirmButtonText: tFn('components.popup.confirmButtonText', 'Aceptar'),
+      confirmButtonText: tFn('components.buttons.confirm', 'Aceptar'),
+      confirmButtonColor: '#a3a3a3',
     })
   }
 }
@@ -427,7 +429,8 @@ export const exportAllPartnersToExcel = async (
         'Los datos de todos los socios se han exportado correctamente.'
       ),
       icon: 'success',
-      confirmButtonText: tFn('components.popup.confirmButtonText', 'Aceptar'),
+      confirmButtonText: tFn('components.buttons.confirm', 'Aceptar'),
+      confirmButtonColor: '#8be484',
     })
   } catch (error) {
     await showPopupFn({
@@ -437,7 +440,8 @@ export const exportAllPartnersToExcel = async (
         'Ha ocurrido un error al exportar los datos de los socios.'
       ),
       icon: 'error',
-      confirmButtonText: tFn('components.popup.confirmButtonText', 'Aceptar'),
+      confirmButtonText: tFn('components.buttons.confirm', 'Aceptar'),
+      confirmButtonColor: '#a3a3a3',
     })
   }
 }

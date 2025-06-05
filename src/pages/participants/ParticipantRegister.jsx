@@ -57,7 +57,8 @@ function ParticipantRegisterForm() {
           title: t(`${viewDictionary}.errorPopup.title`),
           text: validationError,
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#a3a3a3',
         })
         setFormState((prev) => ({ ...prev, file: null, newImageUrl: null }))
         return
@@ -91,7 +92,8 @@ function ParticipantRegisterForm() {
             title: t(`${viewDictionary}.errorPopup.title`),
             text: t(`${viewDictionary}.errorPopup.text`),
             icon: 'error',
-            confirmButtonText: t('components.popup.confirmButtonText'),
+            confirmButtonText: t('components.buttons.confirm'),
+            confirmButtonColor: '#a3a3a3',
           })
           setFormState((prev) => ({ ...prev, uploading: false }))
           reject(error)
@@ -115,7 +117,8 @@ function ParticipantRegisterForm() {
           title: t(`${viewDictionary}.errorPopup.title`),
           text: validationError,
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#a3a3a3',
         })
         setFormState((prev) => ({ ...prev, submitting: false }))
         return
@@ -126,7 +129,8 @@ function ParticipantRegisterForm() {
           title: t(`${viewDictionary}.errorPopup.title`),
           text: t(`${viewDictionary}.authError`),
           icon: 'error',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#a3a3a3',
         })
         setFormState((prev) => ({ ...prev, submitting: false }))
         return
@@ -149,7 +153,8 @@ function ParticipantRegisterForm() {
           title: t(`${viewDictionary}.successPopup.title`),
           text: t(`${viewDictionary}.successPopup.text`),
           icon: 'success',
-          confirmButtonText: t('components.popup.confirmButtonText'),
+          confirmButtonText: t('components.buttons.confirm'),
+          confirmButtonColor: '#8be484',
         })
 
         navigate('/dashboard')
@@ -177,7 +182,7 @@ function ParticipantRegisterForm() {
     <div className="flex flex-col items-center w-[92%] sm:w-full md:w-auto pb-[4vh] mx-auto min-h-dvh h-fit">
       <Loader loading={formState.submitting} />
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
-        {t('pages.participants.title')}
+        {t(`${viewDictionary}.title`)}
       </h1>
       <form
         onSubmit={handleSubmit}

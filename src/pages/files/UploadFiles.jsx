@@ -138,7 +138,8 @@ function UploadFileForm() {
             title: t(`${popupDictionary}.failTitle`),
             text: t(`${viewDictionary}.errorText`),
             icon: 'error',
-            confirmButtonText: t(`${popupDictionary}.closeButtonText`),
+            confirmButtonText: t('components.buttons.close'),
+            confirmButtonColor: '#a3a3a3',
           })
 
           setUploading(false)
@@ -174,7 +175,8 @@ function UploadFileForm() {
             title: t(`${popupDictionary}.successTitle`),
             text: t(`${viewDictionary}.popups.successText`),
             icon: 'success',
-            confirmButtonText: t(`${popupDictionary}.confirmButtonText`),
+            confirmButtonText: t(`components.buttons.confirm`),
+            confirmButtonColor: '#8be484',
             onConfirm: () => {
               navigate('/dashboard')
             },
@@ -202,6 +204,7 @@ function UploadFileForm() {
         text: t(`${viewDictionary}.errorText`),
         icon: 'error',
         confirmButtonText: t(`${popupDictionary}.closeButtonText`),
+        confirmButtonColor: '#a3a3a3',
       })
 
       setUploading(false)
@@ -313,7 +316,7 @@ function UploadFileForm() {
         />
         <p className="w-full t12l">
           {' '}
-          {t(`${viewDictionary}.visibliityDescription`)}
+          {t(`${viewDictionary}.visibilityDescription`)}
         </p>
 
         {/* Upload progress indicator */}

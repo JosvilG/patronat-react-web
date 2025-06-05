@@ -56,14 +56,14 @@ function EventList() {
   const handleDelete = async (id) => {
     try {
       showPopup({
-        title: '¿Estás seguro?',
-        text: 'Se eliminarán el evento y todas sus inscripciones. Esta acción no se puede deshacer.',
+        title: t(`${viewDictionary}.deleteConfirmTitle`),
+        text: t(`${viewDictionary}.deleteConfirmText`),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, eliminar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
+        confirmButtonText: t(`${viewDictionary}.deleteConfirmButton`),
+        cancelButtonText: t('components.buttons.cancel'),
         onConfirm: async () => {
           try {
             const inscriptionsQuery = query(
@@ -87,15 +87,14 @@ function EventList() {
             setFilteredEvents(updatedEvents)
 
             showPopup({
-              title: '¡Eliminado!',
-              text: 'El evento y sus inscripciones han sido eliminados.',
+              title: t(`${viewDictionary}.deleteSuccessTitle`),
+              text: t(`${viewDictionary}.deleteSuccessText`),
               icon: 'success',
             })
           } catch (error) {
-            // Error al eliminar el evento
             showPopup({
-              title: 'Error',
-              text: 'No se pudo eliminar el evento. Por favor, inténtalo de nuevo.',
+              title: t(`${viewDictionary}.deleteErrorTitle`),
+              text: t(`${viewDictionary}.deleteErrorText`),
               icon: 'error',
             })
           }
@@ -163,7 +162,6 @@ function EventList() {
                 type="edit"
               />
 
-              {/* Mostrar el botón solo si needForm es true */}
               {event.needForm === true && (
                 <DynamicButton
                   onClick={() => {

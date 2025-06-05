@@ -11,7 +11,6 @@ import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import useTaggedImage from '../../hooks/useTaggedImage'
 import usePointerAnimation from '../../hooks/usePointerAnimation'
-
 import useChangeTracker from '../../hooks/useModificationsRegister'
 
 function RegisterPage() {
@@ -102,7 +101,6 @@ function RegisterPage() {
           navigate('/')
         },
         onError: (error) => {
-          log.warn('Usuario creado pero error al registrar cambios:', error)
           navigate('/')
         },
       })
@@ -110,14 +108,8 @@ function RegisterPage() {
       log.error('Error al crear cuenta:', err)
       setError(
         err.code === 'auth/email-already-in-use'
-          ? t(
-              'common.errorMessages.emailInUse',
-              'Este correo electrónico ya está registrado'
-            )
-          : t(
-              'common.errorMessages.genericRegistration',
-              'Hubo un error al crear tu cuenta. Por favor, intenta de nuevo.'
-            )
+          ? t(`${viewDictionary}.errorMessages.emailInUse`)
+          : t(`${viewDictionary}.errorMessages.genericRegistration`)
       )
     } finally {
       setLoading(false)
@@ -213,10 +205,7 @@ function RegisterPage() {
 
           {isTracking && (
             <p className="mt-[2vh] text-sm text-center text-gray-600">
-              {t(
-                'pages.users.listUsers.trackingChanges',
-                'Registrando cambios...'
-              )}
+              {`${viewDictionary}.trackingChanges`}
             </p>
           )}
         </form>

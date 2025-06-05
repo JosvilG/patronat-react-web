@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth'
-import log from 'loglevel'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import usePointerAnimation from '../../hooks/usePointerAnimation'
@@ -15,6 +14,7 @@ function LoginPage() {
   const [loginError, setLoginError] = useState('')
   const navigate = useNavigate()
   const { t } = useTranslation()
+  const viewDictionary = 'pages.login'
 
   const { moveX, moveY, handleMouseMove } = usePointerAnimation()
   const { backgroundImage, imageLoaded, handleImageLoad, handleImageError } =
@@ -22,16 +22,19 @@ function LoginPage() {
 
   const handleLogin = async (e) => {
     e.preventDefault()
+    setLoginError('')
     const auth = getAuth()
+
+    if (!email || !password) {
+      setLoginError('empty')
+      return
+    }
 
     try {
       await signInWithEmailAndPassword(auth, email, password)
       navigate('/')
     } catch (err) {
-      log.error('Error al intentar iniciar sesión:', err.message)
-      setLoginError(
-        'Error al iniciar sesión. Por favor verifica tus credenciales.'
-      )
+      setLoginError(err.code || 'unknown')
     }
   }
 
@@ -39,9 +42,9 @@ function LoginPage() {
     <div className="grid items-center min-h-dvh mx-auto bg-center bg-cover md:grid-cols-3 sm:grid-cols-1 justify-items-center px-[4%] sm:px-[5%] lg:px-[6%]">
       <div className="sm:mb-[50%] relative z-10 rounded-lg md:p-[5%] sm:p-[4%] p-[6%] grid-col-3 w-fit sm:translate-y-[-10vh] md:translate-y-0">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.login.title')}</h1>
+          <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
           <p className="mt-[3vh] text-black t16r whitespace-break-spaces">
-            {t('pages.login.description')}
+            {t(`${viewDictionary}.description`)}
           </p>
         </div>
 
@@ -51,14 +54,14 @@ function LoginPage() {
         >
           {loginError && (
             <p className="mb-[2vh] text-center text-red-500 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl px-4 py-3">
-              {t('pages.login.errorLogin')}
+              {t(`${viewDictionary}.errorLogin`)}
             </p>
           )}
 
           <DynamicInput
             name="email"
             type="text"
-            textId={t('pages.login.mailInput')}
+            textId={t(`${viewDictionary}.mailInput`)}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -67,7 +70,7 @@ function LoginPage() {
           <DynamicInput
             name="password"
             type="password"
-            textId={t('pages.login.passwordInput')}
+            textId={t(`${viewDictionary}.passwordInput`)}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -76,7 +79,7 @@ function LoginPage() {
           <div className="flex items-center justify-between w-full !mt-0">
             <p className="text-black">
               <Link className="t12s" to="/recover-password">
-                {t('pages.login.forgotPassword')}
+                {t(`${viewDictionary}.forgotPassword`)}
               </Link>
             </p>
           </div>
@@ -85,16 +88,16 @@ function LoginPage() {
               size="medium"
               state="normal"
               type="submit"
-              textId={t('components.buttons.login')}
+              textId={t(`components.buttons.login`)}
             ></DynamicButton>
           </div>
         </form>
 
         <div className="flex items-center justify-center mt-[3vh]">
           <p className="text-black t12r">
-            {t('pages.login.noAccount')}{' '}
+            {t(`${viewDictionary}.noAccount`)}
             <Link className="t12b" to="/register">
-              {t('pages.login.register')}
+              {t(`${viewDictionary}.register`)}
             </Link>
           </p>
         </div>

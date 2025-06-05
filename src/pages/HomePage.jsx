@@ -140,7 +140,6 @@ const GallerySection = ({
       ) : galleryImages.length >= 3 ? (
         <div className="relative">
           <div className="flex justify-center overflow-hidden">
-            {/* En móviles: implementar swipe con Framer Motion */}
             <div className="w-full sm:hidden">
               <motion.div
                 key={`mobile-container-${currentGalleryIndex}`}
@@ -174,7 +173,6 @@ const GallerySection = ({
               </motion.div>
             </div>
 
-            {/* En desktop mostrar las 3 imágenes */}
             <div className="hidden sm:flex">
               <AnimatePresence mode="wait">
                 <motion.div
@@ -236,7 +234,6 @@ const GallerySection = ({
         </div>
       ) : galleryImages.length >= 1 ? (
         <div className="relative">
-          {/* Vista móvil: solo mostrar la imagen actual */}
           <div className="w-full sm:hidden">
             <motion.div
               key={`mobile-single-container-${currentGalleryIndex}`}
@@ -272,7 +269,6 @@ const GallerySection = ({
             </motion.div>
           </div>
 
-          {/* Vista desktop: mostrar las imágenes según la cantidad */}
           <div className="justify-center hidden sm:flex">
             <GalleryCard
               galleryImages={galleryImages}
@@ -286,7 +282,6 @@ const GallerySection = ({
             )}
           </div>
 
-          {/* Añadir navegación si hay 2 imágenes */}
           {galleryImages.length === 2 && (
             <GalleryNavigation
               onPrev={handlePrev}
@@ -372,12 +367,9 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
       <a href="/events-list"> {t('pages.home.eventSection.title')}</a>
     </h2>
     {loadingEvents ? (
-      <div className="flex items-center justify-center">
-        {/* <Loader loading={loadingEvents} /> */}
-      </div>
+      <div className="flex items-center justify-center"></div>
     ) : events.length > 0 ? (
       <>
-        {/* Vista móvil mejorada: carrusel horizontal con scroll snap y paginación */}
         <div className="relative w-full pb-[5%] sm:hidden">
           <div className="w-full overflow-x-auto scrollbar-hide">
             <div className="flex w-full gap-[4%] px-[2%] snap-x snap-mandatory">
@@ -410,7 +402,6 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
             </div>
           </div>
 
-          {/* Indicadores de paginación */}
           {events.length > 1 && (
             <div className="flex justify-center gap-2 mt-4">
               {events.map((_, index) => (
@@ -423,14 +414,8 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
               ))}
             </div>
           )}
-
-          {/* Texto indicador de scroll */}
-          <div className="mt-2 text-sm text-center text-gray-500 animate-pulse">
-            {t('pages.home.eventSection.swipeHint', 'Desliza para ver más')}
-          </div>
         </div>
 
-        {/* Vista desktop: cuadrícula original */}
         <div className="hidden gap-8 sm:grid sm:grid-cols-1 md:grid-cols-3">
           {events.map((event) => (
             <div key={event.eventId} onClick={() => onEventClick(event)}>
@@ -468,17 +453,17 @@ const WantToParticipateSection = ({ t }) => (
       {t('pages.home.wantToParticipateSection.title')}
     </h2>
     <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-right mb-[4vh]">
-      {t('pages.home.wantToParticipateSection.firstPar')}
+      {t('pages.home.wantToParticipateSection.firstPart')}
     </p>
     <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-left mb-[4vh]">
-      {t('pages.home.wantToParticipateSection.secondPar')}
+      {t('pages.home.wantToParticipateSection.secondPart')}
     </p>
     <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-right mb-[4vh]">
-      {t('pages.home.wantToParticipateSection.thirdPar')}
+      {t('pages.home.wantToParticipateSection.thirdPart')}
     </p>
     <p className="sm:t24l t20l max-w-[95%] mx-auto lg:max-w-[1109px] text-center mb-[4vh]">
       <Trans
-        i18nKey="pages.home.wantToParticipateSection.linksPar"
+        i18nKey="pages.home.wantToParticipateSection.linksPart"
         components={{
           2: (
             <Link to="/new-crew">

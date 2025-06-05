@@ -85,7 +85,7 @@ const CrewDetails = () => {
       if (authLoading) return
 
       if (!user) {
-        setError('Debes iniciar sesión para ver esta información.')
+        setError(t(`${viewDictionary}.loginNeeded`))
         setLoading(false)
         return
       }
@@ -112,7 +112,7 @@ const CrewDetails = () => {
         }
 
         if (!crewId) {
-          setError('No se encontró la peña')
+          setError(t(`${viewDictionary}.notFindedCrew`))
           setLoading(false)
           return
         }
@@ -121,7 +121,7 @@ const CrewDetails = () => {
         const crewDoc = await getDoc(crewRef)
 
         if (!crewDoc.exists()) {
-          setError('No se encontró la peña')
+          setError(t(`${viewDictionary}.notFindedCrew`))
           setLoading(false)
           return
         }
@@ -132,7 +132,7 @@ const CrewDetails = () => {
           crewData.status === STATUS.DELETED &&
           !AUTHORIZED_ROLES.includes(userData?.role)
         ) {
-          setError('Esta peña ya no está disponible')
+          setError(t(`${viewDictionary}.noAvailableCrew`))
           setLoading(false)
           return
         }
@@ -241,8 +241,7 @@ const CrewDetails = () => {
 
         setLoading(false)
       } catch (error) {
-        // Error al cargar datos de la peña
-        setError('No se pudieron cargar los datos de la peña')
+        setError(t(`${viewDictionary}.error`))
         setLoading(false)
         logAction(user?.uid || 'anonymous', 'error_loading_crew', {
           slug,
@@ -258,8 +257,8 @@ const CrewDetails = () => {
   const handleApprove = async () => {
     if (!isAuthorized || !AUTHORIZED_ROLES.includes(userData?.role)) {
       showPopup({
-        title: 'Acceso denegado',
-        text: 'No tienes permisos para realizar esta acción.',
+        title: t(`${viewDictionary}.accessDeniedTitle`),
+        text: t(`${viewDictionary}.accessDeniedText`),
         icon: 'error',
       })
       return
@@ -387,24 +386,15 @@ const CrewDetails = () => {
 
         let successMessage =
           gameCount > 0
-            ? t(
-                `${viewDictionary}.approvalWithGames`,
-                { count: gameCount },
-                `La peña ha sido aprobada y se le han asignado ${gameCount} juegos activos.`
-              )
-            : t(
-                `${viewDictionary}.approvalSuccess`,
-                'La peña ha sido aprobada correctamente.'
-              )
+            ? t(`${viewDictionary}.approvalWithGames`, { count: gameCount })
+            : t(`${viewDictionary}.approvalSuccess`)
 
         if (deletedMessagesCount > 0) {
           successMessage +=
             ' ' +
-            t(
-              `${viewDictionary}.messagesDeleted`,
-              { count: deletedMessagesCount },
-              `Se han eliminado ${deletedMessagesCount} ${deletedMessagesCount === 1 ? 'mensaje' : 'mensajes'} de rechazo anteriores.`
-            )
+            t(`${viewDictionary}.messagesDeleted`, {
+              count: deletedMessagesCount,
+            })
         }
 
         await logAction(user.uid, 'crew_approval_success', {
@@ -415,7 +405,7 @@ const CrewDetails = () => {
         })
 
         showPopup({
-          title: t(`${viewDictionary}.approvalTitle`, '¡Aprobada!'),
+          title: t(`${viewDictionary}.approvalTitle`),
           text: sanitizeHTML(successMessage),
           icon: 'success',
           onConfirm: () => window.location.reload(),
@@ -434,8 +424,8 @@ const CrewDetails = () => {
         error: error.message,
       })
       showPopup({
-        title: 'Error',
-        text: 'No se pudo aprobar la peña. Por favor, inténtalo de nuevo.',
+        title: t(`${viewDictionary}.errorTitle`),
+        text: t(`${viewDictionary}.approvalError`),
         icon: 'error',
       })
     } finally {
@@ -446,8 +436,8 @@ const CrewDetails = () => {
   const handleReject = async () => {
     if (!isAuthorized || !AUTHORIZED_ROLES.includes(userData?.role)) {
       showPopup({
-        title: 'Acceso denegado',
-        text: 'No tienes permisos para realizar esta acción.',
+        title: t(`${viewDictionary}.accessDeniedTitle`),
+        text: t(`${viewDictionary}.accessDeniedText`),
         icon: 'error',
       })
       return
@@ -456,18 +446,15 @@ const CrewDetails = () => {
     try {
       const rejectOptions = {
         title: t(`${viewDictionary}.rejectTitle`, 'Rechazar peña'),
-        text: sanitizeHTML(`<p>${t(`${viewDictionary}.rejectConfirmation`, '¿Estás seguro de que quieres rechazar esta peña?')}</p>
-               <label class="swal2-input-label">${t(`${viewDictionary}.rejectReason`, 'Motivo de rechazo')}</label>
-               <textarea class="swal2-textarea" placeholder="${t(`${viewDictionary}.rejectReasonPlaceholder`, 'Escribe el motivo por el que se rechaza esta peña...')}" aria-label="${t(`${viewDictionary}.rejectReason`, 'Motivo de rechazo')}" required maxlength="500"></textarea>`),
+        text: sanitizeHTML(`<p>${t(`${viewDictionary}.rejectConfirmation`)}</p>
+               <label class="swal2-input-label">${t(`${viewDictionary}.rejectReason`)}</label>
+               <textarea class="swal2-textarea" placeholder="${t(`${viewDictionary}.rejectReasonPlaceholder`)}" aria-label="${t(`${viewDictionary}.rejectReason`)}" required maxlength="500"></textarea>`),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: t(
-          `${viewDictionary}.rejectConfirmButton`,
-          'Sí, rechazar'
-        ),
-        cancelButtonText: t(`${viewDictionary}.rejectCancelButton`, 'Cancelar'),
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
+        confirmButtonText: t(`${viewDictionary}.rejectConfirmButton`),
+        cancelButtonText: t(`${viewDictionary}.rejectCancelButton`),
         preConfirm: () => {
           const textarea = document.querySelector('.swal2-textarea')
           if (!textarea || !textarea.value.trim()) {
@@ -494,13 +481,15 @@ const CrewDetails = () => {
               const crewSnap = await transaction.get(crewRef)
 
               if (!crewSnap.exists()) {
-                throw new Error('La peña ya no existe')
+                throw new Error(t(`${viewDictionary}.alreadyExistsError`))
               }
 
               const currentData = crewSnap.data()
               if (currentData.status !== STATUS.PENDING) {
                 throw new Error(
-                  `La peña ya no está pendiente (estado actual: ${currentData.status})`
+                  t(`${viewDictionary}.actualStatusNotWaiting`, {
+                    status: currentData.status,
+                  })
                 )
               }
 
@@ -548,24 +537,17 @@ const CrewDetails = () => {
 
             showPopup({
               title: t(`${viewDictionary}.rejectSuccessTitle`, 'Rechazada'),
-              text: t(
-                `${viewDictionary}.rejectSuccess`,
-                'La peña ha sido rechazada y se ha registrado el motivo.'
-              ),
+              text: t(`${viewDictionary}.rejectSuccess`),
               icon: 'info',
             })
           } catch (error) {
-            // Error al rechazar la peña
             await logAction(user.uid, 'crew_rejection_failed', {
               crewId: crew.id,
               error: error.message,
             })
             showPopup({
               title: t(`${viewDictionary}.errorTitle`, 'Error'),
-              text: t(
-                `${viewDictionary}.rejectError`,
-                'No se pudo rechazar la peña. Por favor, inténtalo de nuevo.'
-              ),
+              text: t(`${viewDictionary}.rejectError`),
               icon: 'error',
             })
           } finally {
@@ -577,10 +559,7 @@ const CrewDetails = () => {
       // Error al preparar rechazo
       showPopup({
         title: t(`${viewDictionary}.errorTitle`, 'Error'),
-        text: t(
-          `${viewDictionary}.rejectError`,
-          'No se pudo rechazar la peña. Por favor, inténtalo de nuevo.'
-        ),
+        text: t(`${viewDictionary}.rejectError`),
         icon: 'error',
       })
     }
@@ -589,13 +568,7 @@ const CrewDetails = () => {
   if (authLoading || loading) {
     return (
       <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
-        <Loader
-          loading={true}
-          text={t(
-            `${viewDictionary}.loading`,
-            'Cargando detalles de la peña...'
-          )}
-        />
+        <Loader loading={true} text={t(`${viewDictionary}.loading`)} />
       </div>
     )
   }
@@ -611,7 +584,7 @@ const CrewDetails = () => {
             onClick={() => navigate('/crews')}
             size="medium"
             type="view"
-            textId={t(`${viewDictionary}.backToCrews`, 'Volver a Peñas')}
+            textId={t(`${viewDictionary}.backToCrews`)}
           />
         </div>
       </div>
@@ -622,17 +595,14 @@ const CrewDetails = () => {
     return (
       <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
         <div className="p-[3%] text-center text-red-600">
-          {t(
-            `${viewDictionary}.unauthorized`,
-            'No tienes permiso para ver los detalles de esta peña'
-          )}
+          {t(`${viewDictionary}.unauthorized`)}
         </div>
         <div className="flex justify-center mt-[2vh]">
           <DynamicButton
             onClick={() => navigate('/crews')}
             size="medium"
             type="view"
-            textId={t(`${viewDictionary}.backToCrews`, 'Volver a Peñas')}
+            textId={t(`${viewDictionary}.backToCrews`)}
           />
         </div>
       </div>
@@ -642,7 +612,7 @@ const CrewDetails = () => {
   return (
     <div className="w-[92%] mx-auto pb-[4vh] min-h-dvh">
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
-        {t(`${viewDictionary}.title`, 'Detalles de la Peña')}
+        {t(`${viewDictionary}.title`)}
       </h1>
 
       {crew && (
@@ -652,30 +622,21 @@ const CrewDetails = () => {
             AUTHORIZED_ROLES.includes(userData?.role) && (
               <div className="p-[3%] mb-[3vh] text-center text-red-700 bg-red-100 border border-red-200 rounded-[1rem] sm:rounded-[1.5rem]">
                 <p className="mb-[1vh] t18b">
-                  {t(
-                    `${viewDictionary}.pendingApproval`,
-                    'Esta peña está pendiente de aprobación'
-                  )}
+                  {t(`${viewDictionary}.pendingApproval`)}
                 </p>
                 <div className="flex flex-wrap justify-center gap-[2vw] mt-[2vh]">
                   <DynamicButton
                     onClick={handleApprove}
                     size="small"
                     type="confirm"
-                    textId={t(
-                      `${viewDictionary}.approveButton`,
-                      'Aprobar peña'
-                    )}
+                    textId={t(`${viewDictionary}.approveButton`)}
                     disabled={actionLoading}
                   />
                   <DynamicButton
                     onClick={handleReject}
                     size="small"
                     type="cancel"
-                    textId={t(
-                      `${viewDictionary}.rejectButton`,
-                      'Rechazar peña'
-                    )}
+                    textId={t(`${viewDictionary}.rejectButton`)}
                     disabled={actionLoading}
                   />
                 </div>
@@ -683,10 +644,7 @@ const CrewDetails = () => {
                   <div className="mt-[2vh]">
                     <Loader
                       loading={true}
-                      text={t(
-                        `${viewDictionary}.processingAction`,
-                        'Procesando acción...'
-                      )}
+                      text={t(`${viewDictionary}.processingAction`)}
                     />
                   </div>
                 )}
@@ -697,7 +655,7 @@ const CrewDetails = () => {
             <div className="grid grid-cols-1 gap-[4vh] lg:grid-cols-2">
               <div>
                 <h2 className="mb-[2vh] t24b">
-                  {t(`${viewDictionary}.basicInfo`, 'Información Básica')}
+                  {t(`${viewDictionary}.basicInfo`)}
                 </h2>
 
                 <div className="flex items-center mb-[2vh]">
@@ -727,7 +685,7 @@ const CrewDetails = () => {
 
                 <p className="mb-[1vh] t16r">
                   <span className="font-bold">
-                    {t(`${viewDictionary}.members`, 'Miembros:')}
+                    {t(`${viewDictionary}.members`)}
                   </span>{' '}
                   {((crew.membersNames && crew.membersNames.length) || 0) +
                     ((crew.responsable && crew.responsable.length) || 0)}
@@ -736,7 +694,7 @@ const CrewDetails = () => {
                 {crew.season && (
                   <p className="mb-[1vh] t16r">
                     <span className="font-bold">
-                      {t(`${viewDictionary}.season`, 'Temporada:')}
+                      {t(`${viewDictionary}.season`)}
                     </span>{' '}
                     {crew.season}
                   </p>
@@ -745,10 +703,7 @@ const CrewDetails = () => {
                 {crew.createdAt && (
                   <p className="mb-[1vh] t16r">
                     <span className="font-bold">
-                      {t(
-                        `${viewDictionary}.creationDate`,
-                        'Fecha de Creación:'
-                      )}
+                      {t(`${viewDictionary}.creationDate`)}
                     </span>{' '}
                     {crew.createdAt instanceof Date
                       ? crew.createdAt.toLocaleDateString()
@@ -756,20 +711,14 @@ const CrewDetails = () => {
                         ? new Date(
                             crew.createdAt.seconds * 1000
                           ).toLocaleDateString()
-                        : t(
-                            `${viewDictionary}.dateNotAvailable`,
-                            'Fecha no disponible'
-                          )}
+                        : t(`${viewDictionary}.dateNotAvailable`)}
                   </p>
                 )}
 
                 {crew.updatedAt && (
                   <p className="mb-[1vh] t16r">
                     <span className="font-bold">
-                      {t(
-                        `${viewDictionary}.lastUpdate`,
-                        'Última Actualización:'
-                      )}
+                      {t(`${viewDictionary}.lastUpdate`)}
                     </span>{' '}
                     {crew.updatedAt instanceof Date
                       ? crew.updatedAt.toLocaleDateString()
@@ -777,17 +726,14 @@ const CrewDetails = () => {
                         ? new Date(
                             crew.updatedAt.seconds * 1000
                           ).toLocaleDateString()
-                        : t(
-                            `${viewDictionary}.dateNotAvailable`,
-                            'Fecha no disponible'
-                          )}
+                        : t(`${viewDictionary}.dateNotAvailable`)}
                   </p>
                 )}
               </div>
 
               <div>
                 <h2 className="mb-[2vh] t24b">
-                  {t(`${viewDictionary}.membersSection`, 'Miembros de la Peña')}
+                  {t(`${viewDictionary}.membersSection`)}
                 </h2>
 
                 {crew.membersNames && crew.membersNames.length > 0 ? (
@@ -803,15 +749,12 @@ const CrewDetails = () => {
                   </div>
                 ) : (
                   <p className="text-gray-500 t16r">
-                    {t(
-                      `${viewDictionary}.noMembers`,
-                      'No hay miembros registrados'
-                    )}
+                    {t(`${viewDictionary}.noMembers`)}
                   </p>
                 )}
 
                 <h2 className="mt-[3vh] mb-[2vh] t24b">
-                  {t(`${viewDictionary}.responsables`, 'Responsables')}
+                  {t(`${viewDictionary}.responsables`)}
                 </h2>
 
                 {responsables.length > 0 ? (
@@ -842,10 +785,7 @@ const CrewDetails = () => {
                   </div>
                 ) : (
                   <p className="text-gray-500 t16r">
-                    {t(
-                      `${viewDictionary}.noResponsables`,
-                      'No hay responsables asignados'
-                    )}
+                    {t(`${viewDictionary}.noResponsables`)}
                   </p>
                 )}
               </div>
@@ -855,7 +795,7 @@ const CrewDetails = () => {
           {crewGames.length > 0 && (
             <div className="p-[5%] space-y-[3vh] rounded-[2rem] sm:rounded-[3rem] h-fit mb-[3vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
               <h2 className="mb-[2vh] t24b">
-                {t(`${viewDictionary}.gamesSection`, 'Juegos de la Peña')}
+                {t(`${viewDictionary}.gamesSection`)}
               </h2>
 
               <div className="space-y-[2vh]">
@@ -909,7 +849,7 @@ const CrewDetails = () => {
                       <div className="flex-shrink-0 mt-[2vh] md:mt-0 md:ml-[2vw]">
                         <div className="flex flex-col items-center">
                           <span className="t14b">
-                            {t(`${viewDictionary}.points`, 'Puntos')}
+                            {t(`${viewDictionary}.points`)}
                           </span>
                           <span
                             className={`t24b ${game.points > 0 ? 'text-green-600' : 'text-gray-500'}`}
@@ -930,7 +870,7 @@ const CrewDetails = () => {
               onClick={() => navigate(`/crews-list`)}
               size="medium"
               type="view"
-              textId={t(`${viewDictionary}.backToCrews`, 'Volver a Peñas')}
+              textId={t(`${viewDictionary}.backToCrews`)}
             />
 
             {isAuthorized && (
@@ -942,7 +882,7 @@ const CrewDetails = () => {
                 }
                 size="medium"
                 type="edit"
-                textId={t(`${viewDictionary}.editCrew`, 'Editar Peña')}
+                textId={t(`${viewDictionary}.editCrew`)}
               />
             )}
           </div>

@@ -20,7 +20,7 @@ const buildPopupText = (eventData, t) => {
     ${t('pages.events.details.popupText')}${eventData.description}
     ${t('pages.events.details.popupInitDate')} ${startDate}
     ${endDate}
-    ${eventData.location ? `Ubicación: ${eventData.location}` : ''}
+    ${eventData.location ? t(`pages.events.details.popupUbication`, { location: eventData.location }) : ''}
     ${eventData.type === 'game' ? `Temporada: ${eventData.season || ''}` : ''}
     ${eventData.type === 'game' ? `Mínimo participantes: ${eventData.minParticipants || ''}` : ''}
     ${eventData.type === 'game' ? `Puntuación: ${eventData.score || ''}` : ''}
@@ -130,7 +130,7 @@ const Calendar = () => {
       text: buildPopupText(eventData, t),
       icon: 'info',
       showCancelButton: false,
-      cancelButtonText: t('components.popup.closeButtonText'),
+      cancelButtonText: t('components.buttons.cancel'),
       customClass: {
         popup: 'bg-white rounded-lg shadow-xl p-3 sm:p-6',
         title: 'text-lg sm:text-xl font-semibold text-gray-800',

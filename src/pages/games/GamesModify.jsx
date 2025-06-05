@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import {
-  Timestamp,
   doc,
   getDoc,
   updateDoc,
@@ -9,13 +8,10 @@ import {
   query,
   where,
   getDocs,
-  setDoc,
   serverTimestamp,
   writeBatch,
 } from 'firebase/firestore'
-import withReactContent from 'sweetalert2-react-content'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import Swal from 'sweetalert2'
 import log from 'loglevel'
 import { db } from '../../firebase/firebase'
 import Loader from '../../components/Loader'
@@ -23,6 +19,7 @@ import { useTranslation } from 'react-i18next'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import useSlug from '../../hooks/useSlug'
+import { showPopup } from '../../services/popupService'
 
 function GamesModify() {
   const { t } = useTranslation()
@@ -45,10 +42,9 @@ function GamesModify() {
   const { slug } = useParams()
   const location = useLocation()
   const { gameId } = location.state || {}
-  const viewDictionary = 'pages.games.modifyGame'
   const { generateSlug } = useSlug()
+  const viewDictionary = 'pages.games.modifyGame'
 
-  // Opciones para el select de estado
   const statusOptions = [
     { label: `${viewDictionary}.statusOptions.active`, value: 'Activo' },
     { label: `${viewDictionary}.statusOptions.inactive`, value: 'Inactivo' },
@@ -79,13 +75,13 @@ function GamesModify() {
     const fetchGameData = async () => {
       try {
         if (!gameId) {
-          throw new Error('No se proporcionó un ID de juego válido')
+          throw new Error(t(`${viewDictionary}.errorId`))
         }
 
         const gameDoc = await getDoc(doc(db, 'games', gameId))
 
         if (!gameDoc.exists()) {
-          throw new Error('El juego no existe')
+          throw new Error(t(`${viewDictionary}.gameNotExist`))
         }
 
         const data = gameDoc.data()
@@ -96,19 +92,15 @@ function GamesModify() {
         }
 
         setGameData(gameDataWithDefaults)
-        setOriginalGameData(gameDataWithDefaults) // Guardar los datos originales
+        setOriginalGameData(gameDataWithDefaults)
       } catch (error) {
-        const MySwal = withReactContent(Swal)
-        MySwal.fire({
-          title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-          text: t(
-            `${viewDictionary}.errorPopup.loadingFailed`,
-            'No se pudo cargar la información del juego.'
-          ),
+        showPopup({
+          title: t(`${viewDictionary}.titleError`),
+          text: t(`${viewDictionary}.errorPopup.loadingFailed`),
           icon: 'error',
-          confirmButtonText: 'Volver',
-        }).then(() => {
-          navigate('/dashboard')
+          confirmButtonText: t('components.buttons.back'),
+          confirmButtonColor: '#a3a3a3',
+          onConfirm: () => navigate('/dashboard'),
         })
       } finally {
         setLoading(false)
@@ -131,10 +123,8 @@ function GamesModify() {
     setSubmitting(true)
 
     try {
-      // Comprobar si ha cambiado la temporada
       if (originalGameData && gameData.season !== originalGameData.season) {
-        // Mostrar confirmación para crear un nuevo juego
-        const { isConfirmed } = await Swal.fire({
+        const confirmResult = await showPopup({
           title: t(`${viewDictionary}.confirmSeasonChange.title`),
           text: t(`${viewDictionary}.confirmSeasonChange.text`, {
             oldSeason: originalGameData.season,
@@ -142,25 +132,36 @@ function GamesModify() {
           }),
           icon: 'question',
           showDenyButton: true,
+          showCancelButton: true,
+          confirmButtonColor: '#8be484',
           confirmButtonText: t(
             `${viewDictionary}.confirmSeasonChange.createNew`
           ),
           denyButtonText: t(
             `${viewDictionary}.confirmSeasonChange.updateExisting`
           ),
+          cancelButton: t('components.buttons.cancel'),
         })
 
-        if (isConfirmed) {
-          // Crear un nuevo juego con la nueva temporada
+        if (
+          !confirmResult ||
+          confirmResult.isDenied ||
+          confirmResult.isDismissed ||
+          confirmResult.isConfirmed === false
+        ) {
+          setGameData((prev) => ({ ...prev, season: originalGameData.season }))
+          setSubmitting(false)
+          return
+        }
+
+        if (confirmResult && confirmResult.isConfirmed) {
           await createNewGameForSeason(gameData.season)
           return
         }
       }
 
-      // Si no hay cambio de temporada o el usuario eligió actualizar el existente
       const gameRef = doc(db, 'games', gameId)
 
-      // Actualizar el juego principal
       await updateDoc(gameRef, {
         ...gameData,
         updatedAt: serverTimestamp(),
@@ -168,14 +169,12 @@ function GamesModify() {
         score: Number(gameData.score),
       })
 
-      // Verificar qué campos relevantes cambiaron
       const relevantFieldsChanged =
         originalGameData.name !== gameData.name ||
         originalGameData.season !== gameData.season ||
         originalGameData.date !== gameData.date ||
         originalGameData.status !== gameData.status
 
-      // Si hay campos relevantes cambiados, actualizarlos en las subcolecciones
       if (relevantFieldsChanged) {
         await updateGameInCrews(gameId, {
           gameName: gameData.name,
@@ -184,26 +183,17 @@ function GamesModify() {
           gameStatus: gameData.status,
           updatedAt: serverTimestamp(),
         })
-      }
-      // Si solo cambió el estado, actualizar solo ese campo
-      else if (originalGameData.status !== gameData.status) {
+      } else if (originalGameData.status !== gameData.status) {
         await updateGameStatusInCrews(gameId, gameData.status)
       }
 
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
-        title: t(
-          `${viewDictionary}.successPopup.title`,
-          'Juego actualizado con éxito'
-        ),
-        text: t(
-          `${viewDictionary}.successPopup.text`,
-          'El juego ha sido actualizado correctamente'
-        ),
+      showPopup({
+        title: t(`${viewDictionary}.successPopup.title`),
+        text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: 'Aceptar',
-      }).then(() => {
-        navigate('/games-list')
+        confirmButtonColor: '#8be484',
+        confirmButtonText: t('components.buttons.accept'),
+        onConfirm: () => navigate('/games-list'),
       })
     } catch (error) {
       let errorMessage = t(`${viewDictionary}.errorMessages.default`)
@@ -213,36 +203,28 @@ function GamesModify() {
         errorMessage = t(`${viewDictionary}.errorMessages.permission-denied`)
       }
 
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-        text:
-          t(
-            `${viewDictionary}.errorPopup.text`,
-            'Error al actualizar el juego: '
-          ) + errorMessage,
+      showPopup({
+        title: t(`${viewDictionary}.titleError`),
+        text: t(`${viewDictionary}.errorPopup.text`, {
+          errorMessage: errorMessage,
+        }),
         icon: 'error',
-        confirmButtonText: 'Cerrar',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setSubmitting(false)
     }
   }
 
-  // Función para actualizar el estado del juego en todas las crews
   const updateGameStatusInCrews = async (gameId, newStatus) => {
     try {
-      // Obtener todas las crews que tienen este juego
       const crewsQuery = query(collection(db, 'crews'))
       const crewsSnapshot = await getDocs(crewsQuery)
-
-      // Usar batch para optimizar escrituras
       const batch = writeBatch(db)
 
       for (const crewDoc of crewsSnapshot.docs) {
         const crewId = crewDoc.id
-
-        // Verificar si existe el documento del juego en la subcolección
         const gameSubcolRef = doc(db, 'crews', crewId, 'games', gameId)
         const gameSubcolDoc = await getDoc(gameSubcolRef)
 
@@ -260,52 +242,36 @@ function GamesModify() {
     }
   }
 
-  // Función para actualizar múltiples campos del juego en todas las crews
   const updateGameInCrews = async (gameId, updatedFields) => {
-    try {
-      // Obtener todas las crews que tienen este juego
-      const crewsQuery = query(collection(db, 'crews'))
-      const crewsSnapshot = await getDocs(crewsQuery)
+    const crewsQuery = query(collection(db, 'crews'))
+    const crewsSnapshot = await getDocs(crewsQuery)
+    let batch = writeBatch(db)
+    let updatesCount = 0
 
-      // Usar batch para optimizar escrituras
-      let batch = writeBatch(db)
-      let updatesCount = 0
+    for (const crewDoc of crewsSnapshot.docs) {
+      const crewId = crewDoc.id
+      const gameSubcolRef = doc(db, 'crews', crewId, 'games', gameId)
+      const gameSubcolDoc = await getDoc(gameSubcolRef)
 
-      for (const crewDoc of crewsSnapshot.docs) {
-        const crewId = crewDoc.id
+      if (gameSubcolDoc.exists()) {
+        batch.update(gameSubcolRef, updatedFields)
+        updatesCount++
 
-        // Verificar si existe el documento del juego en la subcolección
-        const gameSubcolRef = doc(db, 'crews', crewId, 'games', gameId)
-        const gameSubcolDoc = await getDoc(gameSubcolRef)
-
-        if (gameSubcolDoc.exists()) {
-          batch.update(gameSubcolRef, updatedFields)
-          updatesCount++
-
-          // Firebase tiene un límite de 500 operaciones por batch
-          if (updatesCount >= 450) {
-            await batch.commit()
-            // Crear un nuevo batch para las siguientes operaciones
-            batch = writeBatch(db)
-            updatesCount = 0
-          }
+        if (updatesCount >= 450) {
+          await batch.commit()
+          batch = writeBatch(db)
+          updatesCount = 0
         }
       }
+    }
 
-      // Commit del último batch si tiene operaciones pendientes
-      if (updatesCount > 0) {
-        await batch.commit()
-      }
-    } catch (error) {
-      // Manejo de error silencioso para producción
-      throw error
+    if (updatesCount > 0) {
+      await batch.commit()
     }
   }
 
-  // Función para crear un nuevo juego con la temporada actualizada
   const createNewGameForSeason = async (newSeason) => {
     try {
-      // Crear nuevo juego con información actualizada
       const newGameData = {
         ...gameData,
         name: gameData.name.includes(`(${originalGameData.season})`)
@@ -315,22 +281,18 @@ function GamesModify() {
             )
           : gameData.name,
         season: newSeason,
-        status: 'Planificado', // Por defecto, el nuevo juego estará en estado planificado
+        status: 'Planificado',
         createdAt: serverTimestamp(),
         isClonedFrom: gameId,
       }
 
-      // Añadir el juego a la colección games
       const newGameRef = await addDoc(collection(db, 'games'), {
         ...newGameData,
-        // Convertir valores numéricos
         minParticipants: Number(newGameData.minParticipants),
         score: Number(newGameData.score),
       })
 
       const newGameId = newGameRef.id
-
-      // Obtener todas las crews con estado "Activo" que pertenezcan a la nueva temporada
       const crewsQuery = query(
         collection(db, 'crews'),
         where('status', '==', 'Activo'),
@@ -338,8 +300,6 @@ function GamesModify() {
       )
 
       const crewsSnapshot = await getDocs(crewsQuery)
-
-      // Si no hay crews de la temporada, obtener todas las crews activas
       let crewsToUpdate = crewsSnapshot.docs
       if (crewsToUpdate.length === 0) {
         const allCrewsQuery = query(
@@ -350,53 +310,55 @@ function GamesModify() {
         crewsToUpdate = allCrewsSnapshot.docs
       }
 
-      // Usar batch para mejorar rendimiento con múltiples escrituras
       const batch = writeBatch(db)
 
-      // Para cada crew, crear una entrada en la subcolección games
       crewsToUpdate.forEach((crewDoc) => {
         const crewId = crewDoc.id
 
-        // Referencia al documento en la subcolección games
         const gameSubcolRef = doc(db, 'crews', crewId, 'games', newGameId)
 
-        // Datos para la subcolección
         const gameSubcolData = {
           gameId: newGameId,
           gameName: newGameData.name,
           gameSeason: newSeason,
           gameDate: newGameData.date,
           gameStatus: newGameData.status,
-          participationStatus: 'Pendiente', // Estado inicial para todas las crews
+          participationStatus: 'Pendiente',
           points: 0,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp(),
         }
 
-        // Añadir al batch
         batch.set(gameSubcolRef, gameSubcolData)
       })
 
-      // Ejecutar todas las operaciones de batch
       await batch.commit()
 
-      Swal.fire({
-        title: 'Juego creado con éxito',
-        text: `Se ha creado un nuevo juego para la temporada "${newSeason}"`,
+      showPopup({
+        title: t(`${viewDictionary}.newGameSuccess.title`),
+        text: t(`${viewDictionary}.newGameSuccess.text`, {
+          season: newSeason,
+        }),
         icon: 'success',
-        confirmButtonText: 'Aceptar',
-      }).then(() => {
-        const slug = generateSlug(newGameData.name)
-        navigate(`/edit-game/${slug}`, {
-          state: { gameId: newGameId },
-        })
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
+        onConfirm: () => {
+          const slug = generateSlug(newGameData.name)
+          navigate(`/edit-game/${slug}`, {
+            state: { gameId: newGameId },
+          })
+        },
       })
     } catch (error) {
-      Swal.fire({
-        title: 'Error',
-        text: `No se pudo crear el juego para la temporada ${newSeason}: ${error.message}`,
+      showPopup({
+        title: t(`${viewDictionary}.titleError`),
+        text: t(`${viewDictionary}.newGameError.text`, {
+          season: newSeason,
+          errorMessage: error.message,
+        }),
         icon: 'error',
-        confirmButtonText: 'Cerrar',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
       })
       setSubmitting(false)
     }
@@ -405,19 +367,18 @@ function GamesModify() {
   const handleCloneForNewSeason = async () => {
     setSubmitting(true)
 
-    // Pedir al usuario que seleccione la temporada para el juego clonado
-    const { value: selectedSeason } = await Swal.fire({
-      title: 'Selecciona una temporada',
+    const { value: selectedSeason } = await showPopup({
+      title: t(`${viewDictionary}.cloneGame.title`),
       input: 'select',
       inputOptions: Object.fromEntries(
         seasons.map((season) => [season.id, season.name])
       ),
-      inputPlaceholder: 'Selecciona una temporada',
+      inputPlaceholder: t(`${viewDictionary}.cloneGame.selectSeason`),
       showCancelButton: true,
       inputValidator: (value) => {
         return new Promise((resolve) => {
           if (!value) {
-            resolve('Necesitas seleccionar una temporada')
+            resolve(t(`${viewDictionary}.cloneGame.validationError`))
           } else {
             resolve()
           }
@@ -431,8 +392,6 @@ function GamesModify() {
     }
 
     const selectedSeasonObj = seasons.find((s) => s.id === selectedSeason)
-
-    // Utilizamos la función de crear nuevo juego con la temporada seleccionada
     await createNewGameForSeason(selectedSeasonObj.name)
   }
 
@@ -449,19 +408,19 @@ function GamesModify() {
         className="flex flex-col items-center mx-auto space-y-[3vh] max-w-md md:max-w-7xl w-full sm:flex-none"
       >
         <h1 className="mb-[4vh] text-center sm:t64b t40b">
-          {t(`${viewDictionary}.title`, 'Modificar Juego')}
+          {t(`${viewDictionary}.title`)}
         </h1>
 
         <div className="p-[4%] mb-[4vh] rounded-lg shadow-sm bg-white/50 w-full">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700 text-center md:text-left">
-            {t(`${viewDictionary}.basicInfoTitle`, 'Información Básica')}
+            {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[3vw] gap-y-[3vh] justify-items-center">
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="name"
-                textId={t(`${viewDictionary}.nameLabel`, 'Nombre del Juego')}
+                textId={t(`${viewDictionary}.nameLabel`)}
                 type="text"
                 value={gameData.name}
                 onChange={handleChange}
@@ -472,7 +431,7 @@ function GamesModify() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="location"
-                textId={t(`${viewDictionary}.locationLabel`, 'Ubicación')}
+                textId={t(`${viewDictionary}.locationLabel`)}
                 type="text"
                 value={gameData.location}
                 onChange={handleChange}
@@ -483,7 +442,7 @@ function GamesModify() {
             <div className="w-[90%] md:w-full col-span-1 md:col-span-2">
               <DynamicInput
                 name="description"
-                textId={t(`${viewDictionary}.descriptionLabel`, 'Descripción')}
+                textId={t(`${viewDictionary}.descriptionLabel`)}
                 type="textarea"
                 value={gameData.description}
                 onChange={handleChange}
@@ -494,7 +453,7 @@ function GamesModify() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="date"
-                textId={t(`${viewDictionary}.dateLabel`, 'Fecha')}
+                textId={t(`${viewDictionary}.dateLabel`)}
                 type="date"
                 value={gameData.date}
                 onChange={handleChange}
@@ -505,7 +464,7 @@ function GamesModify() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="time"
-                textId={t(`${viewDictionary}.timeLabel`, 'Hora')}
+                textId={t(`${viewDictionary}.timeLabel`)}
                 type="time"
                 value={gameData.time}
                 onChange={handleChange}
@@ -517,17 +476,14 @@ function GamesModify() {
 
         <div className="p-[4%] mb-[4vh] rounded-lg shadow-sm bg-white/50 w-full">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700 text-center md:text-left">
-            {t(`${viewDictionary}.gameDetailsTitle`, 'Detalles del Juego')}
+            {t(`${viewDictionary}.gameDetailsTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[3vw] gap-y-[3vh] justify-items-center">
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="minParticipants"
-                textId={t(
-                  `${viewDictionary}.minParticipantsLabel`,
-                  'Mínimo de Participantes'
-                )}
+                textId={t(`${viewDictionary}.minParticipantsLabel`)}
                 type="number"
                 value={gameData.minParticipants}
                 onChange={handleChange}
@@ -538,7 +494,7 @@ function GamesModify() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="score"
-                textId={t(`${viewDictionary}.scoreLabel`, 'Puntuación')}
+                textId={t(`${viewDictionary}.scoreLabel`)}
                 type="number"
                 value={gameData.score}
                 onChange={handleChange}
@@ -549,7 +505,7 @@ function GamesModify() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="season"
-                textId={t(`${viewDictionary}.seasonLabel`, 'Temporada')}
+                textId={t(`${viewDictionary}.seasonLabel`)}
                 type="text"
                 value={gameData.season}
                 onChange={handleChange}
@@ -560,7 +516,7 @@ function GamesModify() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="status"
-                textId={t(`${viewDictionary}.statusLabel`, 'Estado')}
+                textId={t(`${viewDictionary}.statusLabel`)}
                 type="select"
                 options={statusOptions}
                 value={gameData.status}
@@ -581,14 +537,14 @@ function GamesModify() {
             }}
             size="small"
             state="normal"
-            textId="components.buttons.cancel"
+            textId={t('components.buttons.cancel')}
           />
 
           <DynamicButton
             type="submit"
             size="small"
             state="normal"
-            textId={`${viewDictionary}.submitButton`}
+            textId={t('components.buttons.save')}
           />
         </div>
       </form>

@@ -130,7 +130,7 @@ const EventPage = () => {
       fetch(event.authDocumentURL)
         .then((response) => {
           if (!response.ok) {
-            throw new Error('No se pudo descargar el documento')
+            throw new Error(t(`${viewDictionary}.errorChargingDocument`))
           }
           return response.blob()
         })
@@ -140,7 +140,7 @@ const EventPage = () => {
           a.href = url
           const fileName =
             event.authDocumentURL.split('/').pop().split('?')[0] ||
-            `autorizacion_menores_${event.title.toLowerCase().replace(/\s+/g, '_')}.pdf`
+            `autorizacion_${event.title.toLowerCase().replace(/\s+/g, '_')}.pdf`
           a.download = fileName
           document.body.appendChild(a)
           a.click()
@@ -151,7 +151,7 @@ const EventPage = () => {
           }, 100)
         })
         .catch((error) => {
-          alert('No se pudo descargar el documento de autorización.')
+          throw new Error(t(`${viewDictionary}.errorChargingDocument`))
         })
     }
   }
@@ -170,22 +170,22 @@ const EventPage = () => {
 
   const eventDataDetails = [
     event.startDate && {
-      title: t('pages.events.details.startDate'),
+      title: t(`${viewDictionary}.startDate`),
       description: new Date(event.startDate).toLocaleDateString(),
       type: 'eventData',
     },
     event.endDate && {
-      title: t('pages.events.details.endDate'),
+      title: t(`${viewDictionary}.endDate`),
       description: new Date(event.endDate).toLocaleDateString(),
       type: 'eventData',
     },
     event.startTime && {
-      title: t('pages.events.details.startTime'),
+      title: t(`${viewDictionary}.startTime`),
       description: event.startTime,
       type: 'eventData',
     },
     event.endTime && {
-      title: t('pages.events.details.endTime'),
+      title: t(`${viewDictionary}.endTime`),
       description: event.endTime,
       type: 'eventData',
     },
@@ -193,18 +193,18 @@ const EventPage = () => {
 
   const eventAccessDetails = [
     event.location && {
-      title: t('pages.events.details.location'),
+      title: t(`${viewDictionary}.location`),
       description: event.location,
       type: 'eventData',
     },
     event.capacity && {
-      title: t('pages.events.details.capacity'),
+      title: t(`${viewDictionary}.capacity`),
       description: event.capacity,
       type: 'eventData',
     },
     event.minAge && {
-      title: t('pages.events.details.minAge'),
-      description: `${event.minAge} años`,
+      title: t(`${viewDictionary}.minAge`),
+      description: t(`${viewDictionary}.yearsLabel`, { years: event.minAge }),
       type: 'eventData',
       extraContent:
         event.minAge <= 15 && event.authDocumentURL ? (
@@ -223,7 +223,7 @@ const EventPage = () => {
 
   const eventServicesDetails = [
     {
-      title: t('pages.events.details.price'),
+      title: t(`${viewDictionary}.price`),
       description:
         event.price === 0
           ? t(`${viewDictionary}.freeLabel`)
@@ -231,13 +231,13 @@ const EventPage = () => {
       type: 'eventData',
     },
     event.allowCars === true && {
-      title: t('pages.events.details.allowCars'),
-      description: 'Sí',
+      title: t(`${viewDictionary}.allowCars`),
+      description: t(`${viewDictionary}.yesLabel`),
       type: 'eventData',
     },
     event.hasBar === true && {
-      title: t('pages.events.details.hasBar'),
-      description: 'Sí',
+      title: t(`${viewDictionary}.hasBar`),
+      description: t(`${viewDictionary}.yesLabel`),
       type: 'eventData',
     },
   ].filter(Boolean)
@@ -261,7 +261,6 @@ const EventPage = () => {
       </h1>
 
       <div className="grid grid-cols-1 md:grid-cols-5 gap-[1.5rem] justify-items-center md:justify-items-start">
-        {/* Imagen principal */}
         <div className="md:col-span-3 w-full max-w-[90vw] md:max-w-full mb-[1.5rem] md:mb-0">
           <DynamicCard
             key={event.eventId}
@@ -271,7 +270,6 @@ const EventPage = () => {
           />
         </div>
 
-        {/* Información lateral */}
         <div className="md:col-span-2 w-full max-w-[90vw] md:max-w-full">
           {hasDateInfo && (
             <div className="space-y-[1rem] bg-[#D9D9D9] rounded-[2rem] sm:rounded-[3rem] h-fit w-full mb-[1.5rem] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
@@ -302,7 +300,6 @@ const EventPage = () => {
         </div>
       </div>
 
-      {/* Botón de inscripción */}
       {event.needForm && (
         <div className="flex justify-center my-[2rem]">
           <DynamicButton
@@ -315,16 +312,16 @@ const EventPage = () => {
         </div>
       )}
 
-      {/* Descripción del evento */}
       {event.description && (
         <div className="flex flex-col items-center mb-[1.5rem] p-[1rem] sm:p-[1.5rem] justify-center rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           <div className="w-full md:w-auto">
-            <p className="break-words t18r sm:t20r">{event.description}</p>
+            <p className="break-words break-all t18r sm:t20r">
+              {event.description}
+            </p>
           </div>
         </div>
       )}
 
-      {/* Organizadores y colaboradores */}
       {(organizer || hasCollaborators) && (
         <div className="flex flex-col items-center justify-between p-[1rem] sm:p-[1.5rem] rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           {organizer && (
@@ -368,7 +365,6 @@ const EventPage = () => {
         </div>
       )}
 
-      {/* Participantes */}
       {hasParticipants && (
         <div className="flex flex-col items-center justify-between p-[1rem] sm:p-[1.5rem] my-[5vh] rounded-lg md:flex-row">
           <div className="w-full text-center">

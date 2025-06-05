@@ -16,7 +16,7 @@ import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import useSlug from '../../hooks/useSlug'
 import useSearchFilter from '../../hooks/useSearchFilter'
-import Swal from 'sweetalert2'
+import { showPopup } from '../../services/popupService'
 
 function GamesList() {
   const { t } = useTranslation()
@@ -68,18 +68,18 @@ function GamesList() {
 
   const handleDelete = async (id) => {
     try {
-      const confirmResult = await Swal.fire({
-        title: t(`${viewDictionary}.confirmDelete.title`),
-        text: t(`${viewDictionary}.confirmDelete.text`),
+      const confirmResult = await showPopup({
+        title: t(`${viewDictionary}.deletePopups.titleSure`),
+        text: t(`${viewDictionary}.deletePopups.textSure`),
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: t(`${viewDictionary}.confirmDelete.confirmButton`),
-        cancelButtonText: t(`${viewDictionary}.confirmDelete.cancelButton`),
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
+        confirmButtonText: t(`${viewDictionary}.deleteButton`),
+        cancelButtonText: t('components.buttons.cancel'),
       })
 
-      if (!confirmResult.isConfirmed) {
+      if (!confirmResult || confirmResult.isConfirmed === false) {
         return
       }
 
@@ -100,17 +100,21 @@ function GamesList() {
       setGames(updatedGames)
       updateItems(updatedGames)
 
-      Swal.fire(
-        '¡Eliminado!',
-        'El juego ha sido eliminado correctamente.',
-        'success'
-      )
+      showPopup({
+        title: t(`${viewDictionary}.deletePopups.titleSuccessDelete`),
+        text: t(`${viewDictionary}.deletePopups.textSuccessDelete`),
+        icon: 'success',
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
+      })
     } catch (error) {
-      Swal.fire(
-        'Error',
-        'No se pudo eliminar el juego. Por favor, inténtalo de nuevo.',
-        'error'
-      )
+      showPopup({
+        title: t(`${viewDictionary}.titleError`),
+        text: t(`${viewDictionary}.deletePopups.textDeleteError`),
+        icon: 'error',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
+      })
     }
   }
 
@@ -118,7 +122,7 @@ function GamesList() {
     try {
       const newStatus = game.status === 'Activo' ? 'Inactivo' : 'Activo'
 
-      const confirmResult = await Swal.fire({
+      const confirmResult = await showPopup({
         title: t(`${viewDictionary}.statusToggle.title`),
         text: t(`${viewDictionary}.statusToggle.text`, {
           currentStatus: game.status,
@@ -126,27 +130,24 @@ function GamesList() {
         }),
         icon: 'question',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
         confirmButtonText: t(`${viewDictionary}.statusToggle.confirmButton`),
-        cancelButtonText: t(`${viewDictionary}.statusToggle.cancelButton`),
+        cancelButtonText: t('components.buttons.cancel'),
       })
 
-      if (!confirmResult.isConfirmed) {
+      if (!confirmResult || confirmResult.isConfirmed === false) {
         return
       }
 
-      // Actualizar en la colección games
       const gameRef = doc(db, 'games', game.id)
       await updateDoc(gameRef, {
         status: newStatus,
         updatedAt: serverTimestamp(),
       })
 
-      // Actualizar en la subcolección games de cada crew
       await updateGameStatusInCrews(game.id, newStatus)
 
-      // Actualizar el estado local
       const updatedGames = games.map((g) =>
         g.id === game.id ? { ...g, status: newStatus } : g
       )
@@ -154,104 +155,94 @@ function GamesList() {
       setGames(updatedGames)
       updateItems(updatedGames)
 
-      Swal.fire(
-        '¡Estado actualizado!',
-        `El juego ahora está ${newStatus.toLowerCase()}.`,
-        'success'
-      )
+      showPopup({
+        title: t(`${viewDictionary}.statusToggle.success.title`),
+        text: t(`${viewDictionary}.statusToggle.success.text`, {
+          newStatus: newStatus.toLowerCase(),
+        }),
+        icon: 'success',
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
+      })
     } catch (error) {
-      Swal.fire(
-        'Error',
-        'No se pudo cambiar el estado del juego. Por favor, inténtalo de nuevo.',
-        'error'
-      )
+      showPopup({
+        title: t(`${viewDictionary}.titleError`),
+        text: t(`${viewDictionary}.statusToggle.error.text`),
+        icon: 'error',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
+      })
     }
   }
 
-  // Función para actualizar el estado del juego en todas las crews
   const updateGameStatusInCrews = async (gameId, newStatus) => {
-    try {
-      // Obtener todas las crews
-      const crewsSnapshot = await getDocs(collection(db, 'crews'))
+    const crewsSnapshot = await getDocs(collection(db, 'crews'))
+    const batch = writeBatch(db)
+    let updatesCount = 0
 
-      // Usar batch para optimizar escrituras
-      const batch = writeBatch(db)
-      let updatesCount = 0
+    for (const crewDoc of crewsSnapshot.docs) {
+      const crewId = crewDoc.id
 
-      for (const crewDoc of crewsSnapshot.docs) {
-        const crewId = crewDoc.id
+      const gameSubcolRef = doc(db, 'crews', crewId, 'games', gameId)
+      const gameSubcolDoc = await getDoc(gameSubcolRef)
 
-        // Verificar si existe el documento del juego en la subcolección
-        const gameSubcolRef = doc(db, 'crews', crewId, 'games', gameId)
-        const gameSubcolDoc = await getDoc(gameSubcolRef)
+      if (gameSubcolDoc.exists()) {
+        batch.update(gameSubcolRef, {
+          gameStatus: newStatus,
+          updatedAt: serverTimestamp(),
+        })
+        updatesCount++
 
-        if (gameSubcolDoc.exists()) {
-          batch.update(gameSubcolRef, {
-            gameStatus: newStatus,
-            updatedAt: serverTimestamp(),
-          })
-          updatesCount++
-
-          // Firebase tiene un límite de 500 operaciones por batch
-          if (updatesCount >= 450) {
-            await batch.commit()
-            // Crear un nuevo batch para las siguientes operaciones
-            const newBatch = writeBatch(db)
-            batch = newBatch
-            updatesCount = 0
-          }
+        if (updatesCount >= 450) {
+          await batch.commit()
+          updatesCount = 0
         }
       }
+    }
 
-      // Commit del último batch si tiene operaciones pendientes
-      if (updatesCount > 0) {
-        await batch.commit()
-      }
-    } catch (error) {
-      throw error
+    if (updatesCount > 0) {
+      await batch.commit()
     }
   }
 
-  // Añadimos una función específica para marcar juegos como completados
   const handleMarkAsCompleted = async (game) => {
     try {
-      // Si ya está completado, no hacer nada
       if (game.status === 'Completado') {
-        Swal.fire(
-          'Información',
-          'Este juego ya está marcado como completado.',
-          'info'
-        )
+        showPopup({
+          title: t(`${viewDictionary}.markCompleted.alreadyCompleted.title`),
+          text: t(`${viewDictionary}.markCompleted.alreadyCompleted.text`),
+          icon: 'info',
+          confirmButtonText: t('components.buttons.accept'),
+          confirmButtonColor: '#8be484',
+        })
         return
       }
 
-      // Mostrar confirmación
-      const confirmResult = await Swal.fire({
-        title: 'Marcar como completado',
-        text: `¿Estás seguro de que quieres marcar el juego "${game.name}" como completado?`,
+      const confirmResult = await showPopup({
+        title: t(`${viewDictionary}.markCompleted.title`),
+        text: t(`${viewDictionary}.markCompleted.text`, {
+          gameName: game.name,
+        }),
         icon: 'question',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Sí, completar',
-        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#8be484',
+        cancelButtonColor: '#a3a3a3',
+        confirmButtonText: t(`${viewDictionary}.markCompleted.confirmButton`),
+        cancelButtonText: t('components.buttons.cancel'),
       })
 
-      if (!confirmResult.isConfirmed) {
+      if (!confirmResult || confirmResult.isConfirmed === false) {
         return
       }
 
-      // Actualizar en la colección games
       const gameRef = doc(db, 'games', game.id)
       await updateDoc(gameRef, {
         status: 'Completado',
         updatedAt: serverTimestamp(),
       })
 
-      // Actualizar en la subcolección games de cada crew
       await updateGameStatusInCrews(game.id, 'Completado')
 
-      // Actualizar el estado local
       const updatedGames = games.map((g) =>
         g.id === game.id ? { ...g, status: 'Completado' } : g
       )
@@ -259,24 +250,28 @@ function GamesList() {
       setGames(updatedGames)
       updateItems(updatedGames)
 
-      Swal.fire(
-        '¡Completado!',
-        'El juego ha sido marcado como completado.',
-        'success'
-      )
+      showPopup({
+        title: t(`${viewDictionary}.markCompleted.success.title`),
+        text: t(`${viewDictionary}.markCompleted.success.text`),
+        icon: 'success',
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
+      })
     } catch (error) {
-      Swal.fire(
-        'Error',
-        'No se pudo marcar el juego como completado. Por favor, inténtalo de nuevo.',
-        'error'
-      )
+      showPopup({
+        title: t(`${viewDictionary}.title`),
+        text: t(`${viewDictionary}.markCompleted.error.text`),
+        icon: 'error',
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
+      })
     }
   }
 
   return (
     <div className="w-[92%] sm:w-full md:w-auto pb-[4vh] mx-auto">
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
-        {t(`${viewDictionary}.title`, 'Listado de Juegos')}
+        {t(`${viewDictionary}.title`)}
       </h1>
 
       <div className="grid grid-cols-1 gap-[3vh] mb-[4vh] md:grid-cols-2">
@@ -284,11 +279,8 @@ function GamesList() {
           <DynamicInput
             name="search"
             type="text"
-            textId={t(`${viewDictionary}.searchPlaceholder`, 'Buscar juego')}
-            placeholder={t(
-              `${viewDictionary}.searchPlaceholder`,
-              'Buscar juego'
-            )}
+            textId={t(`${viewDictionary}.searchPlaceholder`)}
+            placeholder={t(`${viewDictionary}.searchPlaceholder`)}
             value={searchQuery}
             onChange={handleSearchChange}
           />
@@ -300,7 +292,7 @@ function GamesList() {
             size="small"
             state="normal"
             type="add"
-            textId={t(`${viewDictionary}.addNewButton`, 'Añadir nuevo juego')}
+            textId={t(`${viewDictionary}.addNewButton`)}
           />
         </div>
       </div>
@@ -321,7 +313,9 @@ function GamesList() {
               <div className="flex flex-wrap gap-[1vh] mt-[1vh]">
                 {game.season && (
                   <span className="px-[3%] py-[0.5vh] text-yellow-800 bg-yellow-100 rounded-full t12r">
-                    Temporada: {game.season}
+                    {t(`${viewDictionary}.season`, {
+                      season: game.season,
+                    })}
                   </span>
                 )}
                 {game.location && (
@@ -337,31 +331,22 @@ function GamesList() {
               </div>
             </div>
             <div className="flex flex-wrap gap-[2vw] justify-end">
-              {/* Botón Activar/Desactivar */}
               <DynamicButton
                 onClick={() => handleToggleStatus(game)}
                 size="x-small"
                 state="normal"
                 type={game.status === 'Activo' ? 'pause' : 'play'}
-                title={
-                  game.status === 'Activo'
-                    ? t(`${viewDictionary}.buttons.deactivate`)
-                    : t(`${viewDictionary}.buttons.activate`)
-                }
               />
 
-              {/* Nuevo botón para marcar como completado */}
               {game.status !== 'Completado' && (
                 <DynamicButton
                   onClick={() => handleMarkAsCompleted(game)}
                   size="x-small"
                   state="normal"
                   type="done"
-                  title="Marcar como completado"
                 />
               )}
 
-              {/* Botón Editar */}
               <DynamicButton
                 onClick={() => {
                   const slug = generateSlug(game.name)
@@ -374,7 +359,6 @@ function GamesList() {
                 type="edit"
               />
 
-              {/* Botón Ver Participantes */}
               <DynamicButton
                 onClick={() => {
                   const slug = generateSlug(game.name)
@@ -384,23 +368,20 @@ function GamesList() {
                 }}
                 size="x-small"
                 type="view"
-                title="Ver detalles del juego"
               />
 
-              {/* Botón Eliminar */}
               <DynamicButton
                 onClick={() => handleDelete(game.id)}
                 size="x-small"
                 type="delete"
-                title="Eliminar juego"
               />
             </div>
           </li>
         ))}
         {filteredGames.length === 0 && (
           <li className="p-[4%] text-center bg-gray-100 rounded-lg shadow">
-            <span className="text-gray-600">
-              {t(`${viewDictionary}.noGamesFound`, 'No se encontraron juegos')}
+            <span className="text-black">
+              {t(`${viewDictionary}.noGamesFound`)}
             </span>
           </li>
         )}

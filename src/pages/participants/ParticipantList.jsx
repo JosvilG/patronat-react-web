@@ -14,8 +14,8 @@ function ParticipantList() {
   const [participant, setParticipants] = useState([])
   const [filteredParticipants, setFilteredParticipants] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
-  const viewDictionary = 'pages.participants.listParticipants'
   const { generateSlug } = useSlug()
+  const viewDictionary = 'pages.participants.listParticipants'
 
   useEffect(() => {
     const fetchParticipant = async () => {
@@ -49,7 +49,6 @@ function ParticipantList() {
   }
 
   const handleDelete = async (id) => {
-    // Encontrar el participante para mostrar su nombre en el mensaje de confirmación
     const participantToDelete = participant.find((part) => part.id === id)
 
     if (!participantToDelete) return
@@ -61,10 +60,10 @@ function ParticipantList() {
       }),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: t(`${viewDictionary}.popups.delete.confirmButton`),
-      cancelButtonText: t(`${viewDictionary}.popups.delete.cancelButton`),
-      confirmButtonColor: '#d33',
-      cancelButtonColor: '#3085d6',
+      confirmButtonText: t('componentes.buttons.delete'),
+      cancelButtonText: t('componentes.buttons.cancel'),
+      confirmButtonColor: '#a3a3a3',
+      cancelButtonColor: '#8be484',
       onConfirm: async () => {
         try {
           await deleteDoc(doc(db, 'participants', id))
@@ -74,14 +73,12 @@ function ParticipantList() {
           setParticipants(updateParticipants)
           setFilteredParticipants(updateParticipants)
 
-          // Mostrar mensaje de éxito
           showPopup({
             title: t(`${viewDictionary}.popups.success.title`),
             text: t(`${viewDictionary}.popups.success.text`),
             icon: 'success',
           })
         } catch (error) {
-          // Mostrar mensaje de error
           showPopup({
             title: t(`${viewDictionary}.popups.error.title`),
             text: t(`${viewDictionary}.popups.error.text`),

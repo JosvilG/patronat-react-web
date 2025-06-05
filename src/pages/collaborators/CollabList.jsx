@@ -70,7 +70,6 @@ function CollabList() {
     return (
       <Loader
         loading={true}
-        size="10vmin"
         color="rgb(21, 100, 46)"
         text={t(`${viewDictionary}.loadingText`)}
       />

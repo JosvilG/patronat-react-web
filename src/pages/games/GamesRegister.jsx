@@ -8,15 +8,14 @@ import {
   where,
   getDocs,
 } from 'firebase/firestore'
-import withReactContent from 'sweetalert2-react-content'
 import { useNavigate } from 'react-router-dom'
-import Swal from 'sweetalert2'
 import log from 'loglevel'
 import { db } from '../../firebase/firebase'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
+import { showPopup } from '../../services/popupService'
 
 const createGameModel = () => {
   return {
@@ -41,7 +40,6 @@ function GamesRegister() {
 
   log.setLevel('debug')
 
-  // Opciones para el select de estado
   const statusOptions = [
     { label: `${viewDictionary}.statusOptions.active`, value: 'Activo' },
     { label: `${viewDictionary}.statusOptions.inactive`, value: 'Inactivo' },
@@ -62,19 +60,16 @@ function GamesRegister() {
     setSubmitting(true)
 
     try {
-      // Añadir el juego a la colección games
       const gameRef = doc(collection(db, 'games'))
       const gameId = gameRef.id
 
       await setDoc(gameRef, {
         ...gameData,
         createdAt: Timestamp.now(),
-        // Convertir valores numéricos
         minParticipants: Number(gameData.minParticipants),
         score: Number(gameData.score),
       })
 
-      // Obtener todas las crews con estado "Activo"
       const crewsQuery = query(
         collection(db, 'crews'),
         where('status', '==', 'Activo')
@@ -82,7 +77,6 @@ function GamesRegister() {
 
       const crewsSnapshot = await getDocs(crewsQuery)
 
-      // Para cada crew activa, crear una entrada en la subcolección games
       const crewUpdates = []
       crewsSnapshot.forEach((crewDoc) => {
         const crewId = crewDoc.id
@@ -97,7 +91,7 @@ function GamesRegister() {
           gameSeason: gameData.season,
           gameDate: gameData.date,
           gameStatus: gameData.status,
-          participationStatus: 'Pendiente', // Estado inicial para todas las crews
+          participationStatus: 'Pendiente',
           points: 0,
           createdAt: Timestamp.now(),
           updatedAt: Timestamp.now(),
@@ -106,17 +100,14 @@ function GamesRegister() {
         crewUpdates.push(setDoc(gameSubcolRef, gameSubcolData))
       })
 
-      // Ejecutar todas las actualizaciones de crews
       await Promise.all(crewUpdates)
-
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      await showPopup({
         title: t(`${viewDictionary}.successPopup.title`),
         text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: t('common.accept', 'Aceptar'),
-      }).then(() => {
-        navigate('/dashboard')
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
+        onConfirm: () => navigate('/dashboard'),
       })
     } catch (error) {
       let errorMessage = t(`${viewDictionary}.errorMessages.default`)
@@ -126,12 +117,14 @@ function GamesRegister() {
         errorMessage = t(`${viewDictionary}.errorMessages.permission-denied`)
       }
 
-      const MySwal = withReactContent(Swal)
-      MySwal.fire({
+      await showPopup({
         title: t(`${viewDictionary}.errorPopup.title`),
-        text: t(`${viewDictionary}.errorPopup.text`, { errorMessage }),
+        text: t(`${viewDictionary}.errorPopup.text`, {
+          errorMessage: errorMessage,
+        }),
         icon: 'error',
-        confirmButtonText: t('common.close', 'Cerrar'),
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setSubmitting(false)
@@ -147,19 +140,19 @@ function GamesRegister() {
         className="flex flex-col items-center mx-auto space-y-[3vh] max-w-md md:max-w-7xl w-full sm:flex-none"
       >
         <h1 className="mb-[4vh] text-center sm:t64b t40b">
-          {t(`${viewDictionary}.title`, 'Registro de Juego')}
+          {t(`${viewDictionary}.title`)}
         </h1>
 
         <div className="p-[4%] mb-[4vh] rounded-lg shadow-sm bg-white/50 w-full">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700 text-center md:text-left">
-            {t(`${viewDictionary}.basicInfoTitle`, 'Información Básica')}
+            {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[3vw] gap-y-[3vh] justify-items-center">
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="name"
-                textId={t(`${viewDictionary}.nameLabel`, 'Nombre del Juego')}
+                textId={t(`${viewDictionary}.nameLabel`)}
                 type="text"
                 value={gameData.name}
                 onChange={handleChange}
@@ -170,7 +163,7 @@ function GamesRegister() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="location"
-                textId={t(`${viewDictionary}.locationLabel`, 'Ubicación')}
+                textId={t(`${viewDictionary}.locationLabel`)}
                 type="text"
                 value={gameData.location}
                 onChange={handleChange}
@@ -181,7 +174,7 @@ function GamesRegister() {
             <div className="w-[90%] md:w-full col-span-1 md:col-span-2">
               <DynamicInput
                 name="description"
-                textId={t(`${viewDictionary}.descriptionLabel`, 'Descripción')}
+                textId={t(`${viewDictionary}.descriptionLabel`)}
                 type="textarea"
                 value={gameData.description}
                 onChange={handleChange}
@@ -192,7 +185,7 @@ function GamesRegister() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="date"
-                textId={t(`${viewDictionary}.dateLabel`, 'Fecha')}
+                textId={t(`${viewDictionary}.dateLabel`)}
                 type="date"
                 value={gameData.date}
                 onChange={handleChange}
@@ -203,7 +196,7 @@ function GamesRegister() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="time"
-                textId={t(`${viewDictionary}.timeLabel`, 'Hora')}
+                textId={t(`${viewDictionary}.timeLabel`)}
                 type="time"
                 value={gameData.time}
                 onChange={handleChange}
@@ -215,17 +208,14 @@ function GamesRegister() {
 
         <div className="p-[4%] mb-[4vh] rounded-lg shadow-sm bg-white/50 w-full">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700 text-center md:text-left">
-            {t(`${viewDictionary}.gameDetailsTitle`, 'Detalles del Juego')}
+            {t(`${viewDictionary}.gameDetailsTitle`)}
           </h3>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-x-[3vw] gap-y-[3vh] justify-items-center">
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="minParticipants"
-                textId={t(
-                  `${viewDictionary}.minParticipantsLabel`,
-                  'Mínimo de Participantes'
-                )}
+                textId={t(`${viewDictionary}.minParticipantsLabel`)}
                 type="number"
                 value={gameData.minParticipants}
                 onChange={handleChange}
@@ -236,7 +226,7 @@ function GamesRegister() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="score"
-                textId={t(`${viewDictionary}.scoreLabel`, 'Puntuación')}
+                textId={t(`${viewDictionary}.scoreLabel`)}
                 type="number"
                 value={gameData.score}
                 onChange={handleChange}
@@ -247,7 +237,7 @@ function GamesRegister() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="season"
-                textId={t(`${viewDictionary}.seasonLabel`, 'Temporada')}
+                textId={t(`${viewDictionary}.seasonLabel`)}
                 type="text"
                 value={gameData.season}
                 onChange={handleChange}
@@ -258,7 +248,7 @@ function GamesRegister() {
             <div className="w-[90%] md:w-full">
               <DynamicInput
                 name="status"
-                textId={t(`${viewDictionary}.statusLabel`, 'Estado')}
+                textId={t(`${viewDictionary}.statusLabel`)}
                 type="select"
                 options={statusOptions}
                 value={gameData.status}
@@ -274,7 +264,7 @@ function GamesRegister() {
             onClick={() => navigate('/dashboard')}
             size="small"
             state="normal"
-            textId="components.buttons.cancel"
+            textId={t('components.buttons.cancel')}
           />
 
           <DynamicButton

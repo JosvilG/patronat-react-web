@@ -20,16 +20,13 @@ const GamesDetails = () => {
   const { generateSlug } = useSlug()
   const viewDictionary = 'pages.games.details'
 
-  // Obtener gameId del state si está disponible, o buscar por slug
   useEffect(() => {
     const fetchGameId = async () => {
-      // Si el ID viene en la navegación, usarlo directamente
       if (location.state?.gameId) {
         setGameId(location.state.gameId)
         return
       }
 
-      // De lo contrario, buscar por slug
       try {
         const gamesSnapshot = await getDocs(collection(db, 'games'))
         const gameDoc = gamesSnapshot.docs.find(
@@ -49,7 +46,6 @@ const GamesDetails = () => {
     fetchGameId()
   }, [slug, location.state, navigate, generateSlug])
 
-  // Obtener datos del juego una vez que tenemos el ID
   useEffect(() => {
     const fetchGameData = async () => {
       if (!gameId) return
@@ -69,18 +65,15 @@ const GamesDetails = () => {
           ...gameData,
         })
 
-        // Buscar todas las peñas que tienen este juego en su subcolección
         const crewsSnapshot = await getDocs(collection(db, 'crews'))
 
         const crewsWithGameStatus = []
         const crewQueries = []
 
-        // Primero, recopilar todas las peñas
         for (const crewDoc of crewsSnapshot.docs) {
           const crewId = crewDoc.id
           const crewData = crewDoc.data()
 
-          // Crear una promesa para verificar si la peña tiene el juego
           const queryPromise = getDoc(
             doc(db, 'crews', crewId, 'games', gameId)
           ).then((gameInCrewDoc) => {
@@ -88,7 +81,7 @@ const GamesDetails = () => {
               const gameInCrewData = gameInCrewDoc.data()
               crewsWithGameStatus.push({
                 id: crewId,
-                name: crewData.title || crewData.name, // Usar title si existe, sino name
+                name: crewData.title || crewData.name,
                 season: crewData.season,
                 numberOfMembers: crewData.numberOfMembers || 0,
                 points: gameInCrewData.points || 0,
@@ -99,10 +92,8 @@ const GamesDetails = () => {
           crewQueries.push(queryPromise)
         }
 
-        // Esperar a que todas las consultas se completen
         await Promise.all(crewQueries)
 
-        // Ordenar las peñas: primero las confirmadas, luego pendientes, y al final rechazadas
         crewsWithGameStatus.sort((a, b) => {
           const statusOrder = { Confirmado: 0, Pendiente: 1, Rechazado: 2 }
           return (
@@ -122,21 +113,6 @@ const GamesDetails = () => {
     fetchGameData()
   }, [gameId, navigate])
 
-  const getStatusClass = (status) => {
-    switch (status) {
-      case 'Activo':
-        return 'bg-green-100 text-green-800'
-      case 'Inactivo':
-        return 'bg-gray-100 text-gray-800'
-      case 'Planificado':
-        return 'bg-blue-100 text-blue-800'
-      case 'Completado':
-        return 'bg-purple-100 text-purple-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
-
   if (loading) {
     return <Loader loading={true} />
   }
@@ -144,33 +120,32 @@ const GamesDetails = () => {
   if (!game) {
     return (
       <div className="p-[4%] text-center">
-        <p className="t20r">No se encontró información del juego</p>
+        <p className="t20r">{t(`${viewDictionary}.gameNotFound`)}</p>
         <DynamicButton
           onClick={() => navigate('/games-list')}
           size="medium"
           state="normal"
           type="primary"
-          textId="Volver a la lista"
+          textId={t(`${viewDictionary}.backToList`)}
           className="mt-[4vh]"
         />
       </div>
     )
   }
 
-  // Prepara los elementos para los Items dinámicos
   const gameDetailsItems = [
     {
-      title: t(`${viewDictionary}.dateLabel`, 'Fecha'),
+      title: t(`${viewDictionary}.dateLabel`),
       description: game.date,
       type: 'gameData',
     },
     {
-      title: t(`${viewDictionary}.timeLabel`, 'Hora'),
+      title: t(`${viewDictionary}.timeLabel`),
       description: game.time,
       type: 'gameData',
     },
     {
-      title: t(`${viewDictionary}.locationLabel`, 'Ubicación'),
+      title: t(`${viewDictionary}.locationLabel`),
       description: game.location,
       type: 'gameData',
     },
@@ -178,20 +153,17 @@ const GamesDetails = () => {
 
   const gameParticipantsItems = [
     {
-      title: t(
-        `${viewDictionary}.minParticipantsLabel`,
-        'Mínimo de participantes'
-      ),
+      title: t(`${viewDictionary}.minParticipantsLabel`),
       description: game.minParticipants.toString(),
       type: 'gameData',
     },
     {
-      title: t(`${viewDictionary}.scoreLabel`, 'Puntuación'),
+      title: t(`${viewDictionary}.scoreLabel`),
       description: game.score.toString(),
       type: 'gameData',
     },
     {
-      title: t(`${viewDictionary}.seasonLabel`, 'Temporada'),
+      title: t(`${viewDictionary}.seasonLabel`),
       description: game.season,
       type: 'gameData',
     },
@@ -205,14 +177,17 @@ const GamesDetails = () => {
         <div className="col-span-3 mb-[3vh]">
           <div className="p-[5%] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-[5vh] h-fit">
             <div className="flex mb-[3vh] space-x-[3%]"></div>
-            <h2 className="mb-[3vh] sm:t40b t24b">Descripción</h2>
+            <h2 className="mb-[3vh] sm:t40b t24b">
+              {' '}
+              {t(`${viewDictionary}.descriptionTitle`)}
+            </h2>
             <p className="sm:t20r t16r">{game.description}</p>
           </div>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-[3vh]">
           <div className="space-y-[3vh] w-full rounded-[5vh] h-fit mb-[4vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
             <h3 className="pt-[3vh] px-[5%] sm:t40b t24b">
-              {t(`${viewDictionary}.dateInfoTitle`, 'Información de la fecha')}
+              {t(`${viewDictionary}.dateInfoTitle`)}
             </h3>
             <div className="px-[5%] pb-[3vh]">
               <DynamicItems items={gameDetailsItems} />
@@ -221,7 +196,7 @@ const GamesDetails = () => {
 
           <div className="space-y-[3vh] w-full rounded-[5vh] h-fit mb-[4vh] text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
             <h3 className="pt-[3vh] px-[5%] sm:t40b t24b">
-              {t(`${viewDictionary}.gameInfoTitle`, 'Detalles del juego')}
+              {t(`${viewDictionary}.gameInfoTitle`)}
             </h3>
             <div className="px-[5%] pb-[3vh]">
               <DynamicItems items={gameParticipantsItems} />
@@ -233,7 +208,9 @@ const GamesDetails = () => {
       {/* Sección de peñas participantes - Versión simplificada */}
       {crews.length > 0 && (
         <div className="mt-[8vh]">
-          <h2 className="mb-[4vh] text-center t40b">Peñas participantes</h2>
+          <h2 className="mb-[4vh] text-center t40b">
+            {t(`${viewDictionary}.participatingCrewsTitle`)}
+          </h2>
 
           <div className="grid grid-cols-1 gap-[3vh] md:grid-cols-2 lg:grid-cols-3">
             {crews.map((crew) => (
@@ -246,7 +223,7 @@ const GamesDetails = () => {
                 <div className="flex flex-wrap justify-center gap-[1vh] mb-[2vh] w-full">
                   {crew.points >= 0 && (
                     <span className="px-[3%] py-[0.5vh] text-blue-800 bg-blue-100 rounded-full t12r">
-                      {crew.points} puntos
+                      {t(`${viewDictionary}.points`, { points: crew.points })}
                     </span>
                   )}
                 </div>
@@ -259,11 +236,10 @@ const GamesDetails = () => {
       {crews.length === 0 && (
         <div className="p-[5%] mt-[8vh] text-center bg-gray-50 rounded-xl">
           <h2 className="mb-[3vh] text-gray-700 t24b">
-            No hay peñas asociadas a este juego
+            {t(`${viewDictionary}.noCrewsTitle`)}
           </h2>
           <p className="text-gray-600 t16r">
-            Este juego aún no tiene peñas asignadas o no se ha encontrado
-            información de participación.
+            {t(`${viewDictionary}.noCrewsDescription`)}
           </p>
         </div>
       )}
@@ -274,7 +250,7 @@ const GamesDetails = () => {
           size="medium"
           state="normal"
           type="primary"
-          textId="Volver a la lista"
+          textId={t(`${viewDictionary}.backToList`)}
         />
       </div>
     </div>

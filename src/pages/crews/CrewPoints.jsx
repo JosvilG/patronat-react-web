@@ -8,7 +8,6 @@ import {
   where,
   serverTimestamp,
 } from 'firebase/firestore'
-
 import { db } from '../../firebase/firebase'
 import Loader from '../../components/Loader'
 import { useTranslation } from 'react-i18next'
@@ -94,8 +93,8 @@ const CrewPoints = () => {
       } catch (error) {
         setLoading(false)
         showPopup({
-          title: 'Error',
-          text: 'No se pudieron cargar los datos. Por favor, inténtalo de nuevo.',
+          title: t(`${viewDictionary}.errorMessages.errorTitle`),
+          text: t(`${viewDictionary}.errorMessages.loadError`),
           icon: 'error',
         })
       }
@@ -153,16 +152,16 @@ const CrewPoints = () => {
       )
 
       showPopup({
-        title: '¡Puntos guardados!',
-        text: 'Los puntos se han actualizado correctamente.',
+        title: t(`${viewDictionary}.successMessages.pointsSaved`),
+        text: t(`${viewDictionary}.successMessages.pointsUpdated`),
         icon: 'success',
         timer: 1500,
         showConfirmButton: false,
       })
     } catch (error) {
       showPopup({
-        title: 'Error',
-        text: 'No se pudieron guardar los puntos. Por favor, inténtalo de nuevo.',
+        title: t(`${viewDictionary}.errorMessages.errorTitle`),
+        text: t(`${viewDictionary}.errorMessages.saveError`),
         icon: 'error',
       })
     } finally {
@@ -214,14 +213,14 @@ const CrewPoints = () => {
       )
 
       showPopup({
-        title: '¡Puntos guardados!',
-        text: 'Todos los puntos se han actualizado correctamente.',
+        title: t(`${viewDictionary}.successMessages.pointsSaved`),
+        text: t(`${viewDictionary}.successMessages.allPointsSaved`),
         icon: 'success',
       })
     } catch (error) {
       showPopup({
-        title: 'Error',
-        text: 'No se pudieron guardar todos los puntos. Por favor, inténtalo de nuevo.',
+        title: t(`${viewDictionary}.errorMessages.errorTitle`),
+        text: t(`${viewDictionary}.errorMessages.saveAllError`),
         icon: 'error',
       })
     } finally {
@@ -244,15 +243,12 @@ const CrewPoints = () => {
   return (
     <div className="h-auto px-3 pb-4 mx-auto sm:px-4 sm:pb-8 max-w-7xl">
       <h1 className="mb-6 text-center sm:mb-8 md:mb-12 t64b">
-        {t(`${viewDictionary}.title`, 'Puntuación de Peñas')}
+        {t(`${viewDictionary}.title`)}
       </h1>
 
       <div className="p-4 sm:p-6 mb-4 sm:mb-8 backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl sm:rounded-2xl md:rounded-[40px]">
         <p className="mb-3 text-base text-center sm:mb-4 sm:text-lg md:text-xl t20r">
-          {t(
-            `${viewDictionary}.description`,
-            'Asigna puntos a cada peña en los juegos activos. Puedes expandir cada peña para ver sus juegos.'
-          )}
+          {t(`${viewDictionary}.description`)}
         </p>
 
         <div className="flex justify-center">
@@ -261,10 +257,7 @@ const CrewPoints = () => {
             size="medium"
             state={saving ? 'loading' : 'normal'}
             type="primary"
-            textId={t(
-              `${viewDictionary}.saveAllButton`,
-              'Guardar Todos los Puntos'
-            )}
+            textId={t(`${viewDictionary}.saveAllButton`)}
             disabled={saving}
           />
         </div>
@@ -273,10 +266,7 @@ const CrewPoints = () => {
       {crews.length === 0 ? (
         <div className="p-4 sm:p-6 text-center backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl sm:rounded-2xl md:rounded-[40px]">
           <p className="text-base sm:text-lg md:text-xl t20r">
-            {t(
-              `${viewDictionary}.noCrews`,
-              'No hay peñas con juegos activos disponibles'
-            )}
+            {t(`${viewDictionary}.noCrews`)}
           </p>
         </div>
       ) : (
@@ -308,10 +298,14 @@ const CrewPoints = () => {
                         {crew.status}
                       </span>
                       <span className="px-2 py-0.5 sm:py-1 text-xs sm:text-sm text-blue-800 bg-blue-100 rounded-full t14r">
-                        {calculateTotalPoints(crew.id)} puntos totales
+                        {t(`${viewDictionary}.totalPoints`, {
+                          points: calculateTotalPoints(crew.id),
+                        })}
                       </span>
                       <span className="px-2 py-0.5 sm:py-1 text-xs sm:text-sm text-yellow-800 bg-yellow-100 rounded-full t14r">
-                        {crew.games.length} juegos
+                        {t(`${viewDictionary}.gamesCount`, {
+                          count: crew.games.length,
+                        })}
                       </span>
                     </div>
                   </div>

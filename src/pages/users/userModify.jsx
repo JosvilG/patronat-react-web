@@ -69,7 +69,6 @@ function UserControl() {
     tag: 'users',
     entityType: 'user',
   })
-  // Usamos el hook useSlug en lugar de esta función
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -103,7 +102,7 @@ function UserControl() {
           }
 
           if (!found) {
-            setError('Usuario no encontrado')
+            setError(t(`${viewDictionary}.errorMessages.userNotFound`))
             setLoading(false)
             return
           }
@@ -128,7 +127,6 @@ function UserControl() {
             endDate: userData.endDate || '',
             description: userData.description || '',
             documentUrl: userData.documentUrl || '',
-            // Nuevos campos con valores por defecto si no existen
             emailNotifications:
               userData.emailNotifications !== undefined
                 ? userData.emailNotifications
@@ -142,11 +140,13 @@ function UserControl() {
             setAge(calculateAge(userData.birthDate))
           }
         } else {
-          setError('No se encontró información del usuario')
+          setError(t(`${viewDictionary}.errorMessages.noInfoUserFound`))
         }
       } catch (err) {
-        log.error('Error al cargar datos del usuario:', err)
-        setError('No se pudieron cargar los datos del usuario')
+        log.error(t(`${viewDictionary}.errorMessages.userLoadingError`), {
+          err: err,
+        })
+        setError(t(`${viewDictionary}.errorMessages.userInfoCantLoaded`))
       } finally {
         setLoading(false)
       }
@@ -192,7 +192,7 @@ function UserControl() {
       const errorMessage = validateFile(file, t)
       if (errorMessage) {
         showPopup({
-          title: t('utils.fileError', 'Error de archivo'),
+          title: t(`${viewDictionary}.documentUpload.fileError`),
           text: errorMessage,
           icon: 'error',
         })
@@ -201,11 +201,9 @@ function UserControl() {
 
       setDocumentFile(file)
 
-      // Solo crear URL de previsualización para imágenes
       if (file.type.startsWith('image/')) {
         setPreviewDocumentUrl(URL.createObjectURL(file))
       } else if (file.type === 'application/pdf') {
-        // Para PDF podemos mostrar un icono o mensaje
         setPreviewDocumentUrl('pdf')
       } else {
         setPreviewDocumentUrl('document')
@@ -233,22 +231,16 @@ function UserControl() {
             setDocumentProgress(progressPercent)
           },
           (error) => {
-            log.error('Error al subir el documento:', error)
             reject(error)
           },
           async () => {
             const url = await getDownloadURL(uploadTask.snapshot.ref)
 
-            // Si hay un documento anterior, eliminarlo
             if (formData.documentUrl) {
               try {
                 const oldDocRef = ref(storage, formData.documentUrl)
                 await deleteObject(oldDocRef)
               } catch (deleteError) {
-                log.error(
-                  'Error al eliminar el documento anterior:',
-                  deleteError
-                )
                 // Continuamos aunque falle la eliminación
               }
             }
@@ -269,7 +261,7 @@ function UserControl() {
     setError(null)
 
     if (!auth.currentUser) {
-      setError('Usuario no autenticado')
+      setError(t(`${viewDictionary}.errorMessages.unauthenticated`))
       setSubmitting(false)
       return
     }
@@ -288,8 +280,6 @@ function UserControl() {
         'startDate',
         'endDate',
         'description',
-        // Añadir los nuevos campos para detectar cambios
-
         'emailNotifications',
       ]
       const detectedChanges = detectChanges(
@@ -305,7 +295,6 @@ function UserControl() {
         }
       }
 
-      // Iniciar con los datos básicos a actualizar
       const updateData = {
         firstName: formData.firstName,
         lastName: formData.lastName,
@@ -318,14 +307,11 @@ function UserControl() {
         startDate: formData.startDate,
         endDate: formData.endDate,
         description: formData.description,
-        // Añadir los nuevos campos para actualizarlos
         emailNotifications: formData.emailNotifications || false,
         modifiedAt: Timestamp.fromDate(new Date()),
       }
 
-      // Procesar la subida del documento si es necesario
       if (documentFile) {
-        // Quitar la condición de formData.isStaff para permitir subir documentos siempre
         try {
           const documentUrl = await uploadDocument(documentFile)
 
@@ -337,15 +323,13 @@ function UserControl() {
             }
           }
         } catch (fileError) {
-          log.error('Error al procesar el archivo:', fileError)
           showPopup({
-            title: 'Error',
-            text: 'Hubo un error al subir el documento. Se guardarán el resto de datos.',
+            title: t(`${viewDictionary}.errorPopup.title`),
+            text: t(`${viewDictionary}.documentUpload.errorText`),
             icon: 'error',
           })
         }
       } else {
-        // Mantener la URL del documento existente, sin importar si es staff o no
         updateData.documentUrl = formData.documentUrl || ''
       }
 
@@ -361,14 +345,8 @@ function UserControl() {
             entityName,
             onSuccess: () => {
               showPopup({
-                title: t(
-                  `${viewDictionary}.successPopup.title`,
-                  'Actualización exitosa'
-                ),
-                text: t(
-                  `${viewDictionary}.successPopup.text`,
-                  'Los datos han sido actualizados correctamente'
-                ),
+                title: t(`${viewDictionary}.successPopup.title`),
+                text: t(`${viewDictionary}.successPopup.text`),
                 icon: 'success',
               })
 
@@ -378,7 +356,7 @@ function UserControl() {
               })
               setDocumentFile(null)
               setDocumentProgress(0)
-              setPreviewDocumentUrl(null) // Limpiar URL de previsualización
+              setPreviewDocumentUrl(null)
 
               if (!isOwnProfile) {
                 setTimeout(() => {
@@ -387,38 +365,27 @@ function UserControl() {
               }
             },
             onError: (error) => {
-              log.error('Error al registrar cambios:', error)
-              setError(
-                'Error al registrar los cambios. Se guardaron los datos principales.'
-              )
+              setError(t(`${viewDictionary}.errorMessages.updateDataError`))
             },
           })
         } catch (updateError) {
-          throw new Error(
-            'No se pudieron guardar los cambios en la base de datos'
-          )
+          throw new Error(t(`${viewDictionary}.errorMessages.dataBaseError`))
         }
       } else {
         showPopup({
-          title: t(`${viewDictionary}.noChangesPopup.title`, 'Sin cambios'),
-          text: t(
-            `${viewDictionary}.noChangesPopup.text`,
-            'No se detectaron cambios en los datos'
-          ),
+          title: t(`${viewDictionary}.noChangesPopup.title`),
+          text: t(`${viewDictionary}.noChangesPopup.text`),
           icon: 'info',
         })
       }
     } catch (err) {
       log.error('Error al actualizar perfil:', err)
       showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-        text: t(
-          `${viewDictionary}.errorPopup.text`,
-          'Hubo un error al actualizar los datos. Por favor, intenta de nuevo.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.text`),
         icon: 'error',
       })
-      setError(err.message || 'Error al actualizar los datos')
+      setError(err.message)
     } finally {
       setSubmitting(false)
     }
@@ -432,8 +399,8 @@ function UserControl() {
         color="rgb(21, 100, 46)"
         text={
           isTracking
-            ? 'Registrando cambios...'
-            : 'Cargando datos del usuario...'
+            ? t(`${viewDictionary}.trackingChanges`)
+            : t(`${viewDictionary}.loadingUser`)
         }
       />
     )
@@ -444,16 +411,13 @@ function UserControl() {
       <Loader loading={submitting} />
       <h1 className="mb-4 sm:t64b t40b">
         {isOwnProfile
-          ? t(`${viewDictionary}.title`, 'Actualizar datos de perfil')
-          : t(`${viewDictionary}.editUserTitle`, 'Editar usuario')}
+          ? t(`${viewDictionary}.title`)
+          : t(`${viewDictionary}.editUserTitle`)}
       </h1>
 
       <p className="mb-6 t16r">
         {isOwnProfile
-          ? t(
-              'pages.userControl.descriptionTitle',
-              'Modifica tus datos personales'
-            )
+          ? t(`${viewDictionary}.descriptionTitle`)
           : t(`${viewDictionary}.editUserDescription`, {
               firstName: formData.firstName,
               lastName: formData.lastName,
@@ -468,110 +432,91 @@ function UserControl() {
       >
         <div className="flex flex-col items-center w-full gap-6 sm:grid sm:grid-cols-2 sm:gap-4">
           <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">
-              {t('pages.userRegister.name', 'Nombre')}
-            </h1>
+            <h1 className="mb-4 t16r">{t(`${viewDictionary}.name`)}</h1>
             <DynamicInput
               name="firstName"
               type="text"
-              placeholder={t('pages.userRegister.name')}
+              placeholder={t(`${viewDictionary}.name`)}
               value={formData.firstName}
               onChange={(e) => handleChange('firstName', e.target.value)}
               required
               disabled={submitting}
-              className="w-full"
             />
           </div>
 
           <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">
-              {t('pages.userRegister.surname', 'Apellido')}
-            </h1>
+            <h1 className="mb-4 t16r">{t(`${viewDictionary}.surname`)}</h1>
             <DynamicInput
               name="lastName"
               type="text"
               value={formData.lastName}
-              placeholder={t('pages.userRegister.surname')}
+              placeholder={t(`${viewDictionary}.surname`)}
               onChange={(e) => handleChange('lastName', e.target.value)}
               required
               disabled={submitting}
-              className="w-full"
             />
           </div>
 
           <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">
-              {t('pages.userRegister.phone', 'Teléfono')}
-            </h1>
+            <h1 className="mb-4 t16r">{t(`${viewDictionary}.phone`)} </h1>
             <DynamicInput
               name="phoneNumber"
               type="phone"
               value={formData.phoneNumber}
-              placeholder={t('pages.userRegister.phone')}
+              placeholder={t(`${viewDictionary}.phone`)}
               onChange={(e) => handleChange('phoneNumber', e.target.value)}
               required
               disabled={submitting}
-              className="w-full"
             />
           </div>
 
           <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">
-              {t('pages.userRegister.birthDate', 'Fecha de nacimiento')}
-            </h1>
+            <h1 className="mb-4 t16r">{t(`${viewDictionary}.birthDate`)} </h1>
             <div className="flex flex-col items-center w-full sm:flex-row">
               <DynamicInput
                 name="birthDate"
                 type="date"
                 value={formData.birthDate}
-                placeholder={t('pages.userRegister.birthDate')}
+                placeholder={t(`${viewDictionary}.birthDate`)}
                 onChange={(e) => handleChange('birthDate', e.target.value)}
                 required
                 disabled={submitting}
-                className="w-full"
               />
               {age !== null && (
                 <span className="mt-2 text-black sm:mt-0 sm:ml-4 t24b">
-                  {age} años
+                  {t(`${viewDictionary}.years`, { years: age })}
                 </span>
               )}
             </div>
           </div>
 
           <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">{t('pages.userRegister.dni', 'DNI')}</h1>
+            <h1 className="mb-4 t16r">{t(`${viewDictionary}.dni`)}</h1>
             <DynamicInput
               name="dni"
               type="dni"
               value={formData.dni}
-              placeholder={t('pages.userRegister.dni')}
+              placeholder={t(`${viewDictionary}.dni`)}
               onChange={(e) => handleChange('dni', e.target.value)}
               required
               disabled={submitting}
-              className="w-full"
             />
           </div>
 
           <div className="flex flex-col items-center">
-            <h1 className="mb-4 t16r">
-              {t('pages.userRegister.email', 'Correo electrónico')}
-            </h1>
+            <h1 className="mb-4 t16r">{t(`${viewDictionary}.email`)}</h1>
             <DynamicInput
               name="email"
               type="email"
               value={formData.email}
-              placeholder={t('pages.userRegister.email')}
+              placeholder={t(`${viewDictionary}.email`)}
               disabled
-              className="w-full"
             />
           </div>
 
           <div className="flex flex-col items-center col-span-2 mt-8 mb-4">
             <h2 className="mb-6 t24b">
-              {t(
-                `${viewDictionary}.preferencesSection.title`,
-                'Preferencias de usuario'
-              )}
+              {t(`${viewDictionary}.userPreferences`)}
             </h2>
 
             <div className="grid items-center w-full grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8">
@@ -608,74 +553,61 @@ function UserControl() {
           <div className="flex flex-col items-center">
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-4 max-w-fit">
               <div className="flex flex-col">
-                <h1 className="mb-4 t16r">
-                  {t(`${viewDictionary}.position`, 'Posición')}
-                </h1>
+                <h1 className="mb-4 t16r">{t(`${viewDictionary}.position`)}</h1>
                 <DynamicInput
                   name="position"
                   type="text"
                   value={formData.position}
-                  placeholder={t(`${viewDictionary}.position`, 'Posición')}
+                  placeholder={t(`${viewDictionary}.position`)}
                   onChange={(e) => handleChange('position', e.target.value)}
                   required={formData.isStaff}
                   disabled={submitting}
-                  className="w-full"
                 />
               </div>
 
               <div className="flex flex-col max-w-fit">
                 <h1 className="mb-4 t16r">
-                  {t(`${viewDictionary}.description`, 'Descripción')}
+                  {t(`${viewDictionary}.description`)}
                 </h1>
                 <DynamicInput
                   name="description"
                   type={'textarea'}
                   value={formData.description}
-                  placeholder={t(
-                    `${viewDictionary}.description`,
-                    'Descripción'
-                  )}
+                  placeholder={t(`${viewDictionary}.description`)}
                   onChange={(e) => handleChange('description', e.target.value)}
                   disabled={submitting}
-                  className="w-full"
                 />
               </div>
               <div className="flex flex-col items-center ">
                 <h1 className="mb-4 t16r">
-                  {t('pages.userControl.startDate', 'Fecha de incorporación')}
+                  {t(`${viewDictionary}.startDate`)}
                 </h1>
                 <DynamicInput
                   name="startDate"
                   type="date"
                   value={formData.startDate}
-                  placeholder={t('pages.userControl.startDate')}
+                  placeholder={t(`${viewDictionary}.startDate`)}
                   onChange={(e) => handleChange('startDate', e.target.value)}
                   required={formData.isStaff}
                   disabled={submitting}
-                  className="w-full"
                 />
               </div>
 
               <div className="flex flex-col items-center ">
-                <h1 className="mb-4 t16r">
-                  {t('pages.userControl.endDate', 'Fecha de finalización')}
-                </h1>
+                <h1 className="mb-4 t16r">{t(`${viewDictionary}.endDate`)}</h1>
                 <DynamicInput
                   name="endDate"
                   type="date"
                   value={formData.endDate}
-                  placeholder={t('pages.userControl.endDate')}
+                  placeholder={t(`${viewDictionary}.endDate`)}
                   onChange={(e) => handleChange('endDate', e.target.value)}
                   disabled={submitting}
-                  className="w-full"
                 />
               </div>
             </div>
             <div className="">
               <div className="flex flex-col items-center col-span-2">
-                <h1 className="mb-4 t16r">
-                  {t('pages.userControl.document', 'Documento')}
-                </h1>
+                <h1 className="mb-4 t16r">{t(`${viewDictionary}.document`)}</h1>
                 <div className="flex flex-col items-center w-full space-y-4">
                   <DynamicInput
                     name="documentFile"
@@ -688,10 +620,7 @@ function UserControl() {
                     {formData.documentUrl && (
                       <div className="flex flex-col items-center">
                         <h1 className="mb-4 t16r">
-                          {t(
-                            `${viewDictionary}.oldDocTitle`,
-                            'Documento actual'
-                          )}
+                          {t(`${viewDictionary}.oldDocTitle`)}
                         </h1>
                         <div className="w-full">
                           {formData.documentUrl.includes('pdf') ? (
@@ -699,7 +628,6 @@ function UserControl() {
                               <div className="p-4 rounded-md">
                                 <DynamicCard
                                   type="gallery"
-                                  title="Documento actual"
                                   imageUrl={formData.documentUrl}
                                 />
                               </div>
@@ -709,7 +637,6 @@ function UserControl() {
                             ) ? (
                             <DynamicCard
                               type="gallery"
-                              title="Documento actual"
                               imageUrl={formData.documentUrl}
                             />
                           ) : (
@@ -717,7 +644,6 @@ function UserControl() {
                               <div className="p-4 rounded-md">
                                 <DynamicCard
                                   type="gallery"
-                                  title="Documento actual"
                                   imageUrl={formData.documentUrl}
                                 />
                               </div>
@@ -730,10 +656,7 @@ function UserControl() {
                     {previewDocumentUrl && (
                       <div>
                         <h1 className="mb-4 t16r">
-                          {t(
-                            `${viewDictionary}.newDocTitle`,
-                            'Nuevo documento'
-                          )}
+                          {t(`${viewDictionary}.newDocTitle`)}
                         </h1>
                         {previewDocumentUrl === 'pdf' ? (
                           <div className="flex flex-col items-center">
@@ -812,7 +735,7 @@ function UserControl() {
               e.preventDefault()
               navigate(isOwnProfile ? `/profile/${slug}` : '/users-list')
             }}
-            textId={t('components.buttons.cancel', 'Cancelar')}
+            textId={t('components.buttons.cancel')}
             disabled={submitting}
           />
 
@@ -822,8 +745,8 @@ function UserControl() {
             type="submit"
             textId={
               submitting
-                ? t('components.buttons.processing', 'Procesando...')
-                : t('components.buttons.update', 'Actualizar datos')
+                ? t(`${viewDictionary}.processing`)
+                : t(`${viewDictionary}.updateDateButton`)
             }
             disabled={submitting}
           />

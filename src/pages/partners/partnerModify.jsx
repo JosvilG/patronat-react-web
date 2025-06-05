@@ -27,7 +27,6 @@ const calculateAge = (birthDate) => {
   if (!birthDate) return null
 
   try {
-    // Convertir de timestamp de Firestore si es necesario
     let birthDateObj = birthDate
     if (birthDate?.toDate) {
       birthDateObj = birthDate.toDate()
@@ -39,7 +38,6 @@ const calculateAge = (birthDate) => {
     let age = today.getFullYear() - birthDateObj.getFullYear()
     const monthDiff = today.getMonth() - birthDateObj.getMonth()
 
-    // Si aún no ha cumplido años este año
     if (
       monthDiff < 0 ||
       (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
@@ -49,7 +47,6 @@ const calculateAge = (birthDate) => {
 
     return age
   } catch (error) {
-    // Manejo silencioso para producción
     return null
   }
 }
@@ -192,7 +189,7 @@ function PartnerModifyForm() {
   useEffect(() => {
     const fetchPartner = async () => {
       if (!partnerId) {
-        setError('No se pudo cargar la información del socio.')
+        setError(t(`${viewDictionary}.errorMessages.errorPartnerCharging`))
         setLoading(false)
         return
       }
@@ -230,10 +227,10 @@ function PartnerModifyForm() {
             await fetchPartnerPayments(docSnap.id)
           }
         } else {
-          setError('No se encontró el socio especificado.')
+          setError(t(`${viewDictionary}.errorMessages.noPartnerFound`))
         }
       } catch (error) {
-        setError('Ocurrió un error al cargar los datos del socio.')
+        setError(t(`${viewDictionary}.errorMessages.errorPartnerCharging`))
       } finally {
         setLoading(false)
       }
@@ -249,32 +246,20 @@ function PartnerModifyForm() {
       !formData.email ||
       !formData.dni
     ) {
-      return t(
-        `${viewDictionary}.validation.requiredFields`,
-        'Por favor, completa todos los campos requeridos.'
-      )
+      return t(`${viewDictionary}.validation.requiredFields`)
     }
     const emailRx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRx.test(formData.email)) {
-      return t(
-        `${viewDictionary}.validation.invalidEmail`,
-        'Por favor, introduce un email válido.'
-      )
+      return t(`${viewDictionary}.validation.invalidEmail`)
     }
     const dniRx = /^[0-9]{8}[A-Za-z]$/
     if (!dniRx.test(formData.dni)) {
-      return t(
-        `${viewDictionary}.validation.invalidDni`,
-        'Por favor, introduce un DNI válido (8 números y una letra).'
-      )
+      return t(`${viewDictionary}.validation.invalidDni`)
     }
     if (formData.accountNumber) {
       const ibanRx = /^ES[0-9]{22}$/
       if (!ibanRx.test(formData.accountNumber)) {
-        return t(
-          `${viewDictionary}.validation.invalidIban`,
-          'Por favor, introduce un IBAN válido (formato ES + 22 dígitos).'
-        )
+        return t(`${viewDictionary}.validation.invalidIban`)
       }
     }
     return null
@@ -287,10 +272,11 @@ function PartnerModifyForm() {
     const validationError = validateForm()
     if (validationError) {
       await showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error de validación'),
+        title: t(`${viewDictionary}.errorPopup.title`),
         text: validationError,
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
       setFormData((prev) => ({ ...prev, submitting: false }))
       return
@@ -328,28 +314,21 @@ function PartnerModifyForm() {
       }
 
       await showPopup({
-        title: t(
-          `${viewDictionary}.successPopup.title`,
-          'Actualización exitosa'
-        ),
-        text: t(
-          `${viewDictionary}.successPopup.text`,
-          'Los datos del socio han sido actualizados correctamente.'
-        ),
+        title: t(`${viewDictionary}.successPopup.title`),
+        text: t(`${viewDictionary}.successPopup.text`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#8be484',
       })
 
       navigate('/partners-list')
     } catch (error) {
       await showPopup({
-        title: t(`${viewDictionary}.errorPopup.title`, 'Error'),
-        text: t(
-          `${viewDictionary}.errorPopup.updateError`,
-          'Ha ocurrido un error al actualizar los datos del socio.'
-        ),
+        title: t(`${viewDictionary}.errorPopup.title`),
+        text: t(`${viewDictionary}.errorPopup.updateError`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText', 'Aceptar'),
+        confirmButtonText: t('components.buttons.confirm'),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setFormData((prev) => ({ ...prev, submitting: false }))
@@ -369,7 +348,6 @@ function PartnerModifyForm() {
     const newCategory = e.target.value
     setFormData((prev) => ({ ...prev, priceCategory: newCategory }))
 
-    // Si hay datos de pago, actualizar precios
     if (paymentData && activeSeason) {
       updatePricesBasedOnCategory(newCategory)
     }
@@ -430,20 +408,20 @@ function PartnerModifyForm() {
     <div className="bg-transparent min-h-dvh pb-[5vh]">
       <section className="max-w-full mx-auto">
         <h2 className="mb-[5vh] text-center sm:t64b t40b">
-          {t(`${viewDictionary}.title`, 'Modificar Socio')}
+          {t(`${viewDictionary}.title`)}
         </h2>
         <Loader loading={formData.submitting} />
 
         <form onSubmit={handleSubmit} className="p-[4%] space-y-[5vh]">
           <h2 className="mb-[3vh] text-center t24b">
-            {t(`${viewDictionary}.personalInfoSection`, 'Datos Personales')}
+            {t(`${viewDictionary}.personalInfoSection`)}
           </h2>
 
           <div className="grid grid-cols-1 gap-[4vh] md:gap-[3vw] md:grid-cols-2 justify-items-center w-full">
             <DynamicInput
               name="name"
-              textId={`${viewDictionary}.nameLabel`}
-              placeholder={t(`${viewDictionary}.namePlaceholder`, 'Nombre')}
+              textId={t(`${viewDictionary}.nameLabel`)}
+              placeholder={t(`${viewDictionary}.namePlaceholder`)}
               type="text"
               value={formData.name}
               onChange={handleInputChange}
@@ -454,11 +432,8 @@ function PartnerModifyForm() {
 
             <DynamicInput
               name="lastName"
-              textId={`${viewDictionary}.lastNameLabel`}
-              placeholder={t(
-                `${viewDictionary}.lastNamePlaceholder`,
-                'Apellidos'
-              )}
+              textId={t(`${viewDictionary}.lastNameLabel`)}
+              placeholder={t(`${viewDictionary}.lastNamePlaceholder`)}
               type="text"
               value={formData.lastName}
               onChange={handleInputChange}
@@ -469,11 +444,8 @@ function PartnerModifyForm() {
 
             <DynamicInput
               name="email"
-              textId={`${viewDictionary}.emailLabel`}
-              placeholder={t(
-                `${viewDictionary}.emailPlaceholder`,
-                'Correo electrónico'
-              )}
+              textId={t(`${viewDictionary}.emailLabel`)}
+              placeholder={t(`${viewDictionary}.emailPlaceholder`)}
               type="email"
               value={formData.email}
               onChange={handleInputChange}
@@ -484,11 +456,8 @@ function PartnerModifyForm() {
 
             <DynamicInput
               name="phone"
-              textId={`${viewDictionary}.phoneLabel`}
-              placeholder={t(
-                `${viewDictionary}.phonePlaceholder`,
-                'Número de teléfono'
-              )}
+              textId={t(`${viewDictionary}.phoneLabel`)}
+              placeholder={t(`${viewDictionary}.phonePlaceholder`)}
               type="phone"
               value={formData.phone}
               onChange={handleInputChange}
@@ -498,11 +467,8 @@ function PartnerModifyForm() {
 
             <DynamicInput
               name="dni"
-              textId={`${viewDictionary}.dniLabel`}
-              placeholder={t(
-                `${viewDictionary}.dniPlaceholder`,
-                'DNI (8 dígitos + letra)'
-              )}
+              textId={t(`${viewDictionary}.dniLabel`)}
+              placeholder={t(`${viewDictionary}.dniPlaceholder`)}
               type="text"
               value={formData.dni}
               onChange={handleInputChange}
@@ -513,11 +479,8 @@ function PartnerModifyForm() {
 
             <DynamicInput
               name="birthDate"
-              textId={`${viewDictionary}.birthDateLabel`}
-              placeholder={t(
-                `${viewDictionary}.birthDatePlaceholder`,
-                'Fecha de nacimiento'
-              )}
+              textId={t(`${viewDictionary}.birthDateLabel`)}
+              placeholder={t(`${viewDictionary}.birthDatePlaceholder`)}
               type="date"
               value={formData.birthDate}
               onChange={handleInputChange}
@@ -527,11 +490,8 @@ function PartnerModifyForm() {
 
             <DynamicInput
               name="address"
-              textId={`${viewDictionary}.addressLabel`}
-              placeholder={t(
-                `${viewDictionary}.addressPlaceholder`,
-                'Dirección completa'
-              )}
+              textId={t(`${viewDictionary}.addressLabel`)}
+              placeholder={t(`${viewDictionary}.addressPlaceholder`)}
               type="text"
               value={formData.address}
               onChange={handleInputChange}
@@ -541,11 +501,8 @@ function PartnerModifyForm() {
 
             <DynamicInput
               name="accountNumber"
-              textId={`${viewDictionary}.accountNumberLabel`}
-              placeholder={t(
-                `${viewDictionary}.accountNumberPlaceholder`,
-                'IBAN (ES + 22 dígitos)'
-              )}
+              textId={t(`${viewDictionary}.accountNumberLabel`)}
+              placeholder={t(`${viewDictionary}.accountNumberLabel`)}
               type="text"
               value={formData.accountNumber}
               onChange={handleInputChange}
@@ -556,23 +513,23 @@ function PartnerModifyForm() {
             <DynamicInput
               name="status"
               type="select"
-              textId={`${viewDictionary}.statusLabel`}
-              defaultText="Estado del socio"
+              textId={t(`${viewDictionary}.statusLabel`)}
+              defaultText={t(`${viewDictionary}.partnerStatus`)}
               value={formData.status}
               onChange={handleStatusChange}
               disabled={formData.submitting}
               options={[
                 {
                   value: 'pending',
-                  label: `${viewDictionary}.statusOptions.review`,
+                  label: t(`${viewDictionary}.statusOptions.review`),
                 },
                 {
                   value: 'approved',
-                  label: `${viewDictionary}.statusOptions.active`,
+                  label: t(`${viewDictionary}.statusOptions.active`),
                 },
                 {
                   value: 'rejected',
-                  label: `${viewDictionary}.statusOptions.inactive`,
+                  label: t(`${viewDictionary}.statusOptions.inactive`),
                 },
               ]}
               className="w-full"
@@ -582,14 +539,14 @@ function PartnerModifyForm() {
           {formData.status === 'approved' && (
             <div className="pt-[5vh] mt-[4vh] border-t border-gray-200">
               <h2 className="mb-[3vh] text-center t24b">
-                {t(`${viewDictionary}.paymentsSection`, 'Gestión de Pagos')}
+                {t(`${viewDictionary}.paymentsSection`)}
               </h2>
 
               <div className="grid grid-cols-1 gap-[4vh] justify-items-center w-full">
                 <DynamicInput
                   name="priceCategory"
                   type="select"
-                  textId={`${viewDictionary}.priceCategoryLabel`}
+                  textId={t(`${viewDictionary}.priceCategoryLabel`)}
                   defaultText="Categoría de precios"
                   value={formData.priceCategory}
                   onChange={handleCategoryChange}
@@ -597,11 +554,11 @@ function PartnerModifyForm() {
                   options={[
                     {
                       value: 'adult',
-                      label: `${viewDictionary}.priceCategoryAdult`,
+                      label: t(`${viewDictionary}.priceCategoryAdult`),
                     },
                     {
                       value: 'junior',
-                      label: `${viewDictionary}.priceCategoryJunior`,
+                      label: t(`${viewDictionary}.priceCategoryJunior`),
                     },
                   ]}
                   className="w-full md:w-1/2"
@@ -610,38 +567,26 @@ function PartnerModifyForm() {
 
               {loadingSeason ? (
                 <p className="mt-[3vh] mb-[3vh] text-sm text-center text-gray-500">
-                  {t(
-                    `${viewDictionary}.payments.loadingSeason`,
-                    'Cargando información de la temporada...'
-                  )}
+                  {t(`${viewDictionary}.payments.loadingSeason`)}
                 </p>
               ) : activeSeason ? (
                 <div className="p-[4%] mt-[3vh] mb-[4vh] bg-gray-100 rounded-lg">
-                  {/* Contenido de la temporada */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-[3vh] md:gap-[2vw]">
                     <div className="break-words">
                       <h3 className="text-base font-medium mb-[2vh]">
-                        {t(
-                          `${viewDictionary}.payments.seasonInfo`,
-                          'Temporada {year}',
-                          {
-                            year: activeSeason.seasonYear,
-                          }
-                        )}
+                        {t(`${viewDictionary}.payments.seasonInfo`, {
+                          seasonYear: activeSeason.seasonYear,
+                        })}
                       </h3>
                       <p className="text-sm text-gray-600 mb-[1vh]">
-                        {t(
-                          `${viewDictionary}.payments.totalPrice`,
-                          'Precio total:'
-                        )}{' '}
-                        {activeSeason.totalPrice}€
+                        {t(`${viewDictionary}.payments.totalPrice`, {
+                          amount: activeSeason.totalPrice,
+                        })}
                       </p>
                       <p className="text-sm text-gray-600">
-                        {t(
-                          `${viewDictionary}.payments.fractions`,
-                          'Fracciones:'
-                        )}{' '}
-                        {activeSeason.numberOfFractions}
+                        {t(`${viewDictionary}.payments.fractions`, {
+                          amount: activeSeason.numberOfFractions,
+                        })}
                       </p>
                     </div>
                   </div>
@@ -649,33 +594,22 @@ function PartnerModifyForm() {
               ) : (
                 <div className="p-[4%] mt-[3vh] mb-[4vh] text-center bg-gray-100 rounded-lg">
                   <p className="text-sm text-gray-500 break-words">
-                    {t(
-                      `${viewDictionary}.payments.noActiveSeason`,
-                      'No hay temporada activa configurada.'
-                    )}
+                    {t(`${viewDictionary}.payments.noActiveSeason`)}
                   </p>
                 </div>
               )}
 
-              {/* Sección de pagos */}
               {loadingPayments ? (
                 <div className="p-[4%] text-center">
                   <p className="text-sm text-gray-500 break-words">
-                    {t(
-                      `${viewDictionary}.payments.loadingPayments`,
-                      'Cargando información de pagos...'
-                    )}
+                    {t(`${viewDictionary}.payments.loadingPayments`)}
                   </p>
                 </div>
               ) : paymentData && activeSeason ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[4vh] md:gap-[2vw] mt-[3vh]">
-                  {/* Primera fracción */}
                   <div className="p-[5%] bg-gray-50 rounded-lg w-full">
                     <h4 className="font-medium mb-[2vh] break-words">
-                      {t(
-                        `${viewDictionary}.payments.firstFraction`,
-                        'Primera fracción'
-                      )}
+                      {t(`${viewDictionary}.payments.firstFraction`)}
                     </h4>
 
                     <div className="flex items-center mb-[2vh]">
@@ -692,16 +626,13 @@ function PartnerModifyForm() {
                         htmlFor="firstPayment"
                         className="ml-[0.5rem] block text-sm text-gray-700 break-words"
                       >
-                        {t(
-                          `${viewDictionary}.payments.markAsPaid`,
-                          'Marcar como pagado'
-                        )}
+                        {t(`${viewDictionary}.payments.markAsPaid`)}
                       </label>
                     </div>
 
                     <div className="mb-[2vh]">
                       <label className="block text-xs text-gray-700 mb-[1vh] break-words">
-                        {t(`${viewDictionary}.payments.amount`, 'Importe')}
+                        {t(`${viewDictionary}.payments.amount`)}
                       </label>
                       <div className="flex rounded-md shadow-sm">
                         <input
@@ -723,10 +654,7 @@ function PartnerModifyForm() {
                     {paymentData.firstPayment && (
                       <div>
                         <label className="block text-xs text-gray-700 mb-[1vh] break-words">
-                          {t(
-                            `${viewDictionary}.payments.paymentDate`,
-                            'Fecha de pago'
-                          )}
+                          {t(`${viewDictionary}.payments.paymentDate`)}
                         </label>
                         <input
                           type="date"
@@ -743,16 +671,11 @@ function PartnerModifyForm() {
                       </div>
                     )}
                   </div>
-
-                  {/* Segunda y tercera fracciones seguirían un formato similar */}
                 </div>
               ) : (
                 <div className="p-[4%] mt-[3vh] text-center rounded-lg bg-gray-50">
                   <p className="mb-[2vh] text-sm text-gray-500 break-words">
-                    {t(
-                      `${viewDictionary}.payments.noPaymentsFound`,
-                      'No se encontró información de pagos para este socio en la temporada activa.'
-                    )}
+                    {t(`${viewDictionary}.payments.noPaymentsFound`)}
                   </p>
                   <button
                     onClick={refreshPaymentData}
@@ -773,10 +696,7 @@ function PartnerModifyForm() {
                         d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                       />
                     </svg>
-                    {t(
-                      `${viewDictionary}.payments.retryLoad`,
-                      'Intentar cargar de nuevo'
-                    )}
+                    {t(`${viewDictionary}.payments.retryLoad`)}
                   </button>
                 </div>
               )}
@@ -790,11 +710,13 @@ function PartnerModifyForm() {
               state={formData.submitting ? 'disabled' : 'normal'}
               textId={
                 formData.submitting
-                  ? `${viewDictionary}.submittingText`
-                  : `${viewDictionary}.submitButton`
+                  ? t(`${viewDictionary}.submittingText`)
+                  : t('components.buttons.save')
               }
               defaultText={
-                formData.submitting ? 'Guardando...' : 'Guardar cambios'
+                formData.submitting
+                  ? t(`${viewDictionary}.savingButtonText`)
+                  : t('components.buttons.save')
               }
               disabled={formData.submitting}
             />

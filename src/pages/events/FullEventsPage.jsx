@@ -21,7 +21,7 @@ const FullEventsPage = () => {
     return (
       <div className="flex items-center justify-center h-screen px-[4%] text-center">
         <p className="font-medium text-red-600">
-          Error al cargar los eventos: {error.message}
+          {t(`${viewDictionary}.errorLoadingEvents`)}
         </p>
       </div>
     )

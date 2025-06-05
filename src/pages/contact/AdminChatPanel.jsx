@@ -20,7 +20,6 @@ import DynamicInput from '../../components/Inputs'
 
 const AdminChatPanel = () => {
   const { t } = useTranslation()
-  const viewDictionary = 'pages.contact.adminChatPanel'
   const { user, userData, loading: authLoading } = useContext(AuthContext)
   const [activeChats, setActiveChats] = useState([])
   const [selectedChat, setSelectedChat] = useState(null)
@@ -29,8 +28,8 @@ const AdminChatPanel = () => {
   const [loading, setLoading] = useState(false)
   const messagesEndRef = useRef(null)
   const [unreadCounts, setUnreadCounts] = useState({})
+  const viewDictionary = 'pages.contact.adminChatPanel'
 
-  // Verificar si el usuario es administrador
   useEffect(() => {
     if (!authLoading) {
       if (userData?.role !== 'admin') {
@@ -39,7 +38,6 @@ const AdminChatPanel = () => {
     }
   }, [userData, authLoading, user])
 
-  // Cargar chats activos y contar mensajes no leídos
   useEffect(() => {
     if (authLoading || userData?.role !== 'admin') return
 
@@ -55,8 +53,6 @@ const AdminChatPanel = () => {
         const chatsList = []
         snapshot.forEach((doc) => {
           chatsList.push({ id: doc.id, ...doc.data() })
-
-          // Contar mensajes no leídos para este chat
           fetchUnreadCount(doc.id)
         })
 
@@ -66,12 +62,10 @@ const AdminChatPanel = () => {
 
       return () => unsubscribe()
     } catch (error) {
-      // Error al configurar la consulta de chats
       setLoading(false)
     }
   }, [authLoading, userData, user])
 
-  // Función para obtener el conteo de mensajes no leídos
   const fetchUnreadCount = async (chatId) => {
     try {
       const unreadQuery = query(
@@ -90,7 +84,6 @@ const AdminChatPanel = () => {
     }
   }
 
-  // Cargar mensajes del chat seleccionado
   useEffect(() => {
     if (!selectedChat) return
 
@@ -107,15 +100,12 @@ const AdminChatPanel = () => {
       })
       setMessages(messagesList)
       setLoading(false)
-
-      // Marcar mensajes del usuario como leídos al verlos
       markUserMessagesAsRead(selectedChat.id, messagesList)
     })
 
     return () => unsubscribe()
   }, [selectedChat])
 
-  // Marcar mensajes del usuario como leídos
   const markUserMessagesAsRead = async (chatId, messagesList) => {
     try {
       const batch = writeBatch(db)
@@ -131,8 +121,6 @@ const AdminChatPanel = () => {
 
       if (hasUnreadMessages) {
         await batch.commit()
-
-        // Actualizar contador de no leídos
         setUnreadCounts((prev) => ({
           ...prev,
           [chatId]: 0,
@@ -143,20 +131,13 @@ const AdminChatPanel = () => {
     }
   }
 
-  // Auto-scroll inteligente al último mensaje
   useEffect(() => {
-    // Función para determinar si el usuario estaba cerca del fondo antes de que llegaran nuevos mensajes
     const shouldAutoScroll = () => {
       if (!messagesEndRef.current) return false
-
       const container = messagesEndRef.current.parentElement
       if (!container) return false
-
-      // Consideramos "cerca del fondo" si el usuario está a menos de 200px del final
       const { scrollTop, scrollHeight, clientHeight } = container
       const distanceFromBottom = scrollHeight - scrollTop - clientHeight
-
-      // Auto-scroll solo si ya estaba cerca del fondo o si el último mensaje es del usuario actual (soporte)
       return (
         distanceFromBottom < 200 ||
         (messages.length > 0 &&
@@ -164,19 +145,16 @@ const AdminChatPanel = () => {
       )
     }
 
-    // Solo hacer scroll si es apropiado
     if (shouldAutoScroll()) {
-      // Usar setTimeout para asegurar que los elementos del DOM se hayan renderizado
       setTimeout(() => {
         messagesEndRef.current?.scrollIntoView({
           behavior: 'smooth',
-          block: 'end', // Esto es más suave que el comportamiento predeterminado
+          block: 'end',
         })
       }, 100)
     }
   }, [messages])
 
-  // Enviar mensaje como soporte
   const handleSubmit = async (e) => {
     e.preventDefault()
     if (!newMessage.trim() || !selectedChat) return
@@ -195,7 +173,6 @@ const AdminChatPanel = () => {
     }
   }
 
-  // Marcar chat como inactivo/cerrado
   const closeChat = async (chatId) => {
     try {
       await updateDoc(doc(db, 'chats', chatId), {
@@ -210,7 +187,6 @@ const AdminChatPanel = () => {
     }
   }
 
-  // Formatear la hora del mensaje
   const formatTime = (timestamp) => {
     if (!timestamp || !timestamp.toDate) {
       return ''
@@ -221,7 +197,6 @@ const AdminChatPanel = () => {
     })
   }
 
-  // Formatear la fecha
   const formatDate = (timestamp) => {
     if (!timestamp || !timestamp.toDate) {
       return ''
@@ -250,7 +225,6 @@ const AdminChatPanel = () => {
       <div
         className={`grid grid-cols-1 md:grid-cols-5 gap-3 sm:gap-[1.5rem] ${selectedChat ? 'md:grid-rows-[auto]' : ''}`}
       >
-        {/* Lista de chats activos - En móviles se muestra condicionalmente */}
         <div
           className={`md:col-span-2 w-full max-w-full ${selectedChat ? 'hidden md:block' : 'block'}`}
         >
@@ -261,7 +235,6 @@ const AdminChatPanel = () => {
                   count: activeChats.length,
                 })}
               </h3>
-              {/* Botón para volver al chat en móviles */}
               {selectedChat && (
                 <div className="mt-3 mr-4 md:hidden">
                   <DynamicButton
@@ -321,7 +294,6 @@ const AdminChatPanel = () => {
           </div>
         </div>
 
-        {/* Panel de chat - En móviles se muestra condicionalmente */}
         <div
           className={`md:col-span-3 w-full max-w-full ${selectedChat ? 'block' : 'hidden md:block'}`}
         >
@@ -331,7 +303,6 @@ const AdminChatPanel = () => {
                 <div className="flex items-center justify-between p-3 sm:p-4 border-b bg-white bg-opacity-30 rounded-t-[1rem] sm:rounded-t-[2rem] md:rounded-t-[3rem]">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center">
-                      {/* Botón de volver a lista */}
                       <div className="mr-2 md:hidden">
                         <DynamicButton
                           size="x-small"
@@ -353,7 +324,6 @@ const AdminChatPanel = () => {
                       </div>
                     </div>
                   </div>
-                  {/* Botón de cerrar chat */}
                   <DynamicButton
                     size="x-small"
                     state="normal"
@@ -361,7 +331,6 @@ const AdminChatPanel = () => {
                     onClick={() => closeChat(selectedChat.id)}
                   />
                 </div>
-
                 <div className="flex-grow p-3 sm:p-4 overflow-y-auto bg-white bg-opacity-30 h-[40vh] sm:h-[50vh] md:h-[calc(70vh-280px)]">
                   {loading ? (
                     <div className="text-center text-gray-500 t16r sm:t18r">
@@ -447,7 +416,6 @@ const AdminChatPanel = () => {
                   onSubmit={handleSubmit}
                 >
                   <div className="flex flex-row items-center gap-2">
-                    {/* Input de mensaje */}
                     <div className="flex-1">
                       <DynamicInput
                         type="text"
@@ -460,7 +428,6 @@ const AdminChatPanel = () => {
                         disabled={loading}
                       />
                     </div>
-                    {/* Botón de envío */}
                     <DynamicButton
                       size="x-small"
                       state={loading ? 'disabled' : 'normal'}

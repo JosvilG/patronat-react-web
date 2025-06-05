@@ -17,6 +17,8 @@ const ResetPassword = () => {
   const [confirmPassword, setConfirmPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [oobCode, setOobCode] = useState(null)
+  const viewDictionary = 'pages.resetPassword'
+  const popupDictionary = 'components.popup'
 
   const { moveX, moveY, handleMouseMove } = usePointerAnimation()
   const { backgroundImage, imageLoaded, handleImageLoad, handleImageError } =
@@ -36,11 +38,11 @@ const ResetPassword = () => {
     e.preventDefault()
     if (newPassword !== confirmPassword) {
       showPopup({
-        title: t('components.popup.failTitle'),
-        text: t('components.popup.passwordMismatch'),
+        title: t(`${popupDictionary}.failTitle`),
+        text: t(`${popupDictionary}.passwordMismatch`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
-        confirmButtonColor: '#d33',
+        confirmButtonText: t(`components.buttons.confirm`),
+        confirmButtonColor: '#a3a3a3',
       })
       return
     }
@@ -50,20 +52,20 @@ const ResetPassword = () => {
     try {
       await confirmPasswordReset(auth, oobCode, newPassword)
       showPopup({
-        title: t('components.popup.successTitle'),
-        text: t('components.popup.passwordResetSuccess'),
+        title: t(`${popupDictionary}.successTitle`),
+        text: t(`${popupDictionary}.passwordResetSuccess`),
         icon: 'success',
-        confirmButtonText: t('components.popup.confirmButtonText'),
-        confirmButtonColor: '#4CAF50',
+        confirmButtonText: t(`components.buttons.confirm`),
+        confirmButtonColor: '#8be484',
         onConfirm: () => navigate('/login'),
       })
     } catch (error) {
       showPopup({
-        title: t('components.popup.failTitle'),
-        text: t('components.popup.failDecription'),
+        title: t(`${popupDictionary}.failTitle`),
+        text: t(`${popupDictionary}.failDecription`),
         icon: 'error',
-        confirmButtonText: t('components.popup.confirmButtonText'),
-        confirmButtonColor: '#d33',
+        confirmButtonText: t(`components.buttons.confirm`),
+        confirmButtonColor: '#a3a3a3',
       })
     } finally {
       setLoading(false)
@@ -74,9 +76,9 @@ const ResetPassword = () => {
     <div className="grid items-center h-screen mx-auto bg-center bg-cover max-sm:mt-40 md:grid-cols-3 sm:grid-cols-1 justify-items-center sm:px-6 lg:px-8">
       <div className="relative z-10 rounded-lg md:p-8 sm:p-4 grid-col-3 w-fit h-fit bottom-40">
         <div className="max-w-lg mx-auto text-center">
-          <h1 className="text-black t40b">{t('pages.resetPassword.title')}</h1>
+          <h1 className="text-black t40b">{t(`${viewDictionary}.title`)}</h1>
           <p className="mt-4 text-black t16r whitespace-break-spaces">
-            {t('pages.resetPassword.description')}
+            {t(`${viewDictionary}.description`)}
           </p>
         </div>
         <form
@@ -85,7 +87,7 @@ const ResetPassword = () => {
         >
           <DynamicInput
             name="newPassword"
-            placeholder={t('pages.resetPassword.newPassword')}
+            placeholder={t(`${viewDictionary}.newPassword`)}
             type="password"
             value={newPassword}
             onChange={(e) => setNewPassword(e.target.value)}
@@ -93,7 +95,7 @@ const ResetPassword = () => {
           />
           <DynamicInput
             name="confirmPassword"
-            placeholder={t('pages.resetPassword.confirmPassword')}
+            placeholder={t(`${viewDictionary}.confirmPassword`)}
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}

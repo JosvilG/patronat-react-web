@@ -13,7 +13,6 @@ import { db } from '../../firebase/firebase'
 import DynamicInput from '../../components/Inputs'
 import DynamicButton from '../../components/Buttons'
 import Loader from '../../components/Loader'
-import log from 'loglevel'
 import useSlug from '../../hooks/useSlug'
 import { showPopup } from '../../services/popupService'
 import { AuthContext } from '../../contexts/AuthContext'
@@ -120,7 +119,6 @@ function EventParticipationForm() {
 
         setLoading(false)
       } catch (error) {
-        log.error('Error al cargar el formulario:', error)
         setError(t(`${viewDictionary}.loadingError`))
         setLoading(false)
       }
@@ -153,7 +151,8 @@ function EventParticipationForm() {
           text: `<div>${t(`${viewDictionary}.incompleteFieldsText`)}<br/>
           ${missingFields.map((field) => `- ${field.label}`).join('<br/>')}</div>`,
           icon: 'warning',
-          confirmButtonText: t(`${viewDictionary}.confirmButtonText`),
+          confirmButtonText: t('components.buttons.accept'),
+          confirmButtonColor: '#8be484',
         })
         setSubmitting(false)
         return
@@ -175,26 +174,25 @@ function EventParticipationForm() {
         title: t(`${viewDictionary}.successTitle`),
         text: t(`${viewDictionary}.successText`),
         icon: 'success',
-        confirmButtonText: t(`${viewDictionary}.confirmButtonText`),
+        confirmButtonText: t('components.buttons.accept'),
+        confirmButtonColor: '#8be484',
         onConfirm: () => {
           navigate(`/event/${eventSlug}`)
         },
       })
     } catch (error) {
-      log.error('Error al enviar el formulario:', error)
-
       await showPopup({
         title: t(`${viewDictionary}.errorTitle`),
         text: t(`${viewDictionary}.errorText`),
         icon: 'error',
-        confirmButtonText: t(`${viewDictionary}.closeButtonText`),
+        confirmButtonText: t('components.buttons.close'),
+        confirmButtonColor: '#f87171',
       })
     } finally {
       setSubmitting(false)
     }
   }
 
-  // Si no hay usuario autenticado, mostrar mensaje para registrarse o iniciar sesión
   if (!user) {
     return (
       <div className="container px-[4%] py-[5vh] mx-auto sm:py-[8vh] md:py-[10vh]">
@@ -242,7 +240,7 @@ function EventParticipationForm() {
             onClick={() => navigate(-1)}
             size="small"
             state="normal"
-            textId="components.buttons.back"
+            textId={t('components.buttons.close')}
           />
         </div>
       </div>
@@ -283,7 +281,7 @@ function EventParticipationForm() {
             onClick={() => navigate(-1)}
             size="small"
             state="normal"
-            textId="components.buttons.cancel"
+            textId={t('components.buttons.cancel')}
           />
 
           <DynamicButton
