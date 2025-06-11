@@ -1416,7 +1416,9 @@
     "popup": {
       "successTitle": "CONFIRMADO",
       "failTitle": "ERROR",
-      "failDecription": "Algo ha salido mal. \n Por favor vuelve a intentarlo."
+      "failDecription": "Algo ha salido mal. \n Por favor vuelve a intentarlo.",
+      "passwordMismatch": "Las contraseñas no coinciden",
+      "passwordResetSuccess": "Contraseña cambiada correctamente"
     },
     "buttons": {
       "accept": "Aceptar",

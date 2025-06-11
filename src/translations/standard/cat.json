@@ -1416,7 +1416,9 @@
     "popup": {
       "successTitle": "CONFIRMAT",
       "failTitle": "ERROR",
-      "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar."
+      "failDecription": "Alguna cosa ha anat malament. \n Si us plau, torna-ho a intentar.",
+      "passwordMismatch": "Les contrasenyes no coinxideixen",
+      "passwordResetSuccess": "Contrasenya canviada correctament"
     },
     "buttons": {
       "accept": "Acceptar",
