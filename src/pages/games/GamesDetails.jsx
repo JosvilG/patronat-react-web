@@ -221,14 +221,18 @@ const GamesDetails = () => {
                 className="flex flex-col items-center p-[5%] bg-white shadow rounded-xl"
               >
                 <h3 className="mb-[2vh] t20b">{crew.name}</h3>
-
-                <div className="flex flex-wrap justify-center gap-[1vh] mb-[2vh] w-full">
-                  {crew.points >= 0 && (
-                    <span className="px-[3%] py-[0.5vh] text-blue-800 bg-blue-100 rounded-full t12r">
-                      {t(`${viewDictionary}.points`, { points: crew.points })}
-                    </span>
+                {userData?.role ===
+                  'admin'(
+                    <div className="flex flex-wrap justify-center gap-[1vh] mb-[2vh] w-full">
+                      {crew.points >= 0 && (
+                        <span className="px-[3%] py-[0.5vh] text-blue-800 bg-blue-100 rounded-full t12r">
+                          {t(`${viewDictionary}.points`, {
+                            points: crew.points,
+                          })}
+                        </span>
+                      )}
+                    </div>
                   )}
-                </div>
               </div>
             ))}
           </div>

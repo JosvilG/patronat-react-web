@@ -92,6 +92,7 @@ export const publicRoutes = [
   },
   { path: '/new-crew', element: <CrewForm /> },
   { path: '/crews', element: <CrewMainPage /> },
+  { path: '/game-details/:slug', element: <GamesDetails /> },
 ]
 
 export const userProtectedRoutes = [
@@ -129,7 +130,6 @@ export const adminProtectedRoutes = [
   { path: '/games-register', element: <GamesRegister /> },
   { path: '/games-list', element: <GamesList /> },
   { path: '/edit-game/:slug', element: <GamesModify /> },
-  { path: '/game-details/:slug', element: <GamesDetails /> },
   { path: '/crew-points', element: <CrewPoints /> },
   { path: '/crew-details/:slug', element: <CrewDetails /> },
   { path: '/contact-menu', element: <ContactMenu /> },
