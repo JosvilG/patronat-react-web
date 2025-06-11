@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
+import { AuthContext } from '../../contexts/AuthContext'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { doc, getDoc, collection, getDocs } from 'firebase/firestore'
 import { db } from '../../firebase/firebase'
@@ -18,6 +19,7 @@ const GamesDetails = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const { generateSlug } = useSlug()
+  const { userData } = useContext(AuthContext)
   const viewDictionary = 'pages.games.details'
 
   useEffect(() => {
@@ -206,7 +208,7 @@ const GamesDetails = () => {
       </div>
 
       {/* Sección de peñas participantes - Versión simplificada */}
-      {crews.length > 0 && (
+      {userData?.role === 'admin' && crews.length > 0 && (
         <div className="mt-[8vh]">
           <h2 className="mb-[4vh] text-center t40b">
             {t(`${viewDictionary}.participatingCrewsTitle`)}
@@ -233,7 +235,7 @@ const GamesDetails = () => {
         </div>
       )}
 
-      {crews.length === 0 && (
+      {userData?.role === 'admin' && crews.length === 0 && (
         <div className="p-[5%] mt-[8vh] text-center bg-gray-50 rounded-xl">
           <h2 className="mb-[3vh] text-gray-700 t24b">
             {t(`${viewDictionary}.noCrewsTitle`)}

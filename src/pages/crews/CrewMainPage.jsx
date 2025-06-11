@@ -539,18 +539,16 @@ function CrewMainPage() {
                   )}
 
                   <div className="flex justify-end mt-[1rem]">
-                    {userData?.role === 'admin' && (
-                      <DynamicButton
-                        type="view"
-                        size="x-small"
-                        state="normal"
-                        onClick={() =>
-                          navigate(`/game-details/${generateSlug(game.name)}`, {
-                            state: { gameId: game.id },
-                          })
-                        }
-                      />
-                    )}
+                    <DynamicButton
+                      type="view"
+                      size="x-small"
+                      state="normal"
+                      onClick={() =>
+                        navigate(`/game-details/${generateSlug(game.name)}`, {
+                          state: { gameId: game.id },
+                        })
+                      }
+                    />
                   </div>
                 </div>
               ))}
