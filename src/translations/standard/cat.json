@@ -57,7 +57,8 @@
         "upcomingGamesTitle": "Properes proves",
         "minParticipants": "Mín. de participants",
         "noSeasons": "No hi ha temporades disponibles",
-        "unknownUser": "Usuari desconegut"
+        "unknownUser": "Usuari desconegut",
+        "noUpcomingGames": "No hi ha proves programades"
       },
       "details": {
         "title": "Detalls de la Colla",

@@ -313,7 +313,7 @@ const EventPage = () => {
       )}
 
       {event.description && (
-        <div className="flex flex-col items-center mb-[1.5rem] p-[1rem] sm:p-[1.5rem] justify-center rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
+        <div className="flex flex-col items-center mb-[1.5rem] mt-[1.5rem] p-[1rem] sm:p-[1.5rem] justify-center rounded-lg md:flex-row text-black backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)]">
           <div className="w-full md:w-auto">
             <p className="break-words break-all t18r sm:t20r">
               {event.description}

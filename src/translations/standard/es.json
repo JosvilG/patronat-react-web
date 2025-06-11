@@ -57,7 +57,8 @@
         "upcomingGamesTitle": "Próximas pruebas",
         "minParticipants": "Min. de participants",
         "noSeasons": "No hay temporadas disponibles",
-        "unknownUser": "Usuario desconocido"
+        "unknownUser": "Usuario desconocido",
+        "noUpcomingGames": "No hay pruebas programadas"
       },
       "details": {
         "title": "Detalles de la Peña",

@@ -9,6 +9,8 @@
     "build-prod": "env-cmd -f .env.production react-scripts build",
     "deploy-preprod": "npm run build-preprod && firebase deploy --only hosting --project web-patronat-preprod",
     "deploy-prod": "npm run build-prod    && firebase deploy --only hosting --project patronat-festes-roquetes",
+    "cors-preprod": "gsutil cors set cors.json gs://web-patronat-preprod.firebasestorage.app",
+    "cors-prod": "gsutil cors set cors.json gs://patronat-festes-roquetes.firebasestorage.app",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint . --ext .js,.jsx",

@@ -5,14 +5,16 @@ import useEvents from '../hooks/useEvents'
 import Calendar from '../components/Calendar'
 import { useTranslation } from 'react-i18next'
 import useGallery from '../hooks/useGallery'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { Trans } from 'react-i18next'
 import { motion, AnimatePresence } from 'framer-motion'
 
 import patronatLogo from '../assets/logos/Patronat_50_color.png'
+import Loader from '../components/Loader'
 
 function HomePage() {
   const { t } = useTranslation()
+  const navigate = useNavigate()
   const {
     galleryImages,
     loadingGallery,
@@ -58,7 +60,13 @@ function HomePage() {
         t={t}
         events={upcomingEvents}
         loadingEvents={loadingEvents}
-        onEventClick={handleEventClick}
+        onEventClick={(arg) => {
+          handleEventClick(arg)
+          const slug = arg.event.extendedProps.title
+            .toLowerCase()
+            .replace(/ /g, '-')
+          navigate(`/event/${slug}`)
+        }}
       />
       <Calendar />
       <WantToParticipateSection t={t} />
@@ -68,7 +76,7 @@ function HomePage() {
 
 const HeroSection = ({ logoSrc }) => (
   <section className="relative top-0 h-[90vh] min-h-[500px] -mt-4 sm:-mt-16 sm:mb-[5vh] mb-0 bg-transparent max-w-full sm:max-w-none">
-    <div className="absolute inset-0 flex items-center justify-center mt-[60%] sm:mt-0">
+    <div className="absolute inset-0 flex items-center justify-center">
       <img
         src={logoSrc}
         alt="Patronat 50 Aniversari"
@@ -77,17 +85,17 @@ const HeroSection = ({ logoSrc }) => (
     </div>
     <div className="absolute inset-0 bg-transparent" />
     <div className="relative flex flex-col justify-between h-full">
-      <p className="w-auto pt-[10vh] font-bold text-black sm:t36l t24l text-9xl">
+      <p className="w-auto pt-[10vh] font-bold text-black t36l text-9xl">
         <Trans i18nKey="pages.home.heroSection.description" />
       </p>
       <div className="pb-[5vh] sm:pb-0">
-        <p className="font-bold text-black sm:t64xl t24l text-9xl text-end">
+        <p className="font-bold text-black sm:t64xl t40l text-9xl text-end">
           <Trans
             i18nKey="pages.home.heroSection.title"
             components={{ br: <br /> }}
           />
         </p>
-        <p className="font-bold sm:t92b sm:t64b t40b text-9xl text-end text-[#15642E]">
+        <p className="font-bold sm:t92b t64b text-9xl text-end text-[#15642E]">
           <Trans i18nKey="pages.home.heroSection.roquetesTitle" />
         </p>
       </div>
@@ -362,21 +370,27 @@ const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
 )
 
 const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
-  <section className="bg-transparent sm:py-16 sm:max-w-none">
+  <section>
     <h2 className="mb-6 text-left sm:t64s t40s">
       <a href="/events-list"> {t('pages.home.eventSection.title')}</a>
     </h2>
     {loadingEvents ? (
-      <div className="flex items-center justify-center"></div>
+      <div className="flex items-center justify-center">
+        <Loader loading={loadingEvents} />
+      </div>
     ) : events.length > 0 ? (
       <>
         <div className="relative w-full pb-[5%] sm:hidden">
           <div className="w-full overflow-x-auto scrollbar-hide">
             <div className="flex w-full gap-[4%] px-[2%] snap-x snap-mandatory">
-              {events.map((event, index) => (
+              {events.map((event) => (
                 <div
                   key={event.eventId}
-                  onClick={() => onEventClick(event)}
+                  onClick={() =>
+                    onEventClick({
+                      event: { extendedProps: event },
+                    })
+                  }
                   className="snap-center flex-shrink-0 w-[80vw] max-w-[280px]"
                 >
                   <DynamicCard
@@ -402,6 +416,7 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
             </div>
           </div>
 
+          {/* Indicadores de paginación */}
           {events.length > 1 && (
             <div className="flex justify-center gap-2 mt-4">
               {events.map((_, index) => (
@@ -416,9 +431,17 @@ const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
           )}
         </div>
 
+        {/* Vista desktop: cuadrícula original */}
         <div className="hidden gap-8 sm:grid sm:grid-cols-1 md:grid-cols-3">
           {events.map((event) => (
-            <div key={event.eventId} onClick={() => onEventClick(event)}>
+            <div
+              key={event.eventId}
+              onClick={() =>
+                onEventClick({
+                  event: { extendedProps: event },
+                })
+              }
+            >
               <DynamicCard
                 type="event"
                 title={event.title}
@@ -522,6 +545,7 @@ GalleryCard.propTypes = {
   opacity: PropTypes.number,
   scale: PropTypes.number,
   clickable: PropTypes.bool,
+  mobileView: PropTypes.bool,
 }
 
 export default HomePage

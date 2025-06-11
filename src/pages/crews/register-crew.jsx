@@ -261,7 +261,7 @@ function RegisterCrew() {
             <p className="mb-2 sm:mb-4">{t('common.authRequired.text')}</p>
           </div>
 
-          <div className="flex flex-col justify-center w-full space-y-3 sm:w-auto sm:flex-row sm:space-y-0 sm:space-x-3 md:space-x-6">
+          <div className="flex flex-col items-center justify-center w-full space-y-3 sm:w-auto sm:flex-row sm:space-y-0 sm:space-x-3 md:space-x-6">
             <DynamicButton
               type="personAdd"
               size="medium"
