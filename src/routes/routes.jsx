@@ -67,12 +67,15 @@ import GamesRegister from '../pages/games/GamesRegister'
 import GamesList from '../pages/games/GamesList'
 import GamesModify from '../pages/games/GamesModify'
 import GamesDetails from '../pages/games/GamesDetails'
+import PruebasRegister from '../pages/games/gimcana/GimcanaRegister'
+import GimcanaGame from '../pages/games/gimcana/GimcanaGame'
 
 // Páginas de contacto
 import ContactMain from '../pages/contact/ContactMain'
 import ContactMenu from '../pages/contact/ContactMenu'
 import LiveChat from '../pages/contact/LiveChat'
 import AdminChatPanel from '../pages/contact/AdminChatPanel'
+import GimcanaResults from '../pages/games/gimcana/GimcanaResults'
 
 export const publicRoutes = [
   { path: '/', element: <HomePage /> },
@@ -100,6 +103,8 @@ export const userProtectedRoutes = [
   { path: '/settings', element: <Settings /> },
   { path: '/crews-modify/:slug', element: <CrewModify /> },
   { path: '/chat', element: <LiveChat /> },
+  { path: '/gimcana-game', element: <GimcanaGame /> },
+  { path: '/gimcana-results', element: <GimcanaResults /> },
 ]
 
 export const adminProtectedRoutes = [
@@ -134,4 +139,5 @@ export const adminProtectedRoutes = [
   { path: '/crew-details/:slug', element: <CrewDetails /> },
   { path: '/contact-menu', element: <ContactMenu /> },
   { path: '/admin-chat', element: <AdminChatPanel /> },
+  { path: '/gimcana-register', element: <PruebasRegister /> },
 ]

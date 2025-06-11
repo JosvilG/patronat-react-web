@@ -169,6 +169,18 @@ export const cards = [
         route: '/games-list',
         type: 'edit',
       },
+      {
+        id: 'gimcana-register',
+        titleKey: 'dashboard.cards.pruebas.actions.gimcana-register',
+        route: '/gimcana-register',
+        type: 'edit',
+      },
+      {
+        id: ' gimcana-results',
+        titleKey: 'dashboard.cards.pruebas.actions.gimcana-results',
+        route: '/gimcana-results',
+        type: 'edit',
+      },
     ],
   },
   {

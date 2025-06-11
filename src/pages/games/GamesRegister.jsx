@@ -28,6 +28,7 @@ const createGameModel = () => {
     score: 0,
     season: '',
     status: 'Inactivo',
+    isGimcana: false, // ← nuevo campo
   }
 }
 
@@ -254,6 +255,16 @@ function GamesRegister() {
                 value={gameData.status}
                 onChange={handleChange}
                 required
+              />
+            </div>
+
+            <div className="w-[90%] md:w-full flex items-center">
+              <DynamicInput
+                name="isGimcana"
+                textId={`${viewDictionary}.isGimcanaLabel`}
+                type="checkbox"
+                checked={gameData.isGimcana}
+                onChange={handleChange}
               />
             </div>
           </div>

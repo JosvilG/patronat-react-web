@@ -58,7 +58,8 @@
         "minParticipants": "Min. de participants",
         "noSeasons": "No hay temporadas disponibles",
         "unknownUser": "Usuario desconocido",
-        "noUpcomingGames": "No hay pruebas programadas"
+        "noUpcomingGames": "No hay pruebas programadas",
+        "gimcanaButton": "Ir a la Gimcana"
       },
       "details": {
         "title": "Detalles de la Peña",
@@ -279,6 +280,8 @@
         "statusLabel": "Estado",
         "errorId": "No se proporcionó un identificador de prueba",
         "gameNotExist": "El juego no existe",
+        "isGimcanaLabel": "¿Es gimcana?",
+
         "titleError": "Error",
         "confirmSeasonChange": {
           "title": "Cambio de temporada detectado",
@@ -332,6 +335,7 @@
         "seasonLabel": "Temporada",
         "statusLabel": "Estado",
         "submitButton": "Registrar Prueba",
+        "isGimcanaLabel": "¿Es gimcana?",
         "successPopup": {
           "title": "Prueba registrada con éxito",
           "text": "La prueba ha sido registrada correctamente"
@@ -350,6 +354,120 @@
           "unavailable": "No se puede conectar con el servidor. Por favor, revisa tu conexión a internet.",
           "permission-denied": "No tienes permisos suficientes para crear esta prueba.",
           "default": "Hubo un error al registrar la prueba. Por favor, intenta nuevamente."
+        }
+      },
+      "gimcana": {
+        "pruebasRegister": {
+          "title": "Registrar pruebas de la gimcana",
+          "pruebasSectionTitle": "Detalle de las 27 pruebas",
+          "fields": {
+            "id": "Identificador",
+            "numeroOrden": "Número de prueba",
+            "pista": "Pista",
+            "respuesta": "Respuesta",
+            "resuelto": "Resuelto",
+            "numPruebas": "Número de pruebas"
+          },
+          "submitButton": "Guardar pruebas",
+          "successPopup": {
+            "title": "Registro exitoso",
+            "text": "Todas las pruebas se han almacenado correctamente."
+          },
+          "errorPopup": {
+            "title": "Error al registrar",
+            "text": "No se pudieron guardar las pruebas: {{error}}"
+          }
+        },
+        "game": {
+          "title": "Juego de Gimcana",
+          "error": {
+            "title": "Error",
+            "text": "Ha ocurrido un error. Por favor, inténtalo de nuevo.",
+            "noCrewId": "No tienes un equipo asignado. Contacta con el administrador."
+          },
+          "noGroup": {
+            "title": "Grupo no encontrado",
+            "text": "El número de grupo que has introducido no existe."
+          },
+          "inUse": {
+            "title": "Grupo ya asignado",
+            "text": "Este grupo ya está asignado a otro equipo."
+          },
+          "wrong": {
+            "title": "Respuesta incorrecta",
+            "text": "La respuesta no es correcta. ¡Inténtalo de nuevo!"
+          },
+          "finished": {
+            "title": "¡Felicidades!",
+            "text": "Has completado todas las pruebas de la gimcana con éxito."
+          },
+          "correct": {
+            "title": "¡Correcto!",
+            "text": "Has respondido correctamente a esta prueba."
+          },
+          "fields": {
+            "groupNum": "Número de grupo",
+            "loadButton": "Cargar grupo",
+            "answer": "Tu respuesta",
+            "submitAnswer": "Enviar respuesta"
+          },
+          "prevButton": "Anterior",
+          "nextButton": "Siguiente"
+        },
+        "results": {
+          "title": "Resultados de la Gimcana",
+          "noResults": "No hay resultados disponibles",
+          "realTime": "Los resultados se actualizan en tiempo real",
+          "table": {
+            "group": "Grupo",
+            "team": "Equipo",
+            "status": "Estado",
+            "progress": "Progreso",
+            "started": "Inicio",
+            "completed": "Finalización",
+            "duration": "Duración"
+          },
+          "status": {
+            "completed": "Completada",
+            "started": "En progreso",
+            "pending": "No iniciada"
+          },
+          "teamInfo": {
+            "members": "miembros",
+            "noTeam": "Sin asignar",
+            "assigned": "Asignado"
+          },
+          "inProgress": "En curso"
+        },
+        "instructions": {
+          "title": "Instrucciones de la Gimcana",
+          "helpButton": "Mostrar instrucciones",
+          "startButton": "¡Empezar la gimcana!",
+
+          "welcome": {
+            "title": "Bienvenido a la Gimcana",
+            "text": "Vas a participar en un juego donde deberás resolver una serie de pruebas. Cada prueba contiene una pista y tendrás que encontrar la respuesta correcta. ¡Sé ingenioso y observador!"
+          },
+
+          "howTo": {
+            "title": "Cómo jugar",
+            "step1": "Lee atentamente la pista de cada prueba.",
+            "step2": "Cuando descubras la respuesta, escríbela en el campo de texto y pulsa 'Enviar respuesta'.",
+            "step3": "Si la respuesta es correcta, pasarás a la siguiente prueba. Si no, tendrás que seguir intentándolo."
+          },
+
+          "navigation": {
+            "title": "Navegación entre pruebas",
+            "item1": "No puedes tirar atrás ni ir hacia adelante en las pruebas. Cada prueba tiene que ser resuelta en orden",
+            "item2": "En la barra superior verás tu progreso: cuántas pruebas has completado y cuántas quedan."
+          },
+
+          "tips": {
+            "title": "Consejos",
+            "item1": "Algunas pistas pueden requerir que te muevas físicamente por el recinto para encontrar la respuesta.",
+            "item2": "Escribe las respuestas exactamente como se piden, respetando los espacios pero no las mayúsculas.",
+            "item3": "Si te quedas atascado, puedes preguntar por el grupo de peñas o buscar ayuda externa."
+          }
         }
       }
     },
@@ -1544,7 +1662,9 @@
         "description": "Crear y gestionar las pruebas de las peñas.",
         "actions": {
           "create": "Creación de pruebas",
-          "list": "Listado de pruebas"
+          "list": "Listado de pruebas",
+          "gimcana-register": "Crear pruebas de la Gimcana",
+          "gimcana-results": "Resultados de la Gimcana"
         }
       },
       "archivos": {

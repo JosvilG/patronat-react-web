@@ -33,6 +33,7 @@ function GamesModify() {
     score: 0,
     season: '',
     status: 'Inactivo',
+    isGimcana: false,
   })
   const [originalGameData, setOriginalGameData] = useState(null)
   const [submitting, setSubmitting] = useState(false)
@@ -89,8 +90,8 @@ function GamesModify() {
           ...data,
           minParticipants: data.minParticipants || 0,
           score: data.score || 0,
+          isGimcana: data.isGimcana || false,
         }
-
         setGameData(gameDataWithDefaults)
         setOriginalGameData(gameDataWithDefaults)
       } catch (error) {
@@ -121,7 +122,6 @@ function GamesModify() {
   const handleSubmit = async (e) => {
     e.preventDefault()
     setSubmitting(true)
-
     try {
       if (originalGameData && gameData.season !== originalGameData.season) {
         const confirmResult = await showPopup({
@@ -161,7 +161,6 @@ function GamesModify() {
       }
 
       const gameRef = doc(db, 'games', gameId)
-
       await updateDoc(gameRef, {
         ...gameData,
         updatedAt: serverTimestamp(),
@@ -522,6 +521,16 @@ function GamesModify() {
                 value={gameData.status}
                 onChange={handleChange}
                 required
+              />
+            </div>
+
+            <div className="w-[90%] md:w-full flex items-center">
+              <DynamicInput
+                name="isGimcana"
+                textId={`${viewDictionary}.isGimcanaLabel`}
+                type="checkbox"
+                checked={gameData.isGimcana}
+                onChange={handleChange}
               />
             </div>
           </div>

@@ -58,7 +58,8 @@
         "minParticipants": "Mín. de participants",
         "noSeasons": "No hi ha temporades disponibles",
         "unknownUser": "Usuari desconegut",
-        "noUpcomingGames": "No hi ha proves programades"
+        "noUpcomingGames": "No hi ha proves programades",
+        "gimcanaButton": "Anar a la Gimcana"
       },
       "details": {
         "title": "Detalls de la Colla",
@@ -279,6 +280,7 @@
         "statusLabel": "Estat",
         "errorId": "No s'ha proporcionat un identificador de prova",
         "gameNotExist": "La prova no existeix",
+        "isGimcanaLabel": "¿Es gimcana?",
         "titleError": "Error",
         "confirmSeasonChange": {
           "title": "Canvi de temporada detectat",
@@ -332,6 +334,7 @@
         "seasonLabel": "Temporada",
         "statusLabel": "Estat",
         "submitButton": "Registrar Prova",
+        "isGimcanaLabel": "¿Es gimcana?",
         "successPopup": {
           "title": "Prova registrada amb èxit",
           "text": "La prova s'ha registrat correctament"
@@ -350,6 +353,111 @@
           "unavailable": "No es pot connectar amb el servidor. Si us plau, comprova la teva connexió a internet.",
           "permission-denied": "No tens permisos suficients per crear aquesta prova.",
           "default": "S'ha produït un error en registrar la prova. Si us plau, torna-ho a intentar."
+        }
+      },
+      "gimcana": {
+        "pruebasRegister": {
+          "title": "Registrar proves de la gimcana",
+          "fields": {
+            "id": "Identificador",
+            "numeroOrden": "Número de prova",
+            "pista": "Pista",
+            "respuesta": "Resposta",
+            "resuelto": "Resolt",
+            "numPruebas": "Número de proves"
+          },
+          "submitButton": "Desa proves",
+          "successPopup": {
+            "title": "Registre amb èxit",
+            "text": "Totes les proves s'han desat correctament."
+          },
+          "errorPopup": {
+            "title": "Error en el registre",
+            "text": "No s'han pogut desar les proves: {{error}}"
+          }
+        },
+        "game": {
+          "title": "Joc de la gimcana",
+          "error": {
+            "title": "Error",
+            "text": "Ha ocorregut un error. Si us plau, torna-ho a provar.",
+            "noCrewId": "No tens un equip assignat. Contacta amb l'administrador."
+          },
+          "noGroup": {
+            "title": "Grup no trobat",
+            "text": "El número de grup que has introduït no existeix."
+          },
+          "inUse": {
+            "title": "Grup ja assignat",
+            "text": "Aquest grup ja està assignat a un altre equip."
+          },
+          "wrong": {
+            "title": "Resposta incorrecta",
+            "text": "La resposta no és correcta. Torna-ho a provar!"
+          },
+          "finished": {
+            "title": "Felicitats!",
+            "text": "Has completat amb èxit totes les proves de la gimcana."
+          },
+          "fields": {
+            "groupNum": "Número de grup",
+            "loadButton": "Carrega grup",
+            "answer": "La teva resposta",
+            "submitAnswer": "Envia resposta"
+          },
+          "prevButton": "Anterior",
+          "nextButton": "Següent"
+        },
+        "results": {
+          "title": "Resultats de la gimcana",
+          "noResults": "No hi ha resultats disponibles",
+          "realTime": "Els resultats s'actualitzen en temps real",
+          "table": {
+            "group": "Grup",
+            "team": "Equip",
+            "status": "Estat",
+            "progress": "Progrés",
+            "started": "Inici",
+            "completed": "Finalització",
+            "duration": "Durada"
+          },
+          "status": {
+            "completed": "Completada",
+            "started": "En progrés",
+            "pending": "No iniciada"
+          },
+          "teamInfo": {
+            "members": "Membres",
+            "noTeam": "Sense assignar",
+            "assigned": "Assignat"
+          },
+          "inProgress": "En curs"
+        },
+        "instructions": {
+          "title": "Instruccions de la Gimcana",
+          "helpButton": "Mostra instruccions",
+          "startButton": "¡Comença la gimcana!",
+          "welcome": {
+            "title": "Benvingut a la Gimcana",
+            "text": "Participaràs en un joc on hauràs de resoldre una sèrie de proves. Cada prova conté una pista i hauràs de trobar la resposta correcta. Sigues enginyós i observador!"
+          },
+          "howTo": {
+            "title": "Com jugar",
+            "step1": "Llegeix atentament la pista de cada prova.",
+            "step2": "Quan descobreixis la resposta, escriu-la al camp de text i prem 'Envia resposta'.",
+            "step3": "Si la resposta és correcta, passaràs a la següent prova. Si no, hauràs de seguir intentant-ho."
+          },
+          "navigation": {
+            "title": "Navegació entre proves",
+            "item1": "No pots tirar enrrere ni anar cap avant. Cada prova ha de ser resolta en ordre.",
+            "item2": "A la barra superior veuràs el teu progrés: quantes proves has completat i quantes en queden."
+          },
+          "tips": {
+            "title": "Consells",
+            "item1": "Algunes pistes poden requerir que et moguis físicament pel recinte per trobar la resposta.",
+            "item2": "Escriu les respostes exactament com es demanen, respectant els espais però no les majúscules.",
+            "item3": "Si et quedes encallat, pots preguntar pel grup de colles o buscar ajuda esterna."
+          }
         }
       }
     },
@@ -1544,7 +1652,9 @@
         "description": "Crea i gestiona les proves de les colles.",
         "actions": {
           "create": "Creació de proves",
-          "list": "Llistat de proves"
+          "list": "Llistat de proves",
+          "gimcana-register": "Crear proves de la Gimcana",
+          "gimcana-results": "Resultats de la Gimcana"
         }
       },
       "archivos": {

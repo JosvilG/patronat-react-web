@@ -39,6 +39,20 @@ function CrewMainPage() {
   const gamesPerPage = 3
 
   const [crewMessages, setCrewMessages] = useState({})
+  const [hasGimcana, setHasGimcana] = useState(false)
+
+  useEffect(() => {
+    const fetchGimcanaFlag = async () => {
+      const q = query(
+        collection(db, 'games'),
+        where('isGimcana', '==', true),
+        where('status', '==', 'Activo')
+      )
+      const snap = await getDocs(q)
+      setHasGimcana(!snap.empty)
+    }
+    fetchGimcanaFlag()
+  }, [])
 
   useEffect(() => {
     const fetchUserCrews = async () => {
@@ -279,6 +293,7 @@ function CrewMainPage() {
             description: gameData.description,
             minParticipants: gameData.minParticipants,
             season: gameData.season,
+            isGimcana: gameData.isGimcana,
           }
         })
 
@@ -435,6 +450,18 @@ function CrewMainPage() {
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`)}
       </h1>
+
+      {user && hasGimcana && (
+        <div className="flex justify-center mb-[4vh]">
+          <DynamicButton
+            type="highlighted"
+            size="medium"
+            state="normal"
+            textId={`${viewDictionary}.gimcanaButton`}
+            onClick={() => navigate('/gimcana-game')}
+          />
+        </div>
+      )}
 
       <div className="mb-[6vh]">
         <h2 className="mb-[3vh] text-2xl font-bold text-center">
