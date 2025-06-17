@@ -8,7 +8,7 @@ function Layout() {
   return (
     <div>
       <Navbar />
-      <div className="justify-self-center max-w-[1200px] min-h-dvh w-full">
+      <div className="w-full sm:max-w-[98%] justify-self-center min-h-dvh">
         <Outlet />
       </div>
       <Footer />
