@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "env-cmd -f .env.preprod react-scripts start",
+    "start-prod": "env-cmd -f .env.prod react-scripts start",
     "build": "react-scripts build",
     "build-preprod": "env-cmd -f .env.preprod react-scripts build",
     "build-prod": "env-cmd -f .env.prod react-scripts build",

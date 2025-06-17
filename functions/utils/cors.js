@@ -3,6 +3,7 @@ const cors = require('cors')
 const allowedOrigins = [
   'https://patronat-react-web-develop.vercel.app/',
   'http://localhost:3000',
+  'https://patronatfestesroquetes.com',
 ]
 
 const corsOptions = {

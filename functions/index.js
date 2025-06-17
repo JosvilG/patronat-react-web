@@ -6,7 +6,9 @@ const EMAIL_USER = process.env.EMAIL_USER
 const EMAIL_PASS = process.env.EMAIL_PASS
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  host: 'smtp.hostinger.com',
+  port: 465,
+  secure: true,
   auth: {
     user: EMAIL_USER,
     pass: EMAIL_PASS,
@@ -71,7 +73,7 @@ exports.sendContactEmail = functions.https.onRequest((req, res) => {
       },
       to: {
         name: 'Patronat Festes Roquetes',
-        address: 'info@patronatfestesroquetes.com',
+        address: 'patronatfestesroquetes@gmail.com',
       },
       subject: cleanSubject,
       text: `
