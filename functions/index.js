@@ -71,7 +71,7 @@ exports.sendContactEmail = functions.https.onRequest((req, res) => {
       },
       to: {
         name: 'Patronat Festes Roquetes',
-        address: 'patronatfestesroquetes@gmail.com',
+        address: 'info@patronatfestesroquetes.com',
       },
       subject: cleanSubject,
       text: `

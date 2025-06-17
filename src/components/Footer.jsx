@@ -7,7 +7,7 @@ function Footer() {
         <p className="t16r sm:t20sb">
           Carretera del Reguers, km 1, Roquetes
           <br />
-          43520 Tarragona, España <br /> patronatfestesroquetes@gmail.com
+          43520 Tarragona, España <br /> info@patronatfestesroquetes.com
         </p>
       </div>
 

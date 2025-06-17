@@ -19,7 +19,7 @@ const UnderConstructionPage = () => {
             className="text-[#15642E] sm:t16b t12b hover:underline"
           >
             <br />
-            patronatfestesroquetes@gmail.com
+            info@patronatfestesroquetes.com
           </a>
           .
         </p>
