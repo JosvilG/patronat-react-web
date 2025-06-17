@@ -120,12 +120,13 @@ function GamesList() {
 
   const handleToggleStatus = async (game) => {
     try {
-      const newStatus = game.status === 'Activo' ? 'Inactivo' : 'Activo'
+      const currentStatus = game.status || 'Inactivo'
+      const newStatus = currentStatus === 'Activo' ? 'Inactivo' : 'Activo'
 
       const confirmResult = await showPopup({
         title: t(`${viewDictionary}.statusToggle.title`),
         text: t(`${viewDictionary}.statusToggle.text`, {
-          currentStatus: game.status,
+          currentStatus: currentStatus,
           newStatus: newStatus,
         }),
         icon: 'question',
@@ -146,7 +147,11 @@ function GamesList() {
         updatedAt: serverTimestamp(),
       })
 
-      await updateGameStatusInCrews(game.id, newStatus)
+      try {
+        await updateGameStatusInCrews(game.id, newStatus)
+      } catch (crewUpdateError) {
+        console.error('Error al actualizar en crews:', crewUpdateError)
+      }
 
       const updatedGames = games.map((g) =>
         g.id === game.id ? { ...g, status: newStatus } : g
