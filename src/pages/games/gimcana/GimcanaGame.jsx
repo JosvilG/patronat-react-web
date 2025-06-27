@@ -213,6 +213,21 @@ function GimcanaGame() {
       setLoading(false)
     }
   }
+  const normalizeString = (str) => {
+    return str
+      .trim()
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[·]/g, '')
+      .replace(/[ł]/g, 'l')
+      .replace(/[ñ]/g, 'n')
+      .replace(/[ç]/g, 'c')
+      .replace(/[-_.,!¡?¿;:()]/g, ' ')
+      .replace(/[^\w\s]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
 
   const handleAnswer = async (e) => {
     e.preventDefault()
@@ -220,17 +235,22 @@ function GimcanaGame() {
 
     if (!currentPrueba) return
 
+    const normalizedAnswer = normalizeString(answer)
+    const normalizedCorrectAnswer = normalizeString(currentPrueba.respuesta)
+
     log.debug(
       'Validando respuesta:',
       answer,
-      'contra:',
-      currentPrueba.respuesta
+      '(normalizada:',
+      normalizedAnswer,
+      ') contra:',
+      currentPrueba.respuesta,
+      '(normalizada:',
+      normalizedCorrectAnswer,
+      ')'
     )
 
-    if (
-      answer.trim().toLowerCase() !==
-      currentPrueba.respuesta.trim().toLowerCase()
-    ) {
+    if (normalizedAnswer !== normalizedCorrectAnswer) {
       await showPopup({
         title: t(`${viewDictionary}.game.wrong.title`),
         text: t(`${viewDictionary}.game.wrong.text`),
