@@ -135,7 +135,7 @@ function EventList() {
             key={event.id}
             className="flex flex-col sm:flex-row items-center justify-between p-[4%] sm:p-[2%] space-y-[2vh] sm:space-y-0 sm:space-x-[2%] bg-gray-100 rounded-lg shadow"
           >
-            <div className="flex items-center space-x-[3%] w-full sm:w-auto">
+            <div className="flex items-center space-x-[3%] w-full">
               <div className="w-[15vw] h-[15vw] max-w-16 max-h-16 min-w-10 min-h-10">
                 <img
                   src={event.eventURL}

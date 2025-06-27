@@ -6,8 +6,6 @@ import {
   getDocs,
   updateDoc,
   Timestamp,
-  addDoc,
-  deleteDoc,
 } from 'firebase/firestore'
 import {
   ref,
@@ -464,14 +462,7 @@ function EventModify() {
       if (authDocument) {
         authDocUrl = await uploadFile(authDocument, setAuthDocProgress, true)
       }
-
       const eventRef = doc(db, 'events', eventId)
-      const currentEventDoc = await getDoc(eventRef)
-      const currentEventData = currentEventDoc.data()
-      const needFormChanged = currentEventData.needForm !== eventData.needForm
-      const formFieldsChanged =
-        JSON.stringify(currentEventData.formFieldsIds || []) !==
-        JSON.stringify(selectedFormFields)
 
       await updateDoc(eventRef, {
         ...eventData,
@@ -483,33 +474,6 @@ function EventModify() {
         eventURL: fileUrl,
         authDocumentURL: authDocUrl,
       })
-
-      if (eventData.needForm && (needFormChanged || formFieldsChanged)) {
-        const allFormFields = createFormFieldsModel()
-
-        const formFields = allFormFields
-          .filter((field) => selectedFormFields.includes(field.fieldId))
-          .map((field, index) => ({
-            ...field,
-            order: index + 1,
-            createdAt: Timestamp.now(),
-          }))
-
-        const formCampsRef = collection(db, 'events', eventId, 'formCamps')
-        const formCampsSnapshot = await getDocs(formCampsRef)
-
-        const deletePromises = formCampsSnapshot.docs.map((doc) =>
-          deleteDoc(doc.ref)
-        )
-
-        if (deletePromises.length > 0) {
-          await Promise.all(deletePromises)
-        }
-
-        await Promise.all(
-          formFields.map((field) => addDoc(formCampsRef, field))
-        )
-      }
 
       showPopup({
         title: t(`${viewDictionary}.successPopup.title`),
@@ -583,7 +547,7 @@ function EventModify() {
           {t(`${viewDictionary}.title`)}
         </h1>
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.basicInfoTitle`)}
           </h3>
@@ -697,7 +661,7 @@ function EventModify() {
           </div>
         </div>
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.dateInfoTitle`)}
           </h3>
@@ -747,7 +711,7 @@ function EventModify() {
           </div>
         </div>
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.detailsInfoTitle`)}
           </h3>
@@ -815,10 +779,10 @@ function EventModify() {
         </div>
 
         {eventData.needForm && (
-          <div className="p-[4%]  rounded-lg">
+          <div className="p-[4%]  rounded-lg sm:w-[95%]">
             <div className="justify-items-center sm:justify-items-start grid grid-cols-1 gap-[3vh] sm:grid-cols-2 md:grid-cols-3">
               {createFormFieldsModel().map((field) => (
-                <div key={field.fieldId}>
+                <div className="sm:max-w-full" key={field.fieldId}>
                   <DynamicInput
                     name={`field-${field.fieldId}`}
                     textId={`${t(field.label)} `}
@@ -832,7 +796,7 @@ function EventModify() {
           </div>
         )}
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.galleryInfoTitle`)}
           </h3>
@@ -899,7 +863,7 @@ function EventModify() {
           </div>
         </div>
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.authorizationDocumentTitle`)}
           </h3>
@@ -948,7 +912,7 @@ function EventModify() {
           </div>
         </div>
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.tagsInfoTitle`)}
           </h3>
@@ -972,7 +936,7 @@ function EventModify() {
           </div>
         </div>
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.collaboratorsInfoTitle`)}
           </h3>
@@ -1049,7 +1013,7 @@ function EventModify() {
           </div>
         </div>
 
-        <div className="p-[4%]  rounded-lg">
+        <div className="p-[4%]  rounded-lg sm:w-[95%]">
           <h3 className="mb-[3vh] text-lg font-semibold text-gray-700">
             {t(`${viewDictionary}.participantsTitle`)}
           </h3>

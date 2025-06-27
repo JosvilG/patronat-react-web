@@ -32,4 +32,6 @@ export const showPopup = async (popupConfig) => {
   ) {
     onCancel()
   }
+
+  return result
 }

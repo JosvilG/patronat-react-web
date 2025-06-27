@@ -37,9 +37,9 @@ function CrewMainPage() {
   const [currentGamePage, setCurrentGamePage] = useState(1)
   const viewDictionary = 'pages.crew.mainPage'
   const gamesPerPage = 3
-
   const [crewMessages, setCrewMessages] = useState({})
   const [hasGimcana, setHasGimcana] = useState(false)
+  const [isResponsable, setIsResponsable] = useState(false)
 
   useEffect(() => {
     const fetchGimcanaFlag = async () => {
@@ -53,6 +53,29 @@ function CrewMainPage() {
     }
     fetchGimcanaFlag()
   }, [])
+  useEffect(() => {
+    const checkIfUserIsResponsable = async () => {
+      if (!user) {
+        setIsResponsable(false)
+        return
+      }
+
+      try {
+        const responsableQuery = query(
+          collection(db, 'crews'),
+          where('responsable', 'array-contains', user.uid),
+          where('status', '==', 'Activo')
+        )
+        const responsableSnap = await getDocs(responsableQuery)
+        setIsResponsable(!responsableSnap.empty)
+      } catch (error) {
+        // Error al verificar si el usuario es responsable
+        setIsResponsable(false)
+      }
+    }
+
+    checkIfUserIsResponsable()
+  }, [user])
 
   useEffect(() => {
     const fetchUserCrews = async () => {
@@ -144,9 +167,10 @@ function CrewMainPage() {
           const crewId = crewDoc.id
           const crewData = crewDoc.data()
 
-          const gamesSnapshot = await getDocs(
-            collection(db, 'crews', crewId, 'games')
-          )
+          // Obtener todas las pruebas de la subcolección games de una crew específica
+          const gamesRef = collection(db, 'crews', crewId, 'games')
+          const gamesSnapshot = await getDocs(gamesRef)
+          const totalPruebas = gamesSnapshot.size // Esto debería dar 13, no 1
 
           if (!gamesSnapshot.empty) {
             const seasonPoints = {}
@@ -449,9 +473,8 @@ function CrewMainPage() {
     <div className="w-[92%] mx-auto pb-[4vh] sm:pb-[6vh]">
       <h1 className="mb-[4vh] text-center sm:t64b t40b">
         {t(`${viewDictionary}.title`)}
-      </h1>
-
-      {user && hasGimcana && (
+      </h1>{' '}
+      {user && hasGimcana && isResponsable && (
         <div className="flex justify-center mb-[4vh]">
           <DynamicButton
             type="highlighted"
@@ -462,7 +485,6 @@ function CrewMainPage() {
           />
         </div>
       )}
-
       <div className="mb-[6vh]">
         <h2 className="mb-[3vh] text-2xl font-bold text-center">
           {t(`${viewDictionary}.upcomingGamesTitle`)}
@@ -600,7 +622,6 @@ function CrewMainPage() {
           </div>
         )}
       </div>
-
       <div className="mb-[6vh]">
         {rankingLoading ? (
           <div className="flex items-center justify-center h-[30vh] sm:h-[20vh]">
@@ -801,7 +822,6 @@ function CrewMainPage() {
           </div>
         )}
       </div>
-
       {user && (
         <div className="mt-[6vh]">
           {authLoading || loading || usersLoading ? (
@@ -995,7 +1015,6 @@ function CrewMainPage() {
           )}
         </div>
       )}
-
       {!user && !authLoading && (
         <div className="mt-[6vh]">
           <div className="max-w-3xl p-[5%] mx-auto text-center bg-white bg-opacity-75 rounded-lg sm:rounded-xl md:rounded-2xl backdrop-blur-lg backdrop-saturate-[180%] shadow-lg flex flex-col items-center sm:flex-none">

@@ -570,22 +570,30 @@ function PartnerModifyForm() {
                   {t(`${viewDictionary}.payments.loadingSeason`)}
                 </p>
               ) : activeSeason ? (
-                <div className="p-[4%] mt-[3vh] mb-[4vh] bg-gray-100 rounded-lg">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-[3vh] md:gap-[2vw]">
-                    <div className="break-words">
-                      <h3 className="text-base font-medium mb-[2vh]">
-                        {t(`${viewDictionary}.payments.seasonInfo`, {
-                          seasonYear: activeSeason.seasonYear,
-                        })}
-                      </h3>
-                      <p className="text-sm text-gray-600 mb-[1vh]">
+                <div className="p-4 mb-6 bg-gray-100 rounded-lg">
+                  <h3 className="mb-3 font-medium">
+                    {t(`${viewDictionary}.payments.seasonInfo`, {
+                      seasonYear: activeSeason.seasonYear,
+                    })}
+                  </h3>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">
+                        {t(`${viewDictionary}.payments.adultPrices`)}:
+                      </p>
+                      <p className="text-sm text-gray-600">
                         {t(`${viewDictionary}.payments.totalPrice`, {
                           amount: activeSeason.totalPrice,
                         })}
                       </p>
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-gray-700">
+                        {t(`${viewDictionary}.payments.juniorPrices`)}:
+                      </p>
                       <p className="text-sm text-gray-600">
-                        {t(`${viewDictionary}.payments.fractions`, {
-                          amount: activeSeason.numberOfFractions,
+                        {t(`${viewDictionary}.payments.totalPrice`, {
+                          amount: activeSeason.totalPriceJunior,
                         })}
                       </p>
                     </div>
@@ -607,11 +615,11 @@ function PartnerModifyForm() {
                 </div>
               ) : paymentData && activeSeason ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-[4vh] md:gap-[2vw] mt-[3vh]">
+                  {/* Primer fraccionamiento */}
                   <div className="p-[5%] bg-gray-50 rounded-lg w-full">
                     <h4 className="font-medium mb-[2vh] break-words">
                       {t(`${viewDictionary}.payments.firstFraction`)}
                     </h4>
-
                     <div className="flex items-center mb-[2vh]">
                       <input
                         id="firstPayment"
@@ -629,7 +637,6 @@ function PartnerModifyForm() {
                         {t(`${viewDictionary}.payments.markAsPaid`)}
                       </label>
                     </div>
-
                     <div className="mb-[2vh]">
                       <label className="block text-xs text-gray-700 mb-[1vh] break-words">
                         {t(`${viewDictionary}.payments.amount`)}
@@ -650,7 +657,6 @@ function PartnerModifyForm() {
                         </span>
                       </div>
                     </div>
-
                     {paymentData.firstPayment && (
                       <div>
                         <label className="block text-xs text-gray-700 mb-[1vh] break-words">
@@ -662,6 +668,130 @@ function PartnerModifyForm() {
                           value={
                             paymentData.firstPaymentDate
                               ? formatDate(paymentData.firstPaymentDate)
+                              : ''
+                          }
+                          onChange={handleDateChange}
+                          className="block w-full rounded-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {/* Segundo fraccionamiento */}
+                  <div className="p-[5%] bg-gray-50 rounded-lg w-full">
+                    <h4 className="font-medium mb-[2vh] break-words">
+                      {t(`${viewDictionary}.payments.secondFraction`)}
+                    </h4>
+                    <div className="flex items-center mb-[2vh]">
+                      <input
+                        id="secondPayment"
+                        name="secondPayment"
+                        type="checkbox"
+                        className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                        checked={paymentData.secondPayment}
+                        onChange={handlePaymentChange}
+                        disabled={formData.submitting}
+                      />
+                      <label
+                        htmlFor="secondPayment"
+                        className="ml-[0.5rem] block text-sm text-gray-700 break-words"
+                      >
+                        {t(`${viewDictionary}.payments.markAsPaid`)}
+                      </label>
+                    </div>
+                    <div className="mb-[2vh]">
+                      <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                        {t(`${viewDictionary}.payments.amount`)}
+                      </label>
+                      <div className="flex rounded-md shadow-sm">
+                        <input
+                          type="number"
+                          name="secondPaymentPrice"
+                          value={paymentData.secondPaymentPrice || 0}
+                          onChange={handlePaymentChange}
+                          className="block w-full rounded-l-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                          min="0"
+                          step="0.01"
+                        />
+                        <span className="inline-flex items-center px-[0.75rem] rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                          €
+                        </span>
+                      </div>
+                    </div>
+                    {paymentData.secondPayment && (
+                      <div>
+                        <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                          {t(`${viewDictionary}.payments.paymentDate`)}
+                        </label>
+                        <input
+                          type="date"
+                          name="secondPaymentDate"
+                          value={
+                            paymentData.secondPaymentDate
+                              ? formatDate(paymentData.secondPaymentDate)
+                              : ''
+                          }
+                          onChange={handleDateChange}
+                          className="block w-full rounded-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {/* Tercer fraccionamiento */}
+                  <div className="p-[5%] bg-gray-50 rounded-lg w-full">
+                    <h4 className="font-medium mb-[2vh] break-words">
+                      {t(`${viewDictionary}.payments.thirdFraction`)}
+                    </h4>
+                    <div className="flex items-center mb-[2vh]">
+                      <input
+                        id="thirdPayment"
+                        name="thirdPayment"
+                        type="checkbox"
+                        className="w-5 h-5 text-green-600 border-gray-300 rounded focus:ring-green-500"
+                        checked={paymentData.thirdPayment}
+                        onChange={handlePaymentChange}
+                        disabled={formData.submitting}
+                      />
+                      <label
+                        htmlFor="thirdPayment"
+                        className="ml-[0.5rem] block text-sm text-gray-700 break-words"
+                      >
+                        {t(`${viewDictionary}.payments.markAsPaid`)}
+                      </label>
+                    </div>
+                    <div className="mb-[2vh]">
+                      <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                        {t(`${viewDictionary}.payments.amount`)}
+                      </label>
+                      <div className="flex rounded-md shadow-sm">
+                        <input
+                          type="number"
+                          name="thirdPaymentPrice"
+                          value={paymentData.thirdPaymentPrice || 0}
+                          onChange={handlePaymentChange}
+                          className="block w-full rounded-l-md border-0 py-[0.75vh] px-[1vw] text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm"
+                          disabled={formData.submitting}
+                          min="0"
+                          step="0.01"
+                        />
+                        <span className="inline-flex items-center px-[0.75rem] rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                          €
+                        </span>
+                      </div>
+                    </div>
+                    {paymentData.thirdPayment && (
+                      <div>
+                        <label className="block text-xs text-gray-700 mb-[1vh] break-words">
+                          {t(`${viewDictionary}.payments.paymentDate`)}
+                        </label>
+                        <input
+                          type="date"
+                          name="thirdPaymentDate"
+                          value={
+                            paymentData.thirdPaymentDate
+                              ? formatDate(paymentData.thirdPaymentDate)
                               : ''
                           }
                           onChange={handleDateChange}

@@ -63,7 +63,6 @@ function EventParticipationForm() {
           setLoading(false)
           return
         }
-
         const event = eventDoc.data()
         setEventData(event)
 
@@ -73,41 +72,83 @@ function EventParticipationForm() {
           return
         }
 
-        const formCampsRef = collection(
-          db,
-          'events',
-          currentEventId,
-          'formCamps'
-        )
-        const formCampsSnapshot = await getDocs(formCampsRef)
-
-        if (formCampsSnapshot.empty) {
+        // Verificar si el evento tiene formFieldsIds
+        if (!event.formFieldsIds || event.formFieldsIds.length === 0) {
           setError(t(`${viewDictionary}.noFormFieldsError`))
           setLoading(false)
           return
         }
-        const fieldsArray = formCampsSnapshot.docs
-          .map((doc) => {
-            const fieldData = doc.data()
 
-            if (
-              fieldData.fieldId === 'telefono1' ||
-              fieldData.fieldId === 'telefono2' ||
-              fieldData.type === 'tel'
-            ) {
-              return {
-                id: doc.id,
-                ...fieldData,
-                type: 'phone',
+        // Generar los campos del formulario basándose en los IDs del array formFieldsIds
+        const fieldsArray = event.formFieldsIds.map((fieldId, index) => {
+          // Configuración básica para cada campo
+          let fieldConfig = {
+            id: fieldId,
+            fieldId: fieldId,
+            label: fieldId, // Puedes cambiar esto por traducciones específicas
+            required: true,
+            order: index,
+          }
+
+          // Configuraciones específicas por tipo de campo
+          switch (fieldId) {
+            case 'nombre':
+              fieldConfig = { ...fieldConfig, type: 'text', label: 'Nombre' }
+              break
+            case 'tematica':
+              fieldConfig = { ...fieldConfig, type: 'text', label: 'Temática' }
+              break
+            case 'responsable1':
+              fieldConfig = {
+                ...fieldConfig,
+                type: 'text',
+                label: 'Responsable 1',
               }
-            }
+              break
+            case 'responsable2':
+              fieldConfig = {
+                ...fieldConfig,
+                type: 'text',
+                label: 'Responsable 2',
+              }
+              break
+            case 'dni1':
+              fieldConfig = {
+                ...fieldConfig,
+                type: 'text',
+                label: 'DNI Responsable 1',
+              }
+              break
+            case 'dni2':
+              fieldConfig = {
+                ...fieldConfig,
+                type: 'text',
+                label: 'DNI Responsable 2',
+              }
+              break
+            case 'telefono1':
+              fieldConfig = {
+                ...fieldConfig,
+                type: 'phone',
+                label: 'Teléfono 1',
+              }
+              break
+            case 'telefono2':
+              fieldConfig = {
+                ...fieldConfig,
+                type: 'phone',
+                label: 'Teléfono 2',
+              }
+              break
+            case 'ubicacion':
+              fieldConfig = { ...fieldConfig, type: 'text', label: 'Ubicación' }
+              break
+            default:
+              fieldConfig = { ...fieldConfig, type: 'text', label: fieldId }
+          }
 
-            return {
-              id: doc.id,
-              ...fieldData,
-            }
-          })
-          .sort((a, b) => a.order - b.order)
+          return fieldConfig
+        })
 
         setFormFields(fieldsArray)
 

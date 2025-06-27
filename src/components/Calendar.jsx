@@ -171,7 +171,6 @@ const Calendar = () => {
       <h2 className="mb-2 text-gray-800 sm:mb-4 t20b sm:t24b">
         {t('components.calendar.title')}
       </h2>
-
       <div className="calendar-container">
         <FullCalendar
           ref={calendarRef}
@@ -218,13 +217,15 @@ const Calendar = () => {
               }
             }
             return (
-              <div className="flex items-start space-x-1 px-1 py-0.5">
+              <div className="flex items-start space-x-1 px-1 py-0.5 max-w-full overflow-hidden">
                 <div
-                  className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full mt-1.5 flex-shrink-0 ${dotColor}`}
+                  className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full mt-1 flex-shrink-0 ${dotColor}`}
                 ></div>
-                <div className="flex-1 min-w-0">
-                  <div className="text-xs font-normal text-gray-800">
-                    <span className="truncate">{eventInfo.event.title}</span>
+                <div className="flex-1 min-w-0 overflow-hidden">
+                  <div className="text-xs font-normal leading-tight text-gray-800">
+                    <span className="block max-w-full truncate">
+                      {eventInfo.event.title}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -232,7 +233,6 @@ const Calendar = () => {
           }}
         />
       </div>
-
       <div className="pt-3 mt-3 border-t sm:pt-4 sm:mt-6">
         <h3 className="mb-1 text-xs font-medium sm:mb-2 sm:text-sm">
           {t('components.calendar.legend')}
@@ -292,10 +292,9 @@ const Calendar = () => {
             </span>
           </div>
         </div>
-      </div>
-
+      </div>{' '}
       {/* Estilos para dispositivos móviles */}
-      <style jsx>{`
+      <style>{`
         @media (max-width: 640px) {
           .fc .fc-toolbar-title {
             font-size: 1.2em;
@@ -312,6 +311,33 @@ const Calendar = () => {
             padding: 2px 4px;
             font-size: 0.8em;
           }
+        }
+        
+        /* Estilos para prevenir desbordamiento de eventos */
+        .fc .fc-event {
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          white-space: nowrap !important;
+          max-width: 100% !important;
+        }
+        
+        .fc .fc-event-title {
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+          white-space: nowrap !important;
+        }
+        
+        .fc .fc-daygrid-event {
+          margin: 1px 0 !important;
+          overflow: hidden !important;
+        }
+        
+        .fc .fc-daygrid-event-harness {
+          overflow: hidden !important;
+        }
+        
+        .fc .fc-event-main {
+          overflow: hidden !important;
         }
       `}</style>
     </div>

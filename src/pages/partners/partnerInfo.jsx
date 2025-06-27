@@ -104,9 +104,9 @@ function PartnerInfo() {
             seasonYear: activeSeason.seasonYear,
             firstPayment: false,
             firstPaymentPrice: activeSeason.priceFirstFraction || 0,
-            secondPaymentDone: false,
+            secondPayment: false,
             secondPaymentPrice: activeSeason.priceSeconFraction || 0,
-            thirdPaymentDone: false,
+            thirdPayment: false,
             thirdPaymentPrice: activeSeason.priceThirdFraction || 0,
           }
         }
@@ -358,20 +358,24 @@ function PartnerInfo() {
                         {t(`${viewDictionary}.payments.juniorPrices`)}
                       </p>
                       <p className="text-sm text-gray-600 break-words">
-                        {t(`${viewDictionary}.payments.totalPrice`)}
-                        {activeSeason.totalPriceJunior || 0}€
+                        {t(`${viewDictionary}.payments.totalPrice`, {
+                          amount: activeSeason.totalPriceJunior,
+                        })}
                       </p>
                       <p className="text-sm text-gray-600 break-words">
-                        {t(`${viewDictionary}.payments.firstFraction`)}
-                        {activeSeason.priceFirstFractionJunior || 0}€
+                        {t(`${viewDictionary}.payments.firstFraction`, {
+                          amount: activeSeason.priceFirstFractionJunior,
+                        })}
                       </p>
                       <p className="text-sm text-gray-600 break-words">
-                        {t(`${viewDictionary}.payments.secondFraction`)}
-                        {activeSeason.priceSeconFractionJunior || 0}€
+                        {t(`${viewDictionary}.payments.secondFraction`, {
+                          amount: activeSeason.priceSeconFractionJunior,
+                        })}
                       </p>
                       <p className="text-sm text-gray-600 break-words">
-                        {t(`${viewDictionary}.payments.thirdFraction`)}
-                        {activeSeason.priceThirdFractionJunior || 0}€
+                        {t(`${viewDictionary}.payments.thirdFraction`, {
+                          amount: activeSeason.priceThirdFractionJunior,
+                        })}
                       </p>
                     </div>
                   </div>
@@ -455,12 +459,12 @@ function PartnerInfo() {
                           </span>
                           <span
                             className={`px-[2vw] py-[1vh] rounded-full text-xs ${
-                              partnerPayments.secondPaymentDone
+                              partnerPayments.secondPayment
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-yellow-100 text-yellow-800'
                             }`}
                           >
-                            {partnerPayments.secondPaymentDone
+                            {partnerPayments.secondPayment
                               ? t(`${viewDictionary}.payments.paid`)
                               : t(`${viewDictionary}.payments.pending`)}
                           </span>
@@ -478,7 +482,7 @@ function PartnerInfo() {
                           </div>
                         )}
 
-                        {partnerPayments.secondPaymentDone &&
+                        {partnerPayments.secondPayment &&
                           partnerPayments.secondPaymentDate && (
                             <div className="flex justify-between text-sm">
                               <span>
@@ -505,12 +509,12 @@ function PartnerInfo() {
                           </span>
                           <span
                             className={`px-[2vw] py-[1vh] rounded-full text-xs ${
-                              partnerPayments.thirdPaymentDone
+                              partnerPayments.thirdPayment
                                 ? 'bg-green-100 text-green-800'
                                 : 'bg-yellow-100 text-yellow-800'
                             }`}
                           >
-                            {partnerPayments.thirdPaymentDone
+                            {partnerPayments.thirdPayment
                               ? t(`${viewDictionary}.payments.paid`)
                               : t(`${viewDictionary}.payments.pending`)}
                           </span>
@@ -528,7 +532,7 @@ function PartnerInfo() {
                           </div>
                         )}
 
-                        {partnerPayments.thirdPaymentDone &&
+                        {partnerPayments.thirdPayment &&
                           partnerPayments.thirdPaymentDate && (
                             <div className="flex justify-between text-sm">
                               <span>
@@ -624,7 +628,7 @@ function PartnerInfo() {
                           </div>
                         )}
 
-                        {(payment.secondPaymentDone ||
+                        {(payment.secondPayment ||
                           payment.secondPaymentPrice > 0) && (
                           <div className="pb-[1vh] mb-[1.5vh] border-b border-gray-200">
                             <div className="flex flex-wrap items-center justify-between">
@@ -635,12 +639,12 @@ function PartnerInfo() {
                               </span>
                               <span
                                 className={`px-[2vw] py-[0.5vh] rounded-full text-xs break-words ${
-                                  payment.secondPaymentDone
+                                  payment.secondPayment
                                     ? 'bg-green-100 text-green-800'
                                     : 'bg-yellow-100 text-yellow-800'
                                 }`}
                               >
-                                {payment.secondPaymentDone
+                                {payment.secondPayment
                                   ? t(`${viewDictionary}.payments.paid`)
                                   : t(`${viewDictionary}.payments.pending`)}
                               </span>
@@ -655,7 +659,7 @@ function PartnerInfo() {
                                 </span>
                               </div>
                             )}
-                            {payment.secondPaymentDone &&
+                            {payment.secondPayment &&
                               payment.secondPaymentDate && (
                                 <div className="flex justify-between mt-[1vh] text-xs">
                                   <span>
@@ -673,7 +677,7 @@ function PartnerInfo() {
                           </div>
                         )}
 
-                        {(payment.thirdPaymentDone ||
+                        {(payment.thirdPayment ||
                           payment.thirdPaymentPrice > 0) && (
                           <div className="mb-[1vh]">
                             <div className="flex flex-wrap items-center justify-between">
@@ -684,12 +688,12 @@ function PartnerInfo() {
                               </span>
                               <span
                                 className={`px-[2vw] py-[0.5vh] rounded-full text-xs break-words ${
-                                  payment.thirdPaymentDone
+                                  payment.thirdPayment
                                     ? 'bg-green-100 text-green-800'
                                     : 'bg-yellow-100 text-yellow-800'
                                 }`}
                               >
-                                {payment.thirdPaymentDone
+                                {payment.thirdPayment
                                   ? t(`${viewDictionary}.payments.paid`)
                                   : t(`${viewDictionary}.payments.pending`)}
                               </span>
@@ -704,7 +708,7 @@ function PartnerInfo() {
                                 </span>
                               </div>
                             )}
-                            {payment.thirdPaymentDone &&
+                            {payment.thirdPayment &&
                               payment.thirdPaymentDate && (
                                 <div className="flex justify-between mt-[1vh] text-xs">
                                   <span>

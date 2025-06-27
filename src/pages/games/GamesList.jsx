@@ -163,7 +163,7 @@ function GamesList() {
       showPopup({
         title: t(`${viewDictionary}.statusToggle.success.title`),
         text: t(`${viewDictionary}.statusToggle.success.text`, {
-          newStatus: newStatus.toLowerCase(),
+          status: newStatus.toLowerCase(),
         }),
         icon: 'success',
         confirmButtonText: t('components.buttons.accept'),

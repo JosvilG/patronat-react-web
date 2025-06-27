@@ -93,7 +93,7 @@ export const exportPartnerToExcel = async (
         currentPayments.push({
           Temporada: payments.seasonYear,
           Fracción: 'Segunda',
-          Estado: payments.secondPaymentDone ? 'Pagado' : 'Pendiente',
+          Estado: payments.secondPayment ? 'Pagado' : 'Pendiente',
           Importe: payments.secondPaymentPrice || 0,
           'Fecha de pago': formatDate(payments.secondPaymentDate) || '',
         })
@@ -103,7 +103,7 @@ export const exportPartnerToExcel = async (
         currentPayments.push({
           Temporada: payments.seasonYear,
           Fracción: 'Tercera',
-          Estado: payments.thirdPaymentDone ? 'Pagado' : 'Pendiente',
+          Estado: payments.thirdPayment ? 'Pagado' : 'Pendiente',
           Importe: payments.thirdPaymentPrice || 0,
           'Fecha de pago': formatDate(payments.thirdPaymentDate) || '',
         })
@@ -128,7 +128,7 @@ export const exportPartnerToExcel = async (
           paymentHistoryData.push({
             Temporada: payment.seasonYear,
             Fracción: 'Segunda',
-            Estado: payment.secondPaymentDone ? 'Pagado' : 'Pendiente',
+            Estado: payment.secondPayment ? 'Pagado' : 'Pendiente',
             Importe: payment.secondPaymentPrice || 0,
             'Fecha de pago': formatDate(payment.secondPaymentDate) || '',
           })
@@ -138,7 +138,7 @@ export const exportPartnerToExcel = async (
           paymentHistoryData.push({
             Temporada: payment.seasonYear,
             Fracción: 'Tercera',
-            Estado: payment.thirdPaymentDone ? 'Pagado' : 'Pendiente',
+            Estado: payment.thirdPayment ? 'Pagado' : 'Pendiente',
             Importe: payment.thirdPaymentPrice || 0,
             'Fecha de pago': formatDate(payment.thirdPaymentDate) || '',
           })
@@ -263,12 +263,9 @@ export const exportAllPartnersToExcel = async (
     let allCurrentPayments = []
     let allPaymentHistory = []
 
-    // Solo para socios aprobados, obtenemos sus datos de pago
-    const approvedPartners = partners.filter((p) => p.status === 'approved')
-
-    if (activeSeason && approvedPartners.length > 0) {
+    if (activeSeason && partners.length > 0) {
       // Obtener los pagos de cada socio aprobado
-      for (const partner of approvedPartners) {
+      for (const partner of partners) {
         // Pagos de temporada actual
         const payments = await getPartnerPaymentsForSeason(
           partner.id,
@@ -283,7 +280,8 @@ export const exportAllPartnersToExcel = async (
             Apellidos: partner.lastName,
             Temporada: payments.seasonYear,
             Fracción: 'Primera',
-            Estado: payments.firstPayment ? 'Pagado' : 'Pendiente',
+            Estado_pagos: payments.firstPayment ? 'Pagado' : 'Pendiente',
+            Estado_socio: partner.status === 'approved' ? 'Alta' : 'Baja',
             Importe: payments.firstPaymentPrice || 0,
             'Fecha de pago': formatDate(payments.firstPaymentDate) || '',
           })
@@ -296,7 +294,8 @@ export const exportAllPartnersToExcel = async (
               Apellidos: partner.lastName,
               Temporada: payments.seasonYear,
               Fracción: 'Segunda',
-              Estado: payments.secondPaymentDone ? 'Pagado' : 'Pendiente',
+              Estado_pagos: payments.secondPayment ? 'Pagado' : 'Pendiente',
+              Estado_socio: partner.status === 'approved' ? 'Alta' : 'Baja',
               Importe: payments.secondPaymentPrice || 0,
               'Fecha de pago': formatDate(payments.secondPaymentDate) || '',
             })
@@ -310,7 +309,8 @@ export const exportAllPartnersToExcel = async (
               Apellidos: partner.lastName,
               Temporada: payments.seasonYear,
               Fracción: 'Tercera',
-              Estado: payments.thirdPaymentDone ? 'Pagado' : 'Pendiente',
+              Estado_pagos: payments.thirdPayment ? 'Pagado' : 'Pendiente',
+              Estado_socio: partner.status === 'approved' ? 'Alta' : 'Baja',
               Importe: payments.thirdPaymentPrice || 0,
               'Fecha de pago': formatDate(payments.thirdPaymentDate) || '',
             })
@@ -334,7 +334,8 @@ export const exportAllPartnersToExcel = async (
                 Apellidos: partner.lastName,
                 Temporada: payment.seasonYear,
                 Fracción: 'Primera',
-                Estado: payment.firstPayment ? 'Pagado' : 'Pendiente',
+                Estado_pagos: payment.firstPayment ? 'Pagado' : 'Pendiente',
+                Estado_socio: partner.status === 'approved' ? 'Alta' : 'Baja',
                 Importe: payment.firstPaymentPrice || 0,
                 'Fecha de pago': formatDate(payment.firstPaymentDate) || '',
               })
@@ -348,7 +349,8 @@ export const exportAllPartnersToExcel = async (
                 Apellidos: partner.lastName,
                 Temporada: payment.seasonYear,
                 Fracción: 'Segunda',
-                Estado: payment.secondPaymentDone ? 'Pagado' : 'Pendiente',
+                Estado_pagos: payment.secondPayment ? 'Pagado' : 'Pendiente',
+                Estado_socio: partner.status === 'approved' ? 'Alta' : 'Baja',
                 Importe: payment.secondPaymentPrice || 0,
                 'Fecha de pago': formatDate(payment.secondPaymentDate) || '',
               })
@@ -362,7 +364,8 @@ export const exportAllPartnersToExcel = async (
                 Apellidos: partner.lastName,
                 Temporada: payment.seasonYear,
                 Fracción: 'Tercera',
-                Estado: payment.thirdPaymentDone ? 'Pagado' : 'Pendiente',
+                Estado_pagos: payment.thirdPayment ? 'Pagado' : 'Pendiente',
+                Estado_socio: partner.status === 'approved' ? 'Alta' : 'Baja',
                 Importe: payment.thirdPaymentPrice || 0,
                 'Fecha de pago': formatDate(payment.thirdPaymentDate) || '',
               })

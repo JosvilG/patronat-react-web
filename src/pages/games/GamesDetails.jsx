@@ -160,11 +160,6 @@ const GamesDetails = () => {
       type: 'gameData',
     },
     {
-      title: t(`${viewDictionary}.scoreLabel`),
-      description: game.score.toString(),
-      type: 'gameData',
-    },
-    {
       title: t(`${viewDictionary}.seasonLabel`),
       description: game.season,
       type: 'gameData',
