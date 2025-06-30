@@ -14,8 +14,7 @@ function Footer() {
       <div className="w-full px-[1rem] sm:px-[2rem] flex flex-col sm:flex-row justify-between gap-[1rem] sm:gap-[2rem]">
         <div className="order-2 sm:order-1">
           <p className="text-black t12b">
-            © 2024 Patronat de Festes de Roquetes. <br />
-            Todos los derechos reservados.
+            2025 Patronat de Festes de Roquetes. <br />
           </p>
         </div>
 

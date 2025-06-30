@@ -223,7 +223,6 @@ function Settings() {
                   type="select"
                   textId={t(`${viewDictionary}.languageSection.title`)}
                   options={[
-                    { value: 'en', label: 'English' },
                     { value: 'es', label: 'Español' },
                     { value: 'cat', label: 'Català' },
                   ]}

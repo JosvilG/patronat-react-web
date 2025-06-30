@@ -193,11 +193,7 @@ function ProfilePage() {
                 <span className="font-bold">
                   {t(`${viewDictionary}.preferences.language`)}
                 </span>
-                {userData.preferredLanguage === 'es'
-                  ? 'Español'
-                  : userData.preferredLanguage === 'cat'
-                    ? 'Català'
-                    : 'English'}
+                {userData.preferredLanguage === 'es' ? 'Español' : 'Català'}
               </p>
               <p className="mb-[1vh] t16r">
                 <span className="font-bold">
