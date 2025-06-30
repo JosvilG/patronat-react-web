@@ -35,12 +35,18 @@ const useStaffMembers = () => {
         // Definir el orden de las posiciones
         const positionOrder = {
           Presidente: 1,
+          President: 1,
+          Presidenta: 1,
           'Vice-presidente': 2,
+          'Vice-president': 2,
           'Vice-presidenta': 2,
           Secretaria: 3,
+          Secretari: 3,
           'Vice-secretaria': 4,
+          Tresorer: 5,
           Tresorera: 5,
           'Vice-tresorera': 6,
+          'Vice-tresorer': 6,
           Vocal: 7,
         }
 

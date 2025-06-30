@@ -220,7 +220,7 @@ const ContactMain = () => {
               />
             </div>
 
-            <div className="flex justify-center w-full">
+            <div className="flex flex-col items-center justify-center w-full">
               {formStatus && formStatus.type !== 'loading' && (
                 <div
                   className={`text-sm mb-3 ${
