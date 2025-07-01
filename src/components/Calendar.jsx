@@ -2,6 +2,10 @@ import React, { useEffect, useState, useRef } from 'react'
 import FullCalendar from '@fullcalendar/react'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
+// Importar los locales que necesites
+import caLocale from '@fullcalendar/core/locales/ca'
+import esLocale from '@fullcalendar/core/locales/es'
+import enLocale from '@fullcalendar/core/locales/en-gb'
 import useEvents from '../hooks/useEvents'
 import { useNavigate } from 'react-router-dom'
 import { showPopup } from '../services/popupService'
@@ -34,14 +38,14 @@ const getEventClassNames = (eventTags = [], eventType = 'event') => {
 const Calendar = () => {
   const { events } = useEvents()
   const navigate = useNavigate()
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { generateSlug } = useSlug()
   const [games, setGames] = useState([])
   const [allCalendarEvents, setAllCalendarEvents] = useState([])
   const [windowWidth, setWindowWidth] = useState(window.innerWidth)
   const calendarRef = useRef(null)
+  const [currentView, setCurrentView] = useState('dayGridMonth')
 
-  // Detectar el tamaño de la pantalla
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth)
@@ -149,14 +153,13 @@ const Calendar = () => {
     })
   }
 
-  // Configuraciones adaptables según el tamaño de pantalla
   const isMobile = windowWidth < 640
 
   const headerToolbar = isMobile
     ? {
         left: 'prev,next',
         center: 'title',
-        right: 'today',
+        right: '',
       }
     : {
         left: 'prev,next today',
@@ -164,18 +167,57 @@ const Calendar = () => {
         right: 'dayGridMonth,dayGridWeek,dayGridDay',
       }
 
-  const initialView = 'dayGridMonth'
+  const initialView = isMobile ? 'dayGridDay' : 'dayGridMonth'
+
+  const goBackView = () => {
+    if (calendarRef.current && !isMobile) {
+      const calendarApi = calendarRef.current.getApi()
+
+      if (currentView === 'dayGridDay') {
+        calendarApi.changeView('dayGridWeek')
+        setCurrentView('dayGridWeek')
+      } else if (currentView === 'dayGridWeek') {
+        calendarApi.changeView('dayGridMonth')
+        setCurrentView('dayGridMonth')
+      }
+    }
+  }
+
+  // Función para obtener el locale correcto según el idioma actual
+  const getLocale = () => {
+    switch (i18n.language) {
+      case 'ca':
+        return caLocale
+      case 'es':
+        return esLocale
+      case 'en':
+        return enLocale
+      default:
+        return caLocale // Por defecto catalán
+    }
+  }
 
   return (
     <div className="w-full max-w-5xl p-2 sm:p-6 mx-auto my-4 sm:my-8 bg-white backdrop-blur-[17px] bg-[rgba(255,255,255,0.4)] rounded-xl shadow-lg overflow-hidden">
       <h2 className="mb-2 text-gray-800 sm:mb-4 t20b sm:t24b">
         {t('components.calendar.title')}
       </h2>
+      {!isMobile && currentView === 'dayGridDay' && (
+        <div className="mb-2">
+          <button
+            onClick={goBackView}
+            className="px-3 py-1 text-sm text-blue-600 transition-colors rounded-lg bg-blue-50 hover:bg-blue-100"
+          >
+            ← {t('components.calendar.week')}
+          </button>
+        </div>
+      )}
       <div className="calendar-container">
         <FullCalendar
           ref={calendarRef}
           plugins={[dayGridPlugin, interactionPlugin]}
           initialView={initialView}
+          locale={getLocale()} // Usar locale dinámico
           events={allCalendarEvents}
           eventClick={handleEventClick}
           headerToolbar={headerToolbar}
@@ -185,10 +227,13 @@ const Calendar = () => {
             week: t('components.calendar.week'),
             day: t('components.calendar.day'),
           }}
+          viewDidMount={(view) => {
+            setCurrentView(view.view.type)
+          }}
           contentHeight="auto"
           dayCellClassNames="border-gray-200"
-          dayMaxEvents={isMobile ? 2 : 6}
-          moreLinkClick="week"
+          dateClick={() => {}}
+          dayPopoverFormat={false}
           eventClassNames={({ event }) => {
             const eventType = event.extendedProps?.type || 'event'
             return getEventClassNames(
@@ -219,7 +264,7 @@ const Calendar = () => {
             return (
               <div className="flex items-start space-x-1 px-1 py-0.5 max-w-full overflow-hidden">
                 <div
-                  className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full mt-1 flex-shrink-0 ${dotColor}`}
+                  className={`w-1.5 sm:w-2 h-1.5 sm:h-2 rounded-full mt-0.5 flex-shrink-0 ${dotColor}`}
                 ></div>
                 <div className="flex-1 min-w-0 overflow-hidden">
                   <div className="text-xs font-normal leading-tight text-gray-800">
@@ -230,6 +275,22 @@ const Calendar = () => {
                 </div>
               </div>
             )
+          }}
+          views={{
+            dayGridMonth: {
+              dayMaxEvents: false,
+              dayMaxEventRows: false,
+              dayPopoverFormat: false,
+            },
+            dayGridWeek: {
+              dayMaxEvents: false,
+              dayMaxEventRows: false,
+              dayPopoverFormat: false,
+            },
+            dayGridDay: {
+              dayMaxEvents: false,
+              dayMaxEventRows: false,
+            },
           }}
         />
       </div>
@@ -297,46 +358,198 @@ const Calendar = () => {
       <style>{`
         @media (max-width: 640px) {
           .fc .fc-toolbar-title {
-            font-size: 1.2em;
+            font-size: 1.2em; 
           }
           .fc .fc-button {
-            padding: 0.2em 0.4em;
+            padding: 0.4em 0.6em;
             font-size: 0.9em;
           }
           .fc .fc-col-header-cell-cushion {
-            padding: 4px;
-            font-size: 0.8em;
+            padding: 8px;
+            font-size: 0.85em;
           }
           .fc .fc-daygrid-day-number {
-            padding: 2px 4px;
-            font-size: 0.8em;
+            padding: 6px;
+            font-size: 0.9em;
+          }
+          .fc .fc-daygrid-day-frame {
+            min-height: auto; 
+          }
+          
+          .fc .fc-event {
+            max-height: 24px !important;
+            font-size: 0.8em !important; 
+          }
+          
+          .fc .fc-event-main {
+            padding: 3px 4px !important;
+          }
+          
+          .fc .fc-event .text-xs {
+            font-size: 0.75em !important; 
+          }
+          
+          .fc-dayGridDay-view .fc-event {
+            max-height: 28px !important;
+            font-size: 0.85em !important;
+          }
+          
+          .fc-dayGridDay-view .fc-event-main {
+            padding: 4px 6px !important;
           }
         }
         
-        /* Estilos para prevenir desbordamiento de eventos */
+        @media (min-width: 641px) {
+          .fc .fc-daygrid-day-frame {
+            min-height: 140px;
+          }
+        }
+        
+        .fc .fc-more-link {
+          display: none !important;
+        }
+        
+        .fc .fc-popover {
+          display: none !important;
+        }
+        
+        .fc .fc-more-popover {
+          display: none !important;
+        }
+        
+        .fc .fc-daygrid-event-harness-abs {
+          position: relative !important;
+          right: auto !important;
+          left: auto !important;
+          top: auto !important;
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+        
+        .fc .fc-daygrid-block-event {
+          width: 100% !important;
+          max-width: 100% !important;
+          overflow: hidden !important;
+        }
+        
+        .fc .fc-h-event {
+          width: 100% !important;
+          max-width: 100% !important;
+          overflow: hidden !important;
+        }
+        
         .fc .fc-event {
           overflow: hidden !important;
           text-overflow: ellipsis !important;
           white-space: nowrap !important;
           max-width: 100% !important;
+          width: 100% !important;
+          margin-bottom: 1px !important;
+          height: auto !important;
+          max-height: 18px !important;
+          line-height: 1.2 !important;
         }
         
         .fc .fc-event-title {
           overflow: hidden !important;
           text-overflow: ellipsis !important;
           white-space: nowrap !important;
+          line-height: 1.2 !important;
         }
         
         .fc .fc-daygrid-event {
-          margin: 1px 0 !important;
+          margin: 0.5px 0 !important;
           overflow: hidden !important;
+          max-height: 18px !important;
+          width: 100% !important;
+          max-width: 100% !important;
         }
         
         .fc .fc-daygrid-event-harness {
           overflow: hidden !important;
+          max-height: 18px !important;
+          width: 100% !important;
+          max-width: 100% !important;
+          position: relative !important;
         }
         
         .fc .fc-event-main {
+          overflow: hidden !important;
+          max-height: 18px !important;
+          padding: 1px 2px !important;
+          width: 100% !important;
+          max-width: 100% !important;
+        }
+        
+        .fc .fc-event .flex {
+          max-width: 100% !important;
+          width: 100% !important;
+        }
+        
+        .fc .fc-event .flex-1 {
+          max-width: calc(100% - 20px) !important;
+          min-width: 0 !important;
+        }
+        
+        .fc .fc-event .truncate {
+          max-width: 100% !important;
+          width: 100% !important;
+        }
+        
+        .fc .fc-daygrid-day-events {
+          margin-bottom: 2px !important;
+          overflow: visible !important;
+          max-height: none !important;
+        }
+        
+        .fc .fc-daygrid-day-bottom {
+          margin-top: 2px !important;
+        }
+        
+        .fc .fc-daygrid-day {
+          overflow: visible !important;
+          position: relative !important;
+        }
+        
+        .fc .fc-daygrid-day-top {
+          flex-shrink: 0 !important;
+          margin-bottom: 2px !important;
+        }
+        
+        .fc .fc-event-main-frame {
+          padding: 1px 2px !important;
+          max-width: 100% !important;
+          overflow: hidden !important;
+        }
+        
+        .fc .fc-event .fc-event-main .fc-event-main-frame .fc-event-title-container .fc-event-title {
+          font-size: 0.7em !important;
+          line-height: 1.2 !important;
+          padding: 0px 1px !important;
+          max-width: 100% !important;
+          overflow: hidden !important;
+          text-overflow: ellipsis !important;
+        }
+        
+        .fc .fc-daygrid-event-harness .fc-event {
+          min-height: 16px !important;
+          height: auto !important;
+          max-width: 100% !important;
+        }
+        
+        .fc .fc-event-main-frame {
+          min-height: 16px !important;
+          max-width: 100% !important;
+          overflow: hidden !important;
+        }
+        
+        .fc .fc-daygrid-block-event .fc-event-main {
+          max-width: 100% !important;
+          overflow: hidden !important;
+        }
+        
+        .fc .fc-h-event .fc-event-main {
+          max-width: 100% !important;
           overflow: hidden !important;
         }
       `}</style>
