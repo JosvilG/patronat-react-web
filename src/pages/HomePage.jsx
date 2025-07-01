@@ -369,105 +369,241 @@ const GalleryNavigation = ({ onPrev, onNext, disabled }) => (
   </>
 )
 
-const EventsSection = ({ t, events, loadingEvents, onEventClick }) => (
-  <section>
-    <h2 className="mb-6 text-left sm:t64s t40s">
-      <a href="/events-list"> {t('pages.home.eventSection.title')}</a>
-    </h2>
-    {loadingEvents ? (
-      <div className="flex items-center justify-center">
-        <Loader loading={loadingEvents} />
-      </div>
-    ) : events.length > 0 ? (
-      <>
-        <div className="relative w-full pb-[5%] sm:hidden">
-          <div className="w-full overflow-x-auto scrollbar-hide">
-            <div className="flex w-full gap-[4%] px-[2%] snap-x snap-mandatory">
-              {events.map((event) => (
-                <div
-                  key={event.eventId}
-                  onClick={() =>
-                    onEventClick({
-                      event: { extendedProps: event },
-                    })
-                  }
-                  className="snap-center flex-shrink-0 w-[80vw] max-w-[280px]"
-                >
-                  <DynamicCard
-                    type="event"
-                    title={event.title}
-                    description={event.description}
-                    date={new Date(event.start).toLocaleDateString('es-ES', {
-                      day: '2-digit',
-                      month: 'short',
-                      year: 'numeric',
-                    })}
-                    imageUrl={
-                      event.eventURL
-                        ? event.eventURL
-                        : event.imageURL
-                          ? event.imageURL
-                          : '/placeholder.png'
-                    }
-                    link={`/event/${event.title.toLowerCase().replace(/ /g, '-')}`}
-                  />
-                </div>
-              ))}
-            </div>
+const EventsSection = ({ t, events, loadingEvents, onEventClick }) => {
+  const [currentEventIndex, setCurrentEventIndex] = useState(0)
+  const [isChanging, setIsChanging] = useState(false)
+
+  const handlePrev = () => {
+    if (!isChanging && events.length > 0) {
+      setIsChanging(true)
+      setCurrentEventIndex((prev) =>
+        prev === 0 ? events.length - 1 : prev - 1
+      )
+      setTimeout(() => setIsChanging(false), 500)
+    }
+  }
+
+  const handleNext = () => {
+    if (!isChanging && events.length > 0) {
+      setIsChanging(true)
+      setCurrentEventIndex((prev) => (prev + 1) % events.length)
+      setTimeout(() => setIsChanging(false), 500)
+    }
+  }
+
+  return (
+    <section>
+      <h2 className="mb-6 text-left sm:t64s t40s">
+        <a href="/events-list"> {t('pages.home.eventSection.title')}</a>
+      </h2>
+      {loadingEvents ? (
+        <div className="flex items-center justify-center">
+          <Loader loading={loadingEvents} />
+        </div>
+      ) : events.length > 0 ? (
+        <div className="relative">
+          {/* Vista móvil */}
+          <div className="w-full sm:hidden">
+            <motion.div
+              key={`mobile-event-container-${currentEventIndex}`}
+              drag="x"
+              dragConstraints={{ left: 0, right: 0 }}
+              dragElastic={0.2}
+              onDragEnd={(e, { offset, velocity }) => {
+                const swipe = Math.abs(offset.x) * velocity.x
+
+                if (swipe < -100) {
+                  handleNext()
+                } else if (swipe > 100) {
+                  handlePrev()
+                }
+              }}
+            >
+              <motion.div
+                key={`mobile-event-slide-${currentEventIndex}`}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="flex justify-center"
+              >
+                <EventCard
+                  events={events}
+                  index={currentEventIndex}
+                  onEventClick={onEventClick}
+                  mobileView={true}
+                />
+              </motion.div>
+            </motion.div>
           </div>
 
-          {/* Indicadores de paginación */}
-          {events.length > 1 && (
-            <div className="flex justify-center gap-2 mt-4">
-              {events.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-2 h-2 rounded-full ${
-                    index === 0 ? 'bg-[#15642E]' : 'bg-gray-300'
-                  }`}
+          {/* Vista desktop */}
+          <div className="hidden sm:flex">
+            {events.length >= 3 ? (
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`event-left-${currentEventIndex}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 0.5, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex-shrink-0"
+                >
+                  <EventCard
+                    events={events}
+                    index={
+                      (currentEventIndex - 1 + events.length) % events.length
+                    }
+                    onEventClick={onEventClick}
+                    opacity={0.5}
+                    scale={0.9}
+                    clickable={false}
+                  />
+                </motion.div>
+                <motion.div
+                  key={`event-center-${currentEventIndex}`}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex-shrink-0"
+                >
+                  <EventCard
+                    events={events}
+                    index={currentEventIndex}
+                    onEventClick={onEventClick}
+                  />
+                </motion.div>
+                <motion.div
+                  key={`event-right-${currentEventIndex}`}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 0.5, x: 0 }}
+                  exit={{ opacity: 0, x: 20 }}
+                  transition={{ duration: 0.4 }}
+                  className="flex-shrink-0"
+                >
+                  <EventCard
+                    events={events}
+                    index={(currentEventIndex + 1) % events.length}
+                    onEventClick={onEventClick}
+                    opacity={0.5}
+                    scale={0.9}
+                    clickable={false}
+                  />
+                </motion.div>
+              </AnimatePresence>
+            ) : events.length === 2 ? (
+              <div className="flex justify-center">
+                <EventCard
+                  events={events}
+                  index={currentEventIndex}
+                  onEventClick={onEventClick}
                 />
-              ))}
-            </div>
+                <EventCard
+                  events={events}
+                  index={(currentEventIndex + 1) % events.length}
+                  onEventClick={onEventClick}
+                />
+              </div>
+            ) : (
+              <div className="flex justify-center">
+                <EventCard
+                  events={events}
+                  index={0}
+                  onEventClick={onEventClick}
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Navegación (mostrar solo si hay más de 1 evento) */}
+          {events.length > 1 && (
+            <EventNavigation
+              onPrev={handlePrev}
+              onNext={handleNext}
+              disabled={isChanging}
+            />
           )}
         </div>
+      ) : (
+        <p className="text-center"> {t('pages.home.eventSection.noEvents')}</p>
+      )}
+    </section>
+  )
+}
 
-        {/* Vista desktop: cuadrícula original */}
-        <div className="hidden gap-8 sm:grid sm:grid-cols-1 md:grid-cols-3">
-          {events.map((event) => (
-            <div
-              key={event.eventId}
-              onClick={() =>
-                onEventClick({
-                  event: { extendedProps: event },
-                })
-              }
-            >
-              <DynamicCard
-                type="event"
-                title={event.title}
-                description={event.description}
-                date={new Date(event.start).toLocaleDateString('es-ES', {
-                  day: '2-digit',
-                  month: 'short',
-                  year: 'numeric',
-                })}
-                imageUrl={
-                  event.eventURL
-                    ? event.eventURL
-                    : event.imageURL
-                      ? event.imageURL
-                      : '/placeholder.png'
-                }
-                link={`/event/${event.title.toLowerCase().replace(/ /g, '-')}`}
-              />
-            </div>
-          ))}
-        </div>
-      </>
-    ) : (
-      <p className="text-center"> {t('pages.home.eventSection.noEvents')}</p>
-    )}
-  </section>
+const EventCard = ({
+  events,
+  index,
+  onEventClick,
+  opacity = 1,
+  scale = 1,
+  clickable = true,
+  mobileView = false,
+}) => (
+  <motion.div
+    className={`flex-shrink-0 transition-all duration-300 px-[3%] ${
+      mobileView
+        ? 'w-[90vw] max-w-[380px]'
+        : 'max-sm:w-full sm:w-[45vw] md:w-[35vw] lg:w-[400px]'
+    }`}
+    style={{ opacity, scale }}
+    onClick={
+      clickable
+        ? () =>
+            onEventClick({
+              event: { extendedProps: events[index] },
+            })
+        : undefined
+    }
+  >
+    <DynamicCard
+      type="event"
+      title={events[index].title}
+      description={events[index].description}
+      date={new Date(events[index].start).toLocaleDateString('es-ES', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+      })}
+      imageUrl={
+        events[index].eventURL
+          ? events[index].eventURL
+          : events[index].imageURL
+            ? events[index].imageURL
+            : '/placeholder.png'
+      }
+      link={`/event/${events[index].title.toLowerCase().replace(/ /g, '-')}`}
+      clickable={clickable}
+    />
+  </motion.div>
+)
+
+const EventNavigation = ({ onPrev, onNext, disabled }) => (
+  <>
+    <div className="absolute inset-y-0 left-0 flex items-center justify-center sm:left-[5%] max-h-[100%]">
+      <motion.button
+        onClick={onPrev}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        disabled={disabled}
+        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] w-[10vw] h-[10vw] max-w-[80px] max-h-[80px] min-w-[40px] min-h-[40px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+      >
+        &lt;
+      </motion.button>
+    </div>
+    <div className="absolute inset-y-0 right-0 flex items-center justify-center sm:right-[5%] max-h-[100%]">
+      <motion.button
+        onClick={onNext}
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        disabled={disabled}
+        className={`p-2 text-black sm:t36b t20r backdrop-blur-lg sm:shadow-[0px_12px_20px_rgba(0,0,0,0.7)] backdrop-saturate-[180%] bg-[rgba(255,255,255,0.8)] w-[10vw] h-[10vw] max-w-[80px] max-h-[80px] min-w-[40px] min-h-[40px] rounded-full transition-transform duration-300 ${disabled ? 'opacity-70 cursor-not-allowed' : 'hover:bg-[rgba(255,255,255,0.9)]'}`}
+      >
+        &gt;
+      </motion.button>
+    </div>
+  </>
 )
 
 const WantToParticipateSection = ({ t }) => (
@@ -533,19 +669,20 @@ EventsSection.propTypes = {
   onEventClick: PropTypes.func.isRequired,
 }
 
-GalleryNavigation.propTypes = {
-  onPrev: PropTypes.func.isRequired,
-  onNext: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-}
-
-GalleryCard.propTypes = {
-  galleryImages: PropTypes.array.isRequired,
+EventCard.propTypes = {
+  events: PropTypes.array.isRequired,
   index: PropTypes.number.isRequired,
+  onEventClick: PropTypes.func.isRequired,
   opacity: PropTypes.number,
   scale: PropTypes.number,
   clickable: PropTypes.bool,
   mobileView: PropTypes.bool,
+}
+
+EventNavigation.propTypes = {
+  onPrev: PropTypes.func.isRequired,
+  onNext: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
 }
 
 export default HomePage
