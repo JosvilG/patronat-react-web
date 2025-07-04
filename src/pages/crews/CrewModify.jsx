@@ -9,6 +9,7 @@ import DynamicInput from '../../components/Inputs'
 import DynamicItems from '../../components/Items'
 import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
+import PersonAddIcon from '@mui/icons-material/PersonAdd' // Añadir import
 import DynamicButton from '../../components/Buttons'
 import { AuthContext } from '../../contexts/AuthContext'
 import useFetchUsers from '../../hooks/useFetchUsers'
@@ -108,21 +109,23 @@ function CrewModify() {
   useEffect(() => {
     if (!users || users.length === 0) return
 
-    setFilteredUsers(
-      users.filter((u) =>
-        u.name.toLowerCase().includes(userSearch.toLowerCase())
-      )
+    const filtered = users.filter(
+      (u) =>
+        u.name.toLowerCase().includes(userSearch.toLowerCase()) &&
+        !(u.role === 'admin' && u.isStaff === true)
     )
+    setFilteredUsers(filtered)
   }, [userSearch, users])
 
   useEffect(() => {
     if (!users || users.length === 0) return
 
-    setFilteredResponsables(
-      users.filter((u) =>
-        u.name.toLowerCase().includes(responsableSearch.toLowerCase())
-      )
+    const filtered = users.filter(
+      (u) =>
+        u.name.toLowerCase().includes(responsableSearch.toLowerCase()) &&
+        !(u.role === 'admin' && u.isStaff === true)
     )
+    setFilteredResponsables(filtered)
   }, [responsableSearch, users])
 
   const handleChange = (e) => {
@@ -163,6 +166,20 @@ function CrewModify() {
       ...crewData,
       responsable: crewData.responsable.filter((id) => id !== responsableId),
     })
+  }
+
+  const addCustomMemberFromSearch = () => {
+    if (userSearch.trim() === '') return
+
+    const memberName = userSearch.trim()
+
+    if (!crewData.membersNames.includes(memberName)) {
+      setCrewData({
+        ...crewData,
+        membersNames: [...crewData.membersNames, memberName],
+      })
+      setUserSearch('')
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -347,21 +364,40 @@ function CrewModify() {
               />
 
               <div className="p-[0.5rem] mt-[0.5rem] overflow-y-auto max-h-[40vh] sm:max-h-[30vh] md:max-h-[15rem] text-[#696969] backdrop-blur-lg backdrop-saturate-[180%] bg-[rgba(255,255,255,0.75)] rounded-xl">
-                <DynamicItems
-                  items={filteredUsers.map((u) => ({
-                    title: u.name,
-                    type: 'userData',
-                    icon: (
-                      <button
-                        type="button"
-                        className="p-[0.5rem]"
-                        onClick={() => addMemberToCrew(u.name)}
-                      >
-                        <AddIcon fontSize="small" />
-                      </button>
-                    ),
-                  }))}
-                />
+                {filteredUsers.length > 0 ? (
+                  <DynamicItems
+                    items={filteredUsers.map((u) => ({
+                      title: u.name,
+                      type: 'userData',
+                      icon: (
+                        <button
+                          type="button"
+                          className="p-[0.5rem]"
+                          onClick={() => addMemberToCrew(u.name)}
+                        >
+                          <AddIcon fontSize="small" />
+                        </button>
+                      ),
+                    }))}
+                  />
+                ) : (
+                  <div>
+                    {userSearch.trim() !== '' && (
+                      <div className="flex items-center justify-between p-2 mt-1 sm:mt-2">
+                        <button
+                          type="button"
+                          className="flex items-center text-sm sm:text-base hover:text-gray-900"
+                          onClick={addCustomMemberFromSearch}
+                        >
+                          <PersonAddIcon fontSize="small" className="mr-1" />
+                          {t('pages.crew.registerCrew.addCustomMember', {
+                            name: userSearch.trim(),
+                          })}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -410,7 +446,7 @@ function CrewModify() {
             type="submit"
             size="small"
             state="normal"
-            textId={`${viewDictionary}.submitButton`}
+            textId={t(`${viewDictionary}.submitButton`)}
           />
         </div>
       </form>
